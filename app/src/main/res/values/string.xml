@@ -24,6 +24,7 @@
     <string name="action_save">Save</string>
     <string name="action_delete">Delete</string>
     <string name="action_edit">Edit</string>
+    <string name="action_copy">Copy</string>
     <string name="action_help">Help</string>
 
     <!-- Main menu options -->
@@ -338,7 +339,7 @@
     <string name="EXTRA_WINDSURFER_EXTRAS_ARRAY_LIST">WINDSURFER_EXTRAS_ARRAY_LIST</string>
     <string name="EXTRA_WINDSURFER_EMAIL">WINDSURFER_EMAIL</string>
     <string name="EXTRA_TRIP_TYPE">EXTRA_TRIP_TYPE</string>
-
+    <string name="EXTRA_IT_IS_COPY">EXTRA_IT_IS_COPY</string>
     <!-- Help dialogs -->
     <string name="dialog_ok">OK</string>
     <string name="dialog_add">Add</string>

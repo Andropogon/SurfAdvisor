@@ -789,6 +789,10 @@ public class EventTripActivity extends AppCompatActivity {
                 // Pop up confirmation dialog for deletion
                 showDeleteConfirmationDialog();
                 return true;
+            case R.id.action_copy:
+                copyEvent();
+                finish();
+                return true;
             case R.id.action_share_facebook:
                 //SHARING TO FACEBOOK
                 if(!mEvent.getContact().getWebAddress().isEmpty()){
@@ -910,6 +914,16 @@ public class EventTripActivity extends AppCompatActivity {
 
     private void editEvent(){
         Intent intent = new Intent(EventTripActivity.this, EditorTripActivity.class);
+        mExtraInfoHelp.putInfoToIntent(intent, mEvent, mWindsurfer.getUsername(), getApplicationContext());
+        mExtraInfoHelp.putWindsurferToIntent(intent,mWindsurfer,getApplicationContext());
+        startActivity(intent);
+    }
+
+    private void copyEvent(){
+        Intent intent = new Intent(EventTripActivity.this, EditorTripActivity.class);
+        mEvent.setStartDate("");
+        mEvent.setDate("");
+        mEvent.setTimestampStartDate(0);
         mExtraInfoHelp.putInfoToIntent(intent, mEvent, mWindsurfer.getUsername(), getApplicationContext());
         mExtraInfoHelp.putWindsurferToIntent(intent,mWindsurfer,getApplicationContext());
         startActivity(intent);

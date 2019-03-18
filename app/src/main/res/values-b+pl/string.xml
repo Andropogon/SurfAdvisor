@@ -24,6 +24,7 @@
     <string name="action_save">Zapisz</string>
     <string name="action_delete">Usuń</string>
     <string name="action_edit">Edytuj</string>
+    <string name="action_copy">Kopiuj</string>
     <string name="action_help">Pomoc</string>
 
     <!-- Main menu options -->
@@ -338,6 +339,7 @@
     <string name="EXTRA_WINDSURFER_PHOTO_LARGE_ID">WINDSURFER_PHOTO_LARGE_ID</string>
     <string name="EXTRA_WINDSURFER_EMAIL">WINDSURFER_EMAIL</string>
     <string name="EXTRA_TRIP_TYPE">EXTRA_TRIP_TYPE</string>
+    <string name="EXTRA_IT_IS_COPY">EXTRA_IT_IS_COPY</string>
 
     <!-- Help dialogs -->
     <string name="dialog_ok">OK</string>

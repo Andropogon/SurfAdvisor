@@ -792,8 +792,8 @@ public class EditorTripActivity extends AppCompatActivity {
             }
 
             //New event or edit of existing event
-            if (mEvent == null) {
-                //This is new event
+            if (mEvent == null || (mEvent.getStartDate().isEmpty() && mEvent.getDate().isEmpty())) {
+                //This is new event or copy of other event
                 //Check limit of active trips
                 if (mWindsurfer.checkTripsLimitAdvanced() == mWindsurfer.LIMIT_OK) {
                     Contact loadContact = new Contact(contactPhoneString, contactEmailString, contactWebString);
