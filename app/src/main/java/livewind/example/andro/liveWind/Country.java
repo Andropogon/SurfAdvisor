@@ -1,5 +1,9 @@
 package livewind.example.andro.liveWind;
 
+import android.widget.Spinner;
+
+import livewind.example.andro.liveWind.data.EventContract;
+
 public class Country {
     private int flagId;
     private String name;
@@ -40,4 +44,5 @@ public class Country {
     public boolean isChecked() {
         return checked;
     }
+
 }

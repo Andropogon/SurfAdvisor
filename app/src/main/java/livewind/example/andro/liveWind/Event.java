@@ -3,6 +3,7 @@ package livewind.example.andro.liveWind;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.widget.Spinner;
 
 import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.Ordering;
@@ -16,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 import livewind.example.andro.liveWind.Comments.Comment;
+import livewind.example.andro.liveWind.data.EventContract;
 import livewind.example.andro.liveWind.user.Windsurfer;
 
 
@@ -441,5 +443,73 @@ public class Event extends EventTrip implements Comparable<Event>{
 
     public int getmSharesCounter() {
         return mSharesCounter;
+    }
+
+    public void loadCountrySpinner(Spinner countrySpinner) {
+        switch (mCountry) {
+            case EventContract.EventEntry.COUNTRY_POLAND:
+                countrySpinner.setSelection(1);
+                break;
+            case EventContract.EventEntry.COUNTRY_GREECE:
+                countrySpinner.setSelection(2);
+                break;
+            case EventContract.EventEntry.COUNTRY_SPAIN:
+                countrySpinner.setSelection(3);
+                break;
+            case EventContract.EventEntry.COUNTRY_CROATIA:
+                countrySpinner.setSelection(4);
+                break;
+            case EventContract.EventEntry.COUNTRY_PORTUGAL:
+                countrySpinner.setSelection(5);
+                break;
+            case EventContract.EventEntry.COUNTRY_GERMANY:
+                countrySpinner.setSelection(6);
+                break;
+            case EventContract.EventEntry.COUNTRY_FRANCE:
+                countrySpinner.setSelection(7);
+                break;
+            case EventContract.EventEntry.COUNTRY_SOUTH_AFRICA:
+                countrySpinner.setSelection(8);
+                break;
+            case EventContract.EventEntry.COUNTRY_MOROCCO:
+                countrySpinner.setSelection(9);
+                break;
+            case EventContract.EventEntry.COUNTRY_ITALY:
+                countrySpinner.setSelection(10);
+                break;
+            case EventContract.EventEntry.COUNTRY_EGYPT:
+                countrySpinner.setSelection(11);
+                break;
+            case EventContract.EventEntry.COUNTRY_UK:
+                countrySpinner.setSelection(12);
+                break;
+            case EventContract.EventEntry.COUNTRY_TURKEY:
+                countrySpinner.setSelection(13);
+                break;
+            case EventContract.EventEntry.COUNTRY_AUSTRIA:
+                countrySpinner.setSelection(14);
+                break;
+            case EventContract.EventEntry.COUNTRY_DENMARK:
+                countrySpinner.setSelection(15);
+                break;
+            case EventContract.EventEntry.COUNTRY_BRAZIL:
+                countrySpinner.setSelection(16);
+                break;
+            case EventContract.EventEntry.COUNTRY_USA:
+                countrySpinner.setSelection(17);
+                break;
+            case EventContract.EventEntry.COUNTRY_VIETNAM:
+                countrySpinner.setSelection(18);
+                break;
+            case EventContract.EventEntry.COUNTRY_MALTA:
+                countrySpinner.setSelection(19);
+                break;
+            case EventContract.EventEntry.COUNTRY_OTHER_COUNTRIES:
+                countrySpinner.setSelection(20);
+                break;
+            default:
+                countrySpinner.setSelection(20);
+                break;
+        }
     }
 }

@@ -1138,54 +1138,37 @@ public class EditorTripActivity extends AppCompatActivity {
         finish();
     }
 
+    /**
+     * Loading existing event
+     */
 
     public void loadExistingEvent(Event event) {
-
         mPlaceEditText.setText(event.getPlace());
+        //Check that it is a camp
         if(event.getStartPlace().equals(Integer.toString(EventContract.EventEntry.IT_IS_CAMP))) {
-            mStartPlaceEditText.setText(event.getStartPlace());
-            mStartPlaceEditText.setVisibility(View.GONE);
-            TextView mLabelToTextView = findViewById(R.id.editor_trip_label_to);
-            mLabelToTextView.setText(R.string.event_trip_camp_to);
-            TextView mLabelFromTextView = findViewById(R.id.editor_trip_label_from);
-            mLabelFromTextView.setText(R.string.event_trip_camp_from);
-            mStartPlaceEditText.setVisibility(View.GONE);
-            mStartDateTextView.setHint(R.string.hint_event_trip_camp_start_date);
-            mStartCountrySpinner.setVisibility(View.GONE);
-            mPlaceEditText.setHint(R.string.hint_event_trip_camp_destination_place);
-            TextView mTransportLabelTextView = findViewById(R.id.editor_trip_label_transport);
-            mTransportLabelTextView.setVisibility(View.GONE);
-            mTransportLabelTextView.setVisibility(View.GONE);
-            mTransportSpinner.setVisibility(View.GONE);
+            itIsCampTrip();
         } else {
-            TextView mLabelTypeTextView = findViewById(R.id.editor_trip_label_display_as);
-            mLabelTypeTextView.setVisibility(View.GONE);
-            switch (mEvent.getCharacter()){
+            switch (mEvent.getCharacter())
+            {
             case EventContract.EventEntry.CHARACTER_ORGANIZED:
-
-                mTransportSpinner.setSelection(EventContract.EventEntry.TRANSPORT_PLANE);
-                mCharacter=EventContract.EventEntry.CHARACTER_ORGANIZED;
-                mDisplayAsSpinner.setVisibility(View.GONE);
-                mDisplayAs = EventContract.EventEntry.DISPLAY_AS_NO_AVAILABLE;
+                itIsOrganizedTrip();
                 break;
             case EventContract.EventEntry.CHARACTER_PRIVATE:
+                //Change this variable to correctly setup sports spinners
                 mTripType=EditorChoose.TRIP_TYPE_PRIVATE;
-                mDiscountRelativeView.setVisibility(View.GONE);
-                mTransportSpinner.setSelection(EventContract.EventEntry.TRANSPORT_CAR);
-                mCharacter=EventContract.EventEntry.CHARACTER_PRIVATE;
-                mDisplayAsSpinner.setVisibility(View.GONE);
-                mDisplayAs = EventContract.EventEntry.DISPLAY_AS_NO_AVAILABLE;
-                TextView mLabelAvailableSports = findViewById(R.id.trip_editor_label_available_sports_text_view);
-                mLabelAvailableSports.setText(R.string.available_trip_private);
+                itIsPrivateTrip();
                 break;
             default:
+                itIsOrganizedTrip();
                 break;
+            }
         }
-            mStartPlaceEditText.setText(event.getStartPlace());
-        }
+        /** Setup spinners according to */
         setupWindsurfingSpinner();
         setupKitesurfingSpinner();
         setupSurfingSpinner();
+        /** Load data from existing event */
+        mStartPlaceEditText.setText(event.getStartPlace());
         mDateTextView.setText(event.getDate());
         mStartDateTextView.setText(event.getStartDate());
         mCommentEditText.setText(event.getComment());
@@ -1196,7 +1179,7 @@ public class EditorTripActivity extends AppCompatActivity {
         mContactEmailEditText.setText(event.getContact().getEmailAddress());
         mContactWebEditText.setText(event.getContact().getWebAddress());
 
-        //Type and conditions are spinners, so:
+        //Load selected cases tp spinners
         switch (event.getTransport()) {
             case EventContract.EventEntry.TRANSPORT_CAR:
                 mTransportSpinner.setSelection(0);
@@ -1222,141 +1205,9 @@ public class EditorTripActivity extends AppCompatActivity {
                 mCurrencySpinner.setSelection(0);
                 break;
         }
-        switch (event.getCountry()) {
-            case EventContract.EventEntry.COUNTRY_POLAND:
-                mCountrySpinner.setSelection(1);
-                break;
-            case EventContract.EventEntry.COUNTRY_GREECE:
-                mCountrySpinner.setSelection(2);
-                break;
-            case EventContract.EventEntry.COUNTRY_SPAIN:
-                mCountrySpinner.setSelection(3);
-                break;
-            case EventContract.EventEntry.COUNTRY_CROATIA:
-                mCountrySpinner.setSelection(4);
-                break;
-            case EventContract.EventEntry.COUNTRY_PORTUGAL:
-                mCountrySpinner.setSelection(5);
-                break;
-            case EventContract.EventEntry.COUNTRY_GERMANY:
-                mCountrySpinner.setSelection(6);
-                break;
-            case EventContract.EventEntry.COUNTRY_FRANCE:
-                mCountrySpinner.setSelection(7);
-                break;
-            case EventContract.EventEntry.COUNTRY_SOUTH_AFRICA:
-                mCountrySpinner.setSelection(8);
-                break;
-            case EventContract.EventEntry.COUNTRY_MOROCCO:
-                mCountrySpinner.setSelection(9);
-                break;
-            case EventContract.EventEntry.COUNTRY_ITALY:
-                mCountrySpinner.setSelection(10);
-                break;
-            case EventContract.EventEntry.COUNTRY_EGYPT:
-                mCountrySpinner.setSelection(11);
-                break;
-            case EventContract.EventEntry.COUNTRY_UK:
-                mCountrySpinner.setSelection(12);
-                break;
-            case EventContract.EventEntry.COUNTRY_TURKEY:
-                mCountrySpinner.setSelection(13);
-                break;
-            case EventContract.EventEntry.COUNTRY_AUSTRIA:
-                mCountrySpinner.setSelection(14);
-                break;
-            case EventContract.EventEntry.COUNTRY_DENMARK:
-                mCountrySpinner.setSelection(15);
-                break;
-            case EventContract.EventEntry.COUNTRY_BRAZIL:
-                mCountrySpinner.setSelection(16);
-                break;
-            case EventContract.EventEntry.COUNTRY_USA:
-                mCountrySpinner.setSelection(17);
-                break;
-            case EventContract.EventEntry.COUNTRY_VIETNAM:
-                mCountrySpinner.setSelection(18);
-                break;
-            case EventContract.EventEntry.COUNTRY_MALTA:
-                mCountrySpinner.setSelection(19);
-                break;
-            case EventContract.EventEntry.COUNTRY_OTHER_COUNTRIES:
-                mCountrySpinner.setSelection(20);
-                break;
-            default:
-                mCountrySpinner.setSelection(20);
-                break;
-        }
-        if(event.getStartCountry()==EventContract.EventEntry.IT_IS_CAMP){
-            mStartCountry=EventContract.EventEntry.IT_IS_CAMP;
-            mStartCountrySpinner.setVisibility(View.GONE);
-        } else {
-            switch (event.getStartCountry()) {
-                case EventContract.EventEntry.COUNTRY_POLAND:
-                    mStartCountrySpinner.setSelection(1);
-                    break;
-                case EventContract.EventEntry.COUNTRY_GREECE:
-                    mStartCountrySpinner.setSelection(2);
-                    break;
-                case EventContract.EventEntry.COUNTRY_SPAIN:
-                    mStartCountrySpinner.setSelection(3);
-                    break;
-                case EventContract.EventEntry.COUNTRY_CROATIA:
-                    mStartCountrySpinner.setSelection(4);
-                    break;
-                case EventContract.EventEntry.COUNTRY_PORTUGAL:
-                    mStartCountrySpinner.setSelection(5);
-                    break;
-                case EventContract.EventEntry.COUNTRY_GERMANY:
-                    mStartCountrySpinner.setSelection(6);
-                    break;
-                case EventContract.EventEntry.COUNTRY_FRANCE:
-                    mStartCountrySpinner.setSelection(7);
-                    break;
-                case EventContract.EventEntry.COUNTRY_SOUTH_AFRICA:
-                    mStartCountrySpinner.setSelection(8);
-                    break;
-                case EventContract.EventEntry.COUNTRY_MOROCCO:
-                    mStartCountrySpinner.setSelection(9);
-                    break;
-                case EventContract.EventEntry.COUNTRY_ITALY:
-                    mStartCountrySpinner.setSelection(10);
-                    break;
-                case EventContract.EventEntry.COUNTRY_EGYPT:
-                    mStartCountrySpinner.setSelection(11);
-                    break;
-                case EventContract.EventEntry.COUNTRY_UK:
-                    mStartCountrySpinner.setSelection(12);
-                    break;
-                case EventContract.EventEntry.COUNTRY_TURKEY:
-                    mStartCountrySpinner.setSelection(13);
-                    break;
-                case EventContract.EventEntry.COUNTRY_AUSTRIA:
-                    mStartCountrySpinner.setSelection(14);
-                    break;
-                case EventContract.EventEntry.COUNTRY_DENMARK:
-                    mStartCountrySpinner.setSelection(15);
-                    break;
-                case EventContract.EventEntry.COUNTRY_BRAZIL:
-                    mStartCountrySpinner.setSelection(16);
-                    break;
-                case EventContract.EventEntry.COUNTRY_USA:
-                    mStartCountrySpinner.setSelection(17);
-                    break;
-                case EventContract.EventEntry.COUNTRY_VIETNAM:
-                    mStartCountrySpinner.setSelection(18);
-                    break;
-                case EventContract.EventEntry.COUNTRY_MALTA:
-                    mStartCountrySpinner.setSelection(19);
-                    break;
-                case EventContract.EventEntry.COUNTRY_OTHER_COUNTRIES:
-                    mStartCountrySpinner.setSelection(20);
-                    break;
-                default:
-                    mStartCountrySpinner.setSelection(20);
-                    break;
-            }
-        }
+        event.loadCountrySpinner(mCountrySpinner);
+        event.loadStartCountrySpinner(mStartCountrySpinner);
+
         switch (event.getWindsurfingAvailable()) {
             case EventContract.EventEntry.TRIP_AVAILABLE_NO_INFO:
                 mWindsurfingSpinner.setSelection(0);
