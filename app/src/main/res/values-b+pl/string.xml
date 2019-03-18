@@ -12,6 +12,7 @@
     <string name="editor_activity_title_edit_event">Edytuj relacje ze spotu</string>
     <string name="editor_activity_title_new_trip_organized">Dodaj nową wycieczkę</string>
     <string name="editor_activity_title_edit_trip">Edytuj wycieczkę</string>
+    <string name="editor_activity_title_copy_trip">Skopiuj wycieczkę</string>
     <string name="editor_activity_title_new_trip_private">Dodaj prywtną wycieczkę</string>
     <string name="editor_activity_title_new_trip_camp">Dodaj obóz</string>
 

@@ -267,9 +267,15 @@ public class EditorTripActivity extends AppCompatActivity {
             }
         } else {
             /**
-             * It is old event to edit so set title and load them
+             * It is old event to edit or to copy so set title
              */
-            setTitle(getString(R.string.editor_activity_title_edit_trip));
+            if(mEvent.getDate().isEmpty() && mEvent.getStartDate().isEmpty()){
+                //It is copy of event
+                setTitle(getString(R.string.editor_activity_title_copy_trip));
+            } else {
+                //It is event to edit
+                setTitle(getString(R.string.editor_activity_title_edit_trip));
+            }
             mEvent = new Event();
             mExtraInfoHelp.getInfoFromIntent(intent,mEvent,getApplicationContext());
             loadExistingEvent(mEvent);

@@ -1442,6 +1442,7 @@ public class EventAdapter extends ArrayAdapter<Event> {
         private long twoTimestampsToDays(long startTimestamp, long endTimestamp){
         long numberOfDays = endTimestamp - startTimestamp;
         numberOfDays = numberOfDays / 86400000; //One day in milliseconds
+            numberOfDays++;
             return numberOfDays;
         }
 }

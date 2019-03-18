@@ -12,6 +12,7 @@
     <string name="editor_activity_title_edit_event">Edit coverage from the spot</string>
     <string name="editor_activity_title_new_trip_organized">Add new trip</string>
     <string name="editor_activity_title_edit_trip">Edit trip</string>
+    <string name="editor_activity_title_copy_trip">Copy trip</string>
     <string name="editor_activity_title_new_trip_private">Add private trip</string>
     <string name="editor_activity_title_new_trip_camp">Add camp</string>
 
