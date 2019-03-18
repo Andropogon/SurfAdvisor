@@ -451,7 +451,7 @@
     <string name="user_uid_shared_preference">User_nickname_shared_preference</string>
     <string name="user_tokenId_shared_preference">User_tokenId_shared_preference</string>
 
-    <!-- Toast messages -->
+    <!-- Toast messages dd-->
     <string name="toast_login_in">You logged in succesfully</string>
     <string name="toast_login_in_faild">Login failed!</string>
     <string name="toast_relation_created">Coverage was added.</string>
