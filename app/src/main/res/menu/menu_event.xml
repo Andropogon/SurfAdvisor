@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.example.andro.liveWind.EventActivity">
+
+    <item
+        android:id="@+id/action_edit"
+        android:title="@string/action_edit"
+        android:icon="@drawable/baseline_edit_black_24"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_delete"
+        android:title="@string/action_delete"
+        android:icon="@drawable/ic_delete_24"
+        app:showAsAction="ifRoom" />
+
+    <item android:title="Share"
+        android:icon="@drawable/outline_share_black_24"
+        app:showAsAction="ifRoom">
+        <menu>
+            <item
+                android:id="@+id/action_share_facebook"
+                android:title="@string/share_on_facebook"
+                app:showAsAction="ifRoom" />
+
+            <item
+                android:id="@+id/action_share_messenger"
+                android:title="@string/share_on_messenger"
+                app:showAsAction="ifRoom" />
+            <item
+                android:id="@+id/action_share_other"
+                android:title="@string/share_on_other"
+                app:showAsAction="ifRoom" />
+        </menu>
+    </item>
+</menu>

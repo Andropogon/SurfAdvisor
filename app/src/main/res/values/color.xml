@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (C) 2016 The Android Open Source Project
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+          http://www.apache.org/licenses/LICENSE-2.0
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+<resources>
+    <!-- The app branding color for the app bar -->
+    <color name="colorPrimary">#4fc3f7</color>
+    <!-- Darker variant for the status bar and contextual app bars -->
+    <color name="colorPrimaryDark">#0093c4</color>
+
+    <color name="colorPrimaryLight">#b3e5fc</color>
+    <!-- Accent color for UI controls like checkboxes and text fields -->
+    <color name="colorSecondary">#1a237e</color>
+    <color name="colorSecondaryDark">#79b700</color>
+    <color name="colorSecondaryLight">#bbdefb</color>
+
+    <!-- Primary dark color for the editor -->
+    <color name="editorColorPrimaryDark">#007C8C</color>
+
+    <color name="whiteColor">#ffffff</color>
+    <color name="blackColor">#000000</color>
+    <color name="enterTextColor">#414D45</color>
+    <color name="creatorTextColor">#CDDC39</color>
+    <color name="memberTextColor">#414D45</color>
+    <color name="labelTextColor">#2B332E</color>
+
+    <!-- Wind scale colors -->
+    <color name="kts0_3">#BBEBFF</color>
+    <color name="kts4_6">#A5FEFA</color>
+    <color name="kts7_10">#8CEFFD</color>
+    <color name="kts11_13">#8FFEDD</color>
+    <color name="kts14_16">#A3FEBA</color>
+    <color name="kts17_19">#F5F7C4</color>
+    <color name="kts20_21">#FFFF84</color>
+    <color name="kts22_24">#FFDEA2</color>
+    <color name="kts25_27">#FFD062</color>
+    <color name="kts28_30">#FF8E8E</color>
+    <color name="kts31_33">#FF7575</color>
+    <color name="kts34_36">#FFBBF7</color>
+    <color name="kts37_40">#FF9CEE</color>
+    <color name="kts41_47">#B28DFF</color>
+    <color name="kts50">#872187</color>
+    <color name="ktsINCORRECT">#656565</color>
+
+    <color name="sport_available_course">#77dd77</color>
+    <color name="sport_available_yes">#BFFCC6</color>
+    <color name="sport_available_no_info">#FFF5BA</color>
+    <color name="sport_available_no">#FFABAB</color>
+    <color name="sport_available_instructor_course">#B28DFF</color>
+    <color name="app_main_color">#abf0d1</color>
+    <color name="colorPrimary2">#90dae3</color>
+    <color name="colorPrimaryDark2">#0093c4</color>
+    <color name="colorSecondary2">#000000</color>
+    <color name="auth_bg_buttons">#ffffff</color>
+    <color name="auth_text_color">#000000</color>
+    <color name="auth_text">#ffffff</color>
+    <color name="floating_buttons_my">#ffffff</color>
+    <color name="app_primary_color">#ccfff8</color>
+    <color name="app_mint">#ccfff8</color>
+    <color name="settings_color">#0d6a7b</color>
+    <color name="blue_from_car_darker">#59daec</color>
+    <color name="main_text_color">#000000</color> <!-- !!!197c20 #90dae3  #a4dec6 #b3f5fd-->
+    <color name="dialog_background">#ffffff</color>
+
+    <color name="light_red">#fe0000</color>
+    <color name="dark_red">#7b0d0d</color>
+    <color name="light_green">#44b400</color>
+    <color name="dark_green">#003f04</color>
+</resources>

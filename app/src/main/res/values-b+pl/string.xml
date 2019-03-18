@@ -1,0 +1,547 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Name for the application [CHAR LIMIT=12] -->
+    <string name="app_name">SurfAdvisor</string>
+
+    <!-- Catalog activity headers -->
+    <string name="catalog_header_trips">Wycieczki</string> <!-- Takie sportowe, obozy i wyjazdy zagraniczne -->
+    <string name="catalog_header_forecast">Relacje live</string> <!-- Myślałem że "Relations" ale chyba to słowo nie działa w tym kontekście xD -->
+
+    <!-- Editor activity headers -->
+    <string name="editor_activity_title_new_event">Dodaj nową relacje ze spotu</string> <!-- Mowa o tych relacjach live -->
+    <string name="editor_activity_title_edit_event">Edytuj relacje ze spotu</string>
+    <string name="editor_activity_title_new_trip_organized">Dodaj nową wycieczkę</string>
+    <string name="editor_activity_title_edit_trip">Edytuj wycieczkę</string>
+    <string name="editor_activity_title_new_trip_private">Dodaj prywtną wycieczkę</string>
+    <string name="editor_activity_title_new_trip_camp">Dodaj obóz</string>
+
+
+    <!-- Editor dialog msg -->
+    <string name="unsaved_changes_dialog_msg">Chcesz przerwać edycje bez zapisywania zmian?</string>
+    <string name="delete_dialog_msg">Usunąć to wydarzenie?</string>
+
+    <!-- Menu editor options -->
+    <string name="action_save">Zapisz</string>
+    <string name="action_delete">Usuń</string>
+    <string name="action_edit">Edytuj</string>
+    <string name="action_help">Pomoc</string>
+
+    <!-- Main menu options -->
+    <string name="activity_user">Twój profil</string>
+    <string name="activity_about">O nas</string>
+    <string name="activity_settings">Ustawienia</string>
+    <string name="activity_log_out">Wyloguj się</string>
+
+    <!-- Choose activity header -->
+    <string name="activity_choose">Wybierz co chcesz dodać</string> <!-- Jaki typ wyjazdu -->
+
+    <!-- Choose activity options -->
+    <string name="event_trip_activity_title">Wycieczka</string>
+    <string name="event_trip_activity_title_organized">Obóz sportowy</string>
+    <string name="event_trip_activity_title_private">Wyjazd prywatny (niezorganizowany)</string>
+    <string name="event_trip_activity_title_camp">Obóz sportowy z własnym dojazdem</string>
+    <string name="event_trip_activity_title_training">Szkolenie sportowe z własnym dojazdem</string>
+    <string name="event_display_as_select">Wybierz typ (obóz / szkolenie)</string>
+
+    <!-- Catalog Activity Empty Views -->
+    <string name="empty_view_no_connection_title_text">Prawdopodobnie nie masz połączenia z internetem.</string>
+    <string name="empty_view_no_records_title_text_relations">Niestety, nie ma żadnych pasujących relacji.</string> <!-- Wyświetla się jak ktoś ustawi sobie jakieś filtry wyszukiwania i nic w nich nie wyskoczy -->
+    <string name="empty_view_no_records_title_text_trips">Niestety, nie ma żadnych pasujących wyjazdów.</string> <!-- Wyświetla się jak ktoś ustawi sobie jakieś filtry wyszukiwania i nic w nich nie wyskoczy -->
+    <string name="empty_view_no_connection_subtitle_text">Sprawdź swoje ustawienia transmisji danych i sieci.</string>
+    <string name="empty_view_no_records_subtitle_text_relations">Relacje live dodają użytkownicy w wietrzne dni, aby pomóc innym wybrać spot z najlepszymi warunkami. Każda relacja live po 8 godzinach zostaje automatycznie usunięta.</string>
+    <string name="empty_view_no_records_subtitle_text_trips">Możesz zmienić filtry wyszukiwania oraz interesujące Cie kraje i spróbować ponownie.</string>
+    <string name="empty_view_no_connection_button_text">Spróbuj ponownie</string>
+
+
+    <!-- Dialog buttons -->
+    <string name="discard">Przerwij</string>
+    <string name="keep_editing">Anuluj</string>
+    <string name="delete">Usuń</string>
+    <string name="cancel">Anuluj</string>
+    <string name="dialog_yes">Tak</string>
+
+    <!-- Editor Relation categories -->
+    <string name="category_overview">Informacje ogólne:</string>
+    <string name="category_description_trip">Opis wyjazdu:</string>
+    <string name="category_description">Komentarz:</string>
+    <string name="category_photo">Dodaj zdjęcie:</string>
+    <string name="category_wind_direction">Kierunek wiatru:</string>
+    <string name="category_measurement">Pomiary:</string>
+
+    <!-- Editor Trip categories -->
+    <string name="category_display_as">Typ:</string>
+    <string name="category_from">Z:</string>
+    <string name="category_to">Do:</string>
+    <string name="category_transport">Transport:</string>
+    <string name="category_sports">Dostępne sporty:</string>
+    <string name="category_type">Typ:</string>
+    <string name="category_cost_info">Informacje dotyczące kosztu:</string>
+    <string name="category_contact">Kontakt:</string>
+
+    <!-- Trip activity subtitles -->
+    <string name="trip_activity_contact">Kontakt:</string>
+    <string name="trip_activity_cost">Koszt:</string>
+    <string name="trip_activity_cost_include">Koszt zawiera:</string>
+    <string name="trip_activity_discount">Koszt z kodem promocyjnym SurfAdvisor:</string>
+    <string name="trip_activity_details">Szczegóły:</string>
+    <string name="trip_activity_description">Opis wyjazdu:</string>
+    <string name="trip_activity_interested">Zainteresowani:</string>
+    <string name="event_trip_from">Z:</string>
+    <string name="event_trip_date_from">Od:</string>
+    <string name="event_trip_camp_from">Obóz sportowy z własnym dojazdem:</string>
+    <string name="event_trip_training_from">Szkolenie sportowe z własnym dojazdem:</string>
+    <string name="event_trip_to">Do:</string>
+    <string name="event_trip_camp_to">W:</string>
+    <string name="event_trip_details">Szczegóły:</string>
+    <string name="event_trip_days">dni</string>
+
+
+    <!-- Relations hints -->
+    <string name="hint_event_place">*Miejsce relacji</string>
+    <string name="hint_event_start_place">*Miejsce wyjazdu</string>
+    <string name="hint_event_trip_camp_destination_place">*Miejsce</string>
+    <string name="hint_event_return_date">*Data powrotu</string>
+    <string name="hint_event_destination_place">*Miejsce docelowe</string>
+    <string name="hint_event_start_date">*Data i godzina wyjazdu</string>
+    <string name="hint_event_trip_camp_start_date">*Data rozpoczęcia</string>
+    <string name="hint_event_wind_power">*Siła wiatru</string>
+    <string name="hint_event_wave_size">*Wysokość fali</string>
+    <string name="hint_event_comment">Polecamy dodać krótki opis obecnych warunków na wodzie (np. czy szkwali, jaka jest temperatura)</string>
+    <string name="hint_event_trip_cost">Koszt</string>
+    <string name="hint_event_trip_cost_about">O koszcie</string>
+    <string name="hint_event_trip_discount">Kwota rabatu z kodem SurfAdvisor</string>
+    <string name="hint_event_trip_phone">Numer telefonu</string>
+    <string name="hint_event_trip_email">Adres email</string>
+    <string name="hint_event_trip_web">Adres strony www</string>
+    <string name="hint_event_trip_comment">Polecamy dodać tu kilka zdań na temat planu wyjazdu i innych szczegółów z nim związanych.</string>
+
+    <!-- Units -->
+    <string name="unit_wind_kn">kn</string>
+    <string name="unit_wind_bft">Bft</string>
+    <string name="unit_wind_sail_size">m^2</string>
+    <string name="unit_wave">m</string>
+
+    <!-- Relation type options -->
+    <string name="type_unknown">Nieznany</string>
+    <string name="type_choose">Wybierz swój sport</string>
+    <string name="type_windsurfing">Windsurfing</string>
+    <string name="type_kitesurfing">Kitesurfing</string>
+    <string name="type_surfing">Surfing</string>
+    <string name="unknown_type">Nieznany</string>
+
+    <!-- Relation activity subtitles -->
+    <string name="event_activity_title">Relacja ze spotu</string>
+    <string name="event_activity_members">Na spocie:</string>
+    <string name="event_activity_spot_conditions">Warunki na spocie:</string>
+    <string name="event_activity_comment">Komentarze:</string>
+    <string name="event_activity_comment_added">Komentarz dodany</string>
+    <string name="event_activity_comment_empty">Nie można dodawać pustych komentarzy</string>
+    <string name="event_activity_show_all_comments">Pokaż wszystkie komentarze</string>
+    <string name="event_activity_hide_all_comments">Ukryj komentarze</string>
+    <string name="event_activity_dialog_add_comment">Dodaj komentarz</string>
+    <string name="event_activity_dialog_add_comment_max">Max 160 znaków</string>
+    <string name="event_activity_dialog_write_comment">Napisz komentarz tutaj</string>
+    <string name="event_activity_comment_creator">Komentarz twórcy</string>
+
+    <string name="extra_place">EXTRA_PLACE</string>
+    <string name="extra_date">EXTRA_DATE</string>
+    <string name="extra_type">EXTRA_TYPE</string>
+    <string name="extra_wind_power">EXTRA_WIND_POWER</string>
+    <string name="extra_wave_size">EXTRA_SIZE</string>
+    <string name="extra_conditions">EXTRA_CONDITIONS</string>
+    <string name="extra_comment">EXTRA_COMMENT</string>
+
+    <!-- Time displying texts -->
+    <string name="event_activity_time_now">Teraz</string>
+    <string name="event_activity_time_added">"Dodano "</string>
+    <string name="event_activity_time_min_ago">" min temu."</string>
+    <string name="event_activity_time_h_and">"h i "</string>
+    <string name="event_activity_time_unknown">BŁĄD - CZAS NIEZNANY</string>
+
+    <string name="conditions_onshore">ONSHORE</string>
+    <string name="conditions_sideshore">SIDESHORE</string>
+    <string name="conditions_offshore">OFFSHORE</string>
+    <string name="conditions_N">N</string>
+    <string name="conditions_north">NORTH</string>
+    <string name="conditions_NE">NE</string>
+    <string name="conditions_north_east">NORTH-EAST</string>
+    <string name="conditions_E">E</string>
+    <string name="conditions_east">EAST</string>
+    <string name="conditions_SE">SE</string>
+    <string name="conditions_south_east">SOUTH-EAST</string>
+    <string name="conditions_S">S</string>
+    <string name="conditions_south">SOUTH</string>
+    <string name="conditions_SW">SW</string>
+    <string name="conditions_south_west">SOUTH-WEST</string>
+    <string name="conditions_W">W</string>
+    <string name="conditions_west">WEST</string>
+    <string name="conditions_NW">NW</string>
+    <string name="conditions_north_west">NORTH-WEST</string>
+    <string name="conditions_NNE">NNE</string>
+    <string name="conditions_ENE">ENE</string>
+    <string name="conditions_ESE">ESE</string>
+    <string name="conditions_SSE">SSE</string>
+    <string name="conditions_SSW">SSW</string>
+    <string name="conditions_WSW">WSW</string>
+    <string name="conditions_WNW">WNW</string>
+    <string name="conditions_NNW">NNW</string>
+
+    <string name="transport_car">Samochód</string>
+    <string name="transport_plane">Samolot</string>
+
+    <string name="character_unknown">Nieznany</string>
+    <string name="character_private">Prywatny</string>
+    <string name="character_organized">Zorganizowany</string>
+
+    <!-- Possible currencies !-->
+    <string name="currency_zl">PLN</string>
+    <string name="currency_euro">EUR</string>
+    <string name="currency_usd">USD</string>
+
+    <!-- Trip available !-->
+    <string name="available_trip_private">Kto się może zabrać na ten wyjazd:</string>
+    <string name="available_trip_private_with_equipment">Zapraszam</string>
+    <string name="available_trip_private_without_equipment">Bez sprzętu</string>
+    <string name="available_trip_private_no">Niestety nie</string>
+    <string name="available_windsurfer">Windsurfer</string>
+    <string name="available_kitesurfer">Kitesurfer</string>
+    <string name="available_surfer">Surfer</string>
+    <string name="available_windsurfing">Windsurfing</string>
+    <string name="available_kitesurfing">Kitesurfing</string>
+    <string name="available_surfing">Surfing</string>
+    <string name="avaiable_course">Kurs</string>
+    <string name="avaiable_yes">Bez kursu</string>
+    <string name="avaiable_no">Nie dostępny</string>
+    <string name="avaiable_no_conditions">Brak warunków</string>
+    <string name="avaiable_no_info">Brak info.</string>
+    <string name="avaiable_course_instructor">Kurs Instr.</string>
+
+
+    <!-- BAD RELATION TOAST!-->
+    <string name="event_more_info_required_toast_message">Nie podałeś jednej z wymaganych informacji (miejsce, siła wiatru, kierunek wiatru, rozmiar fali)</string>
+    <string name="event_place_required_tm">Nie podałeś miejsca relacji</string>
+    <string name="event_place_3letters_tm">Miejsce relacji musi skladać się przynajmniej ze 2 znaków</string>
+    <string name="event_destination_place_required_tm">Nie podałeś miejsca docelowego</string>
+    <string name="event_destination_place_3letters_tm">Miejsce docelowe musi skladać się przynajmniej ze 2 znaków</string>
+    <string name="event_date_required_tm">Nie podałeś daty powrotu</string>
+    <string name="event_start_place_required_tm">Nie podałeś miejsca wyjazdu</string>
+    <string name="event_start_place_3letters_tm">Miejsce wyjazdu musi składać się przynajmniej ze 2 znaków</string>
+    <string name="event_start_date_required_tm">Nie podałeś daty wyjazdu</string>
+    <string name="event_start_date_bad_format_tm">Data wyjazdu musi składać się z godziny oraz daty</string>
+    <string name="event_return_date_required_tm">Nie podałeś daty powrotu</string>
+    <string name="event_wind_power_required_tm">Nie podałeś informacji o sile wiatru</string>
+    <string name="event_wind_power_max_tm">Wow, wieje naprawdę mocno! Za mocno na naszą apkę :D</string> <!-- To się wyświetla jak ktoś wpisze jakiś nierealny wiatr np. 1000km/h - czyli to żarcik kosmonaucik -->
+    <string name="event_wave_size_required_tm">Nie podałeś informacji o wielkości fali</string>
+    <string name="event_wave_size_max_tm">Wow tsunami? Może lepiej nie wychodź na wodę, chyba że dodaje to Jason Polakow.</string> <!-- Jak ktoś wpisze, że fala ma np. 100metrów - żarcik jak wyżej -->
+    <string name="event_bad_date_tm">Data wyjazdu musi być wcześniejsza niż data powrotu. To chyba logiczne.</string>
+    <string name="trip_limit_reached">"Sorry, osiągnąłeś limit aktywnych wyjazdów. Będziesz mógł dodać kolejny wyjazd gdy usuniesz jeden z aktywnych lub któryś z nich się przedawni i sam usunie.</string>
+    <string name="event_trip_one_contact_info_required_tm">Przynajmniej jedna z informacji kontaktowych jest wymagana (numer telefonu / adres email / adres www)</string>
+    <string name="event_trip_start_country_info_required_tm">Kraj z którego planowany jest wyjazd musi zostać podany.</string>
+    <string name="event_country_info_required_tm">Państwo musi być wybrane!</string>
+    <string name="event_trip_cost_discount_tm">Rabat SurfAdvisor musi być mniejszy niż koszt wycieczki.</string>
+    <string name="event_trip_display_as_tm">Musisz wybrać typ wydarzenia ( szkolenie / obóz )</string>
+
+    <!-- SETTINGS KEYS !-->
+    <string name="settings_discount_code_key">Surfadvisor_code_key</string>
+    <string name="settings_user_phone_key">Phone_number_key</string>
+    <string name="settings_user_email_key">Email_key</string>
+    <string name="settings_user_web_key">Website_key</string>
+    <string name="settings_display_boolean_key">"Display_trips_or_coverages_key"</string>
+    <string name="settings_display_sorting_events_by_key">sort_events_key</string>
+    <string name="settings_display_trips_key">Display_trips_key</string>
+    <string name="settings_display_wind_power_key">Choose_wind_unit_key</string>
+    <string name="settings_display_sorting_trips_by_key">sort_trips_key</string>
+    <string name="settings_notifications_allow_key">notifications_key</string>
+    <string name="settings_feedback_send_key">feedback_key</string>
+    <string name="settings_display_countries_key">interested_countries_key</string>
+
+    <!-- SETTINGS STRINGS !-->
+    <string name="settings_title_discount">Kod SurfAdvisor na specjalne ceny u naszych partnerów</string>
+    <string name="settings_discount_code_title">Kliknij, aby skopiować kod do klawiatury:</string>
+    <string name="settings_discount_code">Example</string> <!-- Tego nie tłumacz -->
+    <string name="settings_title_user_contact">Informacje kontaktowe (do tworzenia wycieczek)</string>
+    <string name="settings_user_phone">Numer telefonu</string>
+    <string name="settings_user_email">Adres email</string>
+    <string name="settings_user_web">Adres strony www</string>
+    <string name="settings_title_display">Opcje sortowania relacji i wycieczek</string>
+    <string name="settings_display_boolean">"Wyświetlanie wycieczek (OFF) lub relacji (ON)"</string>
+    <string name="settings_display_sorting_events_by">Sortuj relacje ze spotów po:</string>
+    <string name="settings_display_trips_title">Wybierz ustawienia wyświetlania obozów</string>
+    <string name="display_trips_from_and_to">Wyświetlaj obozy z i do interesujących Cie państw</string>
+    <string name="display_trips_from">Wyświetlaj obozy tylko z interesujących Cie państw</string>
+    <string name="display_trips_to">Wyświetlaj obozy tylko do interesujących Cie państw</string>
+    <string name="sorting_event_by_date">Dacie</string>
+    <string name="sorting_event_by_members">Ilości osób które wezmą udział</string>
+    <string name="sorting_event_by_wind_power">Sile wiatru</string>
+    <string name="settings_display_wind_power_title">Wybierz jednostkę siły wiatru:</string>
+    <string name="dispaly_wind_power_knots">Węzły</string>
+    <string name="dispaly_wind_power_beaufort">Skala Beauforta</string>
+    <string name="dispaly_wind_power_sail_size">Rozmiar żagla w m^2</string>
+    <string name="sorting_event_by_thanks_size">Ilości polubień</string>
+    <string name="settings_display_sorting_trips_by">Sortuj wycieczki po:</string>
+    <string name="sorting_trips_by_date">Dacie</string>
+    <string name="sorting_trips_by_cost">Koszcie</string>
+    <string name="sorting_trips_by_type">Typie (prywatna lub zorganizowana)</string>
+    <string name="settings_title_notifications">Opcje dotyczące powiadomień</string>
+    <string name="settings_notifications_allow">Zezwól na powiadomienia</string>
+    <string name="empty">Puste</string>
+    <string name="settings_title_feedback">Ustawienia Feedbacku</string>
+    <string name="settings_feedback_send">Wyślij feedback</string>
+    <string name="settings_feedback_send_summary">Prześlij uwagi do programisty</string>
+    <string name="choose_email_client">Choose email client</string>
+    <string name="settings_display_countries_title">"Wybierz interesujące Cie kraje"</string>
+    <!-- ERROR STRINGS !-->
+    <string name="error_TAG">ERROR</string>
+
+    <!-- STRINGS FOR ExtraInfoHelp.class - nic tu nie zmieniaj-->
+    <string name="EXTRA_EVENT_ID">EVENT_ID</string>
+    <string name="EXTRA_EVENT_USERNAME">EVENT_USERNAME</string>
+    <string name="EXTRA_EVENT_PLACE">EVENT_PLACE</string>
+    <string name="EXTRA_EVENT_DATE">EVENT_DATE</string>
+    <string name="EXTRA_EVENT_TYPE">EVENT_TYPE</string>
+    <string name="EXTRA_EVENT_WIND_POWER">EVENT_WIND_POWER</string>
+    <string name="EXTRA_EVENT_WAVE_SIZE">EVENT_WAVE_SIZE</string>
+    <string name="EXTRA_EVENT_CONDITIONS">EVENT_CONDITIONS</string>
+    <string name="EXTRA_EVENT_COMMENT">EVENT_COMMENT</string>
+    <string name="EXTRA_EVENT_CREATION_TIMESTAMP">EVENT_CREATION_TIMESTAMP</string>
+    <string name="EXTRA_EVENT_PHOTO_URL">EVENT_PHOTO_URL</string>
+    <string name="EXTRA_EVENT_CONTACT_PHONE">EVENT_CONTACT_PHONE</string>
+    <string name="EXTRA_EVENT_CONTACT_EMAIL">EVENT_CONTACT_EMAIL</string>
+    <string name="EXTRA_EVENT_CONTACT_WEB">EVENT_CONTACT_WEB</string>
+    <string name="EXTRA_EVENT_TRIP_START_COUNTRY">EVENT_START_COUNTRY</string>
+    <string name="EXTRA_EVENT_TRIP_START_PLACE">EVENT_START_PLACE</string>
+    <string name="EXTRA_EVENT_TRIP_START_DATE">EVENT_START_DATE</string>
+    <string name="EXTRA_EVENT_TRIP_CHARACTER">EVENT_CHARACTER</string>
+    <string name="EXTRA_EVENT_TRIP_TRANSPORT">EVENT_TRANSPORT</string>
+    <string name="EXTRA_EVENT_TRIP_COST">EVENT_COST</string>
+    <string name="EXTRA_EVENT_TRIP_DISCOUNT">EVENT_DISCOUNT</string>
+    <string name="EXTRA_EVENT_TRIP_CURRENCY">EVENT_CURRENCY</string>
+    <string name="EXTRA_EVENT_COUNTRY">EVENT_COUNTRY</string>
+    <string name="EXTRA_EVENT_SHARES_COUNTER">EVENT_SHARES_COUNTER</string>
+    <string name="EXTRA_EVENT_TRIP_COST_ABOUT">EVENT_COST_ABOUT</string>
+    <string name="EXTRA_EVENT_TRIP_AVAILABLE_WINDSURFING">EVENT_TRIP_AVAILABLE_WINDSURFING</string>
+    <string name="EXTRA_EVENT_TRIP_AVAILABLE_KITESURFING">EVENT_TRIP_AVAILABLE_KITESURFING</string>
+    <string name="EXTRA_EVENT_TRIP_AVAILABLE_SURFING">EVENT_TRIP_AVAILABLE_SURFING</string>
+    <string name="EXTRA_EVENT_TRIP_DISPLAY_AS">EVENT_TRIP_DISPLAY_AS</string>
+    <string name="EXTRA_WINDSURFER_NICKNAME">WINDSURFER_NICKNAME</string>
+    <string name="EXTRA_WINDSURFER_UID">WINDSURFER_UID</string>
+    <string name="EXTRA_WINDSURFER_TOKEN">WINDSURFER_TOKEN</string>
+    <string name="EXTRA_WINDSURFER_POINTS">WINDSURFER_POINTS</string>
+    <string name="EXTRA_WINDSURFER_CREATED_EVENTS">WINDSURFER_CREATED_EVENTS</string>
+    <string name="EXTRA_WINDSURFER_CREATED_TRIPS">WINDSURFER_CREATED_TRIPS</string>
+    <string name="EXTRA_WINDSURFER_ACTIVE_EVENTS">WINDSURFER_ACTIVE_EVENTS</string>
+    <string name="EXTRA_WINDSURFER_ACTIVE_TRIPS">WINDSURFER_ACTIVE_TRIPS</string>
+    <string name="EXTRA_WINDSURFER_ACTIVE_EVENTS_LIMIT">WINDSURFER_ACTIVE_EVENTS_LIMIT</string>
+    <string name="EXTRA_WINDSURFER_ACTIVE_TRIPS_LIMIT">WINDSURFER_ACTIVE_TRIPS_LIMIT</string>
+    <string name="EXTRA_WINDSURFER_PHOTO_ID">WINDSURFER_PHOTO_ID</string>
+    <string name="EXTRA_WINDSURFER_EXTRAS_ARRAY_LIST">WINDSURFER_EXTRAS_ARRAY_LIST</string>
+    <string name="EXTRA_WINDSURFER_PHOTO_LARGE_ID">WINDSURFER_PHOTO_LARGE_ID</string>
+    <string name="EXTRA_WINDSURFER_EMAIL">WINDSURFER_EMAIL</string>
+    <string name="EXTRA_TRIP_TYPE">EXTRA_TRIP_TYPE</string>
+
+    <!-- Help dialogs -->
+    <string name="dialog_ok">OK</string>
+    <string name="dialog_add">Dodaj</string>
+    <string name="dialog_cancel">Anuluj</string>
+    <string name="dialog_help_add_event_title">Dodawanie relacji ze spotu</string>
+    <string name="dialog_help_add_event_text">W tym miejscu możesz dodać informacje o aktualnej pogodzie ze spotu, na którym jesteś wraz z komentarzem. Dzięki temu inni surferzy będą wiedzieli czy warto się tam dzisiaj wybierać i jaki zabrać ze spobą sprzęt. Za dodanie prognozy dostajesz punkty, które w przyszłości będzie można wymienić na fajne nagrody.  Pola oznaczone gwiazdką są obowiązkowe.</string>
+    <string name="dialog_help_add_trip_title">Dodawanie wycieczek</string>
+    <string name="dialog_help_add_trip_text">W tym miejscu możesz dodać informacje o planowanym przez Ciebie wyjeździe surfingowym, na który szukasz współtowarzyszy. Może to być zarówno weekendowy wypad samochodem na prognozę nad Bałtyk, gdy akurat masz wolne miejsce w samochodzie lub propozycja wspólnego wylotu na Teneryfę za kilka miesięcy, aby podzielić koszty i wynając wspólnie samochód i apartament. Obozy i wycieczki zoorganizowane też mogą dodawać tu wyjazdy ze swojej oferty.</string>
+    <string name="dialog_help_event_wind_title">Siła wiatru</string>
+    <string name="dialog_help_event_wind_text">Najważniejszą informacją dla wind i kite surferów jest siła wiatru na spocie. W naszej aplikacji wymagamy, aby poddać ją w węzłach. Poniżej przedstawiamy orientacyjną tabelkę, z pomocą której będziesz mógł łatwiej stwierdzić ile węzłów wieje w danym momencie. Tabela przedstawia orientacyjne rozmiary żagli, które umożliwiają pływanie w ślizgu przy danym wietrze osobie ważącej około 80kg.</string>
+    <string name="dialog_help_event_type_title">Wybierz na czym pływasz</string>
+    <string name="dialog_help_event_type_text">Informacja o tym na czym pływasz jest dodatkowa i nieobowiązkowa. Ma ona dać informacje o tym kogo się spotka na docelowym spocie oraz może być jakąś wskazówką na temat tego jak precyzyjne są informacje które podałeś (surfer prawdopodobnie lepiej oceni fale, a wind czy kite surfer siłe wiatru). Jednak oczywiście bardziej istotne są pozostałe pola tego okna. </string>
+    <string name="dialog_help_event_direction_title">Kierunek wiatru</string>
+    <string name="dialog_help_event_direction_text">Kierunek wiatru to jedna z najwazniejszych informacji dotyczących danego spotu. Praktycznie na każdym spocie niektóre z kierunków wchodzą lepiej, a niektóre gorzej. Zwroty ONSHORE, SIDESHORE, OFFSHORE odnoszą się do warunków na spotach wavewowych. Poniżej znajduje się przypomnienie róży wiatrów:</string>
+    <string name="dialog_help_trip_type_title">Typ wyjazdu</string>
+    <string name="dialog_help_trip_type_text">Wybierz czy Twój wyjazd ma charakter prywatny (planujesz wyjazd na prognoze i masz wolne miejsce w samochodzie, albo lecisz gdzieś na surfingowe wakacje i szukasz kompanów, żeby podzielić koszty), czy zorganizowany (prowadzisz firmę oferującą wyjazdy i szkolenia).</string>
+    <string name="dialog_help_trip_cost_about_title">Informacje o koszcie</string>
+    <string name="dialog_help_trip_cost_about_text">Napisz tutaj co wchodzi w skład kosztu wyjazdu, aby ktoś zainteresowany miał świadomość za co będzie musiał zapłacić. Jeśli planujesz jechać prywatnie na prognoze i szukasz kompana może być to paliwo, nocleg. Jeśli organizujesz szkolenie to np. lot, zakwaterowanie, szkolenie i wypożyczenie sprzętu.</string>
+    <string name="dialog_help_trip_contact_title">Informacje kontaktowe</string>
+    <string name="dialog_help_trip_contact_text">Umożliwij skontaktowanie się z Tobą osobie zainteresowanej Twoim wyjazdem. Wystarczy, że podasz jedną z trzech informacji kontaktowych. W ustawieniach możesz wpisać swoje informacje kontaktowe, wtedy zawsze gdy będziesz dodawał nowy wyjazd będą się tu pojawiać.</string>
+    <string name="dialog_help_user_profil_points_title">Punkty</string>
+    <string name="dialog_help_user_profil_points_text">Punkty dostajesz tworząc relacje oraz w momencie gdy inni użytkownicy polubią jedna z Twoich relacji. Punkty można wymieniać na ikonki oraz produkty od naszych partnerów. W przyszłości planujemy poszerzyć ofertę rzeczy możliwych do zakupienia. Punkty czasami pojawiają się z opóźnieniem, jeśli stworzyłeś relacje, a nie dostałeś nowych punktów, odśwież apkę.</string>
+    <string name="dialog_help_trip_sports_title">Dostępne sporty</string>
+    <string name="dialog_help_trip_sports_text">Zaznacz dla osób uprawiających jakie sporty jest przeznaczony dany wyjazd. Jeśli jest to wyjazd zorganizowany zaznacz w jakim kursie udział będzie tam możliwy. Jeśli ejst to wyjazd prywatny, np. na weekendową prognozę możesz zaznaczyć czy masz miejsce na sprzęt dla windsurfera/kitesurfera/surfera czy nie.</string>
+    <string name="dialog_help_trip_discount_title">Kod promocyjny SurfAdvisor</string>
+    <string name="dialog_help_trip_discount_text">Nasi partnerzy oferują specjalne ceny dla użytkowników naszej aplikacji. Wystarczy, że przy rezerwacji danego wyjazdu podasz kod z naszej aplikacji, który możesz znaleźć w jej ustawieniach, a otrzymasz specjalną cene. Używając kodu pozwalasz również nam zarobić na naszej aplikacji, ponieważ od każdego wyjazdu zarezerwowanego z jego udziałem otrzymujemy małą prowizje. Dziękujemy.</string>
+    <string name="dialog_help_trip_interested_title">Lista zainteresowanych</string>
+    <string name="dialog_help_trip_interested_text">Klikając w okrągły przycisk po prawej stronie możesz dołączyć do listy zainteresowanych, na razie nie daje to żadnych korzyści oprócz wskazówki dla organizatora, że jego wyjazd cieszy się zainteresowaniem. W przyszłości planujemy dodać możliwość zapisywania wyjazdów, którymi jesteśmy zainteresowani lub ich specjalnego oznaczania na liście wycieczek.</string>
+    <string name="dialog_select_photo_title">Wybierz swoją ikonkę</string>
+    <string name="dialog_help_user_buy_icon_title">Kup ikonę</string>
+    <string name="dialog_help_user_buy_icon_text">Na razie jedyną możliwością wydania punktów w naszej aplikacji jest zakup ikon profilowych naszej produkcji. W przyszłości bedziemy starali sie poszerzyć ofertę rzeczy, na które można wydać swoje punkty.</string>
+    <string name="dialog_confirmation_user_buy_icon_text">Na pewno chcesz kupić tę ikonę?</string>
+
+    <!-- User Activity -->
+    <string name="user_activity_points">Punkty:</string>
+    <string name="user_activity_statistic_title">Twoje statystyki:</string>
+    <string name="user_activity_promotions_title">Twoje promocje:</string>
+    <string name="user_activity_promotions_surfadvisor_code">Kod promocyjny SurfAdvisor:</string>
+    <string name="user_activity_statistic_created_events">Stworzone prognozy live:</string>
+    <string name="user_activity_statistic_active_events">Aktywne prognozy live:</string>
+    <string name="user_activity_statistic_created_trips">Stworzone wycieczki:</string>
+    <string name="user_activity_statistic_active_trips">Aktywne wycieczki:</string>
+    <string name="user_activity_spend_points_title">Wydaj swoje punkty:</string>
+    <string name="user_activity_buy">KUP -</string>
+    <string name="user_activity_PKT">PKT</string>
+    <string name="user_activity_spend_points_option_icons_classic">KUP -500PKT</string>
+    <string name="user_activity_buying_error_1">Już kupiłeś tą ikonkę</string>
+    <string name="user_activity_buying_error_2">Sorry, nie masz wystarczającej ilości punktów</string>
+    <string name="user_activity_buying_error_unknown">Przepraszamy wystąpił nieznany błąd</string>
+    <string name="user_activity_icon_error">Nie odblokowałeś jeszcze tej ikony</string>
+    <string name="user_activity_increase_limit">Powiększ limit</string>
+    <string name="user_activity_increase_limit_dialog_text">Chcesz powiększyć limit o jeden za 300 punktów?</string>
+
+    <!-- User Activity icon names -->
+    <string name="icon_number_0">Shaka icon</string>
+    <string name="icon_number_1">Goya Banzai 2018</string>
+    <string name="icon_number_2">North Sails Disco 2005</string>
+    <string name="icon_number_3">North Mono 2016</string>
+    <string name="icon_number_4">North Rebel 2018</string>
+    <string name="icon_number_5">Fish Board Classic</string>
+    <string name="icon_number_6">Shortboard Red</string>
+
+    <!-- Catalog Activity Dialogs -->
+    <string name="catalog_activity_dialog_select_country_title">Wybierz kraje, które Cie interesują</string>
+    <string name="catalog_activity_dialog_select_country_subtitle_2">Więcej opcji sortowania / filtrowania znajduje się w Ustawieniach aplikacji</string>
+    <string name="catalog_activity_dialog_select_country_subtitle">Będziesz widział relacje i wycieczki tylko z/do krajów, które zaznaczyłeś.</string>
+    <string name="dialog_apply">Zatwierdź</string>
+    <string name="dialog_edit">Edytuj</string>
+    <string name="country_number_minus_2">Wybierz kraj</string>
+    <string name="catalog_activity_changes_confrimity_dialog_msg">Zaznaczyłeś, aby wyświetlać relacje i wycieczki z kilku krajów oraz "Całego świata". Oznacza to, że nadal będziemy Ci wyświetlać relacje z całego świata. Jeśli chcesz, aby były one wyświetlane tylko z niektórych krajów odznacz proszę "Cały świat".</string>
+    <string name="catalog_activity_changes_confrimity_dialog_positive_button">Odznacz "Cały świat"</string>
+    <string name="catalog_activity_changes_null_dialog_msg">Nie zaznaczyłeś żadnego kraju więc nie pojawi się żadna relacja lub oferta wyjazdu</string>
+    <string name="catalog_activity_changes_null_dialog_positive_button">Zaznacz "Cały świat"</string>
+    <!-- Countries -->
+    <string name="country_number_0">Cały świat</string>
+    <string name="country_number_1">Polska</string>
+    <string name="country_number_2">Grecja</string>
+    <string name="country_number_3">Hiszpania</string>
+    <string name="country_number_4">Chorwacja</string>
+    <string name="country_number_5">Portugalia</string>
+    <string name="country_number_6">Niemcy</string>
+    <string name="country_number_7">Francja</string>
+    <string name="country_number_8">RPA</string>
+    <string name="country_number_9">Maroko</string>
+    <string name="country_number_10">Włochy</string>
+    <string name="country_number_11">Egipt</string>
+    <string name="country_number_12">Wielka Brytania</string>
+    <string name="country_number_13">Turcja</string>
+    <string name="country_number_14">Austria</string>
+    <string name="country_number_15">Dania</string>
+    <string name="country_number_16">Brazylia</string>
+    <string name="country_number_17">USA</string>
+    <string name="country_number_18">Wietnam</string>
+    <string name="country_number_19">Malta</string>
+    <string name="country_number_20">Inne kraje</string>
+
+    <!-- About Activity -->
+    <string name="about_activity_top_text">SurfAdvisor to aplikacja stworzona przez dwie osoby, mnie zapaleńca windsurfingowego i studenta elektroniki oraz moją dziewczynę, architektkę i biegaczkę, odpowiedzialną za część graficzną aplikacji. Jest to nasza pierwsza aplikacja i bardzo Ci dziękujemy, że zdecydowałaś/eś się ją pobrać.</string>
+    <string name="about_activity_middle_text">Na stworzenie tej apki poświęciliśmy sporo czasu, dlatego będzie nam bardzo miło jeśli zdecydujesz się ją pozytywnie ocenić w sklepie Play oraz polecić swoim znajomym, którzy również są zainteresowani surfingiem. Poniżej znajduje się również opcja finansowego wsparcia nas, stworzenie aplikacji zajeło nam kilkaset godzin, a aplikacja nie powstała w celach komercyjnych. Dlatego też za wszystkie dotacje będziemy bardzo wdzięczni a pieniądze, które w ten sposób zbierzemy wydamy na rozwój tej aplikacji lub na sprzęt do windsurfingu (to chyba jest bardziej prawdopodobne :D).</string>
+    <string name="about_activity_donate">Wesprzyj nas!</string>
+    <string name="about_activity_bottom_text">Specjalne podziękowania należą się również dla:</string>
+
+    <!-- Payments -->
+    <string name="about_activity_dialog_donate_method_title">Wybierz metode dotacji</string>
+    <string name="about_activity_dialog_donate_method_subtitle">Pieniądze z PayPala trafiają w 100% do nas. Google Pay zabiera 30% prowizji.</string>
+    <string name="about_activity_dialog_donate_method_paypal">PayPal</string>
+    <string name="about_activity_dialog_donate_method_google_pay">Google Pay</string>
+
+    <!-- Shared preferences- nie trzeba tłumaczyć -->
+    <string name="user_uid_shared_preference">User_nickname_shared_preference</string>
+    <string name="user_tokenId_shared_preference">User_tokenId_shared_preference</string>
+
+    <!-- Toast messages -->
+    <string name="toast_login_in">Logowanie udane!</string>
+    <string name="toast_login_in_faild">Logowanie nieudane!</string>
+    <string name="toast_relation_created">Relacja została dodana.</string>
+    <string name="toast_trip_created">Wyjazd został dodany.</string>
+    <string name="toast_trip_deleted">Wyjazd został usunięty.</string>
+    <string name="toast_editor_delete_trip_failed">Błąd podczas usuwania wyjazdu.</string>
+    <string name="toast_editor_delete_relation_successful">Relacja została usunieta</string>
+    <string name="toast_editor_delete_relation_failed">Błąd podczas usuwania relacji.</string>
+    <string name="toast_editor_insert_event_successful">Relacja dodana</string>
+    <string name="toast_editor_insert_event_failed">Błąd przy dodawaniu relacji</string>
+    <string name="toast_editor_update_event_successful">Relacja uaktualniona</string>
+    <string name="toast_editor_update_event_failed">Błąd przy uaktualnianiu</string>
+    <string name="toast_relation_joined">Witamy na spocie :)</string>
+    <string name="toast_relation_joined_fail">Już dołączyłeś do tej relacji</string>
+    <string name="toast_relation_like">Podziękowałeś za relacje!</string>
+    <string name="toast_relation_like_fail">Już podziękowałeś za tą relacje.</string>
+    <string name="toast_trip_joined">Dodaliśmy Cie do zainteresowanych tym wyjazdem.</string>
+    <string name="toast_trip_joined_fail">Już jesteś zainteresowany tym wyjazdem.</string>
+    <string name="toast_relation_limit_reached">Osiągnąłeś limit aktywnych relacji, możesz go powiększyć w zakładce "Twój profil".</string>
+    <string name="toast_trip_limit_reached">Osiągnąłeś limit aktywnych wycieczek, możesz go powiększyć w zakładce "Twój profil".</string>
+    <string name="toast_error_increasing_limit">Problem z powiększeniem limitu. Skontaktuj się z twórcą aplikacji.</string>
+    <string name="toast_successful_increasing_limit">Limit powiększony.</string>
+    <string name="toast_no_connection">Prawdopodobnie nie masz połączenia z internetem</string>
+    <!-- Photo Toast -->
+    <string name="editor_photo_added">Zdjęcie zostało dodane</string>
+    <string name="editor_back_on_adding_photo">Zdjęcie nie zostało dodane</string>
+
+    <!-- App Rater -->
+    <string name="app_rater_rate">Oceń </string>
+    <string name="app_rater_text_1">Jeśli podoba Ci sie </string>
+    <string name="app_rater_text_2">, proszę poświęć minutę i oceń go w sklepie Play. Dzięki!</string>
+    <string name="app_rater_later">Przypomnij mi później</string>
+    <string name="app_rater_no">Nie, dzięki</string>
+
+    <!-- Notifications -->
+    <string name="notification_relation_liked_title">Ktoś polubił Twoją relacje!</string>
+    <string name="notification_relation_liked_text1">Twoja relacja z </string>
+    <string name="notification_relation_liked_text2"> została polubiona (</string>
+
+    <!-- Events Categories -->
+    <string name="category_event_relation">Relacja Live</string>
+    <string name="category_event_trip_organized">Wyjazd zorganizowany</string>
+    <string name="category_event_trip_private">Wyjazd prywatny (niezorganizowany)</string>
+    <string name="category_event_trip_camp">Szkolenie sportowe / Obóz z dojazdem we własnym zakresie</string>
+
+    <string name="user_info_for_trips_owners">Jeśli jesteś organizatorem wycieczek i chciałbyś móc je dodawać do naszej aplikacji bez limitów, skontaktuj się proszę z nami poprzez maila.</string>
+    <string name="user_info_for_trips_owners_contact">KONTAKT</string>
+    <string name="about_info_for_trips_owners">Wszystkie osoby zainteresowane współpracą z twórcami aplikacji zapraszamy do kontaktu mailowego klikając przycisk po prawej stronie.</string>
+    <string name="info_relations_warning">Bardzo prosimy o niedodawanie nieprawdziwych relacji ze spotów. Za dodawanie relacji z nieprawdziwymi warunkami Twoje konto może zostać usunięte i pozbawione punktów.</string>
+
+    <!-- FAQ -->
+    <string name="faq_activity_faq">FAQ</string>
+    <string name="faq_activity_title">Najczęściej zadawane pytania</string>
+    <string name="faq_activity_contact">Jeśli masz jakieś pytanie, na które odpowiedzi nie możesz znaleźć powyżej zadaj nam je poprzez maila lub facebooka - pisząc na nasz fanpage.</string>
+    <string name="faq_activity_facebook">Facebook</string>
+    <string name="faq_activity_email">EMAIL</string>
+
+    <string name="facebook_app_id">1022834427908448</string>
+    <!-- Contact with developer -->
+    <string name="contact_our_email">jgjozkowy@gmail.com</string>
+    <string name="toast_contact_error">Coś poszło nie tak podczas próby otwarcia Twojej aplikacji mailowej. Napisz do nas na maila: jgjozkowy@gmail.com</string>
+    <!-- Sharing -->
+    <string name="share_on_facebook">Udostępnij na Facebooku</string>
+    <string name="share_on_messenger">Udostępnij na Messengerze</string>
+    <string name="share_on_other">Udostępnij w inny sposób</string>
+    <string name="share">Udostepnij</string>
+    <string name="toast_share_other_error">Coś poszło nie tak, spróbuj ponownie później.</string>
+    <string name="toast_share_facebook_error">Coś poszło nie tak podczas udostępniania :( .</string>
+    <string name="toast_share_messenger_error">Coś poszło nie tak podczas udostępniania, na pewno masz zainstalowanego Messengera?</string>
+    <!-- Quote to share relation -->
+    <string name="share_quote_place">" Relacja z "</string>
+    <string name="share_quote_time">" Dodana: "</string>
+    <string name="share_quote_wind">" Wiatr: "</string>
+    <string name="share_quote_wave">" Fala: "</string>
+    <string name="share_quote_conditions">" Kierunek: "</string>
+    <string name="share_quote_comment">" Komentarz: "</string>
+    <string name="share_quote_photo">" Zdjęcie ze spotu: "</string>
+    <string name="share_quote_foot">" Relacja z aplikacji: http://surf-advisor.info/ "</string>
+    <!-- Quote to share trip -->
+    <string name="share_trip_quote_start_place">" Wyjazd sportowy z "</string>
+    <string name="share_trip_quote_camp_start_place">" Obóz sportowy w "</string>
+    <string name="share_trip_quote_training_start_place">" Szkolenie sportowe w: "</string>
+    <string name="share_trip_quote_to">" do "</string>
+    <string name="share_trip_quote_date">" Data: "</string>
+    <string name="share_trip_quote_cost">" Koszt z promocją SurfAdvisor: "</string>
+    <string name="share_trip_quote_sports">" Dostępne kursy: "</string>
+    <string name="share_trip_quote_windsurfing">" Windsurfingowy,"</string>
+    <string name="share_trip_quote_kitesurfing">" Kitesurfingowy,"</string>
+    <string name="share_trip_quote_surfing">" Surfingowy,"</string>
+    <string name="share_trip_quote_comment">" Opis wyjazdu: "</string>
+    <string name="share_trip_quote_contact">" Kontakt: "</string>
+    <string name="share_trip_quote_foot">" Wyjazd z aplikacji: http://surf-advisor.info/"</string>
+</resources>

@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="fill_parent">
+    <LinearLayout
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <TextView
+            android:layout_weight="7"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textStyle="italic"
+            style="@style/eventInfoCommentTextVerySmall"
+            android:lines="4"
+            android:text="@string/about_info_for_trips_owners"/>
+            <TextView
+                android:id="@+id/user_about_info_for_owners_contact_text_view"
+                style="@style/eventInfoCommentTextVerySmall"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginBottom="4dp"
+                android:background="@drawable/custom_button_small"
+                android:gravity="center"
+                android:padding="8dp"
+                android:text="@string/user_info_for_trips_owners_contact"
+                android:textAllCaps="true"
+                android:textColor="@color/dark_green"
+                android:textStyle="bold" />
+        </LinearLayout>
+        <View style="@style/Divider" />
+        <TextView
+            android:padding="6dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="24dp"
+            style="@style/eventInfoTextSmall"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/about_activity_top_text"
+            android:gravity="center"
+            android:minLines="4"
+            android:maxLines="12" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:layout_width="128dp"
+                    android:layout_height="128dp"
+                    android:gravity="center"
+                    android:src="@drawable/creator_image_jas"
+                    android:background="@drawable/custom_circle_with_frame"/>
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:layout_height="wrap_content">
+            <ImageView
+                android:layout_width="128dp"
+                android:layout_height="128dp"
+                android:gravity="center"
+                android:src="@drawable/creator_image_domi"
+                android:background="@drawable/custom_circle_with_frame"/>
+            </LinearLayout>
+        </LinearLayout>
+
+
+        <View style="@style/Divider"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp" />
+        <TextView
+            android:padding="6dp"
+            style="@style/eventInfoTextSmall"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:minLines="4"
+            android:maxLines="16"
+            android:layout_marginBottom="12dp"
+            android:text="@string/about_activity_middle_text" />
+
+        <Button
+            android:id="@+id/donate_us_about_activity_button"
+            android:layout_margin="4dp"
+            style="@style/eventInfoTextSmall"
+            android:layout_marginLeft="16dp"
+            android:layout_width="match_parent"
+            android:text="@string/about_activity_donate"
+            android:layout_height="48dp"
+            android:background="@drawable/custom_button_rate"/>
+
+        <View style="@style/Divider"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp" />
+
+        <TextView
+            android:padding="6dp"
+            style="@style/eventInfoTextSmall"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:lines="1"
+            android:text="@string/about_activity_bottom_text"
+            android:gravity="center"/>
+        <TextView
+            android:padding="6dp"
+            style="@style/eventInfoTextSmall"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:lines="1"
+            android:text="- Daniel Poznański" />
+        <TextView
+            android:padding="6dp"
+            style="@style/eventInfoTextSmall"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:lines="1"
+            android:text="- Grzegorz Kozioł" />
+        <TextView
+            android:padding="6dp"
+            style="@style/eventInfoTextSmall"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:lines="1"
+            android:text="- Maciej Kapuściński" />
+        <TextView
+            android:padding="6dp"
+            style="@style/eventInfoTextSmall"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:lines="1"
+            android:text="- Nikodem Merlak" />
+
+    </LinearLayout>
+</ScrollView>

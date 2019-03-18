@@ -1,0 +1,79 @@
+{
+  "project_info": {
+    "project_number": "586042170144",
+    "firebase_url": "https://prognowind.firebaseio.com",
+    "project_id": "prognowind",
+    "storage_bucket": "prognowind.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:586042170144:android:4bebd490abeecbf6",
+        "android_client_info": {
+          "package_name": "livewind.example.andro.liveWind"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "586042170144-890dfbno4iipp4euc07resmptahmllor.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "livewind.example.andro.liveWind",
+            "certificate_hash": "848d776e8422e7a45c7ef837024bdcfaeb4f1cb3"
+          }
+        },
+        {
+          "client_id": "586042170144-k595qbrpf9j1c654g625p2he86kq3c4s.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "livewind.example.andro.liveWind",
+            "certificate_hash": "d733867378523f44c42008b654e0683ed990db39"
+          }
+        },
+        {
+          "client_id": "586042170144-klne1f27ln2ik32c3i2qn5kq6f3if96t.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "livewind.example.andro.liveWind",
+            "certificate_hash": "160bee45935f7c53f7c455c333f670477a5a95c8"
+          }
+        },
+        {
+          "client_id": "586042170144-6un4r7d7pnakkcr4i7ds27hd4kmgd40r.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "livewind.example.andro.liveWind",
+            "certificate_hash": "c353b167e740be1a859af411a166d9d3241a27d6"
+          }
+        },
+        {
+          "client_id": "586042170144-pnq69ta8te37jekoc2feu9hdungll6rc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB2uRoXvgoLJCoW1_ykL9oje4i0EpD0-qg"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "586042170144-pnq69ta8te37jekoc2feu9hdungll6rc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

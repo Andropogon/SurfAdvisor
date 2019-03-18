@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (C) 2016 The Android Open Source Project
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+          http://www.apache.org/licenses/LICENSE-2.0
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+<resources>
+    <!-- Base application theme -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light">
+        <item name="colorPrimary">@color/app_mint</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark2</item>
+        <item name="colorAccent">#46bdbf</item>
+        <item name="android:fontFamily">@font/dosis_light</item>
+        <item name="android:windowBackground">@color/app_main_color</item>
+        <item name="android:textColorSecondary">@color/blackColor</item>
+    </style>
+
+    <style name="EventThem" parent="Theme.AppCompat.DayNight">
+        <item name="colorPrimary">@color/app_main_color</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark2</item>
+        <item name="android:fontFamily">@font/dosis_light</item>
+        <item name="colorAccent">@color/dark_green</item>
+    </style>
+
+    <style name="eventInfoCommentTextVerySmall">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:paddingLeft">4dp</item>
+        <item name="android:textColor">@color/blackColor</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:fontFamily">@font/dosis_light</item>
+    </style>
+
+    <style name="eventInfoTextSmall">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:paddingLeft">4dp</item>
+        <item name="android:textColor">@color/blackColor</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:fontFamily">@font/dosis_light</item>
+    </style>
+
+    <style name="eventInfoTextMedium">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:textColor">@color/blackColor</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:fontFamily">@font/dosis_light</item>
+    </style>
+
+    <style name="eventInfoTextLarge">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:textColor">@color/blackColor</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:fontFamily">@font/dosis_light</item>
+    </style>
+
+    <style name="eventMemberText">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:textColor">@color/memberTextColor</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:textStyle">italic</item>
+        <item name="android:paddingLeft">4dp</item>
+    </style>
+
+    <style name="editorEditText">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:textColor">@color/memberTextColor</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">italic</item>
+        <item name="android:paddingLeft">4dp</item>
+    </style>
+
+    <style name="editorLabelText">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:textColor">@color/labelTextColor</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:paddingLeft">8dp</item>
+        <item name="android:paddingTop">8dp</item>
+    </style>
+
+    <style name="loginBackgroundStyle">
+        <item name="colorPrimary">@color/colorPrimary2</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark2</item>
+        <item name="colorAccent">@color/colorSecondary2</item>
+        <item name="android:windowBackground">@color/app_main_color</item>
+    </style>
+
+    <style name="AppThemeFirebaseAuth">
+        <item name="android:actionBarStyle">@style/FirebaseAuthActionBarStyle</item>
+        <item name="android:windowActionBarOverlay">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="colorPrimary">@color/colorPrimary2</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark2</item>
+        <item name="colorAccent">@color/colorSecondary2</item>
+        <item name="android:windowBackground">@color/app_main_color</item>
+    </style>
+
+    <style name="CatalogActivityStyle" parent="Theme.AppCompat.DayNight"> <!-- This theme has black settings icons -->
+        <item name="colorPrimary">@color/app_main_color</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/blackColor</item>
+        <item name="android:windowBackground">@color/app_main_color</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="ButtonsMyStyle">
+        <item name="android:background">@drawable/auth_button_bg</item>
+        <item name="android:textColor">@color/auth_text_color</item>
+        <item name="android:fontFamily">@font/dosis_light</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="FirebaseAuthActionBarStyle" parent="Widget.AppCompat.ActionBar">
+        <item name="android:background">@color/app_main_color</item>
+    </style>
+
+    <style name="DialogeTheme" parent="Theme.AppCompat.Dialog.Alert">
+        <item name="android:background">@color/app_main_color</item>
+        <item name="colorAccent">@android:color/black</item>
+        <item name="android:fontFamily">@font/dosis_light</item>
+    </style>
+
+    <style name="SettingsActivityStyle" parent="Theme.AppCompat.DayNight"> <!-- This theme has black settings icons -->
+        <item name="colorPrimary">@color/app_mint</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/blackColor</item>
+        <item name="android:fontFamily">@font/dosis_light</item>
+        <item name="android:windowBackground">@color/whiteColor</item>
+        <!-- active thumb & track color (30% transparency) -->
+        <item name="colorControlActivated">#46bdbf</item>
+        <item name="android:titleTextStyle">@style/eventInfoTextLarge</item>
+        <item name="android:textColorSecondary">#585656</item>
+        <!-- inactive thumb color -->
+        <item name="colorSwitchThumbNormal">#f1f1f1</item>
+        <!-- inactive track color (30% transparency) -->
+        <item name="android:colorForeground">#42221f1f</item>
+        <item name="android:textColorPrimary">@color/blackColor</item>
+    </style>
+
+    <style name="AlertDialogStyle" parent="Base.Theme.AppCompat.Dialog.Alert"> <!-- This theme has black settings icons -->
+        <item name="colorPrimary">@color/app_mint</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/blackColor</item>
+        <item name="android:windowBackground">@color/whiteColor</item>
+        <item name="android:background">@color/app_main_color</item>
+        <item name="android:fontFamily">@font/dosis_light</item>
+        <!-- active thumb & track color (30% transparency) -->
+        <item name="colorControlActivated">#46bdbf</item>
+        <item name="android:titleTextStyle">@style/eventInfoTextLarge</item>
+        <!-- inactive thumb color -->
+        <item name="colorSwitchThumbNormal">#f1f1f1</item>
+        <!-- inactive track color (30% transparency) -->
+        <item name="android:colorForeground">#42221f1f</item>
+        <item name="android:textColorPrimary">@color/blackColor</item>
+    </style>
+
+    <style name="Divider">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:layout_marginRight">20dp</item>
+        <item name="android:layout_marginLeft">20dp</item>
+        <item name="android:background">?android:attr/listDivider</item>
+    </style>
+
+</resources>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:background="@drawable/bg_for_selecting_profile_icon"
+
+    >
+<ImageView
+    android:id="@+id/select_icon_image_view"
+    android:padding="12dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:src="@drawable/baseline_person_24"/>
+    <TextView
+        android:id="@+id/select_name_text_view"
+        style="@style/eventInfoTextMedium"
+        android:padding="9dp"
+        android:layout_toRightOf="@id/select_icon_image_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="North Sails Disco"/>
+    <ImageView
+        android:id="@+id/select_lock_image_view"
+        android:layout_alignParentRight="true"
+        android:paddingTop="12dp"
+        android:paddingBottom="12dp"
+        android:paddingRight="48dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_lock_outline_black_24dp"/>
+
+</RelativeLayout>

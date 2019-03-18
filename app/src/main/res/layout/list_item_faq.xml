@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    android:orientation="vertical">
+        <TextView
+            style="@style/eventInfoTextSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:paddingLeft="4dp"
+            android:lines="1"
+            tools:text="Jak można zdobyć punkty w aplikacji?"/>
+        <TextView
+            android:layout_gravity="center"
+            android:gravity="center"
+            style="@style/eventInfoCommentTextVerySmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="16dp"
+            android:lines="4"
+            tools:text="Punkty w aplikacji SurfAdvisor możesz zdobyć:
+- Dodając relacje live ze spotu dobrze opisującą aktualne warunki (50PKT)
+- Gdy Twoja relacja ze spotu zostanie przez kogoś polubiona (10PKT)
+- Gdy polubisz kogoś relacje ze spotu (1PKT)"/>
+</LinearLayout>

@@ -1,0 +1,334 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    android:id="@+id/myEditorRelationCoordinatorLayout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+<!-- Layout for the editor -->
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+>
+    <LinearLayout
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_weight="7"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingLeft="6dp"
+            android:paddingRight="6dp"
+            android:textStyle="italic"
+            style="@style/eventInfoCommentTextVerySmall"
+            android:lines="4"
+            android:text="@string/info_relations_warning"/>
+    </LinearLayout>
+    <!-- Overview category -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <!-- Label -->
+        <TextView
+            style="@style/editorLabelText"
+            android:text="@string/category_overview" />
+
+        <!-- Input fields -->
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:paddingLeft="4dp"
+            android:orientation="vertical">
+            <!-- Name field -->
+            <EditText
+                android:id="@+id/edit_event_place"
+                style="@style/editorEditText"
+                android:hint="@string/hint_event_place"
+                android:drawableLeft="@drawable/ic_location_on_white_24dp"
+                android:inputType="textCapWords"
+                android:drawablePadding="4dp"
+                android:maxLength="16"/>
+            <Spinner
+                android:id="@+id/spinner_country"
+                android:layout_height="48dp"
+                android:layout_width="wrap_content"
+                android:paddingRight="16dp"
+                android:spinnerMode="dropdown"/>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            <Spinner
+                android:id="@+id/spinner_type"
+                android:layout_height="48dp"
+                android:layout_width="wrap_content"
+                android:paddingRight="16dp"
+                android:spinnerMode="dropdown"/>
+            <ImageView
+                android:id="@+id/edit_event_type_help_ic"
+                android:padding="12dp"
+                android:gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_help_outline_black_24dp"
+                android:layout_alignParentRight="true"/>
+            </RelativeLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- Event type category -->
+    <LinearLayout
+        android:id="@+id/container_gender"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+
+            <!-- Gender drop-down spinner -->
+
+    </LinearLayout>
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <!-- Label -->
+        <TextView
+            style="@style/editorLabelText"
+            android:text="@string/category_measurement" />
+
+        <!-- Input fields -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:orientation="vertical"
+            android:paddingLeft="4dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+            <!-- Input fields -->
+            <RelativeLayout
+                android:layout_width="220dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:paddingLeft="4dp">
+
+                <!-- Wind power field -->
+                <EditText
+                    android:id="@+id/edit_event_wind_power"
+                    style="@style/editorEditText"
+                    android:hint="@string/hint_event_wind_power"
+                    android:drawableLeft="@drawable/ic_wind"
+                    android:inputType="number"
+                    android:drawablePadding="4dp"
+                    android:maxLength="3"/>
+
+                <!-- Units for weight (kg) -->
+                <TextView
+                    style="@style/editorEditText"
+                    android:layout_alignParentRight="true"
+                    android:layout_width="wrap_content"
+                    android:paddingRight="16dp"
+                    android:paddingTop="16dp"
+                    android:id="@+id/label_weight_units"
+                    android:text="@string/unit_wind_kn" />
+
+            </RelativeLayout>
+            <ImageView
+                android:id="@+id/edit_event_wind_power_help_ic"
+                android:padding="12dp"
+                android:gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_help_outline_black_24dp"
+                android:layout_alignParentRight="true"/>
+            </LinearLayout>
+            <!-- Input fields -->
+            <RelativeLayout
+                android:layout_width="220dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:paddingLeft="4dp">
+
+                <!-- Weight field -->
+                <EditText
+                    android:id="@+id/edit_event_wave_size"
+                    style="@style/editorEditText"
+                    android:hint="@string/hint_event_wave_size"
+                    android:drawableLeft="@drawable/ic_wave"
+                    android:inputType="numberDecimal"
+                    android:drawablePadding="4dp"
+                    android:maxLength="3"/>
+
+                <!-- Units for weight (kg) -->
+                <TextView
+                    android:id="@+id/label_wave_units"
+                    style="@style/editorEditText"
+                    android:layout_alignParentRight="true"
+                    android:layout_width="wrap_content"
+                    android:paddingRight="16dp"
+                    android:paddingTop="16dp"
+                    android:text="@string/unit_wave" />
+            </RelativeLayout>
+            <!-- Breed field -->
+            <!-- Gender drop-down spinner -->
+
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <!-- Label -->
+        <TextView
+            style="@style/editorLabelText"
+            android:text="@string/category_wind_direction" />
+
+        <!-- Input fields -->
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:paddingLeft="4dp"
+            android:orientation="vertical">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <Spinner
+                    android:id="@+id/spinner_conditions"
+                    android:layout_width="wrap_content"
+                    android:layout_height="48dp"
+                    android:paddingRight="16dp"
+                    android:spinnerMode="dropdown" />
+                <ImageView
+                    android:id="@+id/edit_event_conditions_help_ic"
+                    android:padding="12dp"
+                    android:gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_help_outline_black_24dp"
+                    android:layout_alignParentRight="true"/>
+            </RelativeLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <!-- Label -->
+        <TextView
+            style="@style/editorLabelText"
+            android:text="@string/category_description" />
+
+        <!-- Input fields -->
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:paddingLeft="4dp"
+            android:orientation="vertical">
+
+            <!-- Name field -->
+            <EditText
+                android:id="@+id/edit_event_comment"
+                style="@style/editorEditText"
+                android:hint="@string/hint_event_comment"
+                android:drawablePadding="4dp"
+                android:drawableLeft="@drawable/baseline_insert_comment_black_24"
+                android:inputType="textMultiLine|textCapSentences"
+                android:gravity="top|left"
+                android:lines="4"
+                android:maxLines="6"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <!-- Label -->
+        <TextView
+            style="@style/editorLabelText"
+            android:text="@string/category_photo" />
+
+        <!-- Input fields -->
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:paddingLeft="4dp"
+            android:orientation="vertical">
+            <FrameLayout
+                android:layout_gravity="center"
+                android:layout_marginTop="16dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/add_photo_image_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@drawable/baseline_add_a_photo_black_48"
+                android:padding="16dp"/>
+            <ImageView
+                android:layout_margin="8dp"
+                android:id="@+id/change_user_photo_image_view"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:textColor="@color/blackColor"
+                android:fontFamily="@font/dosis_light"
+                android:layout_gravity="bottom|right"
+                android:gravity="center"
+                android:padding="2dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_add_black_24dp"
+                android:background="@drawable/custom_circle_small_with_frame"
+                tools:text="3"/>
+            </FrameLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+
+    <ProgressBar
+        android:id="@+id/progressBar1"
+        android:padding="20dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:orientation="horizontal">
+    <TextView
+        android:id="@+id/progress_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/eventInfoTextLarge"
+        tools:text="0"/>
+        <TextView
+            android:id="@+id/progress_percentage_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/eventInfoTextLarge"
+            android:text="%"/>
+    </LinearLayout>
+</LinearLayout>
+    </ScrollView>
+</android.support.design.widget.CoordinatorLayout>

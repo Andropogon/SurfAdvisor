@@ -1,0 +1,621 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/app_primary_color"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:descendantFocusability="beforeDescendants">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/app_primary_color"
+            android:focusableInTouchMode="true"
+            android:orientation="vertical">
+            <RelativeLayout
+                android:paddingTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/trip_from_text_view"
+                    android:layout_marginLeft="12dp"
+                    style="@style/eventInfoCommentTextVerySmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="2dp"
+                    android:text="@string/event_trip_from"
+                    android:background="@color/app_primary_color"/>
+            </RelativeLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/app_primary_color"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:background="@color/app_primary_color"
+                    android:orientation="vertical"
+                    android:paddingBottom="10dp">
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="16dp">
+
+                        <ImageView
+                            android:id="@+id/event_trip_start_country_image_view"
+                            android:layout_width="48dp"
+                            android:layout_height="32dp"
+                            android:layout_centerVertical="true"
+                            android:src="@drawable/flag_pl" />
+
+                        <TextView
+                            android:id="@+id/event_trip_start_place_text_view"
+                            style="@style/eventInfoTextLarge"
+                            android:layout_height="32dp"
+                            android:layout_toRightOf="@id/event_trip_start_country_image_view"
+                            android:gravity="center_vertical"
+                            android:paddingLeft="10dp"
+                            tools:text="Jastarnia" />
+                    </RelativeLayout>
+
+                    <TextView
+                        android:id="@+id/event_trip_start_date_text_view"
+                        style="@style/eventInfoTextSmall"
+                        android:drawableLeft="@drawable/calendar_24"
+                        android:drawablePadding="4dp"
+                        android:paddingLeft="16dp"
+                        android:layout_marginTop="4dp"
+                        tools:text="26.10.2019" />
+                </LinearLayout>
+            </LinearLayout>
+<TextView
+    android:id="@+id/trip_to_text_view"
+    android:layout_marginLeft="12dp"
+    style="@style/eventInfoCommentTextVerySmall"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:paddingBottom="2dp"
+    android:text="@string/event_trip_to"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/app_primary_color"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:background="@color/app_primary_color"
+                    android:orientation="vertical">
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="16dp">
+
+                        <ImageView
+                            android:id="@+id/event_trip_country_image_view"
+                            android:layout_width="48dp"
+                            android:layout_height="32dp"
+                            android:layout_centerVertical="true"
+                            android:src="@drawable/flag_gr" />
+
+                        <TextView
+                            android:id="@+id/event_trip_place_text_view"
+                            style="@style/eventInfoTextLarge"
+                            android:layout_height="32dp"
+                            android:layout_toRightOf="@id/event_trip_country_image_view"
+                            android:gravity="center_vertical"
+                            android:paddingLeft="10dp"
+                            tools:text="Prassonisi" />
+                    </RelativeLayout>
+                    <TextView
+                        android:id="@+id/trip_camp_from_text_view"
+                        android:layout_marginLeft="12dp"
+                        style="@style/eventInfoCommentTextVerySmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="2dp"
+                        android:text="@string/event_trip_date_from"
+                        android:background="@color/app_primary_color"/>
+                    <TextView
+                        android:id="@+id/event_trip_camp_start_date_text_view"
+                        style="@style/eventInfoTextSmall"
+                        android:drawableLeft="@drawable/calendar_24"
+                        android:drawablePadding="4dp"
+                        android:paddingLeft="16dp"
+                        android:layout_marginTop="4dp"
+                        tools:text="26.10.2019" />
+                    <TextView
+                        android:id="@+id/trip_camp_to_text_view"
+                        android:layout_marginLeft="12dp"
+                        style="@style/eventInfoCommentTextVerySmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="2dp"
+                        android:text="@string/event_trip_to"
+                        android:background="@color/app_primary_color"/>
+                    <TextView
+                        android:id="@+id/event_trip_date_text_view"
+                        style="@style/eventInfoTextSmall"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:drawableLeft="@drawable/ic_home_black_24dp"
+                        android:paddingLeft="16dp"
+                        android:drawablePadding="4dp"
+                        android:layout_marginTop="4dp"
+                        tools:text="04.11.2019" />
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_marginLeft="12dp"
+                 android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <View
+                    style="@style/Divider"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@color/app_main_color" />
+                <TextView
+                    style="@style/eventInfoTextMedium"
+                    android:layout_height="wrap_content"
+                    android:background="@color/app_primary_color"
+                    android:text="@string/trip_activity_cost" />
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="3dp"
+                    android:paddingBottom="3dp">
+
+                    <ImageView
+                        android:id="@+id/event_trip_cost_image_view"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:src="@drawable/tripc_money_ic" />
+
+                    <TextView
+                        android:id="@+id/event_trip_cost_text_view"
+                        android:textStyle=""
+                        style="@style/eventInfoTextMedium"
+                        android:layout_toRightOf="@id/event_trip_cost_image_view"
+                        android:paddingLeft="4dp"
+                        tools:text="3000" />
+
+                    <TextView
+                        android:id="@+id/event_trip_currency_text_view"
+                        style="@style/eventInfoTextMedium"
+                        android:layout_toRightOf="@id/event_trip_cost_text_view"
+                        android:paddingLeft="4dp"
+                        tools:text="PLN" />
+
+                </RelativeLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:orientation="horizontal"
+                    android:layout_height="wrap_content">
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/event_trip_discount_title_text_view"
+                    style="@style/eventInfoTextSmall"
+                    android:layout_height="wrap_content"
+                    android:background="@color/app_primary_color"
+                    android:text="@string/trip_activity_discount" />
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="3dp"
+                    android:paddingBottom="3dp">
+
+                    <ImageView
+                        android:id="@+id/event_trip_discount_image_view"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:src="@drawable/tripc_money_ic" />
+
+                    <TextView
+                        android:id="@+id/event_trip_discount_text_view"
+                        android:textStyle=""
+                        style="@style/eventInfoTextMedium"
+                        android:layout_toRightOf="@id/event_trip_discount_image_view"
+                        android:paddingLeft="4dp"
+                        tools:text="3000" />
+
+                    <TextView
+                        android:id="@+id/event_trip_discount_currency_text_view"
+                        style="@style/eventInfoTextMedium"
+                        android:layout_toRightOf="@id/event_trip_discount_text_view"
+                        android:paddingLeft="4dp"
+                        tools:text="PLN" />
+                </RelativeLayout>
+                </LinearLayout>
+                    <ImageView
+                        android:id="@+id/event_trip_discount_help_image_view"
+                        android:padding="12dp"
+                        android:gravity="center"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/ic_help_outline_black_24dp" />
+                </LinearLayout>
+                <TextView
+                    style="@style/eventInfoTextMedium"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/app_primary_color"
+                    android:text="@string/trip_activity_cost_include" />
+                <TextView
+                    android:id="@+id/event_trip_about_cost_text_view"
+                    style="@style/eventInfoTextSmall"
+                    android:layout_height="wrap_content"
+                    android:background="@color/app_primary_color"
+                    android:layout_width="match_parent"
+                    android:minLines="1"
+                    android:maxLines="6"
+                    tools:text="Accommodation, transport (by plane) and 10h windsurfing course." />
+            </LinearLayout>
+            <View
+                style="@style/Divider"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="@color/app_main_color" />
+            <TextView
+                style="@style/eventInfoTextMedium"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="12dp"
+                android:background="@color/app_primary_color"
+                android:text="@string/trip_activity_details" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/app_primary_color"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:id="@+id/event_available_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="bottom"
+                    android:orientation="horizontal"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp">
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingTop="3dp"
+                        android:paddingBottom="3dp">
+                        <ImageView
+                            android:id="@+id/event_trip_icon_windsurfing_available_image_view"
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:padding="2dp"
+                            android:background="@drawable/custom_circle_32dp"
+                            android:backgroundTint="@color/sport_available_yes"
+                            android:src="@drawable/windsurfing_icon_without_circle" />
+
+                        <TextView
+                            android:id="@+id/event_trip_icon_windsurfing_available_text_view"
+                            style="@style/eventInfoTextSmall"
+                            android:textAllCaps="true"
+                            android:layout_centerVertical="true"
+                            android:layout_toRightOf="@id/event_trip_icon_windsurfing_available_image_view"
+                            android:paddingLeft="4dp"
+                            tools:text="COURSE" />
+                    </RelativeLayout>
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingTop="3dp"
+                        android:paddingBottom="3dp">
+
+                        <ImageView
+                            android:id="@+id/event_trip_icon_kitesurfing_available_image_view"
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:padding="2dp"
+                            android:background="@drawable/custom_circle_32dp"
+                            android:backgroundTint="@color/sport_available_no_info"
+                            android:src="@drawable/kitesurfing_icon_without_circle" />
+
+                        <TextView
+                            android:id="@+id/event_trip_icon_kitesurfing_available_text_view"
+                            style="@style/eventInfoTextSmall"
+                            android:textAllCaps="true"
+                            android:layout_centerVertical="true"
+                            android:layout_toRightOf="@id/event_trip_icon_kitesurfing_available_image_view"
+                            android:paddingLeft="4dp"
+                            tools:text="ALLOWED" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingTop="3dp"
+                        android:paddingBottom="3dp">
+
+                        <ImageView
+                            android:id="@+id/event_trip_icon_surfing_available_image_view"
+                            android:layout_width="28dp"
+                            android:layout_height="31dp"
+                            android:padding="2dp"
+                            android:background="@drawable/custom_circle_32dp"
+                            android:backgroundTint="@color/sport_available_no"
+                            android:src="@drawable/surfing_icon_without_circle" />
+
+                        <TextView
+                            android:id="@+id/event_trip_icon_surfing_available_text_view"
+                            style="@style/eventInfoTextSmall"
+                            android:textAllCaps="true"
+                            android:layout_centerVertical="true"
+                            android:layout_toRightOf="@id/event_trip_icon_surfing_available_image_view"
+                            android:paddingLeft="4dp"
+                            tools:text="NO ALLOWED" />
+                    </RelativeLayout>
+
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/event_information_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="bottom"
+                    android:orientation="horizontal"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp">
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingTop="3dp"
+                        android:paddingBottom="3dp">
+
+                        <ImageView
+                            android:id="@+id/event_trip_transport_image_view"
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            tools:src="@drawable/trip_plane_ic" />
+
+                        <TextView
+                            android:id="@+id/event_trip_transport_text_view"
+                            style="@style/eventInfoTextMedium"
+                            android:layout_toRightOf="@id/event_trip_transport_image_view"
+                            android:paddingLeft="4dp"
+                            tools:text="PLANE" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingTop="3dp"
+                        android:paddingBottom="3dp">
+
+                        <ImageView
+                            android:id="@+id/event_trip_character_image_view"
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            tools:src="@drawable/trip_organised_ic" />
+
+                        <TextView
+                            android:id="@+id/event_trip_character_text_view"
+                            style="@style/eventInfoTextMedium"
+                            android:layout_toRightOf="@id/event_trip_character_image_view"
+                            android:paddingLeft="4dp"
+                            tools:text="ORGANISED" />
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+            <View
+                style="@style/Divider"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="@color/app_main_color" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="4dp"
+                android:background="@color/app_primary_color"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/eventInfoTextMedium"
+                    android:text="@string/trip_activity_description" />
+
+                <TextView
+                    android:id="@+id/event_trip_comment_text_view"
+                    style="@style/eventInfoTextSmall"
+                    android:ellipsize="end"
+                    android:maxLines="14"
+                    android:paddingRight="8dp"
+                    android:paddingLeft="8dp"
+                    android:textColor="@color/enterTextColor"
+                    tools:text="Spoko warun, dobra fala, długi okres, wiatr trochę szkwali, ale generalnie jest bardzo spoko." />
+            </LinearLayout>
+
+            <View
+                style="@style/Divider"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="@color/app_main_color" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="8dp"
+            android:background="@color/app_primary_color"
+            android:orientation="vertical">
+            <TextView
+                style="@style/eventInfoTextMedium"
+                android:layout_height="wrap_content"
+                android:background="@color/app_primary_color"
+                android:text="@string/trip_activity_contact" />
+            <LinearLayout
+                android:id="@+id/event_contact_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="bottom"
+                android:orientation="vertical"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp">
+
+                    <ImageView
+                        android:id="@+id/event_trip_contact_phone_image_view"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/ic_phone_black_24dp_2" />
+
+                    <TextView
+                        android:id="@+id/event_trip_contact_phone_text_view"
+                        style="@style/eventInfoTextMedium"
+                        android:layout_centerVertical="true"
+                        android:autoLink="phone"
+                        android:linksClickable="true"
+                        android:layout_toRightOf="@id/event_trip_contact_phone_image_view"
+                        android:paddingLeft="4dp"
+                        tools:text="608890659" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp">
+
+                    <ImageView
+                        android:id="@+id/event_trip_contact_email_image_view"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/ic_email_black_24dp" />
+
+                    <TextView
+                        android:id="@+id/event_trip_contact_email_text_view"
+                        style="@style/eventInfoTextMedium"
+                        android:layout_centerVertical="true"
+                        android:linksClickable="true"
+                        android:autoLink="email"
+                        android:layout_toRightOf="@id/event_trip_contact_email_image_view"
+                        android:paddingLeft="4dp"
+                        tools:text="jgjozkowy@gmail.com" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp">
+
+                    <ImageView
+                        android:id="@+id/event_trip_contact_web_image_view"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/ic_web_black_24dp_2" />
+
+                    <TextView
+                        android:id="@+id/event_trip_contact_web_text_view"
+                        style="@style/eventInfoTextSmall"
+                        android:layout_centerVertical="true"
+                        android:layout_toRightOf="@id/event_trip_contact_web_image_view"
+                        android:paddingLeft="4dp"
+                        android:textAllCaps="true"
+                        android:autoLink="web"
+                        android:ellipsize="end"
+                        android:textColor="@color/dark_green"
+                        android:linksClickable="true"
+                        tools:text="www.kuznica-hel.pl" />
+                </RelativeLayout>
+            </LinearLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_marginTop="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/app_primary_color"
+                android:gravity="bottom"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/eventInfoTextMedium"
+                    android:layout_width="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:paddingLeft="8dp"
+                    android:text="@string/trip_activity_interested" />
+                <ImageView
+                    android:layout_marginLeft="16dp"
+                    android:id="@+id/event_trip_interested_help_image_view"
+
+                    android:gravity="center"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_help_outline_black_24dp" />
+            </LinearLayout>
+            <ListView
+                android:id="@+id/members_list_view"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_gravity="bottom"
+                android:divider="@drawable/custom_divider"
+                android:dividerHeight="1dp"
+                android:focusable="false"></ListView>
+
+        </LinearLayout>
+    </ScrollView>
+
+
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/join_event_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/fab"
+        android:layout_gravity="end|bottom"
+        android:layout_marginRight="24dp"
+        android:layout_marginBottom="24dp"
+        android:scaleType="center"
+        android:src="@drawable/user_icon_shaka_24"
+        app:backgroundTint="@color/floating_buttons_my"
+        app:fabSize="normal" />
+
+</android.support.design.widget.CoordinatorLayout>

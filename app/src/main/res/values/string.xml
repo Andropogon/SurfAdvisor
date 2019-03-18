@@ -1,0 +1,547 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Name for the application [CHAR LIMIT=12] -->
+    <string name="app_name">SurfAdvisor</string>
+
+    <!-- Catalog activity headers -->
+    <string name="catalog_header_trips">Trips</string> <!-- Takie sportowe, obozy i wyjazdy zagraniczne -->
+    <string name="catalog_header_forecast">Live coverage</string> <!-- Myślałem że "Relations" ale chyba to słowo nie działa w tym kontekście xD -->
+
+    <!-- Editor activity headers -->
+    <string name="editor_activity_title_new_event">Add new coverage from the spot</string> <!-- Mowa o tych relacjach live -->
+    <string name="editor_activity_title_edit_event">Edit coverage from the spot</string>
+    <string name="editor_activity_title_new_trip_organized">Add new trip</string>
+    <string name="editor_activity_title_edit_trip">Edit trip</string>
+    <string name="editor_activity_title_new_trip_private">Add private trip</string>
+    <string name="editor_activity_title_new_trip_camp">Add camp</string>
+
+
+    <!-- Editor dialog msg -->
+    <string name="unsaved_changes_dialog_msg">Do you want to stop editting without saving?</string>
+    <string name="delete_dialog_msg">Do you want to delete this event?</string>
+
+    <!-- Menu editor options -->
+    <string name="action_save">Save</string>
+    <string name="action_delete">Delete</string>
+    <string name="action_edit">Edit</string>
+    <string name="action_help">Help</string>
+
+    <!-- Main menu options -->
+    <string name="activity_user">Your profile</string>
+    <string name="activity_about">About us</string>
+    <string name="activity_settings">Settings</string>
+    <string name="activity_log_out">Log out</string>
+
+    <!-- Choose activity header -->
+    <string name="activity_choose">What do you want to add?</string> <!-- Jaki typ wyjazdu -->
+
+    <!-- Choose activity options -->
+    <string name="event_trip_activity_title">Trip</string>
+    <string name="event_trip_activity_title_organized">Sports camp</string>
+    <string name="event_trip_activity_title_private">Private trip, not company-organised</string>
+    <string name="event_trip_activity_title_camp">Sports camp with own transport</string>
+    <string name="event_trip_activity_title_training">Sports training with own transport</string>
+    <string name="event_display_as_select">Select type</string>
+
+    <!-- Catalog Activity Empty Views -->
+    <string name="empty_view_no_connection_title_text">You probably lost internet connection.</string>
+    <string name="empty_view_no_records_title_text_relations">Unfortunately, there are no relations that match your search.</string> <!-- Wyświetla się jak ktoś ustawi sobie jakieś filtry wyszukiwania i nic w nich nie wyskoczy -->
+    <string name="empty_view_no_records_title_text_trips">Unfortunately, there are no trips that match your search.</string> <!-- Wyświetla się jak ktoś ustawi sobie jakieś filtry wyszukiwania i nic w nich nie wyskoczy -->
+    <string name="empty_view_no_connection_subtitle_text">Check your data transfer and internet settings.</string>
+    <string name="empty_view_no_records_subtitle_text_relations">Live coverage is added by users on windy days, to help others choose the best spot. Each live coverage is active only 8 hours.</string>
+    <string name="empty_view_no_records_subtitle_text_trips">You can change your search filters and countries you\'re interested in and try again.</string>
+    <string name="empty_view_no_connection_button_text">Try again</string>
+
+
+    <!-- Dialog buttons -->
+    <string name="discard">Discard</string>
+    <string name="keep_editing">Resume</string>
+    <string name="delete">Delete</string>
+    <string name="cancel">Cancel</string>
+    <string name="dialog_yes">Yes</string>
+
+    <!-- Editor Relation categories -->
+    <string name="category_overview">General informations:</string>
+    <string name="category_description_trip">Trip description:</string>
+    <string name="category_description">Comment:</string>
+    <string name="category_photo">Add photo:</string>
+    <string name="category_wind_direction">Wind direction:</string>
+    <string name="category_measurement">Measures:</string>
+
+    <!-- Editor Trip categories -->
+    <string name="category_display_as">Secondary type:</string>
+    <string name="category_from">From:</string>
+    <string name="category_to">To:</string>
+    <string name="category_transport">Transport:</string>
+    <string name="category_sports">Available sports:</string>
+    <string name="category_type">Type:</string>
+    <string name="category_cost_info">Cost related info:</string>
+    <string name="category_contact">Contact:</string>
+
+    <!-- Trip activity subtitles -->
+    <string name="trip_activity_contact">Contact:</string>
+    <string name="trip_activity_cost">Cost:</string>
+    <string name="trip_activity_cost_include">Price includes:</string>
+    <string name="trip_activity_discount">Price with SurfAdvisor discount code:</string>
+    <string name="trip_activity_details">Details:</string>
+    <string name="trip_activity_description">Description:</string>
+    <string name="trip_activity_interested">Interested:</string>
+    <string name="event_trip_from">From:</string>
+    <string name="event_trip_date_from">From:</string>
+    <string name="event_trip_camp_from">Sports camp with own transport:</string>
+    <string name="event_trip_training_from">Sports training with own transport:</string>
+    <string name="event_trip_to">To:</string>
+    <string name="event_trip_camp_to">In:</string>
+    <string name="event_trip_details">Details:</string>
+    <string name="event_trip_days">days</string>
+
+
+    <!-- Relations hints -->
+    <string name="hint_event_place">*Coverage location</string>
+    <string name="hint_event_start_place">*Place of departure</string>
+    <string name="hint_event_trip_camp_destination_place">*Place</string>
+    <string name="hint_event_return_date">*Return date</string>
+    <string name="hint_event_destination_place">*Target location</string>
+    <string name="hint_event_start_date">*Departure time and date</string>
+    <string name="hint_event_trip_camp_start_date">*Start date</string>
+    <string name="hint_event_wind_power">*Wind power</string>
+    <string name="hint_event_wave_size">*Wave height</string>
+    <string name="hint_event_comment">We advise you to add a short description of current conditions (e.g.: wind gusts, water temprature)</string>
+    <string name="hint_event_trip_cost">Cost</string>
+    <string name="hint_event_trip_cost_about">Cost includes</string>
+    <string name="hint_event_trip_discount">The amount of the discount with SurfAdvisor code</string>
+    <string name="hint_event_trip_phone">Phone number</string>
+    <string name="hint_event_trip_email">Email</string>
+    <string name="hint_event_trip_web">Website</string>
+    <string name="hint_event_trip_comment">We advise adding a short description of the plan of the event and other concernig details.</string>
+
+    <!-- Units -->
+    <string name="unit_wind_kn">kn</string>
+    <string name="unit_wind_bft">Bft</string>
+    <string name="unit_wind_sail_size">m^2</string>
+    <string name="unit_wave">m</string>
+
+    <!-- Relation type options -->
+    <string name="type_unknown">Unknown</string>
+    <string name="type_choose">Choose your sport</string>
+    <string name="type_windsurfing">Windsurfing</string>
+    <string name="type_kitesurfing">Kitesurfing</string>
+    <string name="type_surfing">Surfing</string>
+    <string name="unknown_type">Unknown</string>
+
+    <!-- Relation activity subtitles -->
+    <string name="event_activity_title">Live coverage</string>
+    <string name="event_activity_members">Members on spot:</string>
+    <string name="event_activity_spot_conditions">Current conditions:</string>
+    <string name="event_activity_comment">Comments:</string>
+    <string name="event_activity_comment_added">Added comment</string>
+    <string name="event_activity_comment_empty">You can\'t add an empty comment</string>
+    <string name="event_activity_show_all_comments">Show all comments</string>
+    <string name="event_activity_hide_all_comments">Hide comments</string>
+    <string name="event_activity_dialog_add_comment">Add comment</string>
+    <string name="event_activity_dialog_add_comment_max">Max 160 characters</string>
+    <string name="event_activity_dialog_write_comment">Write your comment here</string>
+    <string name="event_activity_comment_creator">Creator comment</string>
+
+    <string name="extra_place">EXTRA_PLACE</string>
+    <string name="extra_date">EXTRA_DATE</string>
+    <string name="extra_type">EXTRA_TYPE</string>
+    <string name="extra_wind_power">EXTRA_WIND_POWER</string>
+    <string name="extra_wave_size">EXTRA_SIZE</string>
+    <string name="extra_conditions">EXTRA_CONDITIONS</string>
+    <string name="extra_comment">EXTRA_COMMENT</string>
+
+    <!-- Time displaying texts -->
+    <string name="event_activity_time_now">Now</string>
+    <string name="event_activity_time_added">"Added "</string>
+    <string name="event_activity_time_min_ago">" min ago"</string>
+    <string name="event_activity_time_h_and">"hours and "</string>
+    <string name="event_activity_time_unknown">Error - unknown time</string>
+
+    <string name="conditions_onshore">ONSHORE</string>
+    <string name="conditions_sideshore">SIDESHORE</string>
+    <string name="conditions_offshore">OFFSHORE</string>
+    <string name="conditions_N">N</string>
+    <string name="conditions_north">NORTH</string>
+    <string name="conditions_NE">NE</string>
+    <string name="conditions_north_east">NORTH-EAST</string>
+    <string name="conditions_E">E</string>
+    <string name="conditions_east">EAST</string>
+    <string name="conditions_SE">SE</string>
+    <string name="conditions_south_east">SOUTH-EAST</string>
+    <string name="conditions_S">S</string>
+    <string name="conditions_south">SOUTH</string>
+    <string name="conditions_SW">SW</string>
+    <string name="conditions_south_west">SOUTH-WEST</string>
+    <string name="conditions_W">W</string>
+    <string name="conditions_west">WEST</string>
+    <string name="conditions_NW">NW</string>
+    <string name="conditions_north_west">NORTH-WEST</string>
+    <string name="conditions_NNE">NNE</string>
+    <string name="conditions_ENE">ENE</string>
+    <string name="conditions_ESE">ESE</string>
+    <string name="conditions_SSE">SSE</string>
+    <string name="conditions_SSW">SSW</string>
+    <string name="conditions_WSW">WSW</string>
+    <string name="conditions_WNW">WNW</string>
+    <string name="conditions_NNW">NNW</string>
+
+    <string name="transport_car">Car</string>
+    <string name="transport_plane">Plane</string>
+
+    <string name="character_unknown">Unknown</string>
+    <string name="character_private">Private</string>
+    <string name="character_organized">Organized</string>
+
+    <!-- Possible currencies !-->
+    <string name="currency_zl">PLN</string>
+    <string name="currency_euro">EUR</string>
+    <string name="currency_usd">USD</string>
+
+    <!-- Trip available !-->
+    <string name="available_trip_private">For who is this trip:</string>
+    <string name="available_trip_private_with_equipment">Available</string>
+    <string name="available_trip_private_without_equipment">Without equipment</string>
+    <string name="available_trip_private_no">No available</string>
+    <string name="available_windsurfer">Windsurfer</string>
+    <string name="available_kitesurfer">Kitesurfer</string>
+    <string name="available_surfer">Surfer</string>
+    <string name="available_windsurfing">Windsurfing</string>
+    <string name="available_kitesurfing">Kitesurfing</string>
+    <string name="available_surfing">Surfing</string>
+    <string name="avaiable_course">Course</string>
+    <string name="avaiable_yes">Without course</string>
+    <string name="avaiable_no">No available</string>
+    <string name="avaiable_no_conditions">No conditions</string>
+    <string name="avaiable_no_info">No info.</string>
+    <string name="avaiable_course_instructor">Instr. course</string>
+
+
+    <!-- BAD RELATION TOAST!-->
+    <string name="event_more_info_required_toast_message">You didn\'t add one of the required items (place, wind spees, wind direction, wave height)</string>
+    <string name="event_place_required_tm">You didn\'t add coverage location</string>
+    <string name="event_place_3letters_tm">Coverage location must consists of at least 2 characters</string>
+    <string name="event_destination_place_required_tm">You didn\'t add a destination place</string>
+    <string name="event_destination_place_3letters_tm">Destination place must consists of at least 2 characters</string>
+    <string name="event_date_required_tm">You didn\'t add the return date</string>
+    <string name="event_start_place_required_tm">You didn\'t add the place of departure</string>
+    <string name="event_start_place_3letters_tm">Place of departure must consists of at least 2 characters</string>
+    <string name="event_start_date_required_tm">You didn\'t add the departure date</string>
+    <string name="event_start_date_bad_format_tm">Date of departure must consits of date and time</string>
+    <string name="event_return_date_required_tm">You didn\'t add return date</string>
+    <string name="event_wind_power_required_tm">You didn\'t add the wind speed</string>
+    <string name="event_wind_power_max_tm">Wow, that\'s a really strong wind! A bit too strong for us :D</string> <!-- To się wyświetla jak ktoś wpisze jakiś nierealny wiatr np. 1000km/h - czyli to żarcik kosmonaucik -->
+    <string name="event_wave_size_required_tm">You didn\'t add the wave height</string>
+    <string name="event_wave_size_max_tm">Tsunami!? You better not go surfing, unless you are Jason Polakow.</string> <!-- Jak ktoś wpisze, że fala ma np. 100metrów - żarcik jak wyżej -->
+    <string name="event_bad_date_tm">Departure date must be before the return date... It\'s only logical.</string>
+    <string name="trip_limit_reached">Sorry, you reached the trip limit. You can add another trip, when you delete an active one, or one of them becomes outdated and deletes itself.</string>
+    <string name="event_trip_one_contact_info_required_tm">At least one of the contact informations is required ( phone number/ email/ website)</string>
+    <string name="event_trip_start_country_info_required_tm">You must add the country you\'ll be departing from.</string>
+    <string name="event_country_info_required_tm">Country must be chosen!</string>
+    <string name="event_trip_cost_discount_tm">Surf Advisor discount must be smaller than cost of trip</string>
+    <string name="event_trip_display_as_tm">You have to select secondary type of event</string>
+
+    <!-- SETTINGS KEYS !-->
+    <string name="settings_discount_code_key">Surfadvisor_code_key</string>
+    <string name="settings_user_phone_key">Phone_number_key</string>
+    <string name="settings_user_email_key">Email_key</string>
+    <string name="settings_user_web_key">Website_key</string>
+    <string name="settings_display_boolean_key">"Display_trips_or_coverages_key"</string>
+    <string name="settings_display_sorting_events_by_key">sort_events_key</string>
+    <string name="settings_display_trips_key">Display_trips_key</string>
+    <string name="settings_display_wind_power_key">Choose_wind_unit_key</string>
+    <string name="settings_display_sorting_trips_by_key">sort_trips_key</string>
+    <string name="settings_notifications_allow_key">notifications_key</string>
+    <string name="settings_feedback_send_key">feedback_key</string>
+    <string name="settings_display_countries_key">interested_countries_key</string>
+
+    <!-- SETTINGS STRINGS !-->
+    <string name="settings_title_discount">SurfAdvisor code for special discounts with our partners</string>
+    <string name="settings_discount_code_title">Click to copy the code</string>
+    <string name="settings_discount_code">Example</string> <!-- Tego nie tłumacz -->
+    <string name="settings_title_user_contact">Contact info (for creating trips)</string>
+    <string name="settings_user_phone">Phone number</string>
+    <string name="settings_user_email">Email</string>
+    <string name="settings_user_web">Website</string>
+    <string name="settings_title_display">Coverage and trips sorting options</string>
+    <string name="settings_display_boolean">"Display trips (OFF) or coverage (ON)"</string>
+    <string name="settings_display_sorting_events_by">Sort spot coverage by:</string>
+    <string name="settings_display_trips_title">Choose camps displaying settings</string>
+    <string name="display_trips_from_and_to">Display camps from and to countries you\'re interested in</string>
+    <string name="display_trips_from">Dispaly countries only from countries you\'re interested in</string>
+    <string name="display_trips_to">Dispaly countries only to countries you\'re interested in</string>
+    <string name="sorting_event_by_date">Date</string>
+    <string name="sorting_event_by_members">Number of participants</string>
+    <string name="sorting_event_by_wind_power">Wind speed</string>
+    <string name="settings_display_wind_power_title">Choose wind speed unit:</string>
+    <string name="dispaly_wind_power_knots">Knots</string>
+    <string name="dispaly_wind_power_beaufort">Beaufort scale</string>
+    <string name="dispaly_wind_power_sail_size">Sail size (m^2)</string>
+    <string name="sorting_event_by_thanks_size">Number of likes</string>
+    <string name="settings_display_sorting_trips_by">Sort trips by:</string>
+    <string name="sorting_trips_by_date">Date</string>
+    <string name="sorting_trips_by_cost">Price</string>
+    <string name="sorting_trips_by_type">Type (private or company-organised)</string>
+    <string name="settings_title_notifications">Notifications settings</string>
+    <string name="settings_notifications_allow">Allow notifications</string>
+    <string name="empty">Empty</string>
+    <string name="settings_title_feedback">Feedback settings</string>
+    <string name="settings_feedback_send">Send feedback</string>
+    <string name="settings_feedback_send_summary">Send feedback to developer</string>
+    <string name="choose_email_client">Choose email client</string>
+    <string name="settings_display_countries_title">Choose countries you\'re interested in</string>
+    <!-- ERROR STRINGS !-->
+    <string name="error_TAG">ERROR</string>
+
+    <!-- STRINGS FOR ExtraInfoHelp.class - nic tu nie zmieniaj-->
+    <string name="EXTRA_EVENT_ID">EVENT_ID</string>
+    <string name="EXTRA_EVENT_USERNAME">EVENT_USERNAME</string>
+    <string name="EXTRA_EVENT_PLACE">EVENT_PLACE</string>
+    <string name="EXTRA_EVENT_DATE">EVENT_DATE</string>
+    <string name="EXTRA_EVENT_TYPE">EVENT_TYPE</string>
+    <string name="EXTRA_EVENT_WIND_POWER">EVENT_WIND_POWER</string>
+    <string name="EXTRA_EVENT_WAVE_SIZE">EVENT_WAVE_SIZE</string>
+    <string name="EXTRA_EVENT_CONDITIONS">EVENT_CONDITIONS</string>
+    <string name="EXTRA_EVENT_COMMENT">EVENT_COMMENT</string>
+    <string name="EXTRA_EVENT_CREATION_TIMESTAMP">EVENT_CREATION_TIMESTAMP</string>
+    <string name="EXTRA_EVENT_PHOTO_URL">EVENT_PHOTO_URL</string>
+    <string name="EXTRA_EVENT_CONTACT_PHONE">EVENT_CONTACT_PHONE</string>
+    <string name="EXTRA_EVENT_CONTACT_EMAIL">EVENT_CONTACT_EMAIL</string>
+    <string name="EXTRA_EVENT_CONTACT_WEB">EVENT_CONTACT_WEB</string>
+    <string name="EXTRA_EVENT_TRIP_START_COUNTRY">EVENT_START_COUNTRY</string>
+    <string name="EXTRA_EVENT_TRIP_START_PLACE">EVENT_START_PLACE</string>
+    <string name="EXTRA_EVENT_TRIP_START_DATE">EVENT_START_DATE</string>
+    <string name="EXTRA_EVENT_TRIP_CHARACTER">EVENT_CHARACTER</string>
+    <string name="EXTRA_EVENT_TRIP_TRANSPORT">EVENT_TRANSPORT</string>
+    <string name="EXTRA_EVENT_TRIP_COST">EVENT_COST</string>
+    <string name="EXTRA_EVENT_TRIP_DISCOUNT">EVENT_DISCOUNT</string>
+    <string name="EXTRA_EVENT_TRIP_CURRENCY">EVENT_CURRENCY</string>
+    <string name="EXTRA_EVENT_COUNTRY">EVENT_COUNTRY</string>
+    <string name="EXTRA_EVENT_SHARES_COUNTER">EVENT_SHARES_COUNTER</string>
+    <string name="EXTRA_EVENT_TRIP_COST_ABOUT">EVENT_COST_ABOUT</string>
+    <string name="EXTRA_EVENT_TRIP_AVAILABLE_WINDSURFING">EVENT_TRIP_AVAILABLE_WINDSURFING</string>
+    <string name="EXTRA_EVENT_TRIP_AVAILABLE_KITESURFING">EVENT_TRIP_AVAILABLE_KITESURFING</string>
+    <string name="EXTRA_EVENT_TRIP_AVAILABLE_SURFING">EVENT_TRIP_AVAILABLE_SURFING</string>
+    <string name="EXTRA_EVENT_TRIP_DISPLAY_AS">EVENT_TRIP_DISPLAY_AS</string>
+    <string name="EXTRA_WINDSURFER_NICKNAME">WINDSURFER_NICKNAME</string>
+    <string name="EXTRA_WINDSURFER_UID">WINDSURFER_UID</string>
+    <string name="EXTRA_WINDSURFER_TOKEN">WINDSURFER_TOKEN</string>
+    <string name="EXTRA_WINDSURFER_POINTS">WINDSURFER_POINTS</string>
+    <string name="EXTRA_WINDSURFER_CREATED_EVENTS">WINDSURFER_CREATED_EVENTS</string>
+    <string name="EXTRA_WINDSURFER_CREATED_TRIPS">WINDSURFER_CREATED_TRIPS</string>
+    <string name="EXTRA_WINDSURFER_ACTIVE_EVENTS">WINDSURFER_ACTIVE_EVENTS</string>
+    <string name="EXTRA_WINDSURFER_ACTIVE_TRIPS">WINDSURFER_ACTIVE_TRIPS</string>
+    <string name="EXTRA_WINDSURFER_ACTIVE_EVENTS_LIMIT">WINDSURFER_ACTIVE_EVENTS_LIMIT</string>
+    <string name="EXTRA_WINDSURFER_ACTIVE_TRIPS_LIMIT">WINDSURFER_ACTIVE_TRIPS_LIMIT</string>
+    <string name="EXTRA_WINDSURFER_PHOTO_ID">WINDSURFER_PHOTO_ID</string>
+    <string name="EXTRA_WINDSURFER_PHOTO_LARGE_ID">WINDSURFER_PHOTO_LARGE_ID</string>
+    <string name="EXTRA_WINDSURFER_EXTRAS_ARRAY_LIST">WINDSURFER_EXTRAS_ARRAY_LIST</string>
+    <string name="EXTRA_WINDSURFER_EMAIL">WINDSURFER_EMAIL</string>
+    <string name="EXTRA_TRIP_TYPE">EXTRA_TRIP_TYPE</string>
+
+    <!-- Help dialogs -->
+    <string name="dialog_ok">OK</string>
+    <string name="dialog_add">Add</string>
+    <string name="dialog_cancel">Cancel</string>
+    <string name="dialog_help_add_event_title">Adding coverage</string>
+    <string name="dialog_help_add_event_text">Here you can add info about current conditions from the spot you\'re at with additional commentary. This way you let other surfers know if they want to join you and what gear to take. For every report you make, you get points which can later be exchanged for cool rewards. Marked boxes must be filled.</string>
+    <string name="dialog_help_add_trip_title">Adding trips</string>
+    <string name="dialog_help_add_trip_text">Here you can announce that you\'re looking for company to go on a surfing trip you\'re planning. It can be a weekend trip to a small town by the Baltic sea, because you have a spare space in the car, as well as an offer to fly to Tenerife a few months from now, split the travel costs, accommodation etc. Firms which organize surfing camps and trips may also add their offers here.</string>
+    <string name="dialog_help_event_wind_title">Wind speed</string>
+    <string name="dialog_help_event_wind_text">Wind speed is the most important pieces of information for wind- and kitesurfers. Our app requires to give that measure in knots. Table below will let you determine the wind speed in knots more easily. The chart also shows the approximate sail size needed for planing with a particular wind speed for a person weighing around 80kg.</string>
+    <string name="dialog_help_event_type_title">Choose your sport</string>
+    <string name="dialog_help_event_type_text">Information about your surfing preferences is additional and volountary. It is suppoused to give other users clues to who can they meet at the spot and the precision of given information (surfer is probably a better judge of wave size and kite- or windsurfer is probably more precise about wind speed). Obviously, other data shown here is more relevant.</string>
+    <string name="dialog_help_event_direction_title">Wind direction</string>
+    <string name="dialog_help_event_direction_text">Wind direction is one of the crucial pieces of information about any spot. Practically at each place some winds correspond/fit better than the others. You can find a chart for various winds below (Compass rose):</string>
+    <string name="dialog_help_trip_type_title">Trip type</string>
+    <string name="dialog_help_trip_type_text">Specify whether your trip is private (you are planning a short trip and have a spare space in the car, or you are going on holidays and looking for someone to split the cost with), or organised (company offering trips and/or training).</string>
+    <string name="dialog_help_trip_cost_about_title">Cost info</string>
+    <string name="dialog_help_trip_cost_about_text">Specify what does the price of a trip include, for anyone interested to be aware of what they are buying. If it\'s a private trip it can be fuel or sleeping arrangement. If it\'s a company-organised training it may be e.g.: plane tickets, accommodation, hiring an instructor, gear rent.</string>
+    <string name="dialog_help_trip_contact_title">Contact info</string>
+    <string name="dialog_help_trip_contact_text">Enable person interested in your trip to contact you. Provide at least one of the means of conatcting you. You can provide your contact info in settings and they will appear here every time you add a new trip.</string>
+    <string name="dialog_help_user_profil_points_title">Points</string>
+    <string name="dialog_help_user_profil_points_text">You score points every time you add a new coverage from the spot and when other user "likes" one of them. Points can be exchanged for icons and various products from our partners. In the future we plan on expanding the offer of available products. Points may appear with a slight delay, if you should have gotten some and hadn\'t, refresh the app.</string>
+    <string name="dialog_help_trip_sports_title">Available sports</string>
+    <string name="dialog_help_trip_sports_text">Emphasize which trip is dedicated for which sport. If it\'s an organized trip, include what courses will be available. If it\'s a private trip you can tell whether you have the space in your car for the (wind-/kite-) surfer\'s gear or not.</string>
+    <string name="dialog_help_trip_discount_title">SurfAdvisor promotional code</string>
+    <string name="dialog_help_trip_discount_text">Our partners offer special prices for app users. All you need to do to get a discount is enter a special code from our app when making the reservation for a trip. You can find the code in app settings.</string>
+    <string name="dialog_help_trip_interested_title">List of interested people</string>
+    <string name="dialog_help_trip_interested_text">"You can add your name to the list of the people concerned, by pressing the circular button on the right. It has no effect yet, besides letting the organiser know that someone is interested in his offer. We are planning to add an option of saving the trips You're interested in or a special way of marking them on the trip list."</string>
+    <string name="dialog_select_photo_title">Choose your icon</string>
+    <string name="dialog_help_user_buy_icon_title">Buy icon</string>
+    <string name="dialog_help_user_buy_icon_text">Na razie jedyną możliwością wydania punktów w naszej aplikacji jest zakup ikon profilowych naszej produkcji. W przyszłości bedziemy starali sie poszerzyć ofertę rzeczy, na które można wydać swoje punkty.</string>
+    <string name="dialog_confirmation_user_buy_icon_text">Are you sure you want to buy this icon for 500PKT?</string>
+    <!-- User Activity -->
+    <string name="user_activity_points">Points:</string>
+    <string name="user_activity_statistic_title">Your statistics:</string>
+    <string name="user_activity_promotions_title">Your discounts:</string>
+    <string name="user_activity_promotions_surfadvisor_code">SurfAdvisor promotional code:</string>
+    <string name="user_activity_statistic_created_events">Added live coverage:</string>
+    <string name="user_activity_statistic_active_events">Active live coverage:</string>
+    <string name="user_activity_statistic_created_trips">Added trips:</string>
+    <string name="user_activity_statistic_active_trips">Active trips:</string>
+    <string name="user_activity_spend_points_title">Spend your points:</string>
+    <string name="user_activity_buy">Buy -</string>
+    <string name="user_activity_PKT">Points</string>
+    <string name="user_activity_buying_error_1">You already have this icon</string>
+    <string name="user_activity_buying_error_2">Sorry, you don\'t have enough points</string>
+    <string name="user_activity_buying_error_unknown">We are sorry, an unknown error occured</string>
+    <string name="user_activity_spend_points_option_icons_classic">BUY -500PKT</string>
+    <string name="user_activity_icon_error">This icon is unavailable for you</string>
+    <string name="user_activity_increase_limit">Increase limit</string>
+    <string name="user_activity_increase_limit_dialog_text">Do you want to increase your limit by 1 for 300 points?</string>
+
+    <!-- User Activity icon names -->
+    <string name="icon_number_0">Shaka icon</string>
+    <string name="icon_number_1">Goya Banzai 2018</string>
+    <string name="icon_number_2">North Sails Disco 2005</string>
+    <string name="icon_number_3">North Mono 2016</string>
+    <string name="icon_number_4">North Rebel 2018</string>
+    <string name="icon_number_5">Fish Board Classic</string>
+    <string name="icon_number_6">Shortboard Red</string>
+
+    <!-- Catalog Activity Dialogs -->
+    <string name="catalog_activity_dialog_select_country_title">Select countries you are interested in</string>
+    <string name="catalog_activity_dialog_select_country_subtitle">You will only see coverage and trips from/to countries you selected.</string>
+    <string name="catalog_activity_dialog_select_country_subtitle_2">More sorting / filter options are available in app settings</string>
+    <string name="dialog_apply">Approve</string>
+    <string name="dialog_edit">Edit</string>
+    <string name="country_number_minus_2">Select a country</string>
+    <string name="catalog_activity_changes_confrimity_dialog_msg">You chose to see coverage and trips from several countries and from "All world". It means you will still see every coverage and trip available. If you want to see informaions only from the countries you selected please untick the "All world" option.</string>
+    <string name="catalog_activity_changes_confrimity_dialog_positive_button">Uncheck "All world"</string>
+    <string name="catalog_activity_changes_null_dialog_msg">You didn\'t select any country, so you won\'t see any offers or coverage.</string>
+    <string name="catalog_activity_changes_null_dialog_positive_button">Check "All world"</string>
+    <!-- Countries -->
+    <string name="country_number_0">All world</string>
+    <string name="country_number_1">Poland</string>
+    <string name="country_number_2">Greece</string>
+    <string name="country_number_3">Spain</string>
+    <string name="country_number_4">Croatia</string>
+    <string name="country_number_5">Portugal</string>
+    <string name="country_number_6">Germany</string>
+    <string name="country_number_7">France</string>
+    <string name="country_number_8">South Africa</string>
+    <string name="country_number_9">Morocco</string>
+    <string name="country_number_10">Italy</string>
+    <string name="country_number_11">Egypt</string>
+    <string name="country_number_12">United Kingdom</string>
+    <string name="country_number_13">Turkey</string>
+    <string name="country_number_14">Austria</string>
+    <string name="country_number_15">Denmark</string>
+    <string name="country_number_16">Brazil</string>
+    <string name="country_number_17">USA</string>
+    <string name="country_number_18">Vietnam</string>
+    <string name="country_number_19">Malta</string>
+    <string name="country_number_20">Other countries</string>
+
+    <!-- About Activity -->
+    <string name="about_activity_top_text">SurfAdvisor is an app created by two people, myself - windsurfer enthusiast and student of electronics and my girlfriend -  architect and semi-proffesional runner, responsible for the grafic design of our app. It is our first app and we want to thank You for downloading SurfAdvisor.</string>
+    <string name="about_activity_middle_text">Creating this app took us a lot of time, so it would mean a great deal to us if you decide to give a positive score on Google Play and recommend the app to your friends interested in surfing. Below you will also find a way to donate, the development took many long hours, but the app is absolutely free. All donations are greatly apreciated and the money raised from them will be spent on upgrading the app.. or our windsurfing gear (that\'s more likely :D).</string>
+    <string name="about_activity_donate">Donate us!</string>
+    <string name="about_activity_bottom_text">Special thanks also go out to:</string>
+
+    <!-- Payments -->
+    <string name="about_activity_dialog_donate_method_title">Choose donation method:</string>
+    <string name="about_activity_dialog_donate_method_subtitle">We recive 100% of the money from PayPal. Google Pay takes 30% commision.</string>
+    <string name="about_activity_dialog_donate_method_paypal">PayPal</string>
+    <string name="about_activity_dialog_donate_method_google_pay">Google Pay</string>
+
+    <!-- Shared preferences- nie trzeba tłumaczyć -->
+    <string name="user_uid_shared_preference">User_nickname_shared_preference</string>
+    <string name="user_tokenId_shared_preference">User_tokenId_shared_preference</string>
+
+    <!-- Toast messages -->
+    <string name="toast_login_in">You logged in succesfully</string>
+    <string name="toast_login_in_faild">Login failed!</string>
+    <string name="toast_relation_created">Coverage was added.</string>
+    <string name="toast_trip_created">Trip was added.</string>
+    <string name="toast_trip_deleted">Trip was deleted.</string>
+    <string name="toast_editor_delete_trip_failed">Error. Deleting trip failed.</string>
+    <string name="toast_editor_delete_relation_successful">Coverage was deleted.</string>
+    <string name="toast_editor_delete_relation_failed">Error. Deleting coverage failed.</string>
+    <string name="toast_editor_insert_event_successful">Event added.</string>
+    <string name="toast_editor_insert_event_failed">Error. Addind event failed.</string>
+    <string name="toast_editor_update_event_successful">Event was updated.</string>
+    <string name="toast_editor_update_event_failed">Error. Updating event failed</string>
+    <string name="toast_relation_joined">Welcome to the spot :) </string>
+    <string name="toast_relation_joined_fail">You already joined this spot</string>
+    <string name="toast_relation_like">You liked the coverage!</string>
+    <string name="toast_relation_like_fail">You already liked this coverage.</string>
+    <string name="toast_trip_joined">You are interested in this trip.</string>
+    <string name="toast_trip_joined_fail">You are already interested in this trip.</string>
+    <string name="toast_relation_limit_reached">You reached the limit of active coverage, you can increase it in "Your Profile" section.</string>
+    <string name="toast_trip_limit_reached">You reached the limit of active trips, you can increase it in "Your Profile" section.</string>
+    <string name="toast_error_increasing_limit">There has been a problem with increasing your limit. Please contact the creators.</string>
+    <string name="toast_successful_increasing_limit">Limit increased.</string>
+    <string name="toast_no_connection">Check your internet connection.</string>
+    <!-- Photo Toast -->
+    <string name="editor_photo_added">Photo was added</string>
+    <string name="editor_back_on_adding_photo">Photo was not added</string>
+
+    <!-- App Rater -->
+    <string name="app_rater_rate">Rate </string>
+    <string name="app_rater_text_1">If you like </string>
+    <string name="app_rater_text_2">, please leave us a good mark on Google Play. Thanks!</string>
+    <string name="app_rater_later">Remind me later</string>
+    <string name="app_rater_no">No, thank you</string>
+
+    <!-- Notifications -->
+    <string name="notification_relation_liked_title">Someone liked your coverage!</string>
+    <string name="notification_relation_liked_text1">Your coverage from </string>
+    <string name="notification_relation_liked_text2"> was liked (</string>
+
+    <!-- Events Categories -->
+    <string name="category_event_relation">Live Coverage</string>
+    <string name="category_event_trip_organized">Organized Trip</string>
+    <string name="category_event_trip_private">Private trip, not company-organised</string>
+    <string name="category_event_trip_camp">Sports training / camp with own transport</string>
+
+    <string name="user_info_for_trips_owners">If you are a trip organiser and you wish to have unlimitted options of adding your offers to our app, please contact us via email.</string>
+    <string name="user_info_for_trips_owners_contact">CONTACT</string>
+    <string name="about_info_for_trips_owners">If anyone would be interested in cooperation with app developers, please contact us via email by clicking the button on the right side of the screen.</string>
+    <string name="info_relations_warning">Please do not add false spot coverage. Your account may be deprived of points and deleted by adding false informations.</string>
+
+    <!-- FAQ -->
+    <string name="faq_activity_faq">FAQ</string>
+    <string name="faq_activity_title">Frequently Asked Questions</string>
+    <string name="faq_activity_contact">If you have a question that is not included above, ask us through email or by writing on our Facebook fanpage.</string>
+    <string name="faq_activity_facebook">Facebook</string>
+    <string name="faq_activity_email">EMAIL</string>
+
+    <string name="facebook_app_id">1022834427908448</string>
+    <!-- Contact with developer -->
+    <string name="contact_our_email">jgjozkowy@gmail.com</string>
+    <string name="toast_contact_error">An error occured trying to open Your email app. Write to us at: jgjozkowy@gmail.com</string>
+    <!-- Sharing -->
+    <string name="share_on_facebook">Share on Facebook</string>
+    <string name="share_on_messenger">Share on Messenger</string>
+    <string name="share_on_other">Share on other platform</string>
+    <string name="share">Share</string>
+    <string name="toast_share_other_error">Something went wrong, try again later</string>
+    <string name="toast_share_facebook_error">Sharing failed :( .</string>
+    <string name="toast_share_messenger_error">Sharing failed, make sure you have installed the Messenger app.</string>
+    <!-- Quote to share relation -->
+    <string name="share_quote_place">" Live Coverage from: "</string>
+    <string name="share_quote_time">" Added: "</string>
+    <string name="share_quote_wind">" Wind power: "</string>
+    <string name="share_quote_wave">" Wave size: "</string>
+    <string name="share_quote_conditions">" Wind direction: "</string>
+    <string name="share_quote_comment">" Comment: "</string>
+    <string name="share_quote_photo">" Photo from spot: "</string>
+    <string name="share_quote_foot">" Coverage from app: http://surf-advisor.info/ "</string>
+    <!-- Quote to share trip -->
+    <string name="share_trip_quote_start_place">" Sports trip from:"</string>
+    <string name="share_trip_quote_camp_start_place">" Sports camp in: "</string>
+    <string name="share_trip_quote_training_start_place">" Sports training in: "</string>
+    <string name="share_trip_quote_to">" to "</string>
+    <string name="share_trip_quote_date">" Date: "</string>
+    <string name="share_trip_quote_cost">" Price with SurfAdvisor discount code: "</string>
+    <string name="share_trip_quote_sports">" Available course: "</string>
+    <string name="share_trip_quote_windsurfing">" Windsurfing,"</string>
+    <string name="share_trip_quote_kitesurfing">" Kitesurfing,"</string>
+    <string name="share_trip_quote_surfing">" Surfing,"</string>
+    <string name="share_trip_quote_comment">" Trip description: "</string>
+    <string name="share_trip_quote_contact">" Contact: "</string>
+    <string name="share_trip_quote_foot">" Trip from app: http://surf-advisor.info/"</string>
+
+</resources>

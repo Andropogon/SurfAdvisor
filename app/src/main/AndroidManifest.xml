@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="livewind.example.andro.liveWind">
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/app_icon_v3"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:hardwareAccelerated="false"
+        android:largeHeap="true"
+        android:theme="@style/CatalogActivityStyle" >
+        <activity
+            android:name="livewind.example.andro.liveWind.CatalogActivity"
+            android:label="@string/app_name"
+            android:theme="@style/CatalogActivityStyle" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="livewind.example.andro.liveWind.EditorActivity"
+            android:label="@string/editor_activity_title_new_event"
+            android:parentActivityName="livewind.example.andro.liveWind.CatalogActivity"
+            android:windowSoftInputMode="adjustPan"
+
+            android:theme="@style/AppTheme">
+
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="livewind.example.andro.liveWind.CatalogActivity" />
+        </activity>
+        <activity
+            android:name="livewind.example.andro.liveWind.EditorTripActivity"
+            android:label="@string/editor_activity_title_new_event"
+            android:parentActivityName="livewind.example.andro.liveWind.CatalogActivity"
+            android:windowSoftInputMode="adjustPan"
+            android:theme="@style/AppTheme">
+
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="livewind.example.andro.liveWind.CatalogActivity" />
+        </activity>
+        <activity
+            android:name="livewind.example.andro.liveWind.EventActivity"
+            android:label="@string/event_activity_title"
+            android:parentActivityName="livewind.example.andro.liveWind.CatalogActivity"
+            android:theme="@style/EventThem" />
+        <activity
+            android:name="livewind.example.andro.liveWind.EventTripActivity"
+            android:label="@string/event_trip_activity_title"
+            android:parentActivityName="livewind.example.andro.liveWind.CatalogActivity"
+            android:theme="@style/EventThem">
+
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="livewind.example.andro.liveWind.CatalogActivity" />
+        </activity>
+        <activity android:name="livewind.example.andro.liveWind.AboutActivity"
+            android:label="@string/activity_about"
+            android:parentActivityName="livewind.example.andro.liveWind.CatalogActivity"
+            android:theme="@style/AppTheme" />
+        <activity android:name="livewind.example.andro.liveWind.user.UserActivity"
+            android:label="@string/activity_user"
+            android:parentActivityName="livewind.example.andro.liveWind.CatalogActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:theme="@style/SettingsActivityStyle"
+            android:name="livewind.example.andro.liveWind.SettingsActivity"
+            android:label="@string/activity_settings"></activity>
+        <activity
+            android:theme="@style/AppTheme"
+            android:name="livewind.example.andro.liveWind.EditorChoose"
+            android:label="@string/activity_choose"></activity>
+        <activity
+            android:theme="@style/AppTheme"
+            android:name="livewind.example.andro.liveWind.FAQ.FAQActivity"
+            android:parentActivityName="livewind.example.andro.liveWind.CatalogActivity"
+            android:label="@string/faq_activity_faq"></activity>
+        <!-- Set custom default icon. This is used when no icon is set for incoming notification messages.
+     See README(https://goo.gl/l4GJaQ) for more. -->
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/ic_email_black_16dp" />
+        <!-- Set color used with incoming notification messages. This is used when no color is set for the incoming
+             notification message. See README(https://goo.gl/6BKBk7) for more. -->
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/colorAccent" />
+        <service android:name="livewind.example.andro.liveWind.Notifications.MyFirebaseMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+        <meta-data tools:replace="android:value" android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
+        <provider android:authorities="com.facebook.app.FacebookContentProvider1022834427908448"
+            android:name="com.facebook.FacebookContentProvider"
+            android:exported="true" />
+    </application>
+    <uses-permission android:name="com.android.vending.BILLING" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+</manifest>

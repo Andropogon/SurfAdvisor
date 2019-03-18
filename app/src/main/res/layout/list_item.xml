@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="88dp"
+    android:orientation="horizontal"
+    android:background="@color/app_main_color"
+    >
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="84dp"
+        android:layout_gravity="center"
+        android:orientation="horizontal"
+        android:background="@color/blackColor"
+        android:elevation="6dp"
+        android:layout_margin="4dp"
+        >
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="82dp"
+        android:layout_gravity="center"
+        android:orientation="horizontal"
+        android:background="@color/blackColor"
+        android:backgroundTint="@color/app_primary_color"
+        android:backgroundTintMode="src_over"
+        android:elevation="6dp"
+        android:layout_margin="2dp"
+        >
+        <FrameLayout
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_marginLeft="10dp"
+            android:layout_gravity="center"
+            android:foregroundGravity="center"
+>
+    <ImageView
+
+        android:id="@+id/list_image_view"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_gravity="center"
+        android:foregroundGravity="center"
+        android:scaleType="centerInside"
+        android:background="@drawable/custom_circle"
+        tools:tint="@color/kts15_19"
+        tools:src="@drawable/windsurfing_icon" />
+        <TextView
+            android:id="@+id/list_thanks_number_text_view"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:textSize="12sp"
+            android:textColor="@color/blackColor"
+            android:fontFamily="@font/dosis_light"
+            android:layout_gravity="bottom|right"
+            android:gravity="center"
+            android:background="@drawable/custom_circle_small_with_frame"
+            tools:text="300"/>
+        </FrameLayout>
+    <LinearLayout
+        android:paddingTop="6dp"
+        android:id="@+id/list_text_container"
+        android:layout_marginRight="8dp"
+        android:layout_width="wrap_content"
+        android:layout_weight="100"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:orientation="vertical"
+        android:paddingLeft="16dp">
+        <TextView
+            android:paddingLeft="2dp"
+            android:id="@+id/list_place_text_view"
+            style="@style/eventInfoTextMedium"
+            android:paddingTop="4dp"
+            android:textAllCaps="true"
+            android:textStyle="bold"
+            tools:text="Kuźnica" />
+
+        <TextView
+            android:id="@+id/list_date_text_view"
+            style="@style/eventInfoTextSmall"
+            android:ellipsize="end"
+            tools:text="14:20 - 28.10.2018" />
+        <TextView
+            android:id="@+id/list_comment_text_view"
+            android:paddingTop="2dp"
+            style="@style/eventInfoCommentTextVerySmall"
+            android:ellipsize="end"
+            tools:text="Komentarz tututuututu...." />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/list_information_container"
+        android:layout_marginTop="3dp"
+        android:layout_marginBottom="3dp"
+        android:layout_marginRight="3dp"
+        android:layout_width="100dp"
+        android:layout_weight="1"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_marginBottom="2dp"
+            android:layout_width="wrap_content"
+            android:layout_height="24dp">
+            <ImageView
+                android:id="@+id/list_wind_power_image_view"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_wind_black"/>
+            <TextView
+                android:gravity="center"
+                android:layout_height="24dp"
+                android:id="@+id/list_wind_power_text_view"
+                style="@style/eventInfoTextSmall"
+                android:layout_toRightOf="@id/list_wind_power_image_view"
+                android:layout_toEndOf="@id/list_wind_power_image_view"
+                tools:text="18" />
+
+            <TextView
+                android:id="@+id/list_wind_power_unit_text_view"
+                style="@style/eventInfoTextSmall"
+                android:layout_height="24dp"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="0dp"
+                android:layout_marginLeft="0dp"
+                android:layout_toEndOf="@id/list_wind_power_text_view"
+                android:layout_toRightOf="@id/list_wind_power_text_view"
+                android:gravity="center"
+                android:paddingLeft="1dp"
+                android:text="@string/unit_wind_kn" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_marginBottom="2dp"
+            android:layout_width="wrap_content"
+            android:layout_height="24dp">
+
+            <ImageView
+                android:id="@+id/list_wave_size_image_view"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_wave_black" />
+            <TextView
+                android:gravity="center"
+                android:layout_height="24dp"
+                android:id="@+id/list_wave_size_text_view"
+                style="@style/eventInfoTextSmall"
+                android:layout_toRightOf="@id/list_wave_size_image_view"
+                android:layout_toEndOf="@id/list_wave_size_image_view"
+                android:paddingLeft="4dp"
+                tools:text="2.5" />
+
+            <TextView
+                android:gravity="center"
+                android:layout_height="24dp"
+                android:layout_toRightOf="@id/list_wave_size_text_view"
+                android:layout_toEndOf="@id/list_wave_size_text_view"
+                style="@style/eventInfoTextSmall"
+                android:paddingLeft="1dp"
+                android:text="m" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="24dp">
+            <ImageView
+                android:id="@+id/list_conditions_image_view"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_conditions_black"/>
+            <TextView
+                android:gravity="center"
+                android:layout_height="24dp"
+                android:id="@+id/list_conditions_text_view"
+                style="@style/eventInfoTextSmall"
+                android:layout_toRightOf="@id/list_conditions_image_view"
+                android:layout_toEndOf="@id/list_conditions_image_view"
+                android:paddingLeft="4dp"
+                android:textAllCaps="true"
+                tools:text="Sideshore" />
+        </RelativeLayout>
+    </LinearLayout>
+</LinearLayout>
+</LinearLayout>
+</LinearLayout>

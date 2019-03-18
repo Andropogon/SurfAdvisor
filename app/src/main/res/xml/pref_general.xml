@@ -1,0 +1,118 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:title="@string/settings_title_discount"
+        android:key="@string/settings_title_discount">
+        <EditTextPreference
+            android:title="@string/settings_discount_code_title"
+            android:key="@string/settings_discount_code_key"
+            android:selectable="true"
+            android:clickable="true"
+            android:editable="false"
+            android:textIsSelectable="true"/>
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:title="@string/settings_title_user_contact"
+        android:key="pref_key_settings_title_user_contact">
+        <!-- NOTE: EditTextPreference accepts EditText attributes. -->
+        <!-- NOTE: EditTextPreference's summary should be set to its value by the activity code. -->
+        <EditTextPreference
+            android:capitalize="words"
+            android:icon="@drawable/ic_phone_black_24dp"
+            android:inputType="phone"
+            android:key="@string/settings_user_phone_key"
+            android:maxLines="1"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="@string/settings_user_phone" />
+        <EditTextPreference
+            android:capitalize="words"
+            android:icon="@drawable/ic_email_black_24dp"
+            android:inputType="textEmailAddress"
+            android:key="@string/settings_user_email_key"
+            android:maxLines="1"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="@string/settings_user_email" />
+        <EditTextPreference
+            android:capitalize="words"
+            android:icon="@drawable/ic_web_black_24dp"
+            android:inputType="textWebEmailAddress"
+            android:key="@string/settings_user_web_key"
+            android:maxLines="1"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="@string/settings_user_web" />
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:title="@string/settings_title_display"
+        android:key="pref_key_settings_title_display">
+        <!-- A 'parent' preference, which enables/disables child preferences (below)
+     when checked/unchecked. -->
+        <MultiSelectListPreference
+            android:defaultValue="@array/first_array"
+            android:dialogTitle="@string/settings_display_countries_title"
+            android:key="@string/settings_display_countries_key"
+            android:summary=""
+            android:title="@string/settings_display_countries_title"
+            android:entries="@array/array_countries_options"
+            android:entryValues="@array/array_countries_options_values"
+            />
+        <ListPreference
+            android:title="@string/settings_display_trips_title"
+            android:key="@string/settings_display_trips_key"
+            android:defaultValue="1"
+            android:entries="@array/array_trips_display_options"
+            android:entryValues="@array/array_trips_display_optionsValues"
+            android:negativeButtonText="@null"
+            android:positiveButtonText="@null" />
+        <ListPreference
+            android:title="@string/settings_display_wind_power_title"
+            android:key="@string/settings_display_wind_power_key"
+            android:defaultValue="1"
+            android:entries="@array/array_wind_power_options"
+            android:entryValues="@array/array_wind_power_optionsValues"
+            android:negativeButtonText="@null"
+            android:positiveButtonText="@null" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="@string/settings_display_boolean_key"
+            android:title="@string/settings_display_boolean"
+            android:visibility="gone" />
+        <!-- NOTE: Hide buttons to simplify the UI. Users can touch outside the dialog to
+             dismiss it. -->
+        <!-- NOTE: ListPreference's summary should be set to its value by the activity code. -->
+        <ListPreference
+            android:title="@string/settings_display_sorting_events_by"
+            android:key="@string/settings_display_sorting_events_by_key"
+            android:defaultValue="1"
+            android:entries="@array/array_sorting_events_options"
+            android:entryValues="@array/array_sorting_events_optionsValues"
+            android:negativeButtonText="@null"
+            android:positiveButtonText="@null" />
+        <ListPreference
+            android:title="@string/settings_display_sorting_trips_by"
+            android:key="@string/settings_display_sorting_trips_by_key"
+            android:defaultValue="1"
+            android:entries="@array/array_sorting_trips_options"
+            android:entryValues="@array/array_sorting_trips_optionsValues"
+            android:negativeButtonText="@null"
+            android:positiveButtonText="@null" />
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:title="@string/settings_title_notifications"
+        android:key="pref_key_settings_title_notifications">
+        <SwitchPreference
+            android:title="@string/settings_notifications_allow"
+            android:key="@string/settings_notifications_allow_key"
+            android:defaultValue="true" />
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:title="@string/settings_title_feedback"
+        android:key="@string/settings_title_feedback">
+        <Preference
+            android:title="@string/settings_feedback_send"
+            android:key="@string/settings_feedback_send_key"
+            android:summary="@string/settings_feedback_send_summary"
+            android:defaultValue="true" />
+    </PreferenceCategory>
+</PreferenceScreen>
