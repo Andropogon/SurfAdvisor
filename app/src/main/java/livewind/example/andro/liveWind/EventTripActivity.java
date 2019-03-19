@@ -756,10 +756,12 @@ public class EventTripActivity extends AppCompatActivity {
     public boolean onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
         if (!(mEvent.getmUsername().equals(mWindsurfer.getUsername()))) {
-            MenuItem menuItemDelete = menu.findItem(livewind.example.andro.liveWind.R.id.action_delete);
+            MenuItem menuItemDelete = menu.findItem(livewind.example.andro.liveWind.R.id.action_trip_delete);
             menuItemDelete.setVisible(false);
-            MenuItem menuItemEdit = menu.findItem(livewind.example.andro.liveWind.R.id.action_edit);
+            MenuItem menuItemEdit = menu.findItem(livewind.example.andro.liveWind.R.id.action_trip_edit);
             menuItemEdit.setVisible(false);
+            MenuItem menuItemCopy = menu.findItem(R.id.action_trip_copy);
+            menuItemCopy.setVisible(false);
         }
         return true;
     }
@@ -768,8 +770,7 @@ public class EventTripActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu options from the res/menu/menu_editor.xml file.
         // This adds menu items to the app bar.
-        getMenuInflater().inflate(livewind.example.andro.liveWind.R.menu.menu_event, menu);
-        Log.i("MENU ? ", "CreateOptions");
+        getMenuInflater().inflate(livewind.example.andro.liveWind.R.menu.menu_trip, menu);
         return true;
     }
 
@@ -778,22 +779,22 @@ public class EventTripActivity extends AppCompatActivity {
         // Windsurfer clicked on a menu option in the app bar overflow menu
         switch (item.getItemId()) {
             // Respond to a click on the "Save" menu option
-            case livewind.example.andro.liveWind.R.id.action_edit:
+            case livewind.example.andro.liveWind.R.id.action_trip_edit:
                 // Open event editor
                 editEvent();
                 // Exit activity
                 finish();
                 return true;
             // Respond to a click on the "Delete" menu option
-            case livewind.example.andro.liveWind.R.id.action_delete:
+            case livewind.example.andro.liveWind.R.id.action_trip_delete:
                 // Pop up confirmation dialog for deletion
                 showDeleteConfirmationDialog();
                 return true;
-            case R.id.action_copy:
+            case R.id.action_trip_copy:
                 copyEvent();
                 finish();
                 return true;
-            case R.id.action_share_facebook:
+            case R.id.action_trip_share_facebook:
                 //SHARING TO FACEBOOK
                 if(!mEvent.getContact().getWebAddress().isEmpty()){
                     defaultPhotoUrl=mEvent.getContact().getWebAddress();
@@ -814,7 +815,7 @@ public class EventTripActivity extends AppCompatActivity {
                             Toast.LENGTH_SHORT).show();
                 }
                 return true;
-            case R.id.action_share_messenger:
+            case R.id.action_trip_share_messenger:
                 try {
                 Intent sendIntent = new Intent();
                 sendIntent.setAction(Intent.ACTION_SEND);
@@ -827,7 +828,7 @@ public class EventTripActivity extends AppCompatActivity {
                     Toast.makeText(this, getString(livewind.example.andro.liveWind.R.string.toast_share_messenger_error), Toast.LENGTH_SHORT).show();
                 }
                 return true;
-            case R.id.action_share_other:
+            case R.id.action_trip_share_other:
                 try {
                     Intent sendIntent = new Intent();
                     sendIntent.setAction(Intent.ACTION_SEND);
