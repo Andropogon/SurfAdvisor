@@ -13,18 +13,19 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
-
 import livewind.example.andro.liveWind.R;
 import livewind.example.andro.liveWind.data.EventContract;
 
 public class PromotionsAdapter extends ArrayAdapter<Promotion> {
     private int mColorResourceId;
-
+    private final List<Promotion> promotions;
     public PromotionsAdapter(Activity context, List<Promotion> promotions, int resource) {
 
         super(context, 0, promotions);
+        this.promotions=promotions;
     }
 
     @NonNull
@@ -55,7 +56,7 @@ public class PromotionsAdapter extends ArrayAdapter<Promotion> {
                 promotionTitleTextView.setText(promotionTitleTextView.getText()+discountCode);
                 break;
             case EventContract.EventEntry.PROMOTION_TYPE_SURFOTEKA:
-                promotionImageView.setImageResource(getContext().getResources().getIdentifier("surfoteka","drawable",getContext().getPackageName()));
+                promotionImageView.setImageResource(getContext().getResources().getIdentifier("logo_surfoteka","drawable",getContext().getPackageName()));
             break;
                 case EventContract.EventEntry.PROMOTION_TYPE_TWO_WAVES:
                 promotionImageView.setImageResource(getContext().getResources().getIdentifier("icon_promotion_1","drawable",getContext().getPackageName()));
@@ -68,11 +69,19 @@ public class PromotionsAdapter extends ArrayAdapter<Promotion> {
                 break;
             case EventContract.EventEntry.PROMOTION_TYPE_CAR_SIDE:
                 promotionImageView.setImageResource(getContext().getResources().getIdentifier("icon_promotion_4","drawable",getContext().getPackageName()));
-        break;
+
+                break;
+            case EventContract.EventEntry.PROMOTION_TYPE_HYDROSFERA:
+                promotionImageView.setImageResource(getContext().getResources().getIdentifier("logo_hydrosfera","drawable",getContext().getPackageName()));
+                break;
         default:
             promotionImageView.setImageResource(getContext().getResources().getIdentifier("app_icon_v3","drawable",getContext().getPackageName()));
             break;
         }
         return listItemView;
+    }
+
+    public void sort() {
+        Collections.sort(promotions, new PromotionsComparator());
     }
 }

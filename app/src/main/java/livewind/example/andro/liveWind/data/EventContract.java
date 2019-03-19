@@ -169,6 +169,7 @@ public final class EventContract {
         public static final int PROMOTION_TYPE_LOCALISATION = 3;
         public static final int PROMOTION_TYPE_CAR_FRONT = 4;
         public static final int PROMOTION_TYPE_CAR_SIDE = 5;
+        public static final int PROMOTION_TYPE_HYDROSFERA = 6;
 
         /**
          * DISPLAY AS TYPES

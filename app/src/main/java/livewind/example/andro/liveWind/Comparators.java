@@ -3,6 +3,7 @@ package livewind.example.andro.liveWind;
 import java.util.Comparator;
 
 import livewind.example.andro.liveWind.data.EventContract;
+import livewind.example.andro.liveWind.promotions.Promotion;
 
 class EventDateComparator implements Comparator<Event> {
     public int compare(Event event1, Event event2) {
@@ -108,3 +109,4 @@ class TripsCharakterComparator implements Comparator<Event> {
     }
 
 } */
+

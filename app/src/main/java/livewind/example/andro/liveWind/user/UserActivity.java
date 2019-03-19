@@ -575,6 +575,7 @@ public class UserActivity extends AppCompatActivity {
                     Promotion promotion = dataSnapshot.getValue(Promotion.class);
                     promotionsAdapter.add(promotion);
                     ListViewHelp.setListViewHeightBasedOnChildren(promotionsListView);
+                    promotionsAdapter.sort();
                 }
 
                 @Override
