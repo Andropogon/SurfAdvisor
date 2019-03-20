@@ -115,4 +115,11 @@
             android:summary="@string/settings_feedback_send_summary"
             android:defaultValue="true" />
     </PreferenceCategory>
+    <EditTextPreference
+        android:inputType="number"
+        android:key="@string/settings_filter_cost_key"
+        android:maxLines="1"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:title="Filter cost" />
 </PreferenceScreen>

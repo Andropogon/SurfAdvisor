@@ -79,6 +79,13 @@ import livewind.example.andro.liveWind.data.EventContract;
 
 public class CatalogActivity extends AppCompatActivity  {
 
+
+    private static Context context;
+
+    public static Context getContext() {
+        return context;
+    }
+
     public static String FACEBOOK_URL = "https://www.facebook.com/pg/SurfAdvisorAPP";
     public static String FACEBOOK_PAGE_ID = "553065221866671";
 
@@ -130,7 +137,7 @@ public class CatalogActivity extends AppCompatActivity  {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(livewind.example.andro.liveWind.R.layout.activity_catalog);
-
+        context = getApplicationContext();
         mEventListView = (ListView) findViewById(livewind.example.andro.liveWind.R.id.list);
         mEmptyView = (View) findViewById(livewind.example.andro.liveWind.R.id.empty_view_no_connection);
         mEmptyViewNoRecordsRelations = (View) findViewById(R.id.empty_view_no_records_relations);

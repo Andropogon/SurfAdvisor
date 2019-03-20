@@ -175,6 +175,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             bindPreferenceSummaryToValue(findPreference(getString(livewind.example.andro.liveWind.R.string.settings_display_sorting_trips_by_key)));
             bindPreferenceSummaryToValue(findPreference(getString(R.string.settings_display_wind_power_key)));
             bindPreferenceSummaryToValue(findPreference(getString(R.string.settings_display_trips_key)));
+            bindPreferenceSummaryToValue(findPreference(getString(R.string.settings_filter_cost_key)));
             // feedback preference click listener
             Preference myPref = findPreference(getString(R.string.settings_feedback_send_key));
             myPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
