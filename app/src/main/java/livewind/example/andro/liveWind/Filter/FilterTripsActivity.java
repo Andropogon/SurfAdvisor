@@ -43,7 +43,6 @@ public class FilterTripsActivity extends AppCompatActivity
     private ImageView mWindsurfingImageView;
     private ImageView mKitesurfingImageView;
     private ImageView mSurfingImageView;
-    private Set<String> mSports;
 
     boolean[] checkedItems = new boolean[3];
 
@@ -51,18 +50,29 @@ public class FilterTripsActivity extends AppCompatActivity
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_filter);
-        // Creates presenter
 
         initViews();
-
+        // Creates presenter
         mPresenter = new FilterTripsPresenter(this);
         mPresenter.loadPreferences();
 
+        initClickListeners();
     }
 
     private void initViews() {
         mCostView = (EditText) findViewById(R.id.filter_price_value_edit_text);
         mDateFromTextView = findViewById(R.id.filter_date_from_text_view);
+
+        mDateToTextView = findViewById(R.id.filter_date_to_text_view);
+
+        mWindsurfingImageView = findViewById(R.id.windsurfing_image_view);
+        mKitesurfingImageView = findViewById(R.id.kitesurfing_image_view);
+        mSurfingImageView = findViewById(R.id.surfing_image_view);
+
+        mSportsTextView = findViewById(R.id.filter_sports_text_view);
+
+    }
+    private void initClickListeners(){
         mDateFromTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -71,7 +81,6 @@ public class FilterTripsActivity extends AppCompatActivity
                 showDatePickerDialog(mDateFromTextView,calendar);
             }
         });
-        mDateToTextView = findViewById(R.id.filter_date_to_text_view);
         mDateToTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -81,17 +90,30 @@ public class FilterTripsActivity extends AppCompatActivity
                 showDatePickerDialog(mDateToTextView,calendar);
             }
         });
-        mSportsTextView = findViewById(R.id.filter_sports_text_view);
         mSportsTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                createMultiSelectSportsList();
-                //TODO SAVE AND DISPLAY RESULTS
+                createMultiSelectSportsList(mPresenter.getSports());
             }
         });
-        mWindsurfingImageView = findViewById(R.id.windsurfing_image_view);
-        mKitesurfingImageView = findViewById(R.id.kitesurfing_image_view);
-        mSurfingImageView = findViewById(R.id.surfing_image_view);
+        mWindsurfingImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                createMultiSelectSportsList(mPresenter.getSports());
+            }
+        });
+        mKitesurfingImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                createMultiSelectSportsList(mPresenter.getSports());
+            }
+        });
+        mSurfingImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                createMultiSelectSportsList(mPresenter.getSports());
+            }
+        });
     }
 
     @Override
@@ -107,7 +129,7 @@ public class FilterTripsActivity extends AppCompatActivity
         switch (item.getItemId()) {
             // Respond to a click on the "Save" menu option
             case livewind.example.andro.liveWind.R.id.action_save:
-                mPresenter.savePreferences(mCostView.getText().toString(),dateToTimestamp(mDateFromTextView.getText().toString()),dateToTimestamp(mDateToTextView.getText().toString()),mSports);
+                mPresenter.savePreferences(mCostView.getText().toString(),dateToTimestamp(mDateFromTextView.getText().toString()),dateToTimestamp(mDateToTextView.getText().toString()));
                 mPresenter.sendPreferences();
                 Intent intentCatalog = new Intent(FilterTripsActivity.this,CatalogActivity.class);
                 startActivity(intentCatalog);
@@ -122,11 +144,10 @@ public class FilterTripsActivity extends AppCompatActivity
 
     @Override
     public void displayPreferences(String cost, long dateFromTimestamp, long dateToTimestamp, Set<String> sports){
-        //mCostView.setText(cost);
+        mCostView.setText(cost);
         mDateFromTextView.setText(timestampToDate(dateFromTimestamp));
         mDateToTextView.setText(timestampToDate(dateToTimestamp));
-        mCostView.setText(String.valueOf(sports.size()));
-        mSports = sports;
+        displaySports(sports);
     }
 
     /**
@@ -184,7 +205,7 @@ public class FilterTripsActivity extends AppCompatActivity
         return dateString;
     }
 
-    private void createMultiSelectSportsList(){
+    private void createMultiSelectSportsList(final Set<String> sports){
         final String[] listItems;
         listItems = getResources().getStringArray(R.array.array_filter_sports);
         AlertDialog.Builder mBuilder = new AlertDialog.Builder(FilterTripsActivity.this);
@@ -193,12 +214,12 @@ public class FilterTripsActivity extends AppCompatActivity
             @Override
             public void onClick(DialogInterface dialogInterface, int position, boolean isChecked) {
                 if(isChecked) {
-                    if (!mSports.contains(position)) {
-                        mSports.add(String.valueOf(position));
+                    if (!sports.contains(Integer.toString(position))) {
+                        sports.add(Integer.toString(position));
                     }
                 }
-                else if(mSports.contains(position)){
-                    mSports.remove(String.valueOf(position));
+                else if(sports.contains(Integer.toString(position))){
+                    sports.remove(Integer.toString(position));
                 }
             }
         });
@@ -207,32 +228,10 @@ public class FilterTripsActivity extends AppCompatActivity
         mBuilder.setPositiveButton(R.string.dialog_ok, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int which) {
-                mCostView.setText(String.valueOf(mSports.size()));
-                int backgroundColor = R.color.sport_available_yes;
-
-                int goodColor = ContextCompat.getColor(FilterTripsActivity.this,backgroundColor);
-                int instructorColor = ContextCompat.getColor(FilterTripsActivity.this,backgroundColor);
-
-                if(mSports.contains("0")) {
-                    backgroundColor = R.color.sport_available_course;
-                    goodColor = ContextCompat.getColor(FilterTripsActivity.this, backgroundColor);
-                    mWindsurfingImageView.setColorFilter(goodColor, PorterDuff.Mode.MULTIPLY);
-                    Drawable mWindsurfingAvailableImageViewBackground = mWindsurfingImageView.getBackground();
-                    mWindsurfingImageView.setBackground(mWindsurfingAvailableImageViewBackground);
-                } else if(mSports.contains("1")) {
-                    backgroundColor = R.color.sport_available_course;
-                    goodColor = ContextCompat.getColor(FilterTripsActivity.this, backgroundColor);
-                    mKitesurfingImageView.setColorFilter(goodColor, PorterDuff.Mode.MULTIPLY);
-                    Drawable mKitesurfingAvailableImageViewBackground = mKitesurfingImageView.getBackground();
-                    mKitesurfingImageView.setBackground( mKitesurfingAvailableImageViewBackground);
-                } else if(mSports.contains("2")) {
-                    backgroundColor = R.color.sport_available_course;
-                    goodColor = ContextCompat.getColor(FilterTripsActivity.this, backgroundColor);
-                    mSurfingImageView.setColorFilter(goodColor, PorterDuff.Mode.MULTIPLY);
-                    Drawable mSurfingAvailableImageViewBackground = mSurfingImageView.getBackground();
-                    mSurfingImageView.setBackground(mSurfingAvailableImageViewBackground);
-                }
+                mPresenter.saveSports(sports);
+                displaySports(sports);
             }
+
         });
 
         mBuilder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
@@ -241,20 +240,49 @@ public class FilterTripsActivity extends AppCompatActivity
                 dialogInterface.dismiss();
             }
         });
-
+/**
         mBuilder.setNeutralButton("CLEAR ALL HC", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int which) {
                 for (int i = 0; i < checkedItems.length; i++) {
                     checkedItems[i] = false;
-                    //mUserItems.clear();
-                   // mItemSelected.setText("");
                 }
             }
         });
+ */
 
         AlertDialog mDialog = mBuilder.create();
         mDialog.show();
+    }
 
+    private void displaySports(Set <String> sports){
+        int interestedColor = R.color.sport_available_course;
+        int noInterestedColor = R.color.sport_available_no;
+        int interestedColorCode = ContextCompat.getColor(FilterTripsActivity.this, interestedColor);
+        int noInterestedColorCode = ContextCompat.getColor(FilterTripsActivity.this, noInterestedColor);
+        Drawable interestedWindsurfingBackgroundView = mWindsurfingImageView.getBackground();
+        Drawable interestedKitesurfingBackgroundView = mKitesurfingImageView.getBackground();
+        Drawable interestedSurfingBackgroundView = mSurfingImageView.getBackground();
+        if(sports.contains("0")) {
+            interestedWindsurfingBackgroundView.setColorFilter(interestedColorCode, PorterDuff.Mode.MULTIPLY);
+            checkedItems[0] = true;
+        } else {
+            interestedWindsurfingBackgroundView.setColorFilter(noInterestedColorCode, PorterDuff.Mode.MULTIPLY);
+            checkedItems[0] = false;
+        }
+        if(sports.contains("1")) {
+            interestedKitesurfingBackgroundView.setColorFilter(interestedColorCode, PorterDuff.Mode.MULTIPLY);
+            checkedItems[1] = true;
+        } else {
+            interestedKitesurfingBackgroundView.setColorFilter(noInterestedColorCode, PorterDuff.Mode.MULTIPLY);
+            checkedItems[1] = false;
+        }
+        if(sports.contains("2")) {
+            interestedSurfingBackgroundView.setColorFilter(interestedColorCode, PorterDuff.Mode.MULTIPLY);
+            checkedItems[2] = true;
+        } else {
+            interestedSurfingBackgroundView.setColorFilter(noInterestedColorCode, PorterDuff.Mode.MULTIPLY);
+            checkedItems[2] = false;
+        }
     }
 }

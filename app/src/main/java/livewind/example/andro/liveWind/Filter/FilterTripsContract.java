@@ -10,7 +10,11 @@ public interface FilterTripsContract {
 
     /** Represents the Presenter in MVP. */
     interface Presenter {
-        void savePreferences(String cost,long dateFromTimestamp, long dateToTimestamp,Set<String>sports);
+        void savePreferences(String cost,long dateFromTimestamp, long dateToTimestamp);
+
+        void saveSports(Set<String>sports);
+
+        Set<String> getSports();
 
         void sendPreferences();
 

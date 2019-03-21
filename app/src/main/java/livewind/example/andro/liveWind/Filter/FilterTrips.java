@@ -40,6 +40,10 @@ public class FilterTrips {
     }
 
     public void setmSports(Set<String> mSports) {
+        SharedPreferences filterPref = PreferenceManager.getDefaultSharedPreferences(mContext);
+        SharedPreferences.Editor editor = filterPref.edit();
+        editor.putStringSet(mContext.getString(R.string.settings_filter_sports_key),mSports);
+        editor.apply();
         this.mSports = mSports;
     }
 
@@ -80,6 +84,7 @@ public class FilterTrips {
     public void getFilterTripsPreferences(){
         SharedPreferences filterPref = PreferenceManager.getDefaultSharedPreferences(mContext);
         mCost = filterPref.getString(mContext.getString(R.string.settings_filter_cost_key),"-1");
+        //TODO Add min. timestamp = today, checking
         mDateFromTimestamp = filterPref.getLong(mContext.getString(R.string.settings_filter_date_from_key),-1);
         mDateToTimestamp = filterPref.getLong(mContext.getString(R.string.settings_filter_date_to_key),-1);
         mSports = filterPref.getStringSet(mContext.getString(R.string.settings_filter_sports_key), new HashSet<String>());

@@ -23,11 +23,18 @@ public class FilterTripsPresenter implements FilterTripsContract.Presenter{
     }
 
     @Override
-    public void savePreferences(String cost, long dateFromTimestamp, long dateToTimestamp,Set<String> sports) {
+    public void savePreferences(String cost, long dateFromTimestamp, long dateToTimestamp) {
         mFilterTrips.setmCost(cost);
         mFilterTrips.setmDateFromTimestamp(dateFromTimestamp);
         mFilterTrips.setmDateToTimestamp(dateToTimestamp);
+    }
+    @Override
+    public void saveSports(Set<String> sports){
         mFilterTrips.setmSports(sports);
+    }
+    @Override
+    public Set<String>getSports(){
+        return mFilterTrips.getmSports();
     }
 
     @Override
