@@ -3,6 +3,8 @@ package livewind.example.andro.liveWind.Filter;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import java.util.Set;
+
 import livewind.example.andro.liveWind.R;
 
 /** An implementation of the Presenter */
@@ -10,17 +12,32 @@ public class FilterTripsPresenter implements FilterTripsContract.Presenter{
 
     private FilterTrips mFilterTrips;
 
-    public FilterTripsPresenter() {
+    /**
+     * Views
+     */
+    private FilterTripsContract.View mView;
+
+    public FilterTripsPresenter(FilterTripsContract.View view) {
         mFilterTrips = new FilterTrips();
+        mView = view;
     }
 
     @Override
-    public void saveCost(String cost) {
+    public void savePreferences(String cost, long dateFromTimestamp, long dateToTimestamp,Set<String> sports) {
         mFilterTrips.setmCost(cost);
+        mFilterTrips.setmDateFromTimestamp(dateFromTimestamp);
+        mFilterTrips.setmDateToTimestamp(dateToTimestamp);
+        mFilterTrips.setmSports(sports);
     }
 
     @Override
     public void sendPreferences(){
         mFilterTrips.setFilterTripsPreferences();
+    }
+
+    @Override
+    public void loadPreferences() {
+        mFilterTrips.getFilterTripsPreferences();
+        mView.displayPreferences(mFilterTrips.getmCost(),mFilterTrips.getmDateFromTimestamp(),mFilterTrips.getmDateToTimestamp(),mFilterTrips.getmSports());
     }
 }
