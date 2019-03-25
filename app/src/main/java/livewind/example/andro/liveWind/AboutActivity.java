@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.Image;
 import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
@@ -16,6 +17,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,6 +39,7 @@ import org.json.JSONObject;
 
 import java.util.Optional;
 
+import livewind.example.andro.liveWind.Filter.FilterTripsActivity;
 import livewind.example.andro.liveWind.googlePay.GooglePay;
 
 
@@ -63,6 +66,14 @@ public class AboutActivity extends AppCompatActivity {
                 showDonateMethodDialog();
                // requestPayment(view);
             }
+        });
+
+        findViewById(R.id.about_activity_my_image).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intentFilter = new Intent(AboutActivity.this,FilterTripsActivity.class);
+                startActivity(intentFilter);
+             }
         });
 
         TextView contactWithDeveloperTextView = findViewById(R.id.user_about_info_for_owners_contact_text_view);

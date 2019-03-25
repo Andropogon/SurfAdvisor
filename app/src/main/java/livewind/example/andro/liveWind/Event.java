@@ -377,16 +377,6 @@ public class Event extends EventTrip implements Comparable<Event>{
         }
     }
 
-    public int dateToINT() {
-        if(startDate.equals("DEFAULT")) {
-            int hour = Integer.parseInt(mDate.substring(0, 2));
-            int minute = Integer.parseInt(mDate.substring(3, 5));
-            return hour * 60 + minute;
-        } else {
-            return 0;
-        }
-    }
-
     private long startDateTimestamp(String mStartDateBadFormat){
         if(mStartDateBadFormat.equals("DEFAULT"))
         {

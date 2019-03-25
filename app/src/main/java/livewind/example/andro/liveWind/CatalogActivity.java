@@ -27,7 +27,9 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.SpannableString;
 import android.text.TextUtils;
+import android.text.style.UnderlineSpan;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -79,6 +81,13 @@ import livewind.example.andro.liveWind.data.EventContract;
 
 public class CatalogActivity extends AppCompatActivity  {
 
+
+    private static Context context;
+
+    public static Context getContext() {
+        return context;
+    }
+
     public static String FACEBOOK_URL = "https://www.facebook.com/pg/SurfAdvisorAPP";
     public static String FACEBOOK_PAGE_ID = "553065221866671";
 
@@ -100,6 +109,8 @@ public class CatalogActivity extends AppCompatActivity  {
     /** Navigation Drawer */
     private DrawerLayout mDrawerLayout;
     private Toolbar mToolbar;
+    private Button tripsButton;
+    private Button eventsButton;
 
     private String CHANNEL_ID = "3";
 
@@ -130,7 +141,7 @@ public class CatalogActivity extends AppCompatActivity  {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(livewind.example.andro.liveWind.R.layout.activity_catalog);
-
+        context = getApplicationContext();
         mEventListView = (ListView) findViewById(livewind.example.andro.liveWind.R.id.list);
         mEmptyView = (View) findViewById(livewind.example.andro.liveWind.R.id.empty_view_no_connection);
         mEmptyViewNoRecordsRelations = (View) findViewById(R.id.empty_view_no_records_relations);
@@ -378,7 +389,7 @@ public class CatalogActivity extends AppCompatActivity  {
 
 
         // Setup events button to display events in the place of trips
-        Button eventsButton = (Button) findViewById(livewind.example.andro.liveWind.R.id.catalog_events_button);
+        eventsButton = (Button) findViewById(livewind.example.andro.liveWind.R.id.catalog_events_button);
         eventsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -395,7 +406,7 @@ public class CatalogActivity extends AppCompatActivity  {
         });
 
         // Setup trips button to display trips in the place of trips
-        Button tripsButton = (Button) findViewById(livewind.example.andro.liveWind.R.id.catalog_trips_button);
+        tripsButton = (Button) findViewById(livewind.example.andro.liveWind.R.id.catalog_trips_button);
         tripsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -409,7 +420,17 @@ public class CatalogActivity extends AppCompatActivity  {
                 recreate();
             }
         });
-
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        boolean displayBoolean = sharedPrefs.getBoolean(getApplicationContext().getString(livewind.example.andro.liveWind.R.string.settings_display_boolean_key), true);
+        if (displayBoolean) {
+            SpannableString contentEvent = new SpannableString(getResources().getString(R.string.catalog_header_forecast));
+            contentEvent.setSpan(new UnderlineSpan(), 0, contentEvent.length(), 0);
+            eventsButton.setText(contentEvent);
+        } else {
+            SpannableString contentTrip = new SpannableString(getResources().getString(R.string.catalog_header_trips));
+            contentTrip.setSpan(new UnderlineSpan(), 0, contentTrip.length(), 0);
+            tripsButton.setText(contentTrip);
+        }
 
         // Setup FAB to open EditorActivity to make new event
         FloatingActionButton fab = (FloatingActionButton) findViewById(livewind.example.andro.liveWind.R.id.fab);
@@ -573,6 +594,7 @@ public class CatalogActivity extends AppCompatActivity  {
                                 mEventAdapter.add(event);
                             } else {}
                         } else {
+
                             if (displayTripsOptions == EventContract.EventEntry.DISPLAY_TRIPS_FROM_AND_TO) {
                                 if (!event.getStartDate().equals(checkEventOrTrip) && (selectedCountries.contains(Integer.toString(event.getCountry())) || selectedCountries.contains(EventContract.EventEntry.COUNTRY_ALL_WORLD) || selectedCountries.contains(Integer.toString(event.getStartCountry())))) {
                                     mEventAdapter.add(event);
