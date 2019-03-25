@@ -272,7 +272,7 @@ public class EventTripActivity extends AppCompatActivity {
                 //mWindsurfingAvailableImageView.setBackgroundColor(getApplicationContext().getColor(R.color.app_yellow_color));
                 break;
             case EventContract.EventEntry.TRIP_AVAILABLE_NO:
-
+                mWindsurfingAvailableTextView.setTextSize(12);
                 mWindsurfingAvailableTextView.setText(R.string.avaiable_no);
                 mWindsurfingAvailableImageViewBackground.setColorFilter(getColor(R.color.sport_available_no), PorterDuff.Mode.MULTIPLY);
                 //mWindsurfingAvailableImageView.setBackgroundColor(getApplicationContext().getColor(R.color.app_red_color));
@@ -320,7 +320,7 @@ public class EventTripActivity extends AppCompatActivity {
                 //mKitesurfingAvailableImageView.setBackgroundColor(getApplicationContext().getColor(R.color.app_yellow_color));
                 break;
             case EventContract.EventEntry.TRIP_AVAILABLE_NO:
-                mKitesurfingAvailableTextView.setTextSize(10);
+                mKitesurfingAvailableTextView.setTextSize(12);
                 mKitesurfingAvailableTextView.setText(R.string.avaiable_no);
                 mKitesurfingAvailableImageViewBackground.setColorFilter(getColor(R.color.sport_available_no), PorterDuff.Mode.MULTIPLY);
                 //mKitesurfingAvailableImageView.setBackgroundColor(getApplicationContext().getColor(R.color.app_red_color));
@@ -368,7 +368,7 @@ public class EventTripActivity extends AppCompatActivity {
                 //mSurfingAvailableImageView.setBackgroundColor(getApplicationContext().getColor(R.color.app_yellow_color));
                 break;
             case EventContract.EventEntry.TRIP_AVAILABLE_NO:
-                mSurfingAvailableTextView.setTextSize(10);
+                mSurfingAvailableTextView.setTextSize(12);
                 mSurfingAvailableTextView.setText(R.string.avaiable_no);
                 mSurfingAvailableImageViewBackground.setColorFilter(getColor(R.color.sport_available_no), PorterDuff.Mode.MULTIPLY);
                 //mSurfingAvailableImageView.setBackgroundColor(getApplicationContext().getColor(R.color.app_red_color));
