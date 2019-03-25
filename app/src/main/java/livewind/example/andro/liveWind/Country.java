@@ -15,12 +15,6 @@ public class Country {
         checked=false;
     }
 
-    Country(String mCountryName, int mCountryFlagId,boolean mChecked){
-        name=mCountryName;
-        flagId=mCountryFlagId;
-        checked=mChecked;
-    }
-
     public int getFlagId() {
         return flagId;
     }

@@ -33,8 +33,16 @@ public class FilterTripsPresenter implements FilterTripsContract.Presenter{
         mFilterTrips.setmSports(sports);
     }
     @Override
+    public void saveCountries(Set<String>countries){
+        mFilterTrips.setmCountires(countries);
+    }
+    @Override
     public Set<String>getSports(){
         return mFilterTrips.getmSports();
+    }
+    @Override
+    public Set<String>getCountries(){
+        return mFilterTrips.getmCountries();
     }
 
     @Override
@@ -45,6 +53,6 @@ public class FilterTripsPresenter implements FilterTripsContract.Presenter{
     @Override
     public void loadPreferences() {
         mFilterTrips.getFilterTripsPreferences();
-        mView.displayPreferences(mFilterTrips.getmCost(),mFilterTrips.getmDateFromTimestamp(),mFilterTrips.getmDateToTimestamp(),mFilterTrips.getmSports());
+        mView.displayPreferences(mFilterTrips.getmCost(),mFilterTrips.getmDateFromTimestamp(),mFilterTrips.getmDateToTimestamp(),mFilterTrips.getmSports(),mFilterTrips.getmCountries());
     }
 }

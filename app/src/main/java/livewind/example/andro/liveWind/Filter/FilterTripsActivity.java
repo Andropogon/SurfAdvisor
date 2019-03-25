@@ -25,6 +25,8 @@ import java.util.GregorianCalendar;
 import java.util.Set;
 
 import livewind.example.andro.liveWind.CatalogActivity;
+import livewind.example.andro.liveWind.Countries.CountryGridAdapter;
+import livewind.example.andro.liveWind.EventAdapter;
 import livewind.example.andro.liveWind.R;
 import livewind.example.andro.liveWind.data.EventContract;
 
@@ -43,6 +45,9 @@ public class FilterTripsActivity extends AppCompatActivity
     private ImageView mWindsurfingImageView;
     private ImageView mKitesurfingImageView;
     private ImageView mSurfingImageView;
+    private TextView mCountriesTextView;
+    private GridView mCountriesGridView;
+    private CountryGridAdapter mCountryGridAdapter;
 
     boolean[] checkedItems = new boolean[3];
 
@@ -57,20 +62,22 @@ public class FilterTripsActivity extends AppCompatActivity
         mPresenter.loadPreferences();
 
         initClickListeners();
+        mCountryGridAdapter = new CountryGridAdapter(this, mPresenter.getCountries(),0);
     }
 
     private void initViews() {
         mCostView = (EditText) findViewById(R.id.filter_price_value_edit_text);
-        mDateFromTextView = findViewById(R.id.filter_date_from_text_view);
 
+        mDateFromTextView = findViewById(R.id.filter_date_from_text_view);
         mDateToTextView = findViewById(R.id.filter_date_to_text_view);
 
+        mSportsTextView = findViewById(R.id.filter_sports_text_view);
         mWindsurfingImageView = findViewById(R.id.windsurfing_image_view);
         mKitesurfingImageView = findViewById(R.id.kitesurfing_image_view);
         mSurfingImageView = findViewById(R.id.surfing_image_view);
 
-        mSportsTextView = findViewById(R.id.filter_sports_text_view);
-
+        mCountriesTextView = findViewById(R.id.filter_countries_text_view);
+        mCountriesGridView = findViewById(R.id.filter_countries_grid_view);
     }
     private void initClickListeners(){
         mDateFromTextView.setOnClickListener(new View.OnClickListener() {
@@ -114,6 +121,12 @@ public class FilterTripsActivity extends AppCompatActivity
                 createMultiSelectSportsList(mPresenter.getSports());
             }
         });
+        mCountriesTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
     }
 
     @Override
@@ -143,7 +156,7 @@ public class FilterTripsActivity extends AppCompatActivity
     }
 
     @Override
-    public void displayPreferences(String cost, long dateFromTimestamp, long dateToTimestamp, Set<String> sports){
+    public void displayPreferences(String cost, long dateFromTimestamp, long dateToTimestamp, Set<String> sports, Set<String> countries){
         mCostView.setText(cost);
         mDateFromTextView.setText(timestampToDate(dateFromTimestamp));
         mDateToTextView.setText(timestampToDate(dateToTimestamp));
@@ -184,6 +197,9 @@ public class FilterTripsActivity extends AppCompatActivity
         });
     }
 
+    /**
+     * Date help functions
+     */
     private long dateToTimestamp(String date){
         String day = date.substring(0, 2);
         String month = date.substring(3, 5);
@@ -205,6 +221,9 @@ public class FilterTripsActivity extends AppCompatActivity
         return dateString;
     }
 
+    /**
+     * @param sports displaying and changing functions
+     */
     private void createMultiSelectSportsList(final Set<String> sports){
         final String[] listItems;
         listItems = getResources().getStringArray(R.array.array_filter_sports);
@@ -254,7 +273,6 @@ public class FilterTripsActivity extends AppCompatActivity
         AlertDialog mDialog = mBuilder.create();
         mDialog.show();
     }
-
     private void displaySports(Set <String> sports){
         int interestedColor = R.color.sport_available_course;
         int noInterestedColor = R.color.sport_available_no;
@@ -283,6 +301,13 @@ public class FilterTripsActivity extends AppCompatActivity
         } else {
             interestedSurfingBackgroundView.setColorFilter(noInterestedColorCode, PorterDuff.Mode.MULTIPLY);
             checkedItems[2] = false;
+        }
+    }
+    private void displayCountries(Set<String> countries){
+        for(int x=0;x<21;x++){
+            if(countries.contains(Integer.toString(x))){
+                //TODO ADD TO GRIND VIEW
+            }
         }
     }
 }
