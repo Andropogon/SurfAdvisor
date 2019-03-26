@@ -190,6 +190,7 @@
 
     <string name="transport_car">Samochód</string>
     <string name="transport_plane">Samolot</string>
+    <string name="transport_own">Własny dojazd</string>
 
     <string name="character_unknown">Nieznany</string>
     <string name="character_private">Prywatny</string>

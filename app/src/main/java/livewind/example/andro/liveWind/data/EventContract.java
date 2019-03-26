@@ -65,6 +65,7 @@ public final class EventContract {
          */
         public static final int TRANSPORT_CAR= 0;
         public static final int TRANSPORT_PLANE = 1;
+        public static final int TRANSPORT_OWN = 10;
 
         /**
          * Possible values for character value.

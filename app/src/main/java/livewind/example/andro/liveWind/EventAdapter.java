@@ -656,6 +656,9 @@ public class EventAdapter extends ArrayAdapter<Event> {
                         //transportTextView.setText(livewind.example.andro.liveWind.R.string.transport_plane);
                         transportImageView.setImageResource(livewind.example.andro.liveWind.R.drawable.trip_plane_ic);
                         break;
+                    case EventContract.EventEntry.TRANSPORT_OWN:
+                        transportImageView.setVisibility(View.GONE); //TODO set special own transport icon
+                        break;
                     default:
                         //transportTextView.setText(livewind.example.andro.liveWind.R.string.transport_car);
                         transportImageView.setImageResource(livewind.example.andro.liveWind.R.drawable.trip_car_ic);
@@ -1306,6 +1309,9 @@ public class EventAdapter extends ArrayAdapter<Event> {
                     case EventContract.EventEntry.TRANSPORT_PLANE:
                         //transportTextView.setText(livewind.example.andro.liveWind.R.string.transport_plane);
                         transportImageView.setImageResource(livewind.example.andro.liveWind.R.drawable.trip_plane_ic);
+                        break;
+                    case EventContract.EventEntry.TRANSPORT_OWN:
+                        transportImageView.setVisibility(View.GONE); //TODO set special own transport icon
                         break;
                     default:
                         //transportTextView.setText(livewind.example.andro.liveWind.R.string.transport_car);

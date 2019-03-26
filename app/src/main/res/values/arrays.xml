@@ -43,6 +43,7 @@
     <string-array name="array_transport_options">
         <item>@string/transport_car</item>
         <item>@string/transport_plane</item>
+        <item>@string/transport_own</item>
     </string-array>
 
     <string-array name="array_character_options">

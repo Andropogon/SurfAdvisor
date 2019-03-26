@@ -24,6 +24,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -401,6 +402,12 @@ public class EventTripActivity extends AppCompatActivity {
             case EventContract.EventEntry.TRANSPORT_PLANE:
                 mTransportTextView.setText(livewind.example.andro.liveWind.R.string.transport_plane);
                 mTransportImageView.setImageResource(R.drawable.trip_plane_ic);
+                break;
+            case EventContract.EventEntry.TRANSPORT_OWN:
+                //mTransportTextView.setTextSize(12);
+                mTransportTextView.setVisibility(View.GONE);
+                mTransportImageView.setVisibility(View.GONE); //TODO Make own transport icon
+                findViewById(R.id.event_transport_relative_layout).setVisibility(View.GONE);
                 break;
             default:
                 mTransportTextView.setText(livewind.example.andro.liveWind.R.string.transport_car);

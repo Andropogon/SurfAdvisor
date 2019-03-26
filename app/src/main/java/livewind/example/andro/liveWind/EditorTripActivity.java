@@ -348,8 +348,10 @@ public class EditorTripActivity extends AppCompatActivity {
                         mTransport = EventContract.EventEntry.TRANSPORT_CAR;
                     } else if (selection.equals(getString(R.string.transport_plane))) {
                         mTransport = EventContract.EventEntry.TRANSPORT_PLANE;
+                    } else if(selection.equals(getString(R.string.transport_own))){
+                        mTransport = EventContract.EventEntry.TRANSPORT_OWN;
                     } else {
-                        //TODO others
+                        mTransport = EventContract.EventEntry.TRANSPORT_OWN;
                     }
                 }
             }
@@ -357,7 +359,7 @@ public class EditorTripActivity extends AppCompatActivity {
             // Because AdapterView is an abstract class, onNothingSelected must be defined
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                mTransport = EventContract.EventEntry.TRANSPORT_CAR;
+                mTransport = EventContract.EventEntry.TRANSPORT_OWN;
             }
         });
     }
@@ -1193,6 +1195,8 @@ public class EditorTripActivity extends AppCompatActivity {
             case EventContract.EventEntry.TRANSPORT_PLANE:
                 mTransportSpinner.setSelection(1);
                 break;
+            case EventContract.EventEntry.TRANSPORT_OWN:
+                mTransportSpinner.setSelection(2);
             default:
                 mTransportSpinner.setSelection(0);
                 break;
@@ -1475,6 +1479,8 @@ public class EditorTripActivity extends AppCompatActivity {
         mStartDateTextView.setHint(R.string.hint_event_trip_camp_start_date);
         mStartCountrySpinner.setVisibility(View.GONE);
         mPlaceEditText.setHint(R.string.hint_event_trip_camp_destination_place);
+       // mTransportSpinner.setSelection(2); //Set own transport
+        mTransport = EventContract.EventEntry.TRANSPORT_OWN;
         mTransportSpinner.setVisibility(View.GONE);
         //Set this trip to camp
         mStartPlaceEditText.setText(Integer.toString(EventContract.EventEntry.IT_IS_CAMP));

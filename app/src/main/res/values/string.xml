@@ -190,6 +190,7 @@
 
     <string name="transport_car">Car</string>
     <string name="transport_plane">Plane</string>
+    <string name="transport_own">Own transport</string>
 
     <string name="character_unknown">Unknown</string>
     <string name="character_private">Private</string>

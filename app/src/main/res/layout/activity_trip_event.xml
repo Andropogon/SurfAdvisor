@@ -386,6 +386,7 @@
                     android:paddingRight="8dp">
 
                     <RelativeLayout
+                        android:id="@+id/event_transport_relative_layout"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -404,6 +405,7 @@
                             style="@style/eventInfoTextMedium"
                             android:layout_toRightOf="@id/event_trip_transport_image_view"
                             android:paddingLeft="4dp"
+                            android:layout_centerVertical="true"
                             tools:text="PLANE" />
                     </RelativeLayout>
 
@@ -426,6 +428,7 @@
                             style="@style/eventInfoTextMedium"
                             android:layout_toRightOf="@id/event_trip_character_image_view"
                             android:paddingLeft="4dp"
+                            android:layout_centerVertical="true"
                             tools:text="ORGANISED" />
                     </RelativeLayout>
 
