@@ -60,7 +60,6 @@ import livewind.example.andro.liveWind.data.EventContract;
 public class EditorActivity extends AppCompatActivity {
 
     private EditText mPlaceEditText;
-   // private TextView mDateTextView;
     private EditText mWindPowerEditText;
     private EditText mWaveSizeEditText;
     private EditText mCommentEditText;
@@ -72,10 +71,8 @@ public class EditorActivity extends AppCompatActivity {
     private ImageView mWindPowerHelpImageView;
     private ImageView mTypeHelpImageView;
     private ImageView mWindConditionsHelpImageView;
- //   private String mUsername = "UNKNOWN";
     private Windsurfer mWindsurfer = new Windsurfer();
 
-    //EmptyView and progressBar
     private ProgressBar mProgressBar;
     private TextView mProgressTextView;
     private TextView mProgressPercentageTextView;

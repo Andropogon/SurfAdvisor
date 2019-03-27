@@ -56,9 +56,6 @@ public class EventTripActivity extends AppCompatActivity {
     private ImageView mStartCountryImageView;
     private TextView mPlaceStartTextView;
     private TextView mDateStartTextView;
-    //private ImageView mWindsurfingAvailableSmallImageView;
-    //private ImageView mKitesurfingAvailableSmallImageView;
-    //private ImageView mSurfingAvailableSmallImageView;
     private ImageView mWindsurfingAvailableImageView;
     private ImageView mKitesurfingAvailableImageView;
     private ImageView mSurfingAvailableImageView;
