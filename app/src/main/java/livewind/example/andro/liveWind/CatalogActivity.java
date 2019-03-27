@@ -568,7 +568,7 @@ public class CatalogActivity extends AppCompatActivity  {
         if(selectedCountries.contains("0")&&selectedCountries.size()!=1){
             showCountryChangesConfirmationDialog();
         }
-        printHashKey(getApplicationContext());
+        //printHashKey(getApplicationContext());
     }
     private void OnSignedOutCleanUp(){
         mEventAdapter.clear();
@@ -1036,7 +1036,7 @@ public class CatalogActivity extends AppCompatActivity  {
             }
         });
     }
-
+/**
     public static void printHashKey(Context pContext) {
         try {
             PackageInfo info = pContext.getPackageManager().getPackageInfo(pContext.getPackageName(), PackageManager.GET_SIGNATURES);
@@ -1052,4 +1052,5 @@ public class CatalogActivity extends AppCompatActivity  {
             Log.e("TAG", "printHashKey()", e);
         }
     }
+*/
 }

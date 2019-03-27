@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="livewind.example.andro.liveWind">
 
+
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/app_icon_v3"
@@ -11,6 +13,21 @@
         android:hardwareAccelerated="false"
         android:largeHeap="true"
         android:theme="@style/CatalogActivityStyle" >
+        <service android:name="livewind.example.andro.liveWind.Notifications.MyFirebaseMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+        <!-- Set custom default icon. This is used when no icon is set for incoming notification messages.
+             See README(https://goo.gl/l4GJaQ) for more. -->
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/ic_thumb_up_black_24dp" />
+        <!-- Set color used with incoming notification messages. This is used when no color is set for the incoming
+             notification message. See README(https://goo.gl/6BKBk7) for more. -->
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/colorPrimary" />
         <activity
             android:name="livewind.example.andro.liveWind.CatalogActivity"
             android:label="@string/app_name"
@@ -88,21 +105,7 @@
             android:name="livewind.example.andro.liveWind.FAQ.FAQActivity"
             android:parentActivityName="livewind.example.andro.liveWind.CatalogActivity"
             android:label="@string/faq_activity_faq"></activity>
-        <!-- Set custom default icon. This is used when no icon is set for incoming notification messages.
-     See README(https://goo.gl/l4GJaQ) for more. -->
-        <meta-data
-            android:name="com.google.firebase.messaging.default_notification_icon"
-            android:resource="@drawable/ic_email_black_16dp" />
-        <!-- Set color used with incoming notification messages. This is used when no color is set for the incoming
-             notification message. See README(https://goo.gl/6BKBk7) for more. -->
-        <meta-data
-            android:name="com.google.firebase.messaging.default_notification_color"
-            android:resource="@color/colorAccent" />
-        <service android:name="livewind.example.andro.liveWind.Notifications.MyFirebaseMessagingService">
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
-            </intent-filter>
-        </service>
+
         <meta-data tools:replace="android:value" android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
         <provider android:authorities="com.facebook.app.FacebookContentProvider1022834427908448"
             android:name="com.facebook.FacebookContentProvider"
