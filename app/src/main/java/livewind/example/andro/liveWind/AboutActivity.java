@@ -39,7 +39,6 @@ import org.json.JSONObject;
 
 import java.util.Optional;
 
-import livewind.example.andro.liveWind.Filter.FilterTripsActivity;
 import livewind.example.andro.liveWind.googlePay.GooglePay;
 
 
@@ -66,14 +65,6 @@ public class AboutActivity extends AppCompatActivity {
                 showDonateMethodDialog();
                // requestPayment(view);
             }
-        });
-
-        findViewById(R.id.about_activity_my_image).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intentFilter = new Intent(AboutActivity.this,FilterTripsActivity.class);
-                startActivity(intentFilter);
-             }
         });
 
         TextView contactWithDeveloperTextView = findViewById(R.id.user_about_info_for_owners_contact_text_view);

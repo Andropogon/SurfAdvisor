@@ -750,30 +750,6 @@ public class CatalogActivity extends AppCompatActivity  {
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
         });
-
-        mUsersNicknamesDatabaseReference.child(loggedUserNick).runTransaction(new Transaction.Handler() {
-            @Override
-            public Transaction.Result doTransaction(MutableData mutableData) {
-                if (mutableData.getValue() == null) {
-                    mutableData.setValue(loggedUserUid);
-                    return Transaction.success(mutableData);
-                }
-
-                return Transaction.abort();
-            }
-
-            @Override
-            public void onComplete(@Nullable DatabaseError databaseError, boolean commited, @Nullable DataSnapshot dataSnapshot) {
-                if (commited) {
-                    // username saved
-                    Log.i("LOGIN","USERNAME SAVED");
-                } else {
-                    // username exists
-                    Log.i("LOGIN","USERNAME EXIST");
-                }
-            }
-
-        });
     }
 
     private void createNotificationChannel() {
