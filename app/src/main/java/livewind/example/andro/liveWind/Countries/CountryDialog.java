@@ -1,14 +1,18 @@
 package livewind.example.andro.liveWind.Countries;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
 
@@ -22,21 +26,23 @@ import livewind.example.andro.liveWind.R;
 import livewind.example.andro.liveWind.data.EventContract;
 
 public class CountryDialog {
+    private int mTripsOptions = 0;
     /**
      * SELECT COUNTRY DIALOG
      */
     // Show select photo action
-    public void showSelectCountryDialog(Context context) {
+    public void showSelectCountryDialog(final Activity context) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.DialogeTheme);
         // Get the layout inflater
         LayoutInflater inflater = LayoutInflater.from(context);
+        //inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View dialogView = inflater.inflate(R.layout.activity_catalog_dialog_select_country,null);
         // Set grid view to alertDialog
         //AlertDialog.Builder builder = new AlertDialog.Builder(this);
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         int displayTripsOptions = Integer.valueOf(sharedPrefs.getString(context.getString(R.string.settings_display_trips_key),"1"));
         Spinner mTripsOptionsSpinner = (Spinner) dialogView.findViewById(R.id.spinner_trip_display_options);
-        setupTripOptionsSpinner();
+        setupTripOptionsSpinner(context,mTripsOptionsSpinner);
 
         switch (displayTripsOptions) {
             case EventContract.EventEntry.DISPLAY_TRIPS_FROM_AND_TO:
@@ -76,7 +82,7 @@ public class CountryDialog {
         mList.add(new Country(context.getString(R.string.country_number_18),R.drawable.flag_vn));
         mList.add(new Country(context.getString(R.string.country_number_19),R.drawable.flag_mt));
         mList.add(new Country(context.getString(R.string.country_number_20),R.drawable.flag_world));
-        CountryAdapter adapter = new CountryAdapter(this, mList,0);
+        CountryAdapter adapter = new CountryAdapter(context, mList,0);
         listView.setAdapter(adapter);
         listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
         listView.setSelector(R.color.app_primary_color);
@@ -85,27 +91,27 @@ public class CountryDialog {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (mList.get(position).isChecked()) {
                     mList.get(position).setChecked(false);
-                    mCheckBoxImageView = view.findViewById(R.id.select_country_list_check_box_image_view);
+                    ImageView mCheckBoxImageView = view.findViewById(R.id.select_country_list_check_box_image_view);
                     mCheckBoxImageView.setImageResource(R.drawable.ic_check_box_outline_blank_white_24dp);
-                    SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-                    Set<String> selectedCountries = sharedPrefs.getStringSet(getString(R.string.settings_display_countries_key), new HashSet<String>());
-                    SharedPreferences displayOptions = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                    SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+                    Set<String> selectedCountries = sharedPrefs.getStringSet(context.getString(R.string.settings_display_countries_key), new HashSet<String>());
+                    SharedPreferences displayOptions = PreferenceManager.getDefaultSharedPreferences(context);
                     SharedPreferences.Editor editor = displayOptions.edit();
                     selectedCountries.remove(Integer.toString(position));
-                    editor.putStringSet(getString(R.string.settings_display_countries_key),selectedCountries);
+                    editor.putStringSet(context.getString(R.string.settings_display_countries_key),selectedCountries);
                     // Commit the edits!
                     editor.apply();
                     //   recreate();
                 } else {
                     mList.get(position).setChecked(true);
-                    mCheckBoxImageView = view.findViewById(R.id.select_country_list_check_box_image_view);
+                    ImageView mCheckBoxImageView = view.findViewById(R.id.select_country_list_check_box_image_view);
                     mCheckBoxImageView.setImageResource(R.drawable.ic_check_box_white_24dp);
-                    SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-                    Set<String> selectedCountries = sharedPrefs.getStringSet(getString(R.string.settings_display_countries_key), new HashSet<String>());
-                    SharedPreferences displayOptions = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                    SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+                    Set<String> selectedCountries = sharedPrefs.getStringSet(context.getString(R.string.settings_display_countries_key), new HashSet<String>());
+                    SharedPreferences displayOptions = PreferenceManager.getDefaultSharedPreferences(context);
                     SharedPreferences.Editor editor = displayOptions.edit();
                     selectedCountries.add(Integer.toString(position));
-                    editor.putStringSet(getString(R.string.settings_display_countries_key),selectedCountries);
+                    editor.putStringSet(context.getString(R.string.settings_display_countries_key),selectedCountries);
                     // Commit the edits!
                     editor.apply();
                 }
@@ -116,17 +122,17 @@ public class CountryDialog {
                 .setPositiveButton(R.string.dialog_apply, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
                         SharedPreferences.Editor editor = sharedPrefs.edit();
-                        Set<String> selectedCountries = sharedPrefs.getStringSet(getString(R.string.settings_display_countries_key), new HashSet<String>());
-                        editor.putString(getString(R.string.settings_display_trips_key),Integer.toString(mTripsOptions));
+                        Set<String> selectedCountries = sharedPrefs.getStringSet(context.getString(R.string.settings_display_countries_key), new HashSet<String>());
+                        editor.putString(context.getString(R.string.settings_display_trips_key),Integer.toString(mTripsOptions));
                         editor.apply();
                         if(selectedCountries.contains("0")&&selectedCountries.size()!=1){
-                            showCountryChangesConfirmationDialog();
+                            showCountryChangesConfirmationDialog(context);
                         } else if (selectedCountries.isEmpty()) {
-                            showCountryChangesNullDialog();
+                            showCountryChangesNullDialog(context);
                         } else {
-                            recreate();
+                            context.recreate();
                         }
                     }
                 });
@@ -138,7 +144,7 @@ public class CountryDialog {
     /**
      * Dialog showed when user click apply on SelectCountryDialog and check "All world" and one or more other country.
      */
-    private void showCountryChangesConfirmationDialog(final Context context) {
+    private void showCountryChangesConfirmationDialog(final Activity context) {
         // Create an AlertDialog.Builder and set the message, and click listeners
         // for the postivie and negative buttons on the dialog.
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -154,7 +160,7 @@ public class CountryDialog {
                 editor.putStringSet(context.getString(R.string.settings_display_countries_key),selectedCountries);
                 // Commit the edits!
                 editor.apply();
-                recreate();
+                context.recreate();
             }
         });
 
@@ -174,7 +180,7 @@ public class CountryDialog {
     /**
      * Dialog showed when user click apply on SelectCountryDialog and check 0 countries.
      */
-    private void showCountryChangesNullDialog(final Context context) {
+    private void showCountryChangesNullDialog(final Activity context) {
         // Create an AlertDialog.Builder and set the message, and click listeners
         // for the postivie and negative buttons on the dialog.
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -190,7 +196,7 @@ public class CountryDialog {
                 editor.putStringSet(context.getString(R.string.settings_display_countries_key),selectedCountries);
                 // Commit the edits!
                 editor.apply();
-                recreate();
+                context.recreate();
             }
         });
 
@@ -206,5 +212,44 @@ public class CountryDialog {
         // Create and show the AlertDialog
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
+    }
+
+    /**
+     * Setup the dropdown spinner that allows the user to select the gender of the pet.
+     */
+    private void setupTripOptionsSpinner(final Activity context, Spinner tripOptionsSpinner) {
+        // Create adapter for spinner. The list options are from the String array it will use
+        // the spinner will use the default layout
+        ArrayAdapter tripOptionsSpinnerAdapter = ArrayAdapter.createFromResource(context,
+                R.array.array_trips_display_options, android.R.layout.simple_spinner_item);
+
+        // Specify dropdown layout style - simple list view with 1 item per line
+        tripOptionsSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
+
+        // Apply the adapter to the spinner
+        tripOptionsSpinner.setAdapter(tripOptionsSpinnerAdapter);
+
+        // Set the integer mSelected to the constant values
+        tripOptionsSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String selection = (String) parent.getItemAtPosition(position);
+                if (!TextUtils.isEmpty(selection)) {
+                    if (selection.equals(context.getString(R.string.display_trips_from_and_to))) {
+                        mTripsOptions = EventContract.EventEntry.DISPLAY_TRIPS_FROM_AND_TO;
+                    } else if (selection.equals(context.getString(R.string.display_trips_from))) {
+                        mTripsOptions = EventContract.EventEntry.DISPLAY_TRIPS_FROM;
+                    } else if (selection.equals(context.getString(R.string.display_trips_to))){
+                        mTripsOptions = EventContract.EventEntry.DISPLAY_TRIPS_TO;
+                    }
+                }
+            }
+
+            // Because AdapterView is an abstract class, onNothingSelected must be defined
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                mTripsOptions = EventContract.EventEntry.TYPE_WINDSURFING;
+            }
+        });
     }
 }
