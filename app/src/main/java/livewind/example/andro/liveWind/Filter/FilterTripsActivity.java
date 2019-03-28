@@ -17,6 +17,8 @@ import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -62,7 +64,10 @@ public class FilterTripsActivity extends AppCompatActivity
         mPresenter.loadPreferences();
 
         initClickListeners();
-        mCountryGridAdapter = new CountryGridAdapter(this, mPresenter.getCountries(),0);
+        //Set to ArrayList to place them in adapter
+        ArrayList<String> countriesNumbers = new ArrayList<>(mPresenter.getCountries());
+        mCountryGridAdapter = new CountryGridAdapter(this, countriesNumbers,0);
+        mCountriesGridView.setAdapter(mCountryGridAdapter);
     }
 
     private void initViews() {

@@ -99,7 +99,7 @@ public class CountryGridAdapter extends ArrayAdapter<String> {
                 countryFlagImageView.setImageResource(R.drawable.flag_pl);
                 break;
             default:
-                countryFlagImageView.setImageResource(R.drawable.flag_pl);
+                countryFlagImageView.setImageResource(R.drawable.flag_world);
                 break;
         }
         return gridItemView;
