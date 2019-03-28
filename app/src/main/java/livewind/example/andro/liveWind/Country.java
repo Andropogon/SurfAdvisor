@@ -9,7 +9,7 @@ public class Country {
     private String name;
     private boolean checked;
 
-    Country(String mCountryName, int mCountryFlagId){
+    public Country(String mCountryName, int mCountryFlagId){
         name=mCountryName;
         flagId=mCountryFlagId;
         checked=false;
