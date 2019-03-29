@@ -13,7 +13,6 @@ public interface FilterTripsContract {
         void savePreferences(String cost,long dateFromTimestamp, long dateToTimestamp);
 
         void saveSports(Set<String>sports);
-        void saveCountries(Set<String>countries);
 
         Set<String> getSports();
         Set<String> getCountries();

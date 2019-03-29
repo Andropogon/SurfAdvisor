@@ -27,6 +27,7 @@ import java.util.GregorianCalendar;
 import java.util.Set;
 
 import livewind.example.andro.liveWind.CatalogActivity;
+import livewind.example.andro.liveWind.Countries.CountryDialog;
 import livewind.example.andro.liveWind.Countries.CountryGridAdapter;
 import livewind.example.andro.liveWind.EventAdapter;
 import livewind.example.andro.liveWind.R;
@@ -129,7 +130,8 @@ public class FilterTripsActivity extends AppCompatActivity
         mCountriesTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                //CountryDialog is saving checked countries as interesting.
+                CountryDialog.showSelectCountryDialog(FilterTripsActivity.this);
             }
         });
     }
@@ -306,13 +308,6 @@ public class FilterTripsActivity extends AppCompatActivity
         } else {
             interestedSurfingBackgroundView.setColorFilter(noInterestedColorCode, PorterDuff.Mode.MULTIPLY);
             checkedItems[2] = false;
-        }
-    }
-    private void displayCountries(Set<String> countries){
-        for(int x=0;x<21;x++){
-            if(countries.contains(Integer.toString(x))){
-                //TODO ADD TO GRIND VIEW
-            }
         }
     }
 }

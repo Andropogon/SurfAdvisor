@@ -2,7 +2,6 @@ package livewind.example.andro.liveWind.Countries;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
@@ -26,12 +25,12 @@ import livewind.example.andro.liveWind.R;
 import livewind.example.andro.liveWind.data.EventContract;
 
 public class CountryDialog {
-    private int mTripsOptions = 0;
+    private static int mTripsOptions = 0;
     /**
      * SELECT COUNTRY DIALOG
      */
     // Show select photo action
-    public void showSelectCountryDialog(final Activity context) {
+    public static void showSelectCountryDialog(final Activity context) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.DialogeTheme);
         // Get the layout inflater
         LayoutInflater inflater = LayoutInflater.from(context);
@@ -144,7 +143,7 @@ public class CountryDialog {
     /**
      * Dialog showed when user click apply on SelectCountryDialog and check "All world" and one or more other country.
      */
-    private void showCountryChangesConfirmationDialog(final Activity context) {
+    private static void showCountryChangesConfirmationDialog(final Activity context) {
         // Create an AlertDialog.Builder and set the message, and click listeners
         // for the postivie and negative buttons on the dialog.
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -180,7 +179,7 @@ public class CountryDialog {
     /**
      * Dialog showed when user click apply on SelectCountryDialog and check 0 countries.
      */
-    private void showCountryChangesNullDialog(final Activity context) {
+    private static void showCountryChangesNullDialog(final Activity context) {
         // Create an AlertDialog.Builder and set the message, and click listeners
         // for the postivie and negative buttons on the dialog.
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -217,7 +216,7 @@ public class CountryDialog {
     /**
      * Setup the dropdown spinner that allows the user to select the gender of the pet.
      */
-    private void setupTripOptionsSpinner(final Activity context, Spinner tripOptionsSpinner) {
+    private static void setupTripOptionsSpinner(final Activity context, Spinner tripOptionsSpinner) {
         // Create adapter for spinner. The list options are from the String array it will use
         // the spinner will use the default layout
         ArrayAdapter tripOptionsSpinnerAdapter = ArrayAdapter.createFromResource(context,

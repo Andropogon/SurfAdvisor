@@ -46,13 +46,6 @@ public class FilterTrips {
         editor.apply();
         this.mSports = sports;
     }
-    public void setmCountires(Set<String> countries) {
-        SharedPreferences filterPref = PreferenceManager.getDefaultSharedPreferences(mContext);
-        SharedPreferences.Editor editor = filterPref.edit();
-        editor.putStringSet(mContext.getString(R.string.settings_display_countries_key),countries);
-        editor.apply();
-        this.mCountries = countries;
-    }
 
 
     /**

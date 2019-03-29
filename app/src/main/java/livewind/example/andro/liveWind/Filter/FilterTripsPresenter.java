@@ -33,10 +33,6 @@ public class FilterTripsPresenter implements FilterTripsContract.Presenter{
         mFilterTrips.setmSports(sports);
     }
     @Override
-    public void saveCountries(Set<String>countries){
-        mFilterTrips.setmCountires(countries);
-    }
-    @Override
     public Set<String>getSports(){
         return mFilterTrips.getmSports();
     }
