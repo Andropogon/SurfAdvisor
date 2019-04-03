@@ -448,7 +448,7 @@ public class EditorActivity extends AppCompatActivity {
                     Log.i("ADD RELATION",mWindsurfer.getUid());
                     //New event
                     String id = mEventsDatabaseReference.push().getKey();
-                    Event newEventData = new Event(id, mWindsurfer.getUsername(), mWindsurfer.getUid(), placeString,mCountry, mType, wind_power, wave_size, mConditions, commentString, mEventPhotoUrl , mWindsurfer.getPhotoName(),EditorActivity.this);
+                    Event newEventData = new Event(EditorActivity.this, id, mWindsurfer.getUsername(), mWindsurfer.getUid(), placeString,mCountry, mType, wind_power, wave_size, mConditions, commentString, mEventPhotoUrl , mWindsurfer.getPhotoName());
                     mEventsDatabaseReference.child(id).setValue(newEventData);
                     //save creation timestamp
                     Map<String, Object> value = new HashMap<>();

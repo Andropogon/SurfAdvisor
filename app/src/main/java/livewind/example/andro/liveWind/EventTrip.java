@@ -1,8 +1,10 @@
 package livewind.example.andro.liveWind;
 
+import android.content.Context;
 import android.widget.Spinner;
 
 import livewind.example.andro.liveWind.data.EventContract;
+import livewind.example.andro.liveWind.user.Windsurfer;
 
 public class EventTrip{
     protected String startPlace;
@@ -22,8 +24,20 @@ public class EventTrip{
 
     protected int displayAs;
 
-    EventTrip(){
-        startDate="DEFAULT";
+    EventTrip(String startPlace, int startCountry, String startDate, int transport, int character, int cost, int costDiscount, int currency, String costAbout, int windsurfingAvailable, int kitesurfingAvailable, int surfingAvailable, int displayAs){
+        this.startPlace=startPlace;
+        this.startCountry=startCountry;
+        this.startDate=startDate;
+        this.transport=transport;
+        this.character=character;
+        this.cost=cost;
+        this.costDiscount=costDiscount;
+        this.currency=currency;
+        this.costAbout=costAbout;
+        this.windsurfingAvailable=windsurfingAvailable;
+        this.kitesurfingAvailable=kitesurfingAvailable;
+        this.surfingAvailable=surfingAvailable;
+        this.displayAs=displayAs;
     }
 
     void setStartPlace(String mStartPlace){

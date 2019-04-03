@@ -42,46 +42,10 @@ public class Event extends EventTrip implements Comparable<Event>{
     private int mCountry;
     private int mSharesCounter;
 
-    public Event (){
-        mId = "default";
-        mUsername = "default";
-        mPlace = "default";
-        mDate = "default";
-        mType = 2;
-        mWindPower = 69;
-        mWaveSize = 69;
-        mConditions = 2;
-        mComment = "default";
-        mPhotoUrl = "";
-
+    public Event () {
+        mId = "new_event";
     }
-    public Event(String id, String username, String userUId, String place, int country, String date, int type, int windPower, double waveSize, int conditions, String comment, String url, String windsurferPhotoName,Context context) {
-        mId = id;
-        mUsername = username;
-        mUserUId = userUId;
-        mPlace = place;
-        mCountry = country;
-        mDate = date;
-        mType = type;
-        mWindPower = windPower;
-        mWaveSize = waveSize;
-        mConditions = conditions;
-        mComment = comment;
-        mPhotoUrl = url;
-        MyMember creator = new MyMember(mUsername,0, windsurferPhotoName,context);
-        mMembers.add(creator);
-        mSharesCounter = 0;
-        //StartDate timestamp
-        long timestamp = 1000000000;
-        timestampStartDate = timestamp * 100000;
-        if(!comment.isEmpty()) {
-            Comment creatorComment = new Comment(mUsername, windsurferPhotoName, mComment, "0");
-            mUsersComments.put("creatorComment", creatorComment);
-        }
-    }
-
-    //Without date
-    public Event(String id, String username, String userUId, String place, int country, int type, int windPower, double waveSize, int conditions, String comment, String url,String windsurferPhotoName,Context context) {
+    public Event(Context context, String id, String username, String userUId, String place, int country, int type, int windPower, double waveSize, int conditions, String comment, String url,String windsurferPhotoName) {
         mId = id;
         mUsername = username;
         mUserUId = userUId;
@@ -96,55 +60,12 @@ public class Event extends EventTrip implements Comparable<Event>{
         MyMember creator = new MyMember(mUsername,0, windsurferPhotoName,context);
         mMembers.add(creator);
         mSharesCounter = 0;
-        //StartDate timestamp
-        long timestamp = 1000000000;
-        timestampStartDate = timestamp * 100000;
+        //unreal big timestamp (because Events are deleting when current time>= timestampStartDate
+        timestampStartDate = 100000000000000L;
         if(!comment.isEmpty()) {
             Comment creatorComment = new Comment(mUsername, windsurferPhotoName, mComment, "0");
             mUsersComments.put("creatorComment", creatorComment);
         }
-    }
-
-    public Event(Context mContext, String id, String username, String userUId, String place, int country, String date, int type, int windPower, double waveSize, int conditions, String comment) {
-        mId = id;
-        mUsername = username;
-        mUserUId = userUId;
-        mPlace = place;
-        mCountry = country;
-        mDate = date;
-        mType = type;
-        mWindPower = windPower;
-        mWaveSize = waveSize;
-        mConditions = conditions;
-        mComment = comment;
-        mSharesCounter = 0;
-        if(!comment.isEmpty()) {
-            Comment creatorComment = new Comment(mUsername, mComment, mContext);
-            mUsersComments.put("creatorComment", creatorComment);
-        }
-        long timestamp = 1000000000;
-        timestampStartDate = timestamp * 100000;
-    }
-
-    //Without date
-    public Event(Context mContext,String id, String username, String userUId, String place, int country, int type, int windPower, double waveSize, int conditions, String comment) {
-        mId = id;
-        mUsername = username;
-        mUserUId = userUId;
-        mPlace = place;
-        mCountry = country;
-        mType = type;
-        mWindPower = windPower;
-        mWaveSize = waveSize;
-        mConditions = conditions;
-        mComment = comment;
-        mSharesCounter = 0;
-        if(!comment.isEmpty()) {
-            Comment creatorComment = new Comment(mUsername, mComment,mContext);
-            mUsersComments.put("creatorComment", creatorComment);
-        }
-        long timestamp = 1000000000;
-        timestampStartDate = timestamp * 100000;
     }
 
     public String getmUsername() {return mUsername;}
@@ -223,16 +144,6 @@ public class Event extends EventTrip implements Comparable<Event>{
     public List<MyMember> getmMembers(){
         return mMembers;
     }
-
-    public HashMap<String,Comment> getmUsersComments() {
-        return mUsersComments;
-    }
-
-    public void setmUsersComments(HashMap<String,Comment> mComments) {
-        this.mUsersComments = mComments;
-    }
-
-    public List<MyMember> getmThanks() {return mThanks;}
     public int getmThanksSize() {
         return mThanks.size();
     }
@@ -267,37 +178,8 @@ public class Event extends EventTrip implements Comparable<Event>{
                     .result();
         }
     }
-
     /** EVENT TRIP **/
-    public Event(String id, String username,String userUId, String mStartPlace, int mStartCountry, String place, int country, String mStartDate, String date, String comment, int mTransport, int mCharacter, int mCost,int mCostDiscount,int mCurrency, String mCostAbout,Contact mContact,int mWindsurfingAvailable, int mKitesurfingAvailable, int mSurfingAvailable,int mDisplayAs){
-        mId = id;
-        mUsername = username;
-        mUserUId=userUId;
-        startPlace = mStartPlace;
-        startCountry =mStartCountry;
-        mPlace = place;
-        mCountry = country;
-        startDate = mStartDate;
-        mDate = date;
-        mComment = comment;
-        character = mCharacter;
-        transport = mTransport;
-        cost = mCost;
-        costDiscount = mCostDiscount;
-        currency = mCurrency;
-        costAbout = mCostAbout;
-        contact = mContact;
-        windsurfingAvailable=mWindsurfingAvailable;
-        kitesurfingAvailable=mKitesurfingAvailable;
-        surfingAvailable=mSurfingAvailable;
-        timestampStartDate = startDateTimestamp(mStartDate);
-        MyMember creator = new MyMember(mUsername,1);
-        mMembers.add(creator);
-        displayAs = mDisplayAs;
-    }
-
-    /** EVENT TRIP **/
-    public Event(String id, Windsurfer creatorWindsurfer, String mStartPlace, int mStartCountry, String place, int country, String mStartDate, String date, String comment, int mTransport, int mCharacter, int mCost, int mCostDiscount, int mCurrency, String mCostAbout, Contact mContact, int mWindsurfingAvailable, int mKitesurfingAvailable, int mSurfingAvailable, int mDisplayAs, Context context){
+    public Event(Context context, String id, Windsurfer creatorWindsurfer, String mStartPlace, int mStartCountry, String place, int country, String mStartDate, String date, String comment, int mTransport, int mCharacter, int mCost, int mCostDiscount, int mCurrency, String mCostAbout, Contact mContact, int mWindsurfingAvailable, int mKitesurfingAvailable, int mSurfingAvailable, int mDisplayAs){
         mId = id;
         mUsername = creatorWindsurfer.getUsername();
         mUserUId = creatorWindsurfer.getUid();

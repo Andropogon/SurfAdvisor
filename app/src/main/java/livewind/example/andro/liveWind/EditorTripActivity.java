@@ -805,7 +805,7 @@ public class EditorTripActivity extends AppCompatActivity {
                     Contact loadContact = new Contact(contactPhoneString, contactEmailString, contactWebString);
                     String id = mEventsDatabaseReference.push().getKey();
                     //Event newEventData = new Event(id, mWindsurfer.getUsername(), startPlaceString, mStartCountry, placeString, mCountry, startDateString, dateString, commentString, mTransport, mCharacter, cost, mCurrency, costAboutString, loadContact, mWindsurfingAvailable, mKitesurfingAvailable,mSurfingAvailable);
-                    Event newEventData = new Event(id, mWindsurfer, startPlaceString, mStartCountry, placeString, mCountry, startDateString, dateString, commentString, mTransport, mCharacter, cost, costDiscount, mCurrency, costAboutString, loadContact, mWindsurfingAvailable, mKitesurfingAvailable,mSurfingAvailable,mDisplayAs,EditorTripActivity.this);
+                    Event newEventData = new Event(EditorTripActivity.this, id, mWindsurfer, startPlaceString, mStartCountry, placeString, mCountry, startDateString, dateString, commentString, mTransport, mCharacter, cost, costDiscount, mCurrency, costAboutString, loadContact, mWindsurfingAvailable, mKitesurfingAvailable,mSurfingAvailable,mDisplayAs);
                     mEventsDatabaseReference.child(id).setValue(newEventData);
                     Map<String, Object> value = new HashMap<>();
                     long myTimeStamp = 1000000000;
