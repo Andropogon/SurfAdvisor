@@ -149,7 +149,6 @@ public class EventAdapter extends ArrayAdapter<Event> {
                 //wind_powerTextView.setText(Integer.toString(event.getWindPower()));
                 wave_sizeTextView.setText(Double.toString(event.getWaveSize()));
                 commentTextView.setText(event.getComment());
-                thanksTextView.setText(Integer.toString(event.getmThanksSize()));
                 //Set time from the creation of the event
                 setEventDurationOnDateTextView(event,dateTextView);
                 placeTextView.setText(countryPlaceString);

@@ -16,15 +16,22 @@ public class EventTrip{
     protected int windsurfingAvailable;
     protected int kitesurfingAvailable;
     protected int surfingAvailable;
-
     protected int cost;
     protected int costDiscount;
     protected int currency;
     protected String costAbout;
 
     protected int displayAs;
+    EventTrip(){
+        //It difference trip from coverage
+        startDate="DEFAULT";
+    }
 
-    EventTrip(String startPlace, int startCountry, String startDate, int transport, int character, int cost, int costDiscount, int currency, String costAbout, int windsurfingAvailable, int kitesurfingAvailable, int surfingAvailable, int displayAs){
+    /**
+     * This strange method is separating EventTrip attributes from Event attributes in Event constructor (for trips).
+     * It is required because I have wrongly designed the inheritance tree on which the database is built. (now I couldn't change it because users use database
+     */
+    public void initEventTrip(String startPlace, int startCountry, String startDate, int transport, int character, int cost, int costDiscount, int currency, String costAbout, int windsurfingAvailable, int kitesurfingAvailable, int surfingAvailable, int displayAs){
         this.startPlace=startPlace;
         this.startCountry=startCountry;
         this.startDate=startDate;

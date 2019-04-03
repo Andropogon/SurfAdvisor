@@ -1,32 +1,36 @@
 package livewind.example.andro.liveWind;
 
-
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.widget.Spinner;
-
 import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.Ordering;
 import com.google.firebase.database.Exclude;
-
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import livewind.example.andro.liveWind.Comments.Comment;
 import livewind.example.andro.liveWind.data.EventContract;
 import livewind.example.andro.liveWind.user.Windsurfer;
 
-
+/**
+ * Created by JGJ on 10/10/18.
+ * Header added during refactoring add 04/04/2019 by JGJ.
+ *
+ * Class for coverages and trips, with wrongly designed the inheritance tree on which the database is built. (now I couldn't change it because users use database)
+ * It's why Event extends EventTrip (not opposite) and I use strange initEventTrip 'constructors'
+ *
+ */
 public class Event extends EventTrip implements Comparable<Event>{
 
     private String mId;
     private String mUsername;
     private String mUserUId;
     private String mPlace;
+    private int mCountry;
     private String mDate;
     private long timestamp;
     private int mType;
@@ -39,9 +43,11 @@ public class Event extends EventTrip implements Comparable<Event>{
     private List <MyMember> mMembers = new ArrayList<>();
     private List <MyMember> mThanks = new ArrayList<>();
     private Contact contact = new Contact();
-    private int mCountry;
     private int mSharesCounter;
 
+    /**
+     *  COVERAGE
+     */
     public Event () {
         mId = "new_event";
     }
@@ -67,86 +73,6 @@ public class Event extends EventTrip implements Comparable<Event>{
             mUsersComments.put("creatorComment", creatorComment);
         }
     }
-
-    public String getmUsername() {return mUsername;}
-    public void setUsername(String username){
-        mUsername=username;
-    }
-
-    public String getId() { return mId; }
-
-    public void setId (String id){
-        mId = id;
-    }
-
-    public String getPlace() { return mPlace; }
-
-
-
-    public void setPlace (String place){
-        mPlace =place;
-    }
-    public String getDate() {
-        return mDate;
-    }
-
-    public void setDate(String date){
-        mDate=date;
-    }
-
-    public int getWindPower()
-    {
-        return  mWindPower;
-    }
-
-    public void setWindPower(int windPower){
-        mWindPower=windPower;
-    }
-    public int getType()
-    {
-        return  mType;
-    }
-
-    public void setType(int type){
-        mType=type;
-    }
-    public double getWaveSize()
-    {
-        return mWaveSize;
-    }
-
-    public void setWaveSize(double waveSize){
-        mWaveSize=waveSize;
-    }
-    public int getConditions()
-    {
-        return mConditions;
-    }
-    public void setConditions(int conditions){
-        mConditions=conditions;
-    }
-
-    public String getComment()
-    {
-        return mComment;
-    }
-    public void setComment(String comment){
-        mComment=comment;
-    }
-    public String getPhotoUrl()
-    {
-        return mPhotoUrl;
-    }
-    public void setPhotoUrl(String url){
-        mPhotoUrl = url;
-    }
-
-    public List<MyMember> getmMembers(){
-        return mMembers;
-    }
-    public int getmThanksSize() {
-        return mThanks.size();
-    }
     @Exclude
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();
@@ -165,47 +91,25 @@ public class Event extends EventTrip implements Comparable<Event>{
         return result;
     }
 
-
-    @Override
-    public int compareTo(@NonNull Event event) {
-        if(event.getStartDate().equals("DEFAULT")) {
-            return ComparisonChain.start()
-                    .compare(mMembers.size(), event.getmMembers().size(), Ordering.natural().reverse().nullsLast())
-                    .result();
-        } else {
-            return ComparisonChain.start()
-                    .compare(startDate, event.getStartDate(), Ordering.natural())
-                    .result();
-        }
-    }
-    /** EVENT TRIP **/
-    public Event(Context context, String id, Windsurfer creatorWindsurfer, String mStartPlace, int mStartCountry, String place, int country, String mStartDate, String date, String comment, int mTransport, int mCharacter, int mCost, int mCostDiscount, int mCurrency, String mCostAbout, Contact mContact, int mWindsurfingAvailable, int mKitesurfingAvailable, int mSurfingAvailable, int mDisplayAs){
+    /**
+     * EVENT TRIP
+     */
+    public Event(Context context, String id, Windsurfer creatorWindsurfer, String startPlace, int startCountry, String place, int country, String startDate, String date, String comment, int transport, int character, int cost, int costDiscount, int currency, String costAbout, Contact mContact, int windsurfingAvailable, int kitesurfingAvailable, int surfingAvailable, int displayAs){
+        //Init EventTrip attributes
+        super.initEventTrip(startPlace,startCountry,startDate,transport,character,cost,costDiscount,currency,costAbout,windsurfingAvailable,kitesurfingAvailable,surfingAvailable,displayAs);
+        //Init shared attributes
         mId = id;
         mUsername = creatorWindsurfer.getUsername();
         mUserUId = creatorWindsurfer.getUid();
-        startPlace = mStartPlace;
-        startCountry =mStartCountry;
         mPlace = place;
         mCountry = country;
-        startDate = mStartDate;
         mDate = date;
         mComment = comment;
-        character = mCharacter;
-        transport = mTransport;
-        cost = mCost;
-        costDiscount = mCostDiscount;
-        currency = mCurrency;
-        costAbout = mCostAbout;
         contact = mContact;
-        windsurfingAvailable=mWindsurfingAvailable;
-        kitesurfingAvailable=mKitesurfingAvailable;
-        surfingAvailable=mSurfingAvailable;
-        timestampStartDate = startDateTimestamp(mStartDate);
+        timestampStartDate = startDateTimestamp(startDate);
         MyMember creator = new MyMember(mUsername,1, creatorWindsurfer.getPhotoName(),context);
         mMembers.add(creator);
-        displayAs = mDisplayAs;
     }
-
     @Exclude
     public Map<String, Object> tripToMap() {
         HashMap<String, Object> result = new HashMap<>();
@@ -232,13 +136,120 @@ public class Event extends EventTrip implements Comparable<Event>{
         return result;
     }
 
+    /**
+     *  Set methods
+     */
+    public void setId (String id){
+        mId = id;
+    }
+    public void setUsername(String username){
+        mUsername=username;
+    }
+    public void setmUserUId(String mUserUId) {
+        this.mUserUId = mUserUId;
+    }
+    public void setPlace (String place){
+        mPlace =place;
+    }
+    public void setCountry(int mCountry) {
+        this.mCountry = mCountry;
+    }
+    public void setDate(String date){
+        mDate=date;
+    }
+    public void setTimestamp(long mTimestamp){
+        timestamp =mTimestamp;
+    }
+    public void setType(int type){
+        mType=type;
+    }
+    public void setWindPower(int windPower){
+        mWindPower=windPower;
+    }
+    public void setWaveSize(double waveSize){
+        mWaveSize=waveSize;
+    }
+    public void setConditions(int conditions){
+        mConditions=conditions;
+    }
+    public void setComment(String comment){
+        mComment=comment;
+    }
+    public void setPhotoUrl(String url){
+        mPhotoUrl = url;
+    }
     public void setContact(String mPhone, String mEmail, String mWeb){
         contact = new Contact(mPhone,mEmail,mWeb);
+    }
+    public void setmSharesCounter(int mSharesCounter) {
+        this.mSharesCounter = mSharesCounter;
+    }
+
+    /**
+     * Get methods
+     */
+    public String getId() { return mId; }
+    public String getmUsername() {return mUsername;}
+    public String getmUserUId() {
+        return mUserUId;
+    }
+    public String getPlace() { return mPlace; }
+    public int getCountry() {
+        return mCountry;
+    }
+    public String getDate() {
+        return mDate;
+    }
+    public long getTimestamp() {
+        return timestamp;
+    }
+    public int getType()
+    {
+        return  mType;
+    }
+    public int getWindPower()
+    {
+        return  mWindPower;
+    }
+    public double getWaveSize()
+    {
+        return mWaveSize;
+    }
+    public int getConditions()
+    {
+        return mConditions;
+    }
+    public String getComment()
+    {
+        return mComment;
+    }
+    public String getPhotoUrl()
+    {
+        return mPhotoUrl;
     }
     public Contact getContact(){
         return contact;
     }
 
+    public List<MyMember> getmMembers(){
+        return mMembers;
+    }
+    public int getmSharesCounter() {
+        return mSharesCounter;
+    }
+    public int getTimestampINT() {
+        int timestampINT = (int)timestamp/1000;
+        return timestampINT;
+    }
+    //Without this method counter on EventAdapter doesn't works
+    public List<MyMember> getmThanks() {return mThanks;}
+    public int getmThanksSize() {
+        return mThanks.size();
+    }
+
+    /**
+     * Additional methods for data-time-timestamp processing
+     */
     public Calendar startDateToGC() {
         if(startDate.equals("DEFAULT"))
         {
@@ -280,43 +291,9 @@ public class Event extends EventTrip implements Comparable<Event>{
         }
     }
 
-    public long getTimestamp() {
-        return timestamp;
-    }
-    public void setTimestamp(long mTimestamp){
-        timestamp =mTimestamp;
-    }
-
-    public int getTimestampINT() {
-        int timestampINT = (int)timestamp/1000;
-        return timestampINT;
-    }
-
-    public int getCountry() {
-        return mCountry;
-    }
-
-    public void setCountry(int mCountry) {
-        this.mCountry = mCountry;
-    }
-
-
-    public String getmUserUId() {
-        return mUserUId;
-    }
-
-    public void setmUserUId(String mUserUId) {
-        this.mUserUId = mUserUId;
-    }
-
-    public void setmSharesCounter(int mSharesCounter) {
-        this.mSharesCounter = mSharesCounter;
-    }
-
-    public int getmSharesCounter() {
-        return mSharesCounter;
-    }
-
+    /**
+     * Additional methods for spinner - //TODO this method should be deleted from here
+     */
     public void loadCountrySpinner(Spinner countrySpinner) {
         switch (mCountry) {
             case EventContract.EventEntry.COUNTRY_POLAND:
@@ -382,6 +359,22 @@ public class Event extends EventTrip implements Comparable<Event>{
             default:
                 countrySpinner.setSelection(20);
                 break;
+        }
+    }
+
+    /**
+     * Additional methods for comparing - not used at all but needed for other Comparators
+     */
+    @Override
+    public int compareTo(@NonNull Event event) {
+        if(event.getStartDate().equals("DEFAULT")) {
+            return ComparisonChain.start()
+                    .compare(mMembers.size(), event.getmMembers().size(), Ordering.natural().reverse().nullsLast())
+                    .result();
+        } else {
+            return ComparisonChain.start()
+                    .compare(startDate, event.getStartDate(), Ordering.natural())
+                    .result();
         }
     }
 }
