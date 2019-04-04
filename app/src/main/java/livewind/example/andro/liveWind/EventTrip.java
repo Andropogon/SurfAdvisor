@@ -8,7 +8,7 @@ import livewind.example.andro.liveWind.data.EventContract;
  * Header added during refactoring add 05/04/2019 by JGJ.
  *
  * Class for trips, with wrongly designed the inheritance tree on which the database is built. (now I couldn't change it because users use database)
- * It's why Event extends EventTrip (not opposite) and I use strange initEventTrip 'constructors'
+ * It's why Event extends EventTrip (not opposite) and I use strange initEventTrip constructor
  *
  */
 public class EventTrip{
@@ -33,10 +33,10 @@ public class EventTrip{
     }
 
     /**
-     * This strange method is separating EventTrip attributes from Event attributes in Event constructor (for trips).
+     * This constructor is separating EventTrip attributes from Event attributes in Event constructor (for trips).
      * It is required because I have wrongly designed the inheritance tree on which the database is built. (now I couldn't change it because users use database
      */
-    public void initEventTrip(String startPlace, int startCountry, String startDate, int transport, int character, int cost, int costDiscount, int currency, String costAbout, int windsurfingAvailable, int kitesurfingAvailable, int surfingAvailable, int displayAs){
+    EventTrip(String startPlace, int startCountry, String startDate, int transport, int character, int cost, int costDiscount, int currency, String costAbout, int windsurfingAvailable, int kitesurfingAvailable, int surfingAvailable, int displayAs){
         this.startPlace=startPlace;
         this.startCountry=startCountry;
         this.startDate=startDate;

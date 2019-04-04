@@ -11,7 +11,9 @@ import livewind.example.andro.liveWind.CatalogActivity;
 import livewind.example.andro.liveWind.R;
 
 /**
- * Model for FilterTripsPresenter and FilterTripsActivity MVP
+ * Created by JGJ on 20/03/19.
+ * Model of Filter MVP
+ * Filter MVP is responsible for giving the user the possibility to filter displayed trips
  */
 public class FilterTrips {
 

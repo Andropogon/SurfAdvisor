@@ -21,10 +21,10 @@ import livewind.example.andro.liveWind.user.Windsurfer;
  * Header added during refactoring add 04/04/2019 by JGJ.
  *
  * Class for coverages and trips, with wrongly designed the inheritance tree on which the database is built. (now I couldn't change it because users use database)
- * It's why Event extends EventTrip (not opposite) and I use strange initEventTrip 'constructors'
+ * It's why Event extends EventTrip (not opposite) and I use strange initEventTrip constructor
  *
  */
-public class Event extends EventTrip implements Comparable<Event>{
+public final class Event extends EventTrip implements Comparable<Event>{
 
     private String mId;
     private String mUsername;
@@ -96,7 +96,7 @@ public class Event extends EventTrip implements Comparable<Event>{
      */
     public Event(Context context, String id, Windsurfer creatorWindsurfer, String startPlace, int startCountry, String place, int country, String startDate, String date, String comment, int transport, int character, int cost, int costDiscount, int currency, String costAbout, Contact mContact, int windsurfingAvailable, int kitesurfingAvailable, int surfingAvailable, int displayAs){
         //Init EventTrip attributes
-        super.initEventTrip(startPlace,startCountry,startDate,transport,character,cost,costDiscount,currency,costAbout,windsurfingAvailable,kitesurfingAvailable,surfingAvailable,displayAs);
+        super(startPlace,startCountry,startDate,transport,character,cost,costDiscount,currency,costAbout,windsurfingAvailable,kitesurfingAvailable,surfingAvailable,displayAs);
         //Init shared attributes
         mId = id;
         mUsername = creatorWindsurfer.getUsername();

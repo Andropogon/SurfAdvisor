@@ -18,23 +18,20 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.lang.reflect.Array;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.Set;
 
 import livewind.example.andro.liveWind.CatalogActivity;
 import livewind.example.andro.liveWind.Countries.CountryDialog;
 import livewind.example.andro.liveWind.Countries.CountryGridAdapter;
-import livewind.example.andro.liveWind.EventAdapter;
+import livewind.example.andro.liveWind.HelpClasses.DateHelp;
 import livewind.example.andro.liveWind.R;
-import livewind.example.andro.liveWind.data.EventContract;
 
-/** An implementation of the View */
-
+/**
+ * Created by JGJ on 20/03/19.
+ * View (part) of Filter MVP
+ * Filter MVP is responsible for giving the user the possibility to filter displayed trips
+ */
 public class FilterTripsActivity extends AppCompatActivity
         implements FilterTripsContract.View {
 
@@ -59,20 +56,18 @@ public class FilterTripsActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_filter);
 
-        initViews();
+
         // Creates presenter
+        initViews();
         mPresenter = new FilterTripsPresenter(this);
         mPresenter.loadPreferences();
-
-        initClickListeners();
-        //Set to ArrayList to place them in adapter
-        ArrayList<String> countriesNumbers = new ArrayList<>(mPresenter.getCountries());
-        mCountryGridAdapter = new CountryGridAdapter(this, countriesNumbers,0);
+        mCountryGridAdapter = new CountryGridAdapter(this, mPresenter.getCountries(),0);
         mCountriesGridView.setAdapter(mCountryGridAdapter);
+        initClickListeners();
     }
 
     private void initViews() {
-        mCostView = (EditText) findViewById(R.id.filter_price_value_edit_text);
+        mCostView = findViewById(R.id.filter_price_value_edit_text);
 
         mDateFromTextView = findViewById(R.id.filter_date_from_text_view);
         mDateToTextView = findViewById(R.id.filter_date_to_text_view);
@@ -84,6 +79,8 @@ public class FilterTripsActivity extends AppCompatActivity
 
         mCountriesTextView = findViewById(R.id.filter_countries_text_view);
         mCountriesGridView = findViewById(R.id.filter_countries_grid_view);
+
+
     }
     private void initClickListeners(){
         mDateFromTextView.setOnClickListener(new View.OnClickListener() {
@@ -106,25 +103,25 @@ public class FilterTripsActivity extends AppCompatActivity
         mSportsTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                createMultiSelectSportsList(mPresenter.getSports());
+                showMultiSelectSportsList(mPresenter.getSports());
             }
         });
         mWindsurfingImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                createMultiSelectSportsList(mPresenter.getSports());
+                showMultiSelectSportsList(mPresenter.getSports());
             }
         });
         mKitesurfingImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                createMultiSelectSportsList(mPresenter.getSports());
+                showMultiSelectSportsList(mPresenter.getSports());
             }
         });
         mSurfingImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                createMultiSelectSportsList(mPresenter.getSports());
+                showMultiSelectSportsList(mPresenter.getSports());
             }
         });
         mCountriesTextView.setOnClickListener(new View.OnClickListener() {
@@ -149,7 +146,7 @@ public class FilterTripsActivity extends AppCompatActivity
         switch (item.getItemId()) {
             // Respond to a click on the "Save" menu option
             case livewind.example.andro.liveWind.R.id.action_save:
-                mPresenter.savePreferences(mCostView.getText().toString(),dateToTimestamp(mDateFromTextView.getText().toString()),dateToTimestamp(mDateToTextView.getText().toString()));
+                mPresenter.savePreferences(mCostView.getText().toString(),DateHelp.dateToTimestamp(mDateFromTextView.getText().toString()),DateHelp.dateToTimestamp(mDateToTextView.getText().toString()));
                 mPresenter.sendPreferences();
                 Intent intentCatalog = new Intent(FilterTripsActivity.this,CatalogActivity.class);
                 startActivity(intentCatalog);
@@ -163,11 +160,10 @@ public class FilterTripsActivity extends AppCompatActivity
     }
 
     @Override
-    public void displayPreferences(String cost, long dateFromTimestamp, long dateToTimestamp, Set<String> sports, Set<String> countries){
+    public void displayPreferences(String cost, long dateFromTimestamp, long dateToTimestamp, Set<String> countries){
         mCostView.setText(cost);
-        mDateFromTextView.setText(timestampToDate(dateFromTimestamp));
-        mDateToTextView.setText(timestampToDate(dateToTimestamp));
-        displaySports(sports);
+        mDateFromTextView.setText(DateHelp.timestampToDate(dateFromTimestamp));
+        mDateToTextView.setText(DateHelp.timestampToDate(dateToTimestamp));
     }
 
     /**
@@ -204,34 +200,12 @@ public class FilterTripsActivity extends AppCompatActivity
         });
     }
 
-    /**
-     * Date help functions
-     */
-    private long dateToTimestamp(String date){
-        String day = date.substring(0, 2);
-        String month = date.substring(3, 5);
-        String year = date.substring(6, 10);
-        int dayS = Integer.parseInt(day);
-        int monthS = Integer.parseInt(month) -1 ; //because months are indexing from 0
-        int yearS = Integer.parseInt(year);
-        GregorianCalendar dataGC = new GregorianCalendar(yearS, monthS, dayS,0,0,0);
-        Calendar dataC = dataGC;
-        long timestamp = dataC.getTimeInMillis();
-        return timestamp;
-    }
-    private String timestampToDate(long timestamp){
-        Date date = new Date();
-        date.setTime(timestamp);
-        SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
-        java.lang.String printableDate = formatter.format(date);
-        String dateString =printableDate;
-        return dateString;
-    }
 
     /**
-     * @param sports displaying and changing functions
+     * Dialog with multiselect list of sports
+     * @param sports sports to display in dialog
      */
-    private void createMultiSelectSportsList(final Set<String> sports){
+    private void showMultiSelectSportsList(final Set<String> sports){
         final String[] listItems;
         listItems = getResources().getStringArray(R.array.array_filter_sports);
         AlertDialog.Builder mBuilder = new AlertDialog.Builder(FilterTripsActivity.this);
@@ -255,7 +229,7 @@ public class FilterTripsActivity extends AppCompatActivity
             @Override
             public void onClick(DialogInterface dialogInterface, int which) {
                 mPresenter.saveSports(sports);
-                displaySports(sports);
+
             }
 
         });
@@ -280,7 +254,8 @@ public class FilterTripsActivity extends AppCompatActivity
         AlertDialog mDialog = mBuilder.create();
         mDialog.show();
     }
-    private void displaySports(Set <String> sports){
+    @Override
+    public void displaySports(Set <String> sports){
         int interestedColor = R.color.sport_available_course;
         int noInterestedColor = R.color.sport_available_no;
         int interestedColorCode = ContextCompat.getColor(FilterTripsActivity.this, interestedColor);
