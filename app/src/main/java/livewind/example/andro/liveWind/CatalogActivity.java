@@ -40,6 +40,9 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import livewind.example.andro.liveWind.FAQ.FAQActivity;
+import livewind.example.andro.liveWind.Filter.FilterTrips;
+import livewind.example.andro.liveWind.HelpClasses.CurrencyHelper;
+import livewind.example.andro.liveWind.HelpClasses.DateHelp;
 import livewind.example.andro.liveWind.firebase.FirebaseHelp;
 import livewind.example.andro.liveWind.user.UserActivity;
 import livewind.example.andro.liveWind.user.Windsurfer;
@@ -562,15 +565,15 @@ public class CatalogActivity extends AppCompatActivity  {
                         } else {
                             if (displayTripsOptions == EventContract.EventEntry.DISPLAY_TRIPS_FROM_AND_TO) {
                                 if (!event.getStartDate().equals(checkEventOrTrip) && (selectedCountries.contains(Integer.toString(event.getCountry())) || selectedCountries.contains(EventContract.EventEntry.COUNTRY_ALL_WORLD) || selectedCountries.contains(Integer.toString(event.getStartCountry())))) {
-                                    mEventAdapter.add(event);
+                                    if(checkFilters(event)) mEventAdapter.add(event);
                                 }
                             } else if (displayTripsOptions == EventContract.EventEntry.DISPLAY_TRIPS_FROM) {
                                 if (!event.getStartDate().equals(checkEventOrTrip) && (selectedCountries.contains(EventContract.EventEntry.COUNTRY_ALL_WORLD) || selectedCountries.contains(Integer.toString(event.getStartCountry())))) {
-                                    mEventAdapter.add(event);
+                                    if(checkFilters(event)) mEventAdapter.add(event);
                                 }
                             } else if (displayTripsOptions == EventContract.EventEntry.DISPLAY_TRIPS_TO) {
                                 if (!event.getStartDate().equals(checkEventOrTrip) && (selectedCountries.contains(EventContract.EventEntry.COUNTRY_ALL_WORLD) || selectedCountries.contains(Integer.toString(event.getCountry())))) {
-                                    mEventAdapter.add(event);
+                                    if(checkFilters(event)) mEventAdapter.add(event);
                                 }
                             }
                         }
@@ -999,5 +1002,26 @@ public class CatalogActivity extends AppCompatActivity  {
         } catch (Exception e) {
             Log.e("TAG", "printHashKey()", e);
         }
+    }
+
+    private boolean checkFilters(Event event){
+        //Load all filters from SharedPreferences
+        FilterTrips filterTrips = new FilterTrips();
+        filterTrips.getFilterTripsPreferences();
+       if(!(event.getTimestampStartDate()>=filterTrips.getmDateFromTimestamp())){
+            return false;
+        }
+        if(!(DateHelp.dateToTimestamp(event.getDate())<=filterTrips.getmDateToTimestamp())){
+            return false;
+        }
+        if(!(filterTrips.getmCountries().contains(String.valueOf(event.getCountry())))){
+            return false;
+        }
+        //TODO check sports
+
+        if(!(CurrencyHelper.currencyToPLN(Integer.valueOf(filterTrips.getmCost()),filterTrips.getmCurrency())>=CurrencyHelper.currencyToPLN(event.getCost(),event.getCurrency()))){
+            return false;
+        }
+        return true;
     }
 }
