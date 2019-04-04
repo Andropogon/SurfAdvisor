@@ -258,6 +258,7 @@
     <string name="settings_display_countries_key">interested_countries_key</string>
     <!-- Filter keys !-->
     <string name="settings_filter_cost_key">Cost_key</string>
+    <string name="settings_filter_currency_key">Currency_key</string>
     <string name="settings_filter_date_from_key">Date_from_key</string>
     <string name="settings_filter_date_to_key">Date_to_key</string>
     <string name="settings_filter_sports_key">Sports_key</string>

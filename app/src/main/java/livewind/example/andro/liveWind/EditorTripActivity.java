@@ -362,7 +362,7 @@ public class EditorTripActivity extends AppCompatActivity {
         });
     }
     /**
-     * Setup the dropdown spinner that allows the user to select the gender of the pet.
+     * Setup the dropdown spinner that allows the user to select the cost currency
      */
     private void setupCurrencySpinner() {
         // Create adapter for spinner. The list options are from the String array it will use

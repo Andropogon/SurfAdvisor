@@ -8,12 +8,17 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.util.Calendar;
@@ -25,6 +30,7 @@ import livewind.example.andro.liveWind.Countries.CountryGridAdapter;
 import livewind.example.andro.liveWind.HelpClasses.DateHelp;
 import livewind.example.andro.liveWind.ListView_help.ListViewHelp;
 import livewind.example.andro.liveWind.R;
+import livewind.example.andro.liveWind.data.EventContract;
 
 /**
  * Created by JGJ on 20/03/19.
@@ -38,6 +44,7 @@ public class FilterTripsActivity extends AppCompatActivity
 
     //UI properties
     private EditText mCostView;
+    private Spinner mCurrencySpinner;
     private TextView mDateFromTextView;
     private TextView mDateToTextView;
     private TextView mSportsTextView;
@@ -48,7 +55,10 @@ public class FilterTripsActivity extends AppCompatActivity
     private GridView mCountriesGridView;
     private CountryGridAdapter mCountryGridAdapter;
 
-    boolean[] checkedItems = new boolean[3];
+    private TextView mSearchButtonTextView;
+
+    boolean[] mCheckedItems = new boolean[3];
+    int mCurrency = 0;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -66,6 +76,9 @@ public class FilterTripsActivity extends AppCompatActivity
 
     private void initViews() {
         mCostView = findViewById(R.id.filter_price_value_edit_text);
+        mCurrencySpinner = findViewById(R.id.filter_price_currency_spinner);
+        setupCurrencySpinner();
+        loadCurrencySpinner();
 
         mDateFromTextView = findViewById(R.id.filter_date_from_text_view);
         mDateToTextView = findViewById(R.id.filter_date_to_text_view);
@@ -78,8 +91,9 @@ public class FilterTripsActivity extends AppCompatActivity
         mCountriesTextView = findViewById(R.id.filter_countries_text_view);
         mCountriesGridView = findViewById(R.id.filter_countries_grid_view);
 
-
+        mSearchButtonTextView = findViewById(R.id.filter_search_button_text_view);
     }
+
     private void initClickListeners(){
         mDateFromTextView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -129,6 +143,19 @@ public class FilterTripsActivity extends AppCompatActivity
                 CountryDialog.showSelectCountryDialog(FilterTripsActivity.this);
             }
         });
+        mCountriesGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+                //CountryDialog is saving checked countries as interesting.
+                CountryDialog.showSelectCountryDialog(FilterTripsActivity.this);
+            }
+        });
+        mSearchButtonTextView.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                saveAndOpenCatalogActivity();
+            }
+        });
     }
 
     @Override
@@ -142,10 +169,7 @@ public class FilterTripsActivity extends AppCompatActivity
         switch (item.getItemId()) {
             // Respond to a click on the "Save" menu option
             case livewind.example.andro.liveWind.R.id.action_save:
-                mPresenter.savePreferences(mCostView.getText().toString(),DateHelp.dateToTimestamp(mDateFromTextView.getText().toString()),DateHelp.dateToTimestamp(mDateToTextView.getText().toString()));
-                mPresenter.sendPreferences();
-                Intent intentCatalog = new Intent(FilterTripsActivity.this,CatalogActivity.class);
-                startActivity(intentCatalog);
+                saveAndOpenCatalogActivity();
                     return true;
             case android.R.id.home:
                 // TODO Add checking unsaved edits if (!mEventHasChanged) {
@@ -156,8 +180,9 @@ public class FilterTripsActivity extends AppCompatActivity
     }
 
     @Override
-    public void displayPreferences(String cost, long dateFromTimestamp, long dateToTimestamp, Set<String> countries){
+    public void displayPreferences(String cost, int currency, long dateFromTimestamp, long dateToTimestamp, Set<String> countries){
         mCostView.setText(cost);
+        mCurrencySpinner.setSelection(currency);
         mDateFromTextView.setText(DateHelp.timestampToDate(dateFromTimestamp));
         mDateToTextView.setText(DateHelp.timestampToDate(dateToTimestamp));
     }
@@ -173,25 +198,35 @@ public class FilterTripsActivity extends AppCompatActivity
         Drawable interestedSurfingBackgroundView = mSurfingImageView.getBackground();
         if(sports.contains("0")) {
             interestedWindsurfingBackgroundView.setColorFilter(interestedColorCode, PorterDuff.Mode.MULTIPLY);
-            checkedItems[0] = true;
+            mCheckedItems[0] = true;
         } else {
             interestedWindsurfingBackgroundView.setColorFilter(noInterestedColorCode, PorterDuff.Mode.MULTIPLY);
-            checkedItems[0] = false;
+            mCheckedItems[0] = false;
         }
         if(sports.contains("1")) {
             interestedKitesurfingBackgroundView.setColorFilter(interestedColorCode, PorterDuff.Mode.MULTIPLY);
-            checkedItems[1] = true;
+            mCheckedItems[1] = true;
         } else {
             interestedKitesurfingBackgroundView.setColorFilter(noInterestedColorCode, PorterDuff.Mode.MULTIPLY);
-            checkedItems[1] = false;
+            mCheckedItems[1] = false;
         }
         if(sports.contains("2")) {
             interestedSurfingBackgroundView.setColorFilter(interestedColorCode, PorterDuff.Mode.MULTIPLY);
-            checkedItems[2] = true;
+            mCheckedItems[2] = true;
         } else {
             interestedSurfingBackgroundView.setColorFilter(noInterestedColorCode, PorterDuff.Mode.MULTIPLY);
-            checkedItems[2] = false;
+            mCheckedItems[2] = false;
         }
+    }
+
+    /**
+     * Save data to preferences and open CatalogActivity
+     */
+    private void saveAndOpenCatalogActivity(){
+        mPresenter.savePreferences(mCostView.getText().toString(), mCurrency,DateHelp.dateToTimestamp(mDateFromTextView.getText().toString()),DateHelp.dateToTimestamp(mDateToTextView.getText().toString()));
+        mPresenter.sendPreferences();
+        Intent intentCatalog = new Intent(FilterTripsActivity.this,CatalogActivity.class);
+        startActivity(intentCatalog);
     }
 
     /**
@@ -203,7 +238,7 @@ public class FilterTripsActivity extends AppCompatActivity
         listItems = getResources().getStringArray(R.array.array_filter_sports);
         AlertDialog.Builder mBuilder = new AlertDialog.Builder(FilterTripsActivity.this);
         mBuilder.setTitle("Wybierz interesujące Cie sporty HC");
-        mBuilder.setMultiChoiceItems(listItems, checkedItems, new DialogInterface.OnMultiChoiceClickListener() {
+        mBuilder.setMultiChoiceItems(listItems, mCheckedItems, new DialogInterface.OnMultiChoiceClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int position, boolean isChecked) {
                 if(isChecked) {
@@ -237,5 +272,56 @@ public class FilterTripsActivity extends AppCompatActivity
         mDialog.show();
     }
 
+    /**
+     * Setup the dropdown spinner that allows the user to select the currency of max trip cost
+     */
+    private void setupCurrencySpinner() {
+        ArrayAdapter currencySpinnerAdapter = ArrayAdapter.createFromResource(this,
+                R.array.array_currency_options, android.R.layout.simple_spinner_item);
+        currencySpinnerAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
 
+        mCurrencySpinner.setAdapter(currencySpinnerAdapter);
+        mCurrencySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String selection = (String) parent.getItemAtPosition(position);
+                if (!TextUtils.isEmpty(selection)) {
+                    if (selection.equals(getString(R.string.currency_zl))) {
+                        mCurrency = EventContract.EventEntry.CURRENCY_ZL;
+                    } else if (selection.equals(getString(R.string.currency_euro))) {
+                        mCurrency = EventContract.EventEntry.CURRENCY_EURO;
+                    }else if (selection.equals(getString(R.string.currency_usd))) {
+                        mCurrency = EventContract.EventEntry.CURRENCY_USD;
+                    } else {
+                        //Default
+                        mCurrency = EventContract.EventEntry.CURRENCY_ZL;
+                    }
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                mCurrency = EventContract.EventEntry.CURRENCY_ZL;
+            }
+        });
+    }
+    /**
+     * Load the dropdown spinner that allows the user to select the currency of max trip cost
+     */
+    private void loadCurrencySpinner(){
+        switch (mCurrency) {
+            case EventContract.EventEntry.CURRENCY_ZL:
+                mCurrencySpinner.setSelection(0);
+                break;
+            case EventContract.EventEntry.CURRENCY_EURO:
+                mCurrencySpinner.setSelection(1);
+                break;
+            case EventContract.EventEntry.CURRENCY_USD:
+                mCurrencySpinner.setSelection(2);
+                break;
+            default:
+                mCurrencySpinner.setSelection(0);
+                break;
+        }
+    }
 }

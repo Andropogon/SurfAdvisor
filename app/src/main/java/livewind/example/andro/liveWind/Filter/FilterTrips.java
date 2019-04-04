@@ -19,6 +19,7 @@ public class FilterTrips {
 
     private Context mContext;
     private String mCost; //Max cost
+    private int mCurrency;
     private long mDateFromTimestamp;
     private long mDateToTimestamp;
     private Set<String> mSports;
@@ -29,15 +30,18 @@ public class FilterTrips {
     }
 
 
-    // Set functions
+    /**
+     * Set methods
+     */
     public void setmCost(String mCost) {
         this.mCost = mCost;
     }
-
+    public void setmCurrency(int mCurrency) {
+        this.mCurrency = mCurrency;
+    }
     public void setmDateFromTimestamp(long mDateFromTimestamp) {
         this.mDateFromTimestamp = mDateFromTimestamp;
     }
-
     public void setmDateToTimestamp(long mDateToTimestamp) {
         this.mDateToTimestamp = mDateToTimestamp;
     }
@@ -49,7 +53,6 @@ public class FilterTrips {
         this.mSports = sports;
     }
 
-
     /**
      * Set all filter preferences
      */
@@ -57,6 +60,7 @@ public class FilterTrips {
         SharedPreferences filterPref = PreferenceManager.getDefaultSharedPreferences(mContext);
         SharedPreferences.Editor editor = filterPref.edit();
         editor.putString(mContext.getString(R.string.settings_filter_cost_key),mCost);
+        editor.putInt(mContext.getString(R.string.settings_filter_currency_key),mCurrency);
         editor.putLong(mContext.getString(R.string.settings_filter_date_from_key),mDateFromTimestamp);
         editor.putLong(mContext.getString(R.string.settings_filter_date_to_key),mDateToTimestamp);
         editor.putStringSet(mContext.getString(R.string.settings_filter_sports_key),mSports);
@@ -69,19 +73,18 @@ public class FilterTrips {
     public String getmCost(){
         return mCost;
     }
-
+    public int getmCurrency() {
+        return mCurrency;
+    }
     public long getmDateFromTimestamp() {
         return mDateFromTimestamp;
     }
-
     public long getmDateToTimestamp() {
         return mDateToTimestamp;
     }
-
     public Set<String> getmSports() {
         return mSports;
     }
-
     public Set<String> getmCountries() {
         return mCountries;
     }
@@ -92,6 +95,7 @@ public class FilterTrips {
     public void getFilterTripsPreferences(){
         SharedPreferences filterPref = PreferenceManager.getDefaultSharedPreferences(mContext);
         mCost = filterPref.getString(mContext.getString(R.string.settings_filter_cost_key),"-1");
+        mCurrency = filterPref.getInt(mContext.getString(R.string.settings_filter_currency_key),-1);
         //TODO Add min. timestamp = today, checking
         mDateFromTimestamp = filterPref.getLong(mContext.getString(R.string.settings_filter_date_from_key),-1);
         mDateToTimestamp = filterPref.getLong(mContext.getString(R.string.settings_filter_date_to_key),-1);

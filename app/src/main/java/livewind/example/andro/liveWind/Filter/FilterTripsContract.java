@@ -10,13 +10,13 @@ import java.util.Set;
 public interface FilterTripsContract {
     /** Represents the View in MVP. */
     interface View {
-        void displayPreferences(String cost,long dateFromTimestamp, long dateToTimestamp,Set<String> countries);
+        void displayPreferences(String cost, int currency, long dateFromTimestamp, long dateToTimestamp,Set<String> countries);
         void displaySports(Set <String> sports);
     }
 
     /** Represents the Presenter in MVP. */
     interface Presenter {
-        void savePreferences(String cost,long dateFromTimestamp, long dateToTimestamp);
+        void savePreferences(String cost, int currency, long dateFromTimestamp, long dateToTimestamp);
 
         void saveSports(Set<String>sports);
 

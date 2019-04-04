@@ -185,9 +185,9 @@
                     android:hint="Kwota"/>
                 <Spinner
                     android:id="@+id/filter_price_currency_spinner"
-                    android:layout_width="50dp"
-
-                    android:layout_height="match_parent"></Spinner>
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:spinnerMode="dropdown"/>
             </LinearLayout>
     </LinearLayout>
             <TextView

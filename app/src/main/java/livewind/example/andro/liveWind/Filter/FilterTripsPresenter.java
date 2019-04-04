@@ -23,8 +23,9 @@ public class FilterTripsPresenter implements FilterTripsContract.Presenter{
     }
 
     @Override
-    public void savePreferences(String cost, long dateFromTimestamp, long dateToTimestamp) {
+    public void savePreferences(String cost, int currency, long dateFromTimestamp, long dateToTimestamp) {
         mFilterTrips.setmCost(cost);
+        mFilterTrips.setmCurrency(currency);
         mFilterTrips.setmDateFromTimestamp(dateFromTimestamp);
         mFilterTrips.setmDateToTimestamp(dateToTimestamp);
     }
@@ -50,7 +51,7 @@ public class FilterTripsPresenter implements FilterTripsContract.Presenter{
     @Override
     public void loadPreferences() {
         mFilterTrips.getFilterTripsPreferences();
-        mView.displayPreferences(mFilterTrips.getmCost(),mFilterTrips.getmDateFromTimestamp(),mFilterTrips.getmDateToTimestamp(),mFilterTrips.getmCountries());
+        mView.displayPreferences(mFilterTrips.getmCost(),mFilterTrips.getmCurrency(),mFilterTrips.getmDateFromTimestamp(),mFilterTrips.getmDateToTimestamp(),mFilterTrips.getmCountries());
         mView.displaySports(mFilterTrips.getmSports());
     }
 }
