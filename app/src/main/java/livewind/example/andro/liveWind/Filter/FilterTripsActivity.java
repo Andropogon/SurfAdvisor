@@ -55,10 +55,8 @@ public class FilterTripsActivity extends AppCompatActivity
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_filter);
-
-
-        // Creates presenter
         initViews();
+        // Creates presenter
         mPresenter = new FilterTripsPresenter(this);
         mPresenter.loadPreferences();
         mCountryGridAdapter = new CountryGridAdapter(this, mPresenter.getCountries(),0);
@@ -88,7 +86,7 @@ public class FilterTripsActivity extends AppCompatActivity
             public void onClick(View view) {
                 //Open showDatePickerDialog with start date = current
                 Calendar calendar = Calendar.getInstance();
-                showDatePickerDialog(mDateFromTextView,calendar);
+                DateHelp.showDatePickerDialog(FilterTripsActivity.this,mDateFromTextView,calendar);
             }
         });
         mDateToTextView.setOnClickListener(new View.OnClickListener() {
@@ -97,7 +95,7 @@ public class FilterTripsActivity extends AppCompatActivity
                 //Open showDatePickerDialog with start date = current
                 Calendar calendar = Calendar.getInstance();
                 //TODO Change calendar date to "from date - mDateFrom"
-                showDatePickerDialog(mDateToTextView,calendar);
+                DateHelp.showDatePickerDialog(FilterTripsActivity.this,mDateToTextView,calendar);
             }
         });
         mSportsTextView.setOnClickListener(new View.OnClickListener() {
@@ -135,8 +133,6 @@ public class FilterTripsActivity extends AppCompatActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu options from the res/menu/menu_editor.xml file.
-        // This adds menu items to the app bar.
         getMenuInflater().inflate(R.menu.menu_filter, menu);
         return true;
     }
@@ -166,40 +162,37 @@ public class FilterTripsActivity extends AppCompatActivity
         mDateToTextView.setText(DateHelp.timestampToDate(dateToTimestamp));
     }
 
-    /**
-     * DATE PICKER
-     **/
-    public void showDatePickerDialog(final TextView dateTextView, final Calendar calendar) {
-        dateTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                int currentYear = calendar.get(Calendar.YEAR);
-                int currentMonth = calendar.get(Calendar.MONTH);
-                int currentDay = calendar.get(Calendar.DAY_OF_MONTH);
-                DatePickerDialog datePickerDialog = new DatePickerDialog(FilterTripsActivity.this, new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                        month = month + 1;// datapicker dialog gives month from 0
-                        String monthString = "";
-                        String dayString = "";
-                        if (month < 10) {
-                            monthString = "0" + Integer.toString(month);
-                        } else {
-                            monthString = Integer.toString(month);
-                        }
-                        if (day < 10) {
-                            dayString = "0" + Integer.toString(day);
-                        } else {
-                            dayString = Integer.toString(day);
-                        }
-                        dateTextView.setText(dayString + "." + monthString + "." + Integer.toString(year));
-                    }
-                }, currentYear, currentMonth, currentDay);
-                datePickerDialog.show();
-            }
-        });
+    @Override
+    public void displaySports(Set <String> sports){
+        int interestedColor = R.color.sport_available_course;
+        int noInterestedColor = R.color.sport_available_no;
+        int interestedColorCode = ContextCompat.getColor(FilterTripsActivity.this, interestedColor);
+        int noInterestedColorCode = ContextCompat.getColor(FilterTripsActivity.this, noInterestedColor);
+        Drawable interestedWindsurfingBackgroundView = mWindsurfingImageView.getBackground();
+        Drawable interestedKitesurfingBackgroundView = mKitesurfingImageView.getBackground();
+        Drawable interestedSurfingBackgroundView = mSurfingImageView.getBackground();
+        if(sports.contains("0")) {
+            interestedWindsurfingBackgroundView.setColorFilter(interestedColorCode, PorterDuff.Mode.MULTIPLY);
+            checkedItems[0] = true;
+        } else {
+            interestedWindsurfingBackgroundView.setColorFilter(noInterestedColorCode, PorterDuff.Mode.MULTIPLY);
+            checkedItems[0] = false;
+        }
+        if(sports.contains("1")) {
+            interestedKitesurfingBackgroundView.setColorFilter(interestedColorCode, PorterDuff.Mode.MULTIPLY);
+            checkedItems[1] = true;
+        } else {
+            interestedKitesurfingBackgroundView.setColorFilter(noInterestedColorCode, PorterDuff.Mode.MULTIPLY);
+            checkedItems[1] = false;
+        }
+        if(sports.contains("2")) {
+            interestedSurfingBackgroundView.setColorFilter(interestedColorCode, PorterDuff.Mode.MULTIPLY);
+            checkedItems[2] = true;
+        } else {
+            interestedSurfingBackgroundView.setColorFilter(noInterestedColorCode, PorterDuff.Mode.MULTIPLY);
+            checkedItems[2] = false;
+        }
     }
-
 
     /**
      * Dialog with multiselect list of sports
@@ -240,49 +233,9 @@ public class FilterTripsActivity extends AppCompatActivity
                 dialogInterface.dismiss();
             }
         });
-/**
-        mBuilder.setNeutralButton("CLEAR ALL HC", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int which) {
-                for (int i = 0; i < checkedItems.length; i++) {
-                    checkedItems[i] = false;
-                }
-            }
-        });
- */
-
         AlertDialog mDialog = mBuilder.create();
         mDialog.show();
     }
-    @Override
-    public void displaySports(Set <String> sports){
-        int interestedColor = R.color.sport_available_course;
-        int noInterestedColor = R.color.sport_available_no;
-        int interestedColorCode = ContextCompat.getColor(FilterTripsActivity.this, interestedColor);
-        int noInterestedColorCode = ContextCompat.getColor(FilterTripsActivity.this, noInterestedColor);
-        Drawable interestedWindsurfingBackgroundView = mWindsurfingImageView.getBackground();
-        Drawable interestedKitesurfingBackgroundView = mKitesurfingImageView.getBackground();
-        Drawable interestedSurfingBackgroundView = mSurfingImageView.getBackground();
-        if(sports.contains("0")) {
-            interestedWindsurfingBackgroundView.setColorFilter(interestedColorCode, PorterDuff.Mode.MULTIPLY);
-            checkedItems[0] = true;
-        } else {
-            interestedWindsurfingBackgroundView.setColorFilter(noInterestedColorCode, PorterDuff.Mode.MULTIPLY);
-            checkedItems[0] = false;
-        }
-        if(sports.contains("1")) {
-            interestedKitesurfingBackgroundView.setColorFilter(interestedColorCode, PorterDuff.Mode.MULTIPLY);
-            checkedItems[1] = true;
-        } else {
-            interestedKitesurfingBackgroundView.setColorFilter(noInterestedColorCode, PorterDuff.Mode.MULTIPLY);
-            checkedItems[1] = false;
-        }
-        if(sports.contains("2")) {
-            interestedSurfingBackgroundView.setColorFilter(interestedColorCode, PorterDuff.Mode.MULTIPLY);
-            checkedItems[2] = true;
-        } else {
-            interestedSurfingBackgroundView.setColorFilter(noInterestedColorCode, PorterDuff.Mode.MULTIPLY);
-            checkedItems[2] = false;
-        }
-    }
+
+
 }
