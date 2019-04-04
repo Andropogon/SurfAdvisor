@@ -1,8 +1,6 @@
 package livewind.example.andro.liveWind;
 
 import android.app.AlertDialog;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
@@ -15,7 +13,6 @@ import android.content.pm.Signature;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
-import android.os.Build;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -426,23 +423,6 @@ public class CatalogActivity extends AppCompatActivity  {
                 Intent intent = new Intent(CatalogActivity.this, EditorChoose.class);
                 mExtraInfoHelp.putWindsurferToIntent(intent,mWindsurfer,getApplicationContext());
                 startActivity(intent);
-                /**
-                SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-                boolean displayBoolean = sharedPref.getBoolean(getApplicationContext().getString(livewind.example.andro.liveWind.R.string.settings_display_boolean), true);
-                if(displayBoolean){
-                Intent intent = new Intent(CatalogActivity.this, EditorActivity.class);
-                //PutExtra user data to know who make event
-                mExtraInfoHelp.putWindsurferToIntent(intent,mWindsurfer,getApplicationContext());
-                startActivity(intent);
-
-
-            } else {
-                    Intent intent = new Intent(CatalogActivity.this, EditorTripActivity.class);
-                    //PutExtra user data to know who make event
-                    mExtraInfoHelp.putWindsurferToIntent(intent,mWindsurfer,getApplicationContext());
-                    startActivity(intent);
-                }
-                 */
         }});
 
         // Setup the item click listener to open EventActivity or EventTripActivity
@@ -760,23 +740,6 @@ public class CatalogActivity extends AppCompatActivity  {
 
         });
     }
-
-    private void createNotificationChannel() {
-        // Create the NotificationChannel, but only on API 26+ because
-        // the NotificationChannel class is new and not in the support library
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            CharSequence name = "CHANNEL NAME";
-            String description = "CHANNEL DESCRIPTION";
-            int importance = NotificationManager.IMPORTANCE_DEFAULT;
-            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
-            channel.setDescription(description);
-            // Register the channel with the system; you can't change the importance
-            // or other notification behaviors after this
-            NotificationManager notificationManager = getSystemService(NotificationManager.class);
-            notificationManager.createNotificationChannel(channel);
-        }
-    }
-
     /**
      * SELECT COUNTRY DIALOG
      */
