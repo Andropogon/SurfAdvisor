@@ -292,7 +292,7 @@ public class Event extends EventTrip implements Comparable<Event>{
     }
 
     /**
-     * Additional methods for spinner - //TODO this method should be deleted from here
+     * Additional method for spinner - //TODO this method should be deleted from here
      */
     public void loadCountrySpinner(Spinner countrySpinner) {
         switch (mCountry) {
@@ -363,7 +363,7 @@ public class Event extends EventTrip implements Comparable<Event>{
     }
 
     /**
-     * Additional methods for comparing - not used at all but needed for other Comparators
+     * Additional method for comparing - not used at all but needed for other Comparators
      */
     @Override
     public int compareTo(@NonNull Event event) {
