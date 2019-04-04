@@ -1,6 +1,5 @@
 package livewind.example.andro.liveWind.Filter;
 import android.app.AlertDialog;
-import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.PorterDuff;
@@ -12,7 +11,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -25,6 +23,7 @@ import livewind.example.andro.liveWind.CatalogActivity;
 import livewind.example.andro.liveWind.Countries.CountryDialog;
 import livewind.example.andro.liveWind.Countries.CountryGridAdapter;
 import livewind.example.andro.liveWind.HelpClasses.DateHelp;
+import livewind.example.andro.liveWind.ListView_help.ListViewHelp;
 import livewind.example.andro.liveWind.R;
 
 /**
@@ -61,6 +60,7 @@ public class FilterTripsActivity extends AppCompatActivity
         mPresenter.loadPreferences();
         mCountryGridAdapter = new CountryGridAdapter(this, mPresenter.getCountries(),0);
         mCountriesGridView.setAdapter(mCountryGridAdapter);
+        ListViewHelp.setListViewHeightBasedOnChildren(mCountriesGridView,6);
         initClickListeners();
     }
 

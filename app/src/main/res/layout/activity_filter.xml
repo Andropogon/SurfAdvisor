@@ -3,29 +3,43 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
             <TextView
-                style="@style/eventInfoTextMedium"
-                android:layout_margin="16dp"
+                style="@style/eventInfoTextSmall"
+                android:layout_margin="12dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textStyle="bold"
-                android:text="Filtry:"/>
+                android:text="@string/filter_trips_subtitle"/>
+            <View style="@style/DividerFilter" />\
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp"
+                android:orientation="vertical"
+                android:background="@drawable/filter_background">
             <TextView
                 android:padding="8dp"
                 style="@style/eventInfoTextSmall"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Wybierz przedział czasowy, który Cie interesuje:"/>
+                android:gravity="center"
+                android:text="@string/filter_trips_date"/>
+                <View style="@style/DividerFilter"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="4dp" />
             <LinearLayout
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/whiteColor"
                 android:orientation="horizontal">
                 <TextView
                     android:id="@+id/filter_date_from_text_view"
@@ -40,7 +54,6 @@
                     android:layout_height="48dp"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:background="@color/app_main_color"
                     android:text="-" />
                 <TextView
                     android:id="@+id/filter_date_to_text_view"
@@ -51,31 +64,60 @@
                     android:background="?attr/editTextBackground"
                     android:hint="@string/event_trip_to"/>
             </LinearLayout>
+            </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:orientation="vertical"
+        android:background="@drawable/filter_background">
             <TextView
                 android:id="@+id/filter_countries_text_view"
                 android:padding="8dp"
                 style="@style/eventInfoTextSmall"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/catalog_activity_dialog_select_country_title"/>
+                android:gravity="center"
+                android:text="@string/filter_trips_countries"/>
+        <View style="@style/DividerFilter"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp" />
             <GridView
                 android:layout_marginRight="8dp"
                 android:layout_marginLeft="8dp"
                 android:id="@+id/filter_countries_grid_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:numColumns="6"
-                android:background="@color/app_primary_color"></GridView>
+                android:numColumns="6"></GridView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:orientation="vertical"
+        android:background="@drawable/filter_background">
             <TextView
                 android:id="@+id/filter_sports_text_view"
                 android:padding="8dp"
                 style="@style/eventInfoTextSmall"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Select sports you are interested in"/>
+                android:gravity="center"
+                android:text="@string/filter_trips_sports"/>
+        <View style="@style/DividerFilter"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp" />
             <LinearLayout
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="12dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -107,18 +149,30 @@
                     android:background="@drawable/custom_circle_24dp"
                     android:src="@drawable/surfing_icon"/>
             </LinearLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:orientation="vertical"
+        android:background="@drawable/filter_background">
             <TextView
                 android:id="@+id/filter_price_text_view"
                 android:padding="8dp"
                 style="@style/eventInfoTextSmall"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Wybierz przedział cenowy, który Cie interesuje:"/>
+                android:gravity="center"
+                android:text="@string/filter_trips_cost"/>
+        <View style="@style/DividerFilter"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp" />
             <LinearLayout
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
                 android:layout_width="match_parent"
-                android:background="@color/whiteColor"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
                 <EditText
@@ -135,6 +189,24 @@
 
                     android:layout_height="match_parent"></Spinner>
             </LinearLayout>
+    </LinearLayout>
+            <TextView
+                android:layout_marginTop="10dp"
+                android:id="@+id/filter_search_button_text_view"
+                style="@style/eventInfoTextSmall"
+                android:layout_width="128dp"
+                android:layout_height="48dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginBottom="4dp"
+                android:background="@drawable/custom_button_small"
+                android:gravity="center"
+                android:padding="8dp"
+                android:text="@string/filter_trips_search"
+                android:textAllCaps="true"
+                android:textColor="@color/dark_green"
+                android:textStyle="bold" />
             <TextView
                 style="@style/eventInfoTextMedium"
                 android:layout_margin="16dp"
@@ -159,4 +231,5 @@
                 android:layout_height="match_parent"></Spinner>
         </LinearLayout>
         </LinearLayout>
+    </ScrollView>
 </android.support.constraint.ConstraintLayout>

@@ -50,7 +50,7 @@
         <activity
             android:theme="@style/AppTheme"
             android:name="livewind.example.andro.liveWind.Filter.FilterTripsActivity"
-            android:label="Filter_HC"></activity>
+            android:label="@string/filter_trips_title"></activity>
         <activity
             android:name="livewind.example.andro.liveWind.EventActivity"
             android:label="@string/event_activity_title"

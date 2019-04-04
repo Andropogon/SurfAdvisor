@@ -47,9 +47,6 @@ public class DateHelp {
     }
 
     public static void showDatePickerDialog(final Context context, final TextView dateTextView, final Calendar calendar) {
-        dateTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
                 int currentYear = calendar.get(Calendar.YEAR);
                 int currentMonth = calendar.get(Calendar.MONTH);
                 int currentDay = calendar.get(Calendar.DAY_OF_MONTH);
@@ -74,6 +71,4 @@ public class DateHelp {
                 }, currentYear, currentMonth, currentDay);
                 datePickerDialog.show();
             }
-        });
-    }
 }

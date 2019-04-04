@@ -1,12 +1,7 @@
 package livewind.example.andro.liveWind.Filter;
 
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
-
 import java.util.ArrayList;
 import java.util.Set;
-
-import livewind.example.andro.liveWind.R;
 
 /**
  * Created by JGJ on 20/03/19.
