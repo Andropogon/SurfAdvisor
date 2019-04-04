@@ -3,6 +3,14 @@ package livewind.example.andro.liveWind;
 import android.widget.Spinner;
 import livewind.example.andro.liveWind.data.EventContract;
 
+/**
+ * Created by JGJ on 25/10/18.
+ * Header added during refactoring add 05/04/2019 by JGJ.
+ *
+ * Class for trips, with wrongly designed the inheritance tree on which the database is built. (now I couldn't change it because users use database)
+ * It's why Event extends EventTrip (not opposite) and I use strange initEventTrip 'constructors'
+ *
+ */
 public class EventTrip{
     protected String startPlace;
     protected int startCountry;
