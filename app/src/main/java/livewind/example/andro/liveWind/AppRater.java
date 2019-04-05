@@ -20,8 +20,8 @@ public class AppRater {
     private final static String APP_TITLE = " SurfAdvisor";// App Name
     private final static String APP_PNAME = "livewind.example.andro.liveWind";// Package Name
 
-    private final static int DAYS_UNTIL_PROMPT = 5;//Min number of days
-    private final static int LAUNCHES_UNTIL_PROMPT = 15;//Min number of launches
+    private final static int DAYS_UNTIL_PROMPT = 4;//Min number of days
+    private final static int LAUNCHES_UNTIL_PROMPT = 7;//Min number of launches
 
     public static void app_launched(Context mContext) {
         SharedPreferences prefs = mContext.getSharedPreferences("apprater", 0);

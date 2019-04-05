@@ -15,6 +15,8 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
 
+import com.google.firebase.messaging.FirebaseMessaging;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
@@ -60,27 +62,27 @@ public class CountryDialog {
 
         ListView listView = dialogView.findViewById(R.id.dialog_catalog_activity_select_country_list_view);
         final ArrayList<Country> mList = new ArrayList<Country>();
-        mList.add(new Country(context.getString(R.string.country_number_0),R.drawable.flag_world));
-        mList.add(new Country(context.getString(R.string.country_number_1),R.drawable.flag_pl));
-        mList.add(new Country(context.getString(R.string.country_number_2),R.drawable.flag_gr));
-        mList.add(new Country(context.getString(R.string.country_number_3),R.drawable.flag_es));
-        mList.add(new Country(context.getString(R.string.country_number_4),R.drawable.flag_hr));
-        mList.add(new Country(context.getString(R.string.country_number_5),R.drawable.flag_pt));
-        mList.add(new Country(context.getString(R.string.country_number_6),R.drawable.flag_de));
-        mList.add(new Country(context.getString(R.string.country_number_7),R.drawable.flag_fr));
-        mList.add(new Country(context.getString(R.string.country_number_8),R.drawable.flag_za));
-        mList.add(new Country(context.getString(R.string.country_number_9),R.drawable.flag_ma));
-        mList.add(new Country(context.getString(R.string.country_number_10),R.drawable.flag_it));
-        mList.add(new Country(context.getString(R.string.country_number_11),R.drawable.flag_eg));
-        mList.add(new Country(context.getString(R.string.country_number_12),R.drawable.flag_uk));
-        mList.add(new Country(context.getString(R.string.country_number_13),R.drawable.flag_tr));
-        mList.add(new Country(context.getString(R.string.country_number_14),R.drawable.flag_at));
-        mList.add(new Country(context.getString(R.string.country_number_15),R.drawable.flag_dk));
-        mList.add(new Country(context.getString(R.string.country_number_16),R.drawable.flag_br));
-        mList.add(new Country(context.getString(R.string.country_number_17),R.drawable.flag_us));
-        mList.add(new Country(context.getString(R.string.country_number_18),R.drawable.flag_vn));
-        mList.add(new Country(context.getString(R.string.country_number_19),R.drawable.flag_mt));
-        mList.add(new Country(context.getString(R.string.country_number_20),R.drawable.flag_world));
+        mList.add(new Country(context.getString(R.string.country_number_0),R.drawable.flag_world,context.getString(R.string.country_number_0_key)));
+        mList.add(new Country(context.getString(R.string.country_number_1),R.drawable.flag_pl,context.getString(R.string.country_number_1_key)));
+        mList.add(new Country(context.getString(R.string.country_number_2),R.drawable.flag_gr,context.getString(R.string.country_number_2_key)));
+        mList.add(new Country(context.getString(R.string.country_number_3),R.drawable.flag_es,context.getString(R.string.country_number_3_key)));
+        mList.add(new Country(context.getString(R.string.country_number_4),R.drawable.flag_hr,context.getString(R.string.country_number_4_key)));
+        mList.add(new Country(context.getString(R.string.country_number_5),R.drawable.flag_pt,context.getString(R.string.country_number_5_key)));
+        mList.add(new Country(context.getString(R.string.country_number_6),R.drawable.flag_de,context.getString(R.string.country_number_6_key)));
+        mList.add(new Country(context.getString(R.string.country_number_7),R.drawable.flag_fr,context.getString(R.string.country_number_7_key)));
+        mList.add(new Country(context.getString(R.string.country_number_8),R.drawable.flag_za,context.getString(R.string.country_number_8_key)));
+        mList.add(new Country(context.getString(R.string.country_number_9),R.drawable.flag_ma,context.getString(R.string.country_number_9_key)));
+        mList.add(new Country(context.getString(R.string.country_number_10),R.drawable.flag_it,context.getString(R.string.country_number_10_key)));
+        mList.add(new Country(context.getString(R.string.country_number_11),R.drawable.flag_eg,context.getString(R.string.country_number_11_key)));
+        mList.add(new Country(context.getString(R.string.country_number_12),R.drawable.flag_uk,context.getString(R.string.country_number_12_key)));
+        mList.add(new Country(context.getString(R.string.country_number_13),R.drawable.flag_tr,context.getString(R.string.country_number_13_key)));
+        mList.add(new Country(context.getString(R.string.country_number_14),R.drawable.flag_at,context.getString(R.string.country_number_14_key)));
+        mList.add(new Country(context.getString(R.string.country_number_15),R.drawable.flag_dk,context.getString(R.string.country_number_15_key)));
+        mList.add(new Country(context.getString(R.string.country_number_16),R.drawable.flag_br,context.getString(R.string.country_number_16_key)));
+        mList.add(new Country(context.getString(R.string.country_number_17),R.drawable.flag_us,context.getString(R.string.country_number_17_key)));
+        mList.add(new Country(context.getString(R.string.country_number_18),R.drawable.flag_vn,context.getString(R.string.country_number_18_key)));
+        mList.add(new Country(context.getString(R.string.country_number_19),R.drawable.flag_mt,context.getString(R.string.country_number_19_key)));
+        mList.add(new Country(context.getString(R.string.country_number_20),R.drawable.flag_world,context.getString(R.string.country_number_20_key)));
         CountryAdapter adapter = new CountryAdapter(context, mList,0);
         listView.setAdapter(adapter);
         listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
@@ -90,6 +92,8 @@ public class CountryDialog {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (mList.get(position).isChecked()) {
                     mList.get(position).setChecked(false);
+                    //Topic subscription:
+                    FirebaseMessaging.getInstance().subscribeToTopic(mList.get(position).getTopicKey());
                     ImageView mCheckBoxImageView = view.findViewById(R.id.select_country_list_check_box_image_view);
                     mCheckBoxImageView.setImageResource(R.drawable.ic_check_box_outline_blank_white_24dp);
                     SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
@@ -103,6 +107,8 @@ public class CountryDialog {
                     //   recreate();
                 } else {
                     mList.get(position).setChecked(true);
+                    //Topic unsubscription:
+                    FirebaseMessaging.getInstance().unsubscribeFromTopic(mList.get(position).getTopicKey());
                     ImageView mCheckBoxImageView = view.findViewById(R.id.select_country_list_check_box_image_view);
                     mCheckBoxImageView.setImageResource(R.drawable.ic_check_box_white_24dp);
                     SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);

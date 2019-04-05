@@ -5,11 +5,13 @@ public class Country {
     private int nameId;
     private String name;
     private boolean checked;
+    private String topicKey;
 
-    public Country(String mCountryName, int mCountryFlagId){
-        name=mCountryName;
-        flagId=mCountryFlagId;
-        checked=false;
+    public Country(String countryName, int countryFlagId,String topicKey){
+        this.name=countryName;
+        this.flagId=countryFlagId;
+        this.checked=false;
+        this.topicKey=topicKey;
     }
 
     public int getFlagId() {
@@ -22,6 +24,10 @@ public class Country {
 
     public void setFlagId(int flagId) {
         this.flagId = flagId;
+    }
+
+    public String getTopicKey() {
+        return topicKey;
     }
 
     public void setName(String name) {
