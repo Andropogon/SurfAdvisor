@@ -17,6 +17,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -31,7 +32,9 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import livewind.example.andro.liveWind.CatalogActivity;
 import livewind.example.andro.liveWind.Event;
@@ -189,81 +192,66 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         String windPower = data.get("wind_power");
         String waveSize = data.get("wave_size");
         String comment = data.get("comment");
-        Event newEvent = new Event(getApplicationContext(),data.get("id"),data.get("username"),data.get("uid"),place,Integer.valueOf(data.get("country")),Integer.valueOf(data.get("type")),Integer.valueOf(windPower),Double.valueOf(waveSize),Integer.valueOf(data.get("conditions")),comment,data.get("photoUrl"),"user_icon_goya_banzai_24");
+        Event newEvent = new Event(getApplicationContext(), data.get("id"), data.get("username"), data.get("uid"), place, Integer.valueOf(data.get("country")), Integer.valueOf(data.get("type")), Integer.valueOf(windPower), Double.valueOf(waveSize), Integer.valueOf(data.get("conditions")), comment, data.get("photoUrl"), "user_icon_goya_banzai_24");
         newEvent.setmSharesCounter(Integer.valueOf(data.get("sharesCounter")));
-        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-        FirebaseUser user = firebaseAuth.getCurrentUser();
         //Check if it's a new user or not
 
-        checkUser(user.getDisplayName(), user.getEmail(), user.getUid());
-        intent = putCoverageToIntent(intent, newEvent, mWindsurfer, getApplicationContext());
-        putWindsurferToIntent(intent, mWindsurfer, getApplicationContext());
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
-                PendingIntent.FLAG_ONE_SHOT);
-        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID);
+        if (checkUser()) {
+            //If we get user data from firebase lets make notification
+            intent = putCoverageToIntent(intent, newEvent, mWindsurfer, getApplicationContext());
+            SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+            final String uid = sharedPrefs.getString(getString(R.string.user_uid_shared_preference), "0");
+            mWindsurfer.setUid(uid);
+            putWindsurferToIntent(intent, mWindsurfer, getApplicationContext());
 
-        notificationBuilder.setAutoCancel(true)
-                .setDefaults(Notification.DEFAULT_ALL)
-                .setWhen(System.currentTimeMillis())
-                .setSmallIcon(R.drawable.ic_thumb_up_black_24dp)
-                .setColor(getColor(R.color.notifications_color))
-                .setLargeIcon(BitmapFactory.decodeResource(getApplicationContext().getResources(), R.drawable.notifiaction_new_coverage))
-                .setTicker(getApplicationContext().getString(R.string.notification_new_coverage_title))
-                //     .setPriority(Notification.PRIORITY_MAX)
-                .setContentTitle(getApplicationContext().getString(R.string.notification_new_coverage_title) + place)
-                .setContentText(place + " - " + windPower + "kn, " + waveSize + "m, " + comment)
-                .setContentInfo("Info")
-                .setTimeoutAfter(28800000L) //After 8h notification should be canceled
-                // Set the intent that will fire when the user taps the notification
-                .setContentIntent(pendingIntent)
-                .setAutoCancel(true);
-        notificationManager.notify(data.hashCode(), notificationBuilder.build());
+            NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID);
+            PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
+                    PendingIntent.FLAG_ONE_SHOT);
+            notificationBuilder.setAutoCancel(true)
+                    .setDefaults(Notification.DEFAULT_ALL)
+                    .setWhen(System.currentTimeMillis())
+                    .setSmallIcon(R.drawable.ic_thumb_up_black_24dp)
+                    .setColor(getColor(R.color.notifications_color))
+                    .setLargeIcon(BitmapFactory.decodeResource(getApplicationContext().getResources(), R.drawable.notifiaction_new_coverage))
+                    .setTicker(getApplicationContext().getString(R.string.notification_new_coverage_title))
+                    //     .setPriority(Notification.PRIORITY_MAX)
+                    .setContentTitle(getApplicationContext().getString(R.string.notification_new_coverage_title) + place)
+                    .setContentText(place + " - " + windPower + "kn, " + waveSize + "m, " + comment)
+                    .setContentInfo("Info")
+                    .setTimeoutAfter(28800000L) //After 8h notification should be canceled
+                    // Set the intent that will fire when the user taps the notification
+                    .setContentIntent(pendingIntent)
+                    .setAutoCancel(true);
+            notificationManager.notify(data.hashCode(), notificationBuilder.build());
+        }
     }
 
-    //Function for gets user data and create user in firebase if user is new
-    private void checkUser(final String loggedUserNick, final String loggedUserEmail, final String loggedUserUid){
-        Query usersQuery = mUsersDatabaseReference.orderByChild("uid").equalTo(loggedUserUid);
-        usersQuery.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    //old user
-                    mWindsurfer = dataSnapshot.child(loggedUserUid).getValue(Windsurfer.class);
-                }
-                else {
-                    //new user
-                    mWindsurfer = new Windsurfer(loggedUserUid,loggedUserNick, loggedUserEmail, 500, 0, 0,getApplicationContext() );
-                    mUsersDatabaseReference.child(loggedUserUid).setValue(mWindsurfer);
-                    mUsersNicknamesDatabaseReference.child(loggedUserNick).setValue(loggedUserUid);
-                }
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-            }
-        });
+    //Function for gets user data using shared pref
+    private boolean checkUser() {
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        final String uid = sharedPrefs.getString(getString(R.string.user_uid_shared_preference), "0");
 
-        mUsersNicknamesDatabaseReference.child(loggedUserNick).runTransaction(new Transaction.Handler() {
-            @Override
-            public Transaction.Result doTransaction(MutableData mutableData) {
-                if (mutableData.getValue() == null) {
-                    mutableData.setValue(loggedUserUid);
-                    return Transaction.success(mutableData);
+        if (uid.equals("0")) {
+            //Don't create notification
+            return false;
+        } else {
+            Query usersQuery = mUsersDatabaseReference.orderByChild("uid").equalTo(uid);
+            usersQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.exists()) {
+                        //TODO THIS ISN"T WORKING...
+                        mWindsurfer = dataSnapshot.child(uid).getValue(Windsurfer.class);
+                    } else {
+                        Toast.makeText(getApplicationContext(), "ERROR", Toast.LENGTH_SHORT).show();
+                    }
                 }
 
-                return Transaction.abort();
-            }
-
-            @Override
-            public void onComplete(@Nullable DatabaseError databaseError, boolean commited, @Nullable DataSnapshot dataSnapshot) {
-                if (commited) {
-                    // username saved
-                    Log.i("LOGIN","USERNAME SAVED");
-                } else {
-                    // username exists
-                    Log.i("LOGIN","USERNAME EXIST");
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
                 }
-            }
-
-        });
+            });
+            return true;
+        }
     }
 }

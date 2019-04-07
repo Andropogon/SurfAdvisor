@@ -49,6 +49,8 @@ import java.util.Map;
 
 import livewind.example.andro.liveWind.data.EventContract;
 
+import static livewind.example.andro.liveWind.ExtraInfoHelp.getWindsurferFromIntent;
+
 /**
  * Allows user to create a new tripEvent or edit an existing one.
  */
@@ -219,7 +221,7 @@ public class EditorTripActivity extends AppCompatActivity {
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         mEventsDatabaseReference = mFirebaseDatabase.getReference().child("events");
 
-        mWindsurfer = mExtraInfoHelp.getWindsurferFromIntent(intent,getApplicationContext());
+        getWindsurferFromIntent(intent,mWindsurfer,getApplicationContext());
 
         //Check that is new event or not.
         if (intent.getStringExtra(getString(R.string.EXTRA_EVENT_PLACE)) == null) {

@@ -8,9 +8,11 @@ import android.widget.RelativeLayout;
 
 import livewind.example.andro.liveWind.user.Windsurfer;
 
+import static livewind.example.andro.liveWind.ExtraInfoHelp.getWindsurferFromIntent;
+
 public class EditorChoose extends AppCompatActivity {
 
-    private Windsurfer mWindsurfer;
+    private Windsurfer mWindsurfer = new Windsurfer();
 
     /**
      * Trip Type
@@ -34,7 +36,7 @@ public class EditorChoose extends AppCompatActivity {
         setContentView(R.layout.activity_choose_editor);
         //Get windsurfer data
         Intent intent = getIntent();
-        mWindsurfer = mExtraInfoHelp.getWindsurferFromIntent(intent,getApplicationContext());
+        getWindsurferFromIntent(intent,mWindsurfer,getApplicationContext());
 
         RelativeLayout relationRelativeLayout = (RelativeLayout) findViewById(R.id.activity_choose_editor_relation_relative_layout);
         RelativeLayout organizedTripLayout = (RelativeLayout) findViewById(R.id.activity_choose_editor_organized_trip_relative_layout);

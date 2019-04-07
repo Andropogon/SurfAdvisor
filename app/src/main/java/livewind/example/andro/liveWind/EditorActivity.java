@@ -54,6 +54,8 @@ import java.util.Map;
 
 import livewind.example.andro.liveWind.data.EventContract;
 
+import static livewind.example.andro.liveWind.ExtraInfoHelp.getWindsurferFromIntent;
+
 /**
  * Allows user to create a new event or edit an existing one.
  */
@@ -196,7 +198,7 @@ public class EditorActivity extends AppCompatActivity {
 
 
         //Get windsurfer data
-        mWindsurfer = mExtraInfoHelp.getWindsurferFromIntent(intent,getApplicationContext());
+        getWindsurferFromIntent(intent,mWindsurfer,getApplicationContext());
 
         setupTypeSpinner();
         setupConditionsSpinner();

@@ -46,6 +46,8 @@ import java.util.List;
 
 import livewind.example.andro.liveWind.data.EventContract;
 
+import static livewind.example.andro.liveWind.ExtraInfoHelp.getWindsurferFromIntent;
+
 public class EventTripActivity extends AppCompatActivity {
 
     private ImageView mCountryImageView;
@@ -160,7 +162,7 @@ public class EventTripActivity extends AppCompatActivity {
         //Load event data
         mEvent = new Event();
         mExtraInfoHelp.getInfoFromIntent(intent, mEvent,getApplicationContext());
-        mWindsurfer = mExtraInfoHelp.getWindsurferFromIntent(intent, getApplicationContext());
+        getWindsurferFromIntent(intent, mWindsurfer,getApplicationContext());
         // Update the views on the screen with the values from the database
         mPlaceTextView.setText(mEvent.getPlace());
         mDateTextView.setText(mEvent.getDate());

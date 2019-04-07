@@ -154,8 +154,7 @@ public class ExtraInfoHelp {
         return intent;
     }
 
-    public static Windsurfer getWindsurferFromIntent(Intent intent,Context context){
-        Windsurfer windsurfer = new Windsurfer();
+    public static void getWindsurferFromIntent(Intent intent,Windsurfer windsurfer,Context context){
         windsurfer.setUsername(intent.getStringExtra(context.getString(livewind.example.andro.liveWind.R.string.EXTRA_WINDSURFER_NICKNAME)));
         windsurfer.setPoints(intent.getIntExtra(String.valueOf(context.getString(livewind.example.andro.liveWind.R.string.EXTRA_WINDSURFER_POINTS)),-1));
         windsurfer.setCreatedEvents(intent.getIntExtra(String.valueOf(context.getString(livewind.example.andro.liveWind.R.string.EXTRA_WINDSURFER_CREATED_EVENTS)),-1));
@@ -170,7 +169,6 @@ public class ExtraInfoHelp {
         windsurfer.setUserToken(intent.getStringExtra(context.getString(R.string.EXTRA_WINDSURFER_TOKEN)));
         windsurfer.setEmail(intent.getStringExtra(context.getString(R.string.EXTRA_WINDSURFER_EMAIL)));
         windsurfer.setPhotoLargeName(intent.getStringExtra(context.getString(R.string.EXTRA_WINDSURFER_PHOTO_LARGE_ID)));
-        return windsurfer;
     }
 
 }

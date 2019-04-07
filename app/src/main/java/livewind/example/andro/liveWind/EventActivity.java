@@ -76,13 +76,9 @@ public class EventActivity extends AppCompatActivity {
     private ImageView mNoPhotoImageView;
     private ImageView mCountryImageView;
 
-    private String CHANNEL_ID = "3";
     /**
      * FOR ADDING MEMBERS
      */
-
-    // private String mEventId;
-    //   private String yourUsername = "";
     private Windsurfer mWindsurfer = new Windsurfer();
 
     private ListView mMemberListView;
@@ -179,7 +175,7 @@ public class EventActivity extends AppCompatActivity {
         //For deleting photos with relation
         mFirebaseStorage = FirebaseStorage.getInstance();
         mEventsStorageReference = mFirebaseStorage.getReference().child("events_photos");
-        mWindsurfer = getWindsurferFromIntent(intent, getApplicationContext());
+        getWindsurferFromIntent(intent,mWindsurfer, getApplicationContext());
         // Update the views on the screen with the values from the database
         mPlaceTextView.setText(mEvent.getPlace());
         mSharesNumberTextView.setText(Integer.toString(mEvent.getmSharesCounter()));

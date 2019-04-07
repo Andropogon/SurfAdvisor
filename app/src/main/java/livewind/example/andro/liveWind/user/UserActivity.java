@@ -40,6 +40,8 @@ import livewind.example.andro.liveWind.firebase.FirebaseHelp;
 import livewind.example.andro.liveWind.promotions.Promotion;
 import livewind.example.andro.liveWind.promotions.PromotionsAdapter;
 
+import static livewind.example.andro.liveWind.ExtraInfoHelp.getWindsurferFromIntent;
+
 public class UserActivity extends AppCompatActivity {
     private Windsurfer mWindsurfer = new Windsurfer();
     private ExtraInfoHelp mExtraInfoHelp = new ExtraInfoHelp();
@@ -69,7 +71,7 @@ public class UserActivity extends AppCompatActivity {
         } catch (NoConnectionPendingException e){
             Toast.makeText(UserActivity.this, getString(R.string.toast_no_connection),Toast.LENGTH_SHORT).show();
         }
-        mWindsurfer = mExtraInfoHelp.getWindsurferFromIntent(intent,getApplicationContext());
+        getWindsurferFromIntent(intent,mWindsurfer,getApplicationContext());
 
 
         TextView nickTextView = (TextView) findViewById(livewind.example.andro.liveWind.R.id.user_nickname_text_view);
