@@ -62,6 +62,7 @@ import java.util.Map;
 import livewind.example.andro.liveWind.data.EventContract;
 
 import static livewind.example.andro.liveWind.ExtraInfoHelp.getInfoFromIntent;
+import static livewind.example.andro.liveWind.ExtraInfoHelp.getWindsurferFromIntent;
 
 public class EventActivity extends AppCompatActivity {
 
@@ -178,7 +179,7 @@ public class EventActivity extends AppCompatActivity {
         //For deleting photos with relation
         mFirebaseStorage = FirebaseStorage.getInstance();
         mEventsStorageReference = mFirebaseStorage.getReference().child("events_photos");
-        mWindsurfer = mExtraInfoHelp.getWindsurferFromIntent(intent, getApplicationContext());
+        mWindsurfer = getWindsurferFromIntent(intent, getApplicationContext());
         // Update the views on the screen with the values from the database
         mPlaceTextView.setText(mEvent.getPlace());
         mSharesNumberTextView.setText(Integer.toString(mEvent.getmSharesCounter()));

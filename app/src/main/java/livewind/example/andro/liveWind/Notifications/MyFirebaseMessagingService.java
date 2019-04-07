@@ -54,7 +54,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     private FirebaseDatabase mFirebaseDatabase = FirebaseDatabase.getInstance();
     private DatabaseReference mUsersDatabaseReference = mFirebaseDatabase.getReference().child("users");
     private DatabaseReference mUsersNicknamesDatabaseReference = mFirebaseDatabase.getReference().child("usernames");
-    private Windsurfer mWindsurfer;
+    private Windsurfer mWindsurfer= new Windsurfer();
 
     public MyFirebaseMessagingService(){};
     /**
@@ -194,6 +194,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         FirebaseUser user = firebaseAuth.getCurrentUser();
         //Check if it's a new user or not
+
         checkUser(user.getDisplayName(), user.getEmail(), user.getUid());
         intent = putCoverageToIntent(intent, newEvent, mWindsurfer, getApplicationContext());
         putWindsurferToIntent(intent, mWindsurfer, getApplicationContext());
