@@ -74,5 +74,6 @@
     <color name="light_green">#44b400</color>
     <color name="dark_green">#003f04</color>
 
+    <color name="notifications_color">#59daec</color>
     <color name="filter_background">#FBF3F1</color>
 </resources>

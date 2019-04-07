@@ -5,7 +5,9 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -14,7 +16,10 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.ArrayList;
@@ -92,8 +97,8 @@ public class CountryDialog {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (mList.get(position).isChecked()) {
                     mList.get(position).setChecked(false);
-                    //Topic subscription:
-                    FirebaseMessaging.getInstance().subscribeToTopic(mList.get(position).getTopicKey());
+                    //Topic unsubscription:
+                    FirebaseMessaging.getInstance().unsubscribeFromTopic(mList.get(position).getTopicKey());
                     ImageView mCheckBoxImageView = view.findViewById(R.id.select_country_list_check_box_image_view);
                     mCheckBoxImageView.setImageResource(R.drawable.ic_check_box_outline_blank_white_24dp);
                     SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
@@ -107,8 +112,18 @@ public class CountryDialog {
                     //   recreate();
                 } else {
                     mList.get(position).setChecked(true);
-                    //Topic unsubscription:
-                    FirebaseMessaging.getInstance().unsubscribeFromTopic(mList.get(position).getTopicKey());
+                    //Topic subscription:
+                    FirebaseMessaging.getInstance().subscribeToTopic(mList.get(position).getTopicKey()).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            String msg = context.getString(R.string.country_number_2);
+                            if (!task.isSuccessful()) {
+                                msg = context.getString(R.string.country_number_20);
+                            }
+                            Log.d("SUBSCRIBED", msg);
+                            Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
+                        }
+                    });
                     ImageView mCheckBoxImageView = view.findViewById(R.id.select_country_list_check_box_image_view);
                     mCheckBoxImageView.setImageResource(R.drawable.ic_check_box_white_24dp);
                     SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);

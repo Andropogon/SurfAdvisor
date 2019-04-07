@@ -61,6 +61,8 @@ import java.util.Map;
 
 import livewind.example.andro.liveWind.data.EventContract;
 
+import static livewind.example.andro.liveWind.ExtraInfoHelp.getInfoFromIntent;
+
 public class EventActivity extends AppCompatActivity {
 
     private TextView mPlaceTextView;
@@ -160,7 +162,7 @@ public class EventActivity extends AppCompatActivity {
 
         //Load event data
         mEvent = new Event();
-        mExtraInfoHelp.getInfoFromIntent(intent, mEvent, getApplicationContext());
+        getInfoFromIntent(intent, mEvent, getApplicationContext());
         //FIREBASE
         //For adding members
         mMembersDatabaseReference = mFirebaseDatabase.getReference().child("events").child(mEvent.getId()).child("mMembers");

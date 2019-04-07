@@ -493,6 +493,7 @@
     <string name="notification_relation_liked_title">Ktoś polubił Twoją relacje!</string>
     <string name="notification_relation_liked_text1">Twoja relacja z </string>
     <string name="notification_relation_liked_text2"> została polubiona (</string>
+    <string name="notification_new_coverage_title">"Nowa relacja z "</string>
 
     <!-- Events Categories -->
     <string name="category_event_relation">Relacja Live</string>

@@ -497,6 +497,7 @@
     <string name="notification_relation_liked_title">Someone liked your coverage!</string>
     <string name="notification_relation_liked_text1">Your coverage from </string>
     <string name="notification_relation_liked_text2"> was liked (</string>
+    <string name="notification_new_coverage_title">"New coverage from "</string>
 
     <!-- Events Categories -->
     <string name="category_event_relation">Live Coverage</string>

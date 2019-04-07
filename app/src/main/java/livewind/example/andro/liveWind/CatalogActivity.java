@@ -77,6 +77,9 @@ import java.util.concurrent.TimeUnit;
 
 import livewind.example.andro.liveWind.data.EventContract;
 
+import static livewind.example.andro.liveWind.ExtraInfoHelp.putInfoToIntent;
+import static livewind.example.andro.liveWind.ExtraInfoHelp.putWindsurferToIntent;
+
 
 public class CatalogActivity extends AppCompatActivity  {
 
@@ -130,8 +133,6 @@ public class CatalogActivity extends AppCompatActivity  {
     private Windsurfer mWindsurfer = new Windsurfer();
     // Initialize events ListView and its adapter
     private List<Event> events = new ArrayList<>();
-    /** HELP FOR INTENT PUT EXTRA */
-    ExtraInfoHelp mExtraInfoHelp = new ExtraInfoHelp();
 
 
     @Override
@@ -224,7 +225,7 @@ public class CatalogActivity extends AppCompatActivity  {
                         switch (choseIntentFromDrawerLayout) {
                             case EventContract.EventEntry.MENU_USER_PROFIL:
                                 Intent intentUser = new Intent(CatalogActivity.this,UserActivity.class);
-                                mExtraInfoHelp.putWindsurferToIntent(intentUser,mWindsurfer,getApplicationContext());
+                                putWindsurferToIntent(intentUser,mWindsurfer,getApplicationContext());
                                 startActivity(intentUser);
                                 break;
                             case EventContract.EventEntry.MENU_SETTINGS:
@@ -425,7 +426,7 @@ public class CatalogActivity extends AppCompatActivity  {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(CatalogActivity.this, EditorChoose.class);
-                mExtraInfoHelp.putWindsurferToIntent(intent,mWindsurfer,getApplicationContext());
+                putWindsurferToIntent(intent,mWindsurfer,getApplicationContext());
                 startActivity(intent);
         }});
 
@@ -440,13 +441,13 @@ public class CatalogActivity extends AppCompatActivity  {
                 if(clickedEvent.getStartDate().equals("DEFAULT")) {
                     Intent intent = new Intent(CatalogActivity.this, EventActivity.class);
                     //Put Extra information about clicked event and who is clicking.
-                    intent = mExtraInfoHelp.putInfoToIntent(intent,clickedEvent,mWindsurfer,getApplicationContext());
-                    mExtraInfoHelp.putWindsurferToIntent(intent,mWindsurfer,getApplicationContext());
+                    intent = putInfoToIntent(intent,clickedEvent,mWindsurfer,getApplicationContext());
+                    putWindsurferToIntent(intent,mWindsurfer,getApplicationContext());
                     startActivity(intent);
                 } else {
                     Intent intent = new Intent(CatalogActivity.this, EventTripActivity.class);
-                    intent = mExtraInfoHelp.putInfoToIntent(intent,clickedEvent,mWindsurfer,getApplicationContext());
-                    mExtraInfoHelp.putWindsurferToIntent(intent,mWindsurfer,getApplicationContext());
+                    intent = putInfoToIntent(intent,clickedEvent,mWindsurfer,getApplicationContext());
+                    putWindsurferToIntent(intent,mWindsurfer,getApplicationContext());
                     startActivity(intent);
                 }
             }
@@ -464,13 +465,13 @@ public class CatalogActivity extends AppCompatActivity  {
                     return false;
                 } else if (mWindsurfer.getUsername().equals(clickedEvent.getmUsername()) && clickedEvent.getStartDate().equals("DEFAULT")) {
                     Intent intent = new Intent(CatalogActivity.this, EditorActivity.class);
-                    mExtraInfoHelp.putInfoToIntent(intent,clickedEvent,mWindsurfer,getApplicationContext());
+                    putInfoToIntent(intent,clickedEvent,mWindsurfer,getApplicationContext());
                     startActivity(intent);
                     //Because onItemLongClick has type boolean in place of void in onItemClick
                     return true;
                 } else if((mWindsurfer.getUsername().equals(clickedEvent.getmUsername()) && !clickedEvent.getStartDate().equals("DEFAULT"))){
                     Intent intent = new Intent(CatalogActivity.this, EditorTripActivity.class);
-                    mExtraInfoHelp.putInfoToIntent(intent,clickedEvent,mWindsurfer,getApplicationContext());
+                    putInfoToIntent(intent,clickedEvent,mWindsurfer,getApplicationContext());
                     startActivity(intent);
                     return true;
                 } else{return false;}
@@ -708,8 +709,6 @@ public class CatalogActivity extends AppCompatActivity  {
                 }
                 else {
                     //new user
-                    //String id = mUsersDatabaseReference.push().getKey();
-
                     mWindsurfer = new Windsurfer(loggedUserUid,loggedUserNick, loggedUserEmail, 500, 0, 0,getApplicationContext() );
                     mUsersDatabaseReference.child(loggedUserUid).setValue(mWindsurfer);
                     mUsersNicknamesDatabaseReference.child(loggedUserNick).setValue(loggedUserUid);

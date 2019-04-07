@@ -12,7 +12,7 @@ import livewind.example.andro.liveWind.user.Windsurfer;
 public class ExtraInfoHelp {
     public ExtraInfoHelp(){}
 
-    public Intent putInfoToIntent(Intent intent, Event event, Windsurfer windsurfer, Context context){
+    public static Intent putInfoToIntent(Intent intent, Event event, Windsurfer windsurfer, Context context){
         intent.putExtra(context.getString(livewind.example.andro.liveWind.R.string.EXTRA_EVENT_ID), event.getId());
         intent.putExtra(context.getString(livewind.example.andro.liveWind.R.string.EXTRA_EVENT_USERNAME), event.getmUsername());
         intent.putExtra(context.getString(livewind.example.andro.liveWind.R.string.EXTRA_EVENT_PLACE), event.getPlace());
@@ -47,7 +47,7 @@ public class ExtraInfoHelp {
         return intent;
     }
 
-    public Intent putInfoToIntent(Intent intent, Event event, String username, Context context){
+    public static Intent putInfoToIntent(Intent intent, Event event, String username, Context context){
         intent.putExtra(context.getString(livewind.example.andro.liveWind.R.string.EXTRA_EVENT_ID), event.getId());
         intent.putExtra(context.getString(livewind.example.andro.liveWind.R.string.EXTRA_EVENT_USERNAME), event.getmUsername());
         intent.putExtra(context.getString(livewind.example.andro.liveWind.R.string.EXTRA_EVENT_PLACE), event.getPlace());
@@ -83,7 +83,24 @@ public class ExtraInfoHelp {
         return intent;
     }
 
-    public void getInfoFromIntent(Intent intent, Event event,Context context){
+    public static Intent putCoverageToIntent(Intent intent, Event event, Windsurfer windsurfer, Context context){
+        intent.putExtra(context.getString(livewind.example.andro.liveWind.R.string.EXTRA_EVENT_ID), event.getId());
+        intent.putExtra(context.getString(livewind.example.andro.liveWind.R.string.EXTRA_EVENT_USERNAME), event.getmUsername());
+        intent.putExtra(context.getString(livewind.example.andro.liveWind.R.string.EXTRA_EVENT_PLACE), event.getPlace());
+        intent.putExtra(context.getString(livewind.example.andro.liveWind.R.string.EXTRA_EVENT_TYPE), event.getType());
+        intent.putExtra(context.getString(livewind.example.andro.liveWind.R.string.EXTRA_EVENT_WIND_POWER), event.getWindPower());
+        intent.putExtra(context.getString(livewind.example.andro.liveWind.R.string.EXTRA_EVENT_WAVE_SIZE), event.getWaveSize());
+        intent.putExtra(context.getString(livewind.example.andro.liveWind.R.string.EXTRA_EVENT_CONDITIONS), event.getConditions());
+        intent.putExtra(context.getString(livewind.example.andro.liveWind.R.string.EXTRA_EVENT_COMMENT),event.getComment());
+        intent.putExtra(context.getString(livewind.example.andro.liveWind.R.string.EXTRA_EVENT_PHOTO_URL), event.getPhotoUrl());
+        intent.putExtra(context.getString(R.string.EXTRA_EVENT_COUNTRY),event.getCountry());
+    //    intent.putExtra(context.getString(livewind.example.andro.liveWind.R.string.EXTRA_WINDSURFER_NICKNAME), windsurfer.getUsername());
+        intent.putExtra(context.getString(R.string.EXTRA_WINDSURFER_UID),event.getmUserUId());
+        intent.putExtra(context.getString(R.string.EXTRA_EVENT_SHARES_COUNTER),event.getmSharesCounter());
+        return intent;
+    }
+
+    public static void getInfoFromIntent(Intent intent, Event event,Context context){
         //Get all event information
         event.setId(intent.getStringExtra(context.getString(livewind.example.andro.liveWind.R.string.EXTRA_EVENT_ID)));
         event.setUsername(intent.getStringExtra(context.getString(livewind.example.andro.liveWind.R.string.EXTRA_EVENT_USERNAME)));
@@ -115,7 +132,7 @@ public class ExtraInfoHelp {
         event.setmSharesCounter(intent.getIntExtra(String.valueOf(context.getString(R.string.EXTRA_EVENT_SHARES_COUNTER)),-1));
     }
 
-    public Intent putWindsurferToIntent(Intent intent, Windsurfer windsurfer, Context context){
+    public static Intent putWindsurferToIntent(Intent intent, Windsurfer windsurfer, Context context){
         try{
         intent.putExtra(context.getString(livewind.example.andro.liveWind.R.string.EXTRA_WINDSURFER_NICKNAME),windsurfer.getUsername());
         intent.putExtra(context.getString(livewind.example.andro.liveWind.R.string.EXTRA_WINDSURFER_POINTS),windsurfer.getPoints());
@@ -137,7 +154,7 @@ public class ExtraInfoHelp {
         return intent;
     }
 
-    public Windsurfer getWindsurferFromIntent(Intent intent,Context context){
+    public static Windsurfer getWindsurferFromIntent(Intent intent,Context context){
         Windsurfer windsurfer = new Windsurfer();
         windsurfer.setUsername(intent.getStringExtra(context.getString(livewind.example.andro.liveWind.R.string.EXTRA_WINDSURFER_NICKNAME)));
         windsurfer.setPoints(intent.getIntExtra(String.valueOf(context.getString(livewind.example.andro.liveWind.R.string.EXTRA_WINDSURFER_POINTS)),-1));
