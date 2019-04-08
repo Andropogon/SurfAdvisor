@@ -17,13 +17,13 @@ public class FirebaseHelp {
     private static int POINTS_ADD_RELATION_PRIZE = 50;
     public FirebaseHelp(){}
     /** FIREBASE **/
-    private FirebaseDatabase mFirebaseDatabase = FirebaseDatabase.getInstance();
+    private static FirebaseDatabase mFirebaseDatabase = FirebaseDatabase.getInstance();
     /** FOR USERS DATABASE*/
-    private DatabaseReference mUsersDatabaseReference = mFirebaseDatabase.getReference().child("users");
+    private static DatabaseReference mUsersDatabaseReference = mFirebaseDatabase.getReference().child("users");
 
 
     //Add points for created an event
-    public void addPoints(final String uid, final boolean EVENTorTRIP){
+    public static void addPoints(final String uid, final boolean EVENTorTRIP){
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         Query usersQuery = mUsersDatabaseReference.orderByChild("uid").equalTo(uid);
         usersQuery.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -58,7 +58,7 @@ public class FirebaseHelp {
     }
 
     //Remove points for deleting an event
-    public void removePoints(final String uid, final boolean EVENTorTRIP){
+    public static void removePoints(final String uid, final boolean EVENTorTRIP){
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         Query usersQuery = mUsersDatabaseReference.orderByChild("uid").equalTo(uid);
         usersQuery.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -112,7 +112,7 @@ public class FirebaseHelp {
     }
 
     //Remove only active event/trip
-    public void removeOnlyActiveData(final String uid, final boolean EVENTorTRIP) {
+    public static void removeOnlyActiveData(final String uid, final boolean EVENTorTRIP) {
         //mFirebaseDatabase = FirebaseDatabase.getInstance();
         if(EVENTorTRIP) {
             DatabaseReference ref = mUsersDatabaseReference.child(uid).child("activeEvents");
@@ -161,7 +161,7 @@ public class FirebaseHelp {
 
 
     //Increase relations limit for points
-    public void increaseRelationsLimit(final String uid) {
+    public static void increaseRelationsLimit(final String uid) {
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         Query usersQuery = mUsersDatabaseReference.orderByChild("uid").equalTo(uid);
         usersQuery.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -185,7 +185,7 @@ public class FirebaseHelp {
     }
 
     //Increase trips limit for points
-    public void increaseTripsLimit(final String uid) {
+    public static void increaseTripsLimit(final String uid) {
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         Query usersQuery = mUsersDatabaseReference.orderByChild("uid").equalTo(uid);
         usersQuery.addListenerForSingleValueEvent(new ValueEventListener() {

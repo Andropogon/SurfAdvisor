@@ -455,7 +455,7 @@
     <string name="about_activity_dialog_donate_method_google_pay">Google Pay</string>
 
     <!-- Shared preferences- nie trzeba tłumaczyć -->
-    <string name="user_uid_shared_preference">User_nickname_shared_preference</string>
+    <string name="user_uid_shared_preference">User_uid_shared_preference</string>
     <string name="user_tokenId_shared_preference">User_tokenId_shared_preference</string>
 
     <!-- Toast messages dd-->

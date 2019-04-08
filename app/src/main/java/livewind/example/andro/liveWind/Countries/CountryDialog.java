@@ -164,7 +164,7 @@ public class CountryDialog {
     /**
      * Dialog showed when user click apply on SelectCountryDialog and check "All world" and one or more other country.
      */
-    private static void showCountryChangesConfirmationDialog(final Activity context) {
+    public static void showCountryChangesConfirmationDialog(final Activity context) {
         // Create an AlertDialog.Builder and set the message, and click listeners
         // for the postivie and negative buttons on the dialog.
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
