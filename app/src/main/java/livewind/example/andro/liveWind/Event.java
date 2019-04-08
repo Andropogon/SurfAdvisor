@@ -175,6 +175,9 @@ public final class Event extends EventTrip implements Comparable<Event>{
     public void setComment(String comment){
         mComment=comment;
     }
+    public void setmUsersComments(HashMap<String, Comment> mUsersComments) {
+        this.mUsersComments = mUsersComments;
+    }
     public void setPhotoUrl(String url){
         mPhotoUrl = url;
     }
@@ -222,6 +225,9 @@ public final class Event extends EventTrip implements Comparable<Event>{
     public String getComment()
     {
         return mComment;
+    }
+    public HashMap<String, Comment> getmUsersComments() {
+        return mUsersComments;
     }
     public String getPhotoUrl()
     {

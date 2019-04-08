@@ -213,7 +213,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                     .setWhen(System.currentTimeMillis())
                     .setSmallIcon(R.drawable.ic_thumb_up_black_24dp)
                     .setColor(getColor(R.color.notifications_color))
-                    .setLargeIcon(BitmapFactory.decodeResource(getApplicationContext().getResources(), R.drawable.notifiaction_new_coverage))
+                    .setLargeIcon(BitmapFactory.decodeResource(getApplicationContext().getResources(), R.drawable.notification_new_coverage))
                     .setTicker(getApplicationContext().getString(R.string.notification_new_coverage_title))
                     //     .setPriority(Notification.PRIORITY_MAX)
                     .setContentTitle(getApplicationContext().getString(R.string.notification_new_coverage_title) + place)
