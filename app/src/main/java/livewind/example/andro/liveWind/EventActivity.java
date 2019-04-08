@@ -841,9 +841,10 @@ public class EventActivity extends AppCompatActivity {
                 }
                 return true;
             case android.R.id.home:
-                // If the pet hasn't changed, continue with navigating up to parent activity
-                // which is the {@link CatalogActivity}.
-                NavUtils.navigateUpFromSameTask(EventActivity.this);
+               // NavUtils.navigateUpFromSameTask(EventActivity.this);
+                Intent intent = new Intent(EventActivity.this,CatalogActivity.class);
+                //NavUtils.navigateUpTo(EventActivity.this,intent);
+                startActivity(intent);
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -854,7 +855,10 @@ public class EventActivity extends AppCompatActivity {
      */
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+        Intent intent = new Intent(EventActivity.this,CatalogActivity.class);
+        //NavUtils.navigateUpTo(EventActivity.this,intent);
+        startActivity(intent);
+        //super.onBackPressed();
         return;
     }
 
