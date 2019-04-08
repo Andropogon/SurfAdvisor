@@ -37,6 +37,7 @@ import livewind.example.andro.liveWind.Comments.Comment;
 import livewind.example.andro.liveWind.Comments.CommentAdapter;
 import livewind.example.andro.liveWind.ListView_help.ListViewHelp;
 import livewind.example.andro.liveWind.firebase.FirebaseHelp;
+import livewind.example.andro.liveWind.user.UserHelper;
 import livewind.example.andro.liveWind.user.Windsurfer;
 
 import com.facebook.share.model.ShareLinkContent;
@@ -176,6 +177,9 @@ public class EventActivity extends AppCompatActivity {
         mFirebaseStorage = FirebaseStorage.getInstance();
         mEventsStorageReference = mFirebaseStorage.getReference().child("events_photos");
         getWindsurferFromIntent(intent,mWindsurfer, getApplicationContext());
+        if(mWindsurfer.getUsername().equals("NOTIFICATION")){
+            UserHelper.downloadUserData(mWindsurfer,EventActivity.this);
+        }
         // Update the views on the screen with the values from the database
         mPlaceTextView.setText(mEvent.getPlace());
         mSharesNumberTextView.setText(Integer.toString(mEvent.getmSharesCounter()));

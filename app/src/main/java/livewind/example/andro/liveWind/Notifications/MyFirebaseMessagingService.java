@@ -201,7 +201,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             intent = putCoverageToIntent(intent, newEvent, mWindsurfer, getApplicationContext());
             SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
             final String uid = sharedPrefs.getString(getString(R.string.user_uid_shared_preference), "0");
-            mWindsurfer.setUid(uid);
+            mWindsurfer.setUid(uid); // Set only uid, other windsurfer data will be set in EventActivity
+            mWindsurfer.setUsername("NOTIFICATION");
             putWindsurferToIntent(intent, mWindsurfer, getApplicationContext());
 
             NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID);
@@ -230,28 +231,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     private boolean checkUser() {
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         final String uid = sharedPrefs.getString(getString(R.string.user_uid_shared_preference), "0");
-
         if (uid.equals("0")) {
             //Don't create notification
             return false;
-        } else {
-            Query usersQuery = mUsersDatabaseReference.orderByChild("uid").equalTo(uid);
-            usersQuery.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    if (dataSnapshot.exists()) {
-                        //TODO THIS ISN"T WORKING...
-                        mWindsurfer = dataSnapshot.child(uid).getValue(Windsurfer.class);
-                    } else {
-                        Toast.makeText(getApplicationContext(), "ERROR", Toast.LENGTH_SHORT).show();
-                    }
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-                }
-            });
-            return true;
         }
+        return true;
     }
 }
