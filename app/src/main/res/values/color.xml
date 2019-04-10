@@ -68,7 +68,7 @@
     <color name="blue_from_car_darker">#59daec</color>
     <color name="main_text_color">#000000</color> <!-- !!!197c20 #90dae3  #a4dec6 #b3f5fd-->
     <color name="dialog_background">#ffffff</color>
-
+    <color name="error_color">#7b0d0d</color>
     <color name="light_red">#fe0000</color>
     <color name="dark_red">#7b0d0d</color>
     <color name="light_green">#44b400</color>

@@ -46,8 +46,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     /**
      * Notification codes
      */
-    final static String NOTIFICATION_NEW_LIKE = "NEW_LIKE";
-    final static String NOTIFICATION_NEW_COVERAGE = "NEW_COVERAGE";
+    public final static String NOTIFICATION_NEW_LIKE = "NOTIFICATION_NEW_LIKE";
+    public final static String NOTIFICATION_NEW_COVERAGE = "NOTIFICATION_NEW_COVERAGE";
     private FirebaseDatabase mFirebaseDatabase = FirebaseDatabase.getInstance();
     private DatabaseReference mUsersDatabaseReference = mFirebaseDatabase.getReference().child("users");
     private Windsurfer mWindsurfer= new Windsurfer();
@@ -181,7 +181,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             //If we got user uid from sharedPref
             intent = putCoverageToIntent(intent, newEvent, mWindsurfer, getApplicationContext());
             //Set temporary user username to download payload in eventActivity
-            mWindsurfer.setUsername("NOTIFICATION");
+            mWindsurfer.setUsername(MyFirebaseMessagingService.NOTIFICATION_NEW_COVERAGE);
             putWindsurferToIntent(intent, mWindsurfer, getApplicationContext());
 
             NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, NOTIFICATION_NEW_COVERAGE_CHANNEL_ID);

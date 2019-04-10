@@ -1,6 +1,10 @@
 package livewind.example.andro.liveWind.firebase;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -11,6 +15,9 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.Transaction;
 import com.google.firebase.database.ValueEventListener;
 
+import livewind.example.andro.liveWind.R;
+import livewind.example.andro.liveWind.user.Windsurfer;
+
 public class FirebaseHelp {
     // "Price" for increasing limit:
     public static int POINTS_INCREASE_LIMIT_PRICE = 300;
@@ -20,6 +27,7 @@ public class FirebaseHelp {
     private static FirebaseDatabase mFirebaseDatabase = FirebaseDatabase.getInstance();
     /** FOR USERS DATABASE*/
     private static DatabaseReference mUsersDatabaseReference = mFirebaseDatabase.getReference().child("users");
+    private static DatabaseReference mEventsDatabaseReference = mFirebaseDatabase.getReference().child("events");
 
 
     //Add points for created an event

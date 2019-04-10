@@ -12,7 +12,6 @@ import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -36,7 +35,7 @@ import com.bumptech.glide.request.target.Target;
 import livewind.example.andro.liveWind.Comments.Comment;
 import livewind.example.andro.liveWind.Comments.CommentAdapter;
 import livewind.example.andro.liveWind.ListView_help.ListViewHelp;
-import livewind.example.andro.liveWind.firebase.FirebaseHelp;
+import livewind.example.andro.liveWind.Notifications.MyFirebaseMessagingService;
 import livewind.example.andro.liveWind.user.UserHelper;
 import livewind.example.andro.liveWind.user.Windsurfer;
 
@@ -101,9 +100,11 @@ public class EventActivity extends AppCompatActivity {
     //"Share" views
     private TextView mSharesNumberTextView;
     //FABs
-    private FloatingActionButton joinFAB;
-    private FloatingActionButton thanksFAB;
-    private FloatingActionButton commentFAB;
+    private FloatingActionButton mJoinFAB;
+    private FloatingActionButton mThanksFAB;
+    private FloatingActionButton mCommentFAB;
+    //EmptyView -> Coverage isn't exist yet (for deleted coverages opened from notification)
+    private TextView mDeletedCoverageInfoTextView;
 
     /** Current user and event data **/
     private Event mEvent;
@@ -149,12 +150,7 @@ public class EventActivity extends AppCompatActivity {
         final Intent intent = getIntent();
         mEvent = new Event();
         getInfoFromIntent(intent, mEvent, getApplicationContext());
-        //Load user data from intent or from firebase
-        getWindsurferFromIntent(intent,mWindsurfer, getApplicationContext());
-        if(mWindsurfer.getUsername().equals("NOTIFICATION")){
-            //If this activity is open from notification we have to download data from firebase
-            UserHelper.downloadUserData(mWindsurfer,EventActivity.this);
-        }
+
         //Firebase
         initFirebaseVariables();
 
@@ -166,7 +162,17 @@ public class EventActivity extends AppCompatActivity {
 
         displayCoverage();
         attachDatabaseReadListener();
-        setupFABs();
+
+        //Load user data from intent or from firebase
+        getWindsurferFromIntent(intent,mWindsurfer, getApplicationContext());
+        if(mWindsurfer.getUsername().equals(MyFirebaseMessagingService.NOTIFICATION_NEW_COVERAGE)){
+            //If this activity is open from notification we have to download data from firebase
+            UserHelper.downloadUserData(mWindsurfer,EventActivity.this);
+            checkEventExist(); // Check that event still exist -> if exist initialize FABs
+        } else {
+            setupFABs();
+        }
+
     }
 
     /**
@@ -188,8 +194,9 @@ public class EventActivity extends AppCompatActivity {
         mCommentsListView = (ListView) findViewById(R.id.event_comments_list);
         mSharesNumberTextView = findViewById(R.id.event_shares_number_text_view);
         mMemberListView = (ListView) findViewById(livewind.example.andro.liveWind.R.id.members_list_view);
-        joinFAB = (FloatingActionButton) findViewById(livewind.example.andro.liveWind.R.id.join_event_fab);
-        thanksFAB = (FloatingActionButton) findViewById(livewind.example.andro.liveWind.R.id.thanks_event_fab);
+        mJoinFAB = (FloatingActionButton) findViewById(livewind.example.andro.liveWind.R.id.join_event_fab);
+        mThanksFAB = (FloatingActionButton) findViewById(livewind.example.andro.liveWind.R.id.thanks_event_fab);
+        mDeletedCoverageInfoTextView = findViewById(R.id.event_activity_coverage_no_exist);
     }
     private void initFirebaseVariables() {
         //For adding members
@@ -465,7 +472,7 @@ public class EventActivity extends AppCompatActivity {
         });
     }
     private void setupFABs(){
-        joinFAB.setOnClickListener(new View.OnClickListener() {
+        mJoinFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -498,7 +505,7 @@ public class EventActivity extends AppCompatActivity {
         });
 
 
-        thanksFAB.setOnClickListener(new View.OnClickListener() {
+        mThanksFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -547,8 +554,8 @@ public class EventActivity extends AppCompatActivity {
                 });
             }
         });
-        commentFAB = (FloatingActionButton) findViewById(livewind.example.andro.liveWind.R.id.comment_event_fab);
-        commentFAB.setOnClickListener(new View.OnClickListener() {
+        mCommentFAB = (FloatingActionButton) findViewById(livewind.example.andro.liveWind.R.id.comment_event_fab);
+        mCommentFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 showAddCommentDialog();
@@ -874,10 +881,10 @@ public class EventActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
             }
         });
     }
+
 
     /**
      * Method for creation comment dialog
@@ -1014,6 +1021,29 @@ public class EventActivity extends AppCompatActivity {
                     eventShares++;
                     mSharesDatabaseReference.setValue(eventShares);
                     mSharesNumberTextView.setText(Integer.toString(eventShares));
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
+    }
+
+    /**
+     * Method to handle coverages open from notification that doesn't exist now:
+     * If coverage isn't exist in firebase method isn't initialize FABs and show Toast and special textView
+     */
+    public void checkEventExist() {
+        mEventsDatabaseReference.child(mEvent.getId()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    mEvent = dataSnapshot.getValue(Event.class);
+                    setupFABs();
+                    displayCoverage(); // Updated displayed coverage data
+                } else {
+                    mDeletedCoverageInfoTextView.setVisibility(View.VISIBLE);
+                    Toast.makeText(getApplicationContext(), "Sorry, this coverage was deleted... HC", Toast.LENGTH_SHORT).show();
                 }
             }
             @Override
