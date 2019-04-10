@@ -383,4 +383,93 @@ public final class Event extends EventTrip implements Comparable<Event>{
                     .result();
         }
     }
+
+
+    /**
+     * Convert knots to Bft Scale
+     * @return Bft scale
+     */
+    public static int knotsToBft(int windPowerInKnots){
+        int windPowerInBft = 0;
+        if (windPowerInKnots >= 0 && windPowerInKnots <= 3) {
+            windPowerInBft=1;
+        } else if (windPowerInKnots >= 4 && windPowerInKnots <= 6) {
+            windPowerInBft=2;
+        } else if (windPowerInKnots >= 7 && windPowerInKnots <= 10) {
+            windPowerInBft=3;
+        } else if (windPowerInKnots >= 11 && windPowerInKnots <= 13) {
+            windPowerInBft=4;
+        } else if (windPowerInKnots >= 14 && windPowerInKnots <= 16) {
+            windPowerInBft=4;
+        }else if (windPowerInKnots >= 17 && windPowerInKnots <= 19) {
+            windPowerInBft=5;
+        } else if (windPowerInKnots >= 20 && windPowerInKnots <= 21) {
+            windPowerInBft=5;
+        } else if (windPowerInKnots >= 22 && windPowerInKnots <= 24) {
+            windPowerInBft=6;
+        } else if (windPowerInKnots >= 25 && windPowerInKnots <= 27) {
+            windPowerInBft=6;
+        } else if (windPowerInKnots >= 28 && windPowerInKnots <= 30) {
+            windPowerInBft=7;
+        } else if (windPowerInKnots >= 31 && windPowerInKnots <= 33) {
+            windPowerInBft=7;
+        } else if (windPowerInKnots >= 34 && windPowerInKnots <= 36) {
+            windPowerInBft=8;
+        } else if (windPowerInKnots >= 37 && windPowerInKnots <= 40) {
+            windPowerInBft=8;
+        } else if (windPowerInKnots >= 41 && windPowerInKnots <= 47) {
+            windPowerInBft=9;
+        }else if (windPowerInKnots >= 48 && windPowerInKnots <= 55) {
+            windPowerInBft=10;
+        }else if (windPowerInKnots >= 56 && windPowerInKnots <= 63) {
+            windPowerInBft=11;
+        }else if (windPowerInKnots >= 64) {
+            windPowerInBft=12;
+        }
+        return windPowerInBft;
+    }
+
+    /**
+     * Convert knots to sail size in m^2
+     * @return sail size in m^2
+     */
+     public static double knotsToSailSize(int windPowerInKnots){
+        double windPowerInSailSize = 0;
+        if (windPowerInKnots >= 0 && windPowerInKnots <= 3) {
+            windPowerInSailSize=13;
+        } else if (windPowerInKnots >= 4 && windPowerInKnots <= 6) {
+            windPowerInSailSize=12.5;
+        } else if (windPowerInKnots >= 7 && windPowerInKnots <= 10) {
+            windPowerInSailSize=11.5;
+        } else if (windPowerInKnots >= 11 && windPowerInKnots <= 13) {
+            windPowerInSailSize=9.5;
+        } else if (windPowerInKnots >= 14 && windPowerInKnots <= 16) {
+            windPowerInSailSize=7.5;
+        }else if (windPowerInKnots >= 17 && windPowerInKnots <= 19) {
+            windPowerInSailSize=6.0;
+        } else if (windPowerInKnots >= 20 && windPowerInKnots <= 21) {
+            windPowerInSailSize=5.3;
+        } else if (windPowerInKnots >= 22 && windPowerInKnots <= 24) {
+            windPowerInSailSize=4.8;
+        } else if (windPowerInKnots >= 25 && windPowerInKnots <= 27) {
+            windPowerInSailSize=4.2;
+        } else if (windPowerInKnots >= 28 && windPowerInKnots <= 30) {
+            windPowerInSailSize=3.7;
+        } else if (windPowerInKnots >= 31 && windPowerInKnots <= 33) {
+            windPowerInSailSize=3.5;
+        } else if (windPowerInKnots >= 34 && windPowerInKnots <= 36) {
+            windPowerInSailSize=3.3;
+        } else if (windPowerInKnots >= 37 && windPowerInKnots <= 40) {
+            windPowerInSailSize=3.0;
+        } else if (windPowerInKnots >= 41 && windPowerInKnots <= 47) {
+            windPowerInSailSize=3.0;
+        }else if (windPowerInKnots >= 48 && windPowerInKnots <= 55) {
+            windPowerInSailSize=3.0;
+        }else if (windPowerInKnots >= 56 && windPowerInKnots <= 63) {
+            windPowerInSailSize=3.0;
+        }else if (windPowerInKnots >= 64) {
+            windPowerInSailSize=-1.0;
+        }
+        return windPowerInSailSize;
+    }
 }

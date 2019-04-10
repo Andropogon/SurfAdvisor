@@ -1,15 +1,9 @@
 package livewind.example.andro.liveWind;
 
-import android.app.AlertDialog;
-import android.app.PendingIntent;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.Signature;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -24,7 +18,6 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Base64;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -64,8 +57,6 @@ import com.google.firebase.iid.InstanceIdResult;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -115,6 +106,7 @@ public class CatalogActivity extends AppCompatActivity  {
     private int choseIntentFromDrawerLayout=-1;
 
     /** FIREBASE **/
+    //TODO Add dbHelper and Contract and clean it...
     private FirebaseDatabase mFirebaseDatabase;
     ChildEventListener mChildEventListener;
     private DatabaseReference mEventsDatabaseReference;

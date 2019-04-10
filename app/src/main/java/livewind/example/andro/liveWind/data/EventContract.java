@@ -1,12 +1,6 @@
 package livewind.example.andro.liveWind.data;
-
-import android.content.ContentProvider;
-import android.content.ContentResolver;
-import android.content.UriMatcher;
-import android.net.Uri;
 import android.provider.BaseColumns;
 
-import java.net.URI;
 
 public final class EventContract {
 
