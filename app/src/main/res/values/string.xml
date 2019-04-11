@@ -566,7 +566,7 @@
     <string name="filter_trips_search">Szukaj</string>
 
     <!-- Topic notification system keys -->
-    <string name="country_number_0_key">All world</string>
+    <string name="country_number_0_key">All_world</string>
     <string name="country_number_1_key">Poland</string>
     <string name="country_number_2_key">Greece</string>
     <string name="country_number_3_key">Spain</string>
@@ -574,11 +574,11 @@
     <string name="country_number_5_key">Portugal</string>
     <string name="country_number_6_key">Germany</string>
     <string name="country_number_7_key">France</string>
-    <string name="country_number_8_key">South Africa</string>
+    <string name="country_number_8_key">South_Africa</string>
     <string name="country_number_9_key">Morocco</string>
     <string name="country_number_10_key">Italy</string>
     <string name="country_number_11_key">Egypt</string>
-    <string name="country_number_12_key">United Kingdom</string>
+    <string name="country_number_12_key">United_Kingdom</string>
     <string name="country_number_13_key">Turkey</string>
     <string name="country_number_14_key">Austria</string>
     <string name="country_number_15_key">Denmark</string>
@@ -586,5 +586,5 @@
     <string name="country_number_17_key">USA</string>
     <string name="country_number_18_key">Vietnam</string>
     <string name="country_number_19_key">Malta</string>
-    <string name="country_number_20_key">Other countries</string>
+    <string name="country_number_20_key">Other_countries</string>
 </resources>

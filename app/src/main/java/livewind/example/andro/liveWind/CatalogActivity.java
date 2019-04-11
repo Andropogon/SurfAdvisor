@@ -31,6 +31,7 @@ import android.widget.Toast;
 import livewind.example.andro.liveWind.Countries.CountryDialog;
 import livewind.example.andro.liveWind.FAQ.FAQActivity;
 import livewind.example.andro.liveWind.Filter.FilterTrips;
+import livewind.example.andro.liveWind.Filter.FilterTripsActivity;
 import livewind.example.andro.liveWind.HelpClasses.CurrencyHelper;
 import livewind.example.andro.liveWind.HelpClasses.DateHelp;
 import livewind.example.andro.liveWind.HelpClasses.SocialHelper;
@@ -87,7 +88,7 @@ public class CatalogActivity extends AppCompatActivity  {
 
     /** Views **/
     private ListView mEventListView;
-    private ImageView mSelectCountryImageView;
+    private ImageView mFiltersImageView;
     private ProgressBar mProgressBar;
     //EmptyViews (when any record match filters)
     private View mEmptyView;
@@ -150,7 +151,14 @@ public class CatalogActivity extends AppCompatActivity  {
         mEmptyViewNoRecordsTrips = (View) findViewById(R.id.empty_view_no_records_trips);
         mEmptyViewNoConnectionButton = (Button) findViewById(R.id.empty_view_no_connection_button);
         mProgressBar = (ProgressBar) findViewById(livewind.example.andro.liveWind.R.id.loading_indicator);
-        mSelectCountryImageView = (ImageView) findViewById(R.id.select_country_image_view);
+        mFiltersImageView = (ImageView) findViewById(R.id.filters_image_view);
+        //Check current catalogActivity mode (coverage or trip)
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        boolean displayBoolean = sharedPrefs.getBoolean(getApplicationContext().getString(livewind.example.andro.liveWind.R.string.settings_display_boolean_key), true);
+        if (displayBoolean==EventContract.EventEntry.IT_IS_TRIP) {
+            mFiltersImageView.setImageResource(R.drawable.ic_filter_list_black_24dp);
+        } else {
+        }
     }
 
     private void initFirebaseVariables(){
@@ -249,10 +257,18 @@ public class CatalogActivity extends AppCompatActivity  {
         });
 
         //Setup click listener on filter countries image view
-        mSelectCountryImageView.setOnClickListener(new View.OnClickListener() {
+        mFiltersImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view){
-                CountryDialog.showSelectCountryDialog(CatalogActivity.this,EventContract.EventEntry.IT_IS_TRIP);
+                //Check current catalogActivity mode (coverage or trip)
+                SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                boolean displayBoolean = sharedPrefs.getBoolean(getApplicationContext().getString(livewind.example.andro.liveWind.R.string.settings_display_boolean_key), true);
+                if (displayBoolean==EventContract.EventEntry.IT_IS_EVENT) {
+                    CountryDialog.showSelectCountryDialog(CatalogActivity.this,EventContract.EventEntry.IT_IS_EVENT);
+                } else {
+                    Intent intentFilter = new Intent(CatalogActivity.this,FilterTripsActivity.class);
+                    startActivity(intentFilter);
+                }
             }
         });
     }

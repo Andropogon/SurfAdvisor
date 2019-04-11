@@ -1,4 +1,4 @@
-package livewind.example.andro.liveWind;
+package livewind.example.andro.liveWind.Countries;
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
@@ -16,11 +16,16 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
+import livewind.example.andro.liveWind.Country;
+import livewind.example.andro.liveWind.R;
+import livewind.example.andro.liveWind.data.EventContract;
+
 public class CountryAdapter extends ArrayAdapter<Country> {
     private int mColorResourceId;
-    public CountryAdapter(Activity context, ArrayList<Country> profileIcons,int resource) {
-
+    private boolean coverageOrTrip;
+    public CountryAdapter(Activity context, ArrayList<Country> profileIcons,boolean coverageOrTrip) {
         super(context, 0, profileIcons);
+        this.coverageOrTrip=coverageOrTrip;
     }
 
     @NonNull
@@ -31,9 +36,14 @@ public class CountryAdapter extends ArrayAdapter<Country> {
             listItemView = LayoutInflater.from(getContext()).inflate(R.layout.activity_catalog_dialog_select_country_list_item, parent, false);
         }
         Country currentCountry = getItem(position);
-        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getContext());
-        Set<String> selectedCountries = sharedPrefs.getStringSet(getContext().getString(R.string.settings_display_countries_key), new HashSet<String>());
-
+        Set<String> selectedCountries;
+        if (coverageOrTrip==EventContract.EventEntry.IT_IS_TRIP) {
+            SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getContext());
+            selectedCountries = sharedPrefs.getStringSet(getContext().getString(R.string.settings_display_countries_key), new HashSet<String>());
+        } else {
+            SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getContext());
+            selectedCountries = sharedPrefs.getStringSet(getContext().getString(R.string.settings_display_coverages_countries_key), new HashSet<String>());
+        }
         ImageView flagImageView = (ImageView) listItemView.findViewById(R.id.select_country_list_image_view);
         TextView nameTextView = (TextView) listItemView.findViewById(R.id.select_country_list_text_view);
         ImageView countryCheckBoxImageView = (ImageView) listItemView.findViewById(R.id.select_country_list_check_box_image_view);

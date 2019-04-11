@@ -5,9 +5,9 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.provider.CalendarContract;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -27,7 +27,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import livewind.example.andro.liveWind.Country;
-import livewind.example.andro.liveWind.CountryAdapter;
+import livewind.example.andro.liveWind.Event;
 import livewind.example.andro.liveWind.R;
 import livewind.example.andro.liveWind.data.EventContract;
 
@@ -87,7 +87,7 @@ public class CountryDialog {
         mList.add(new Country(context.getString(R.string.country_number_18),R.drawable.flag_vn,context.getString(R.string.country_number_18_key)));
         mList.add(new Country(context.getString(R.string.country_number_19),R.drawable.flag_mt,context.getString(R.string.country_number_19_key)));
         mList.add(new Country(context.getString(R.string.country_number_20),R.drawable.flag_world,context.getString(R.string.country_number_20_key)));
-        CountryAdapter adapter = new CountryAdapter(context, mList,0);
+        CountryAdapter adapter = new CountryAdapter(context, mList,coverageOrTrip);
         listView.setAdapter(adapter);
         listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
         listView.setSelector(R.color.app_primary_color);
@@ -178,9 +178,14 @@ public class CountryDialog {
                     public void onClick(DialogInterface dialog, int id) {
                         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
                         SharedPreferences.Editor editor = sharedPrefs.edit();
-                        Set<String> selectedCountries = sharedPrefs.getStringSet(context.getString(R.string.settings_display_countries_key), new HashSet<String>());
-                        editor.putString(context.getString(R.string.settings_display_trips_key),Integer.toString(mTripsOptions));
-                        editor.apply();
+                        Set<String> selectedCountries;
+                        if(coverageOrTrip==EventContract.EventEntry.IT_IS_TRIP) {
+                            selectedCountries = sharedPrefs.getStringSet(context.getString(R.string.settings_display_countries_key), new HashSet<String>());
+                            editor.putString(context.getString(R.string.settings_display_trips_key), Integer.toString(mTripsOptions));
+                            editor.apply();
+                        } else {
+                            selectedCountries = sharedPrefs.getStringSet(context.getString(R.string.settings_display_coverages_countries_key), new HashSet<String>());
+                        }
                         if(selectedCountries.contains("0")&&selectedCountries.size()!=1){
                             showCountryChangesConfirmationDialog(context,coverageOrTrip);
                         } else if (selectedCountries.isEmpty()) {
