@@ -139,14 +139,14 @@ public class FilterTripsActivity extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 //CountryDialog is saving checked countries as interesting.
-                CountryDialog.showSelectCountryDialog(FilterTripsActivity.this);
+                CountryDialog.showSelectCountryDialog(FilterTripsActivity.this,EventContract.EventEntry.IT_IS_TRIP);
             }
         });
         mCountriesGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                 //CountryDialog is saving checked countries as interesting.
-                CountryDialog.showSelectCountryDialog(FilterTripsActivity.this);
+                CountryDialog.showSelectCountryDialog(FilterTripsActivity.this,EventContract.EventEntry.IT_IS_TRIP);
             }
         });
         mSearchButtonTextView.setOnClickListener(new View.OnClickListener(){

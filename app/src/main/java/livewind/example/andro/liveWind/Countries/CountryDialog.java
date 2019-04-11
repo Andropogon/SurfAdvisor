@@ -37,34 +37,33 @@ public class CountryDialog {
      * SELECT COUNTRY DIALOG
      */
     // Show select photo action
-    public static void showSelectCountryDialog(final Activity context) {
+    public static void showSelectCountryDialog(final Activity context, final boolean coverageOrTrip) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.DialogeTheme);
         // Get the layout inflater
         LayoutInflater inflater = LayoutInflater.from(context);
-        //inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View dialogView = inflater.inflate(R.layout.activity_catalog_dialog_select_country,null);
-        // Set grid view to alertDialog
-        //AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-        int displayTripsOptions = Integer.valueOf(sharedPrefs.getString(context.getString(R.string.settings_display_trips_key),"1"));
-        Spinner mTripsOptionsSpinner = (Spinner) dialogView.findViewById(R.id.spinner_trip_display_options);
-        setupTripOptionsSpinner(context,mTripsOptionsSpinner);
+        if(coverageOrTrip==EventContract.EventEntry.IT_IS_TRIP) {
+            //Show select trip display options
+            SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+            int displayTripsOptions = Integer.valueOf(sharedPrefs.getString(context.getString(R.string.settings_display_trips_key), "1"));
+            Spinner mTripsOptionsSpinner = (Spinner) dialogView.findViewById(R.id.spinner_trip_display_options);
+            setupTripOptionsSpinner(context, mTripsOptionsSpinner);
 
-        switch (displayTripsOptions) {
-            case EventContract.EventEntry.DISPLAY_TRIPS_FROM_AND_TO:
-                mTripsOptionsSpinner.setSelection(0);
-                break;
-            case EventContract.EventEntry.DISPLAY_TRIPS_FROM:
-                mTripsOptionsSpinner.setSelection(1);
-                break;
-            case EventContract.EventEntry.DISPLAY_TRIPS_TO:
-                mTripsOptionsSpinner.setSelection(2);
-                break;
-            default:
-                mTripsOptionsSpinner.setSelection(0);
-                break;
+            switch (displayTripsOptions) {
+                case EventContract.EventEntry.DISPLAY_TRIPS_FROM_AND_TO:
+                    mTripsOptionsSpinner.setSelection(0);
+                    break;
+                case EventContract.EventEntry.DISPLAY_TRIPS_FROM:
+                    mTripsOptionsSpinner.setSelection(1);
+                    break;
+                case EventContract.EventEntry.DISPLAY_TRIPS_TO:
+                    mTripsOptionsSpinner.setSelection(2);
+                    break;
+                default:
+                    mTripsOptionsSpinner.setSelection(0);
+                    break;
+            }
         }
-
         ListView listView = dialogView.findViewById(R.id.dialog_catalog_activity_select_country_list_view);
         final ArrayList<Country> mList = new ArrayList<Country>();
         mList.add(new Country(context.getString(R.string.country_number_0),R.drawable.flag_world,context.getString(R.string.country_number_0_key)));
@@ -94,49 +93,84 @@ public class CountryDialog {
         listView.setSelector(R.color.app_primary_color);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (mList.get(position).isChecked()) {
-                    mList.get(position).setChecked(false);
-                    //Topic unsubscription:
-                    FirebaseMessaging.getInstance().unsubscribeFromTopic(mList.get(position).getTopicKey());
-                    ImageView mCheckBoxImageView = view.findViewById(R.id.select_country_list_check_box_image_view);
-                    mCheckBoxImageView.setImageResource(R.drawable.ic_check_box_outline_blank_white_24dp);
-                    SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-                    Set<String> selectedCountries = sharedPrefs.getStringSet(context.getString(R.string.settings_display_countries_key), new HashSet<String>());
-                    SharedPreferences displayOptions = PreferenceManager.getDefaultSharedPreferences(context);
-                    SharedPreferences.Editor editor = displayOptions.edit();
-                    selectedCountries.remove(Integer.toString(position));
-                    editor.putStringSet(context.getString(R.string.settings_display_countries_key),selectedCountries);
-                    // Commit the edits!
-                    editor.apply();
-                    //   recreate();
-                } else {
-                    mList.get(position).setChecked(true);
-                    //Topic subscription:
-                    FirebaseMessaging.getInstance().subscribeToTopic(mList.get(position).getTopicKey()).addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            String msg = context.getString(R.string.country_number_2);
-                            if (!task.isSuccessful()) {
-                                msg = context.getString(R.string.country_number_20);
+            public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
+                if (coverageOrTrip == EventContract.EventEntry.IT_IS_TRIP) {
+                    if (mList.get(position).isChecked()) {
+                        //Uncheck country and countryItemView
+                        mList.get(position).setChecked(false);
+                        ImageView mCheckBoxImageView = view.findViewById(R.id.select_country_list_check_box_image_view);
+                        mCheckBoxImageView.setImageResource(R.drawable.ic_check_box_outline_blank_white_24dp);
+                        //Remove this country from "interested_countries" in sharedPref
+                        //Get interested countries Set
+                        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+                        Set<String> selectedCountries = sharedPrefs.getStringSet(context.getString(R.string.settings_display_countries_key), new HashSet<String>());
+                        selectedCountries.remove(Integer.toString(position));
+                        //Set interested countries Set without unchecked country
+                        SharedPreferences.Editor editor = sharedPrefs.edit();
+                        editor.putStringSet(context.getString(R.string.settings_display_countries_key), selectedCountries);
+                        editor.apply();
+                    } else {
+                        //Check country and countryItemView
+                        mList.get(position).setChecked(true);
+                        ImageView mCheckBoxImageView = view.findViewById(R.id.select_country_list_check_box_image_view);
+                        mCheckBoxImageView.setImageResource(R.drawable.ic_check_box_white_24dp);
+                        //Set this country in "interested_countries" in sharedPref
+                        //Get interested countries Set
+                        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+                        Set<String> selectedCountries = sharedPrefs.getStringSet(context.getString(R.string.settings_display_countries_key), new HashSet<String>());
+                        selectedCountries.add(Integer.toString(position));
+                        //Set interested countries Set with checked country
+                        SharedPreferences.Editor editor = sharedPrefs.edit();
+                        editor.putStringSet(context.getString(R.string.settings_display_countries_key), selectedCountries);
+                        editor.apply();
+                    }
+                } else if (coverageOrTrip==EventContract.EventEntry.IT_IS_EVENT){
+                    if (mList.get(position).isChecked()) {
+                        //Uncheck country and countryItemView
+                        mList.get(position).setChecked(false);
+                        ImageView mCheckBoxImageView = view.findViewById(R.id.select_country_list_check_box_image_view);
+                        mCheckBoxImageView.setImageResource(R.drawable.ic_check_box_outline_blank_white_24dp);
+                        //Topic unsubscribe:
+                        FirebaseMessaging.getInstance().unsubscribeFromTopic(mList.get(position).getTopicKey());
+                        //Remove this country from "interested_coverages_countries" in sharedPref
+                        //Get interested countries Set
+                        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+                        Set<String> selectedCountries = sharedPrefs.getStringSet(context.getString(R.string.settings_display_coverages_countries_key), new HashSet<String>());
+                        selectedCountries.remove(Integer.toString(position));
+                        //Set interested countries Set without unchecked country
+                        SharedPreferences.Editor editor = sharedPrefs.edit();
+                        editor.putStringSet(context.getString(R.string.settings_display_coverages_countries_key), selectedCountries);
+                        editor.apply();
+                    } else {
+                        //Check country and countryItemView
+                        mList.get(position).setChecked(true);
+                        ImageView mCheckBoxImageView = view.findViewById(R.id.select_country_list_check_box_image_view);
+                        mCheckBoxImageView.setImageResource(R.drawable.ic_check_box_white_24dp);
+                        //Topic subscription:
+                        FirebaseMessaging.getInstance().subscribeToTopic(mList.get(position).getTopicKey()).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                String msg = mList.get(position).getTopicKey();
+                                if (!task.isSuccessful()) {
+                                    msg = context.getString(R.string.country_number_20);
+                                }
+                                Toast.makeText(context, "Country subscribed: " +msg, Toast.LENGTH_SHORT).show();
                             }
-                            Log.d("SUBSCRIBED", msg);
-                            Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                    ImageView mCheckBoxImageView = view.findViewById(R.id.select_country_list_check_box_image_view);
-                    mCheckBoxImageView.setImageResource(R.drawable.ic_check_box_white_24dp);
-                    SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-                    Set<String> selectedCountries = sharedPrefs.getStringSet(context.getString(R.string.settings_display_countries_key), new HashSet<String>());
-                    SharedPreferences displayOptions = PreferenceManager.getDefaultSharedPreferences(context);
-                    SharedPreferences.Editor editor = displayOptions.edit();
-                    selectedCountries.add(Integer.toString(position));
-                    editor.putStringSet(context.getString(R.string.settings_display_countries_key),selectedCountries);
-                    // Commit the edits!
-                    editor.apply();
+                        });
+                        //Set this country in "interested_coverages_countries" in sharedPref
+                        //Get interested countries Set
+                        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+                        Set<String> selectedCountries = sharedPrefs.getStringSet(context.getString(R.string.settings_display_coverages_countries_key), new HashSet<String>());
+                        selectedCountries.add(Integer.toString(position));
+                        //Set interested countries Set with checked country
+                        SharedPreferences.Editor editor = sharedPrefs.edit();
+                        editor.putStringSet(context.getString(R.string.settings_display_coverages_countries_key), selectedCountries);
+                        editor.apply();
+                    }
                 }
             }
         });
+
         builder.setView(dialogView)
                 //builder.setView(gridView)
                 .setPositiveButton(R.string.dialog_apply, new DialogInterface.OnClickListener() {
@@ -148,9 +182,9 @@ public class CountryDialog {
                         editor.putString(context.getString(R.string.settings_display_trips_key),Integer.toString(mTripsOptions));
                         editor.apply();
                         if(selectedCountries.contains("0")&&selectedCountries.size()!=1){
-                            showCountryChangesConfirmationDialog(context);
+                            showCountryChangesConfirmationDialog(context,coverageOrTrip);
                         } else if (selectedCountries.isEmpty()) {
-                            showCountryChangesNullDialog(context);
+                            showCountryChangesNullDialog(context,coverageOrTrip);
                         } else {
                             context.recreate();
                         }
@@ -164,7 +198,7 @@ public class CountryDialog {
     /**
      * Dialog showed when user click apply on SelectCountryDialog and check "All world" and one or more other country.
      */
-    public static void showCountryChangesConfirmationDialog(final Activity context) {
+    public static void showCountryChangesConfirmationDialog(final Activity context, final boolean coverageOrTrip) {
         // Create an AlertDialog.Builder and set the message, and click listeners
         // for the postivie and negative buttons on the dialog.
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -186,7 +220,7 @@ public class CountryDialog {
 
         builder.setNegativeButton(R.string.dialog_edit, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                showSelectCountryDialog(context);
+                showSelectCountryDialog(context, coverageOrTrip);
                 if (dialog != null) {
                     dialog.dismiss();
                 }
@@ -200,7 +234,7 @@ public class CountryDialog {
     /**
      * Dialog showed when user click apply on SelectCountryDialog and check 0 countries.
      */
-    private static void showCountryChangesNullDialog(final Activity context) {
+    private static void showCountryChangesNullDialog(final Activity context, final boolean coverageOrTrip) {
         // Create an AlertDialog.Builder and set the message, and click listeners
         // for the postivie and negative buttons on the dialog.
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -222,7 +256,7 @@ public class CountryDialog {
 
         builder.setNegativeButton(R.string.dialog_edit, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                showSelectCountryDialog(context);
+                showSelectCountryDialog(context,coverageOrTrip );
                 if (dialog != null) {
                     dialog.dismiss();
                 }

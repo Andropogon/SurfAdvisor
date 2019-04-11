@@ -256,6 +256,7 @@
     <string name="settings_notifications_allow_key">notifications_key</string>
     <string name="settings_feedback_send_key">feedback_key</string>
     <string name="settings_display_countries_key">interested_countries_key</string>
+    <string name="settings_display_coverages_countries_key">interested_coverages_countries_key</string>
 
     <!-- SETTINGS STRINGS !-->
     <string name="settings_title_discount">Kod SurfAdvisor na specjalne ceny u naszych partnerów</string>
@@ -291,7 +292,8 @@
     <string name="settings_feedback_send">Wyślij feedback</string>
     <string name="settings_feedback_send_summary">Prześlij uwagi do programisty</string>
     <string name="choose_email_client">Choose email client</string>
-    <string name="settings_display_countries_title">"Wybierz interesujące Cie kraje"</string>
+    <string name="settings_display_countries_title">"[Wycieczki] Wybierz interesujące Cie kraje"</string>
+    <string name="settings_display_coverages_countries_title">[Relacje] Wybierz interesujące Cie kraje</string>
     <!-- ERROR STRINGS !-->
     <string name="error_TAG">ERROR</string>
 

@@ -252,7 +252,7 @@ public class CatalogActivity extends AppCompatActivity  {
         mSelectCountryImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view){
-                CountryDialog.showSelectCountryDialog(CatalogActivity.this);
+                CountryDialog.showSelectCountryDialog(CatalogActivity.this,EventContract.EventEntry.IT_IS_TRIP);
             }
         });
     }
@@ -358,7 +358,7 @@ public class CatalogActivity extends AppCompatActivity  {
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         Set<String> selectedCountries = sharedPrefs.getStringSet(getString(R.string.settings_display_countries_key), new HashSet<String>());
         if(selectedCountries.contains("0")&&selectedCountries.size()!=1){ //Check if is selected "all world" and other country if yes - show dialog to change it
-            CountryDialog.showCountryChangesConfirmationDialog(CatalogActivity.this);
+            CountryDialog.showCountryChangesConfirmationDialog(CatalogActivity.this,EventContract.EventEntry.IT_IS_TRIP);
         }
     }
 

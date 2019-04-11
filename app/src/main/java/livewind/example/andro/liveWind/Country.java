@@ -2,7 +2,6 @@ package livewind.example.andro.liveWind;
 
 public class Country {
     private int flagId;
-    private int nameId;
     private String name;
     private boolean checked;
     private String topicKey;

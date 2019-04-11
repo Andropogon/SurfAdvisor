@@ -57,6 +57,15 @@
             android:entries="@array/array_countries_options"
             android:entryValues="@array/array_countries_options_values"
             />
+        <MultiSelectListPreference
+            android:defaultValue="@array/first_array"
+            android:dialogTitle="@string/settings_display_countries_title"
+            android:key="@string/settings_display_coverages_countries_key"
+            android:summary=""
+            android:title="@string/settings_display_coverages_countries_title"
+            android:entries="@array/array_countries_options"
+            android:entryValues="@array/array_countries_options_values"
+            />
         <ListPreference
             android:title="@string/settings_display_trips_title"
             android:key="@string/settings_display_trips_key"

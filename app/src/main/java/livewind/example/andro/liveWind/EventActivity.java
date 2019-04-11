@@ -1046,10 +1046,12 @@ public class EventActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Sorry, this coverage was deleted... HC", Toast.LENGTH_SHORT).show();
                 }
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
         });
     }
+
 
 }
