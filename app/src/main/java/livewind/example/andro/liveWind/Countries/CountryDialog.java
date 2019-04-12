@@ -131,7 +131,15 @@ public class CountryDialog {
                         ImageView mCheckBoxImageView = view.findViewById(R.id.select_country_list_check_box_image_view);
                         mCheckBoxImageView.setImageResource(R.drawable.ic_check_box_outline_blank_white_24dp);
                         //Topic unsubscribe:
-                        FirebaseMessaging.getInstance().unsubscribeFromTopic(mList.get(position).getTopicKey());
+                        if(position==0) {
+                            //If position 0 -> unsubscribe all topics
+                            for (int i = 1; i <= 20; i++) {
+                                FirebaseMessaging.getInstance().unsubscribeFromTopic(mList.get(i).getTopicKey());
+                            }
+                        } else {
+                            //Else -> unsubscribe one topic
+                            FirebaseMessaging.getInstance().unsubscribeFromTopic(mList.get(position).getTopicKey());
+                        }
                         //Remove this country from "interested_coverages_countries" in sharedPref
                         //Get interested countries Set
                         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
@@ -146,17 +154,25 @@ public class CountryDialog {
                         mList.get(position).setChecked(true);
                         ImageView mCheckBoxImageView = view.findViewById(R.id.select_country_list_check_box_image_view);
                         mCheckBoxImageView.setImageResource(R.drawable.ic_check_box_white_24dp);
-                        //Topic subscription:
-                        FirebaseMessaging.getInstance().subscribeToTopic(mList.get(position).getTopicKey()).addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                String msg = mList.get(position).getTopicKey();
-                                if (!task.isSuccessful()) {
-                                    msg = context.getString(R.string.country_number_20);
-                                }
-                                Toast.makeText(context, "Country subscribed: " +msg, Toast.LENGTH_SHORT).show();
+                        //Topic subscription
+                        if(position==0){
+                            //If position 0 -> subscribe all topics
+                            for(int i=1; i<=20;i++){
+                                FirebaseMessaging.getInstance().subscribeToTopic(mList.get(i).getTopicKey());
                             }
-                        });
+                        } else {
+                            //Else -> subscribe one topic
+                            FirebaseMessaging.getInstance().subscribeToTopic(mList.get(position).getTopicKey()).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    String msg = mList.get(position).getTopicKey();
+                                    if (!task.isSuccessful()) {
+                                        msg = context.getString(R.string.country_number_20);
+                                    }
+                                    Toast.makeText(context, "Country subscribed: " + msg, Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        }
                         //Set this country in "interested_coverages_countries" in sharedPref
                         //Get interested countries Set
                         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
