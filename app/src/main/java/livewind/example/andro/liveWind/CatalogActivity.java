@@ -527,9 +527,14 @@ public class CatalogActivity extends AppCompatActivity  {
                     //TODO clean it...
                     SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                     int displayTripsOptions = Integer.valueOf(sharedPref.getString(getApplicationContext().getString(R.string.settings_display_trips_key),"1"));
-                    Set<String> selectedCountries = sharedPref.getStringSet(getApplicationContext().getString(R.string.settings_display_countries_key), new HashSet<String>());
                     boolean displayBoolean = sharedPref.getBoolean(getApplicationContext().getString(livewind.example.andro.liveWind.R.string.settings_display_boolean_key), true);
-                    String checkEventOrTrip = "DEFAULT";
+                    Set<String> selectedCountries;
+                    if(displayBoolean==EventContract.EventEntry.IT_IS_TRIP) {
+                        selectedCountries = sharedPref.getStringSet(getApplicationContext().getString(R.string.settings_display_countries_key), new HashSet<String>());
+                    } else {
+                        selectedCountries = sharedPref.getStringSet(getApplicationContext().getString(R.string.settings_display_coverages_countries_key), new HashSet<String>());
+                    }
+                    final String checkEventOrTrip = "DEFAULT";
                         if (displayBoolean) {
                             if (event.getStartDate().equals(checkEventOrTrip) && (selectedCountries.contains(Integer.toString(event.getCountry())) || selectedCountries.contains(EventContract.EventEntry.COUNTRY_ALL_WORLD) || selectedCountries.contains(Integer.toString(event.getStartCountry())))) {
                                 mEventAdapter.add(event);
