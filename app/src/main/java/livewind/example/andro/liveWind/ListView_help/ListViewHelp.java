@@ -37,7 +37,6 @@ public class ListViewHelp{
             // pre-condition
             return;
         }
-
         int totalHeight = listView.getPaddingTop() + listView.getPaddingBottom();
         int i =0;
         if(listAdapter.getCount()==0 || listAdapter.getCount() == 1){
@@ -48,9 +47,8 @@ public class ListViewHelp{
                 if (listItem instanceof ViewGroup) {
                     listItem.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                 }
-
                 listItem.measure(0, 0);
-                totalHeight += (listItem.getMeasuredHeight() / numberOfColumns);
+                totalHeight += ((listItem.getMeasuredHeight())/ (numberOfColumns + 2));
                 i++;
             } while (i <= ((listAdapter.getCount() - 1) / numberOfColumns));
         }

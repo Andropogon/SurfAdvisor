@@ -12,6 +12,7 @@ public interface FilterTripsContract {
     interface View {
         void displayPreferences(String cost, int currency, long dateFromTimestamp, long dateToTimestamp,Set<String> countries);
         void displaySports(Set <String> sports);
+        void displayCountries();
     }
 
     /** Represents the Presenter in MVP. */
@@ -26,6 +27,8 @@ public interface FilterTripsContract {
         void sendPreferences();
 
         void loadPreferences();
+
+        void loadDefaultPreferences();
 
     }
 }

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import java.util.GregorianCalendar;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -52,6 +53,13 @@ public class FilterTrips {
         editor.apply();
         this.mSports = sports;
     }
+    public void setmCountries(Set<String> countries){
+        SharedPreferences filterPref = PreferenceManager.getDefaultSharedPreferences(mContext);
+        SharedPreferences.Editor editor = filterPref.edit();
+        editor.putStringSet(mContext.getString(R.string.settings_display_countries_key),countries);
+        editor.apply();
+        this.mCountries = countries;
+    }
 
     /**
      * Set all filter preferences
@@ -94,16 +102,13 @@ public class FilterTrips {
      */
     public void getFilterTripsPreferences(){
         SharedPreferences filterPref = PreferenceManager.getDefaultSharedPreferences(mContext);
-        mCost = filterPref.getString(mContext.getString(R.string.settings_filter_cost_key),"-1");
-        mCurrency = filterPref.getInt(mContext.getString(R.string.settings_filter_currency_key),-1);
+        mCost = filterPref.getString(mContext.getString(R.string.settings_filter_cost_key),"20000");
+        mCurrency = filterPref.getInt(mContext.getString(R.string.settings_filter_currency_key),0);
         //TODO Add min. timestamp = today, checking
-        mDateFromTimestamp = filterPref.getLong(mContext.getString(R.string.settings_filter_date_from_key),1555113603000L);
-        mDateToTimestamp = filterPref.getLong(mContext.getString(R.string.settings_filter_date_to_key),1575936000000L);
-        Set defaultSportSet = new HashSet<String>();
-        defaultSportSet.add("0");
-        defaultSportSet.add("1");
-        defaultSportSet.add("2");
-        mSports = filterPref.getStringSet(mContext.getString(R.string.settings_filter_sports_key), defaultSportSet);
+        mDateFromTimestamp = filterPref.getLong(mContext.getString(R.string.settings_filter_date_from_key),System.currentTimeMillis());
+        mDateToTimestamp = filterPref.getLong(mContext.getString(R.string.settings_filter_date_to_key),System.currentTimeMillis() + 7889229000L);
+        mSports = filterPref.getStringSet(mContext.getString(R.string.settings_filter_sports_key),new HashSet<String>());
         mCountries = filterPref.getStringSet(mContext.getString(R.string.settings_display_countries_key), new HashSet<String>());
     }
+
 }

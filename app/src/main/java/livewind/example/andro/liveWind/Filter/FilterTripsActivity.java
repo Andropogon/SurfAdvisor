@@ -54,6 +54,7 @@ public class FilterTripsActivity extends AppCompatActivity
     private GridView mCountriesGridView;
     private CountryGridAdapter mCountryGridAdapter;
 
+    private TextView mSetDefaultTextView;
     private TextView mSearchButtonTextView;
 
     boolean[] mCheckedItems = new boolean[3];
@@ -91,6 +92,7 @@ public class FilterTripsActivity extends AppCompatActivity
         mCountriesGridView = findViewById(R.id.filter_countries_grid_view);
 
         mSearchButtonTextView = findViewById(R.id.filter_search_button_text_view);
+        mSetDefaultTextView = findViewById(R.id.filter_set_default_text_view);
     }
 
     private void initClickListeners(){
@@ -155,6 +157,12 @@ public class FilterTripsActivity extends AppCompatActivity
                 saveAndOpenCatalogActivity();
             }
         });
+        mSetDefaultTextView.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                mPresenter.loadDefaultPreferences();
+            }
+        });
     }
 
     @Override
@@ -216,6 +224,13 @@ public class FilterTripsActivity extends AppCompatActivity
             interestedSurfingBackgroundView.setColorFilter(noInterestedColorCode, PorterDuff.Mode.MULTIPLY);
             mCheckedItems[2] = false;
         }
+    }
+
+    @Override
+    public void displayCountries(){
+        mCountryGridAdapter = new CountryGridAdapter(this, mPresenter.getCountries(),0);
+        mCountriesGridView.setAdapter(mCountryGridAdapter);
+        ListViewHelp.setListViewHeightBasedOnChildren(mCountriesGridView,6);
     }
 
     /**
