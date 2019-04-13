@@ -219,6 +219,11 @@
     <string-array name="first_array">
         <item>0</item>
     </string-array>
+    <string-array name="array_sports_default">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
     <!-- These are the options displayed in the gender drop-down Spinner -->
     <string-array name="array_display_trip_options">
         <item name="0">@string/display_trips_from_and_to</item>

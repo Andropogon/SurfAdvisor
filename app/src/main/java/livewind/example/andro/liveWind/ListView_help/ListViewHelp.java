@@ -40,19 +40,22 @@ public class ListViewHelp{
 
         int totalHeight = listView.getPaddingTop() + listView.getPaddingBottom();
         int i =0;
-        do {
-            View listItem = listAdapter.getView(i, null, listView);
-            if (listItem instanceof ViewGroup) {
-                listItem.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-            }
+        if(listAdapter.getCount()==0 || listAdapter.getCount() == 1){
+            totalHeight = 128;
+        } else {
+            do {
+                View listItem = listAdapter.getView(i, null, listView);
+                if (listItem instanceof ViewGroup) {
+                    listItem.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                }
 
-            listItem.measure(0, 0);
-            totalHeight += (listItem.getMeasuredHeight()/numberOfColumns);
-            i++;
-        } while (i <= ((listAdapter.getCount()-1)/numberOfColumns));
-
+                listItem.measure(0, 0);
+                totalHeight += (listItem.getMeasuredHeight() / numberOfColumns);
+                i++;
+            } while (i <= ((listAdapter.getCount() - 1) / numberOfColumns));
+        }
         ViewGroup.LayoutParams params = listView.getLayoutParams();
-        params.height = totalHeight + ((listAdapter.getCount() - 1));
+        params.height = totalHeight; //+ ((listAdapter.getCount() - 1));
         listView.setLayoutParams(params);
     }
 }

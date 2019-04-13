@@ -87,6 +87,18 @@
             android:key="@string/settings_display_boolean_key"
             android:title="@string/settings_display_boolean"
             android:visibility="gone" />
+        <EditTextPreference
+            android:defaultValue="20000"
+            android:visibility="gone"
+            android:key="@string/settings_filter_cost_key" />
+        <MultiSelectListPreference
+            android:defaultValue="@array/array_sports_default"
+            android:key="@string/settings_filter_sports_key"
+            android:summary=""
+            android:entries="@array/array_filter_sports"
+            android:entryValues="@array/array_filter_sports"
+            />
+\\
         <!-- NOTE: Hide buttons to simplify the UI. Users can touch outside the dialog to
              dismiss it. -->
         <!-- NOTE: ListPreference's summary should be set to its value by the activity code. -->
@@ -124,12 +136,6 @@
             android:summary="@string/settings_feedback_send_summary"
             android:defaultValue="true" />
     </PreferenceCategory>
-    <EditTextPreference
-        android:inputType="number"
-        android:key="@string/settings_filter_cost_key"
-        android:maxLines="1"
-        android:selectAllOnFocus="true"
-        android:singleLine="true"
-        android:title="Filter cost" />
+
 
 </PreferenceScreen>

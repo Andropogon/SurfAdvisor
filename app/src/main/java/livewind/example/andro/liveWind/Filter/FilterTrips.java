@@ -97,9 +97,13 @@ public class FilterTrips {
         mCost = filterPref.getString(mContext.getString(R.string.settings_filter_cost_key),"-1");
         mCurrency = filterPref.getInt(mContext.getString(R.string.settings_filter_currency_key),-1);
         //TODO Add min. timestamp = today, checking
-        mDateFromTimestamp = filterPref.getLong(mContext.getString(R.string.settings_filter_date_from_key),-1);
-        mDateToTimestamp = filterPref.getLong(mContext.getString(R.string.settings_filter_date_to_key),-1);
-        mSports = filterPref.getStringSet(mContext.getString(R.string.settings_filter_sports_key), new HashSet<String>());
+        mDateFromTimestamp = filterPref.getLong(mContext.getString(R.string.settings_filter_date_from_key),1555113603000L);
+        mDateToTimestamp = filterPref.getLong(mContext.getString(R.string.settings_filter_date_to_key),1575936000000L);
+        Set defaultSportSet = new HashSet<String>();
+        defaultSportSet.add("0");
+        defaultSportSet.add("1");
+        defaultSportSet.add("2");
+        mSports = filterPref.getStringSet(mContext.getString(R.string.settings_filter_sports_key), defaultSportSet);
         mCountries = filterPref.getStringSet(mContext.getString(R.string.settings_display_countries_key), new HashSet<String>());
     }
 }

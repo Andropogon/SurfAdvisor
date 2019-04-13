@@ -128,14 +128,16 @@ public class CatalogActivity extends AppCompatActivity  {
         super.onCreate(savedInstanceState);
         setContentView(livewind.example.andro.liveWind.R.layout.activity_catalog);
         context = getApplicationContext();
+        //Set default settings preferences values - called only on first open
+        PreferenceManager.setDefaultValues(this, livewind.example.andro.liveWind.R.xml.pref_general, false);
+
         initViews();
         initFirebaseVariables();
         setupNavigationDrawer();
         // Initialize events ListView and its adapter
         mEventAdapter = new EventAdapter(this, events,0);
         mEventListView.setAdapter(mEventAdapter);
-        //Set default settings preferences values - called only on first open
-        PreferenceManager.setDefaultValues(this, livewind.example.andro.liveWind.R.xml.pref_general, false);
+
         removingOldEvents(); //Remove old coverages and trips
         setupFirebaseAuth(); //Login user
         initClickListeners();
@@ -158,6 +160,7 @@ public class CatalogActivity extends AppCompatActivity  {
         if (displayBoolean==EventContract.EventEntry.IT_IS_TRIP) {
             mFiltersImageView.setImageResource(R.drawable.ic_filter_list_black_24dp);
         } else {
+            mFiltersImageView.setImageResource(R.drawable.flag_world);
         }
     }
 
@@ -744,9 +747,9 @@ public class CatalogActivity extends AppCompatActivity  {
         if(!(DateHelp.dateToTimestamp(event.getDate())<=filterTrips.getmDateToTimestamp())){
             return false;
         }
-        if(!(filterTrips.getmCountries().contains(String.valueOf(event.getCountry())))){
-            return false;
-        }
+        //(!(filterTrips.getmCountries().contains(String.valueOf(event.getCountry())))){
+        //    return false;
+        //}
         if(!(CurrencyHelper.currencyToPLN(Integer.valueOf(filterTrips.getmCost()),filterTrips.getmCurrency())>=CurrencyHelper.currencyToPLN(event.getCost(),event.getCurrency()))){
             return false;
         }
