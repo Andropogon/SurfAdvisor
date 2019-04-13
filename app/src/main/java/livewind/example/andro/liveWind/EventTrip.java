@@ -144,6 +144,39 @@ public class EventTrip{
 
 
     /**
+     * Check windsurfing availability
+     * @return true if this sport is available to learn on this trip
+     */
+    public boolean checkWindsurfingAvailability(){
+        if(windsurfingAvailable==EventContract.EventEntry.TRIP_AVAILABLE_COURSE ||windsurfingAvailable==EventContract.EventEntry.TRIP_AVAILABLE_YES ||windsurfingAvailable==EventContract.EventEntry.TRIP_AVAILABLE_INSTRUCTOR_COURSE){
+            return true;
+        } else {
+            return false;
+        }
+    }
+    /**
+     * Check Kitesurfing availability
+     * @return true if this sport is available to learn on this trip
+     */
+    public boolean checkKitesurfingAvailability(){
+        if(kitesurfingAvailable==EventContract.EventEntry.TRIP_AVAILABLE_COURSE || kitesurfingAvailable==EventContract.EventEntry.TRIP_AVAILABLE_YES || kitesurfingAvailable==EventContract.EventEntry.TRIP_AVAILABLE_INSTRUCTOR_COURSE){
+            return true;
+        } else {
+            return false;
+        }
+    }
+    /**
+     * Check Surfing availability
+     * @return true if this sport is available to learn on this trip
+     */
+    public boolean checkSurfingAvailability(){
+        if(surfingAvailable==EventContract.EventEntry.TRIP_AVAILABLE_COURSE || surfingAvailable==EventContract.EventEntry.TRIP_AVAILABLE_YES || surfingAvailable==EventContract.EventEntry.TRIP_AVAILABLE_INSTRUCTOR_COURSE){
+            return true;
+        } else {
+            return false;
+        }
+    }
+    /**
      * Additional method for spinner - //TODO this method should be deleted from here
      */
     public void loadStartCountrySpinner(Spinner startCountrySpinner) {

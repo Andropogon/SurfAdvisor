@@ -737,7 +737,8 @@ public class CatalogActivity extends AppCompatActivity  {
         //Load all filters from SharedPreferences
         FilterTrips filterTrips = new FilterTrips();
         filterTrips.getFilterTripsPreferences();
-       if(!(event.getTimestampStartDate()>=filterTrips.getmDateFromTimestamp())){
+        //Check filters
+        if(!(event.getTimestampStartDate()>=filterTrips.getmDateFromTimestamp())){
             return false;
         }
         if(!(DateHelp.dateToTimestamp(event.getDate())<=filterTrips.getmDateToTimestamp())){
@@ -746,11 +747,17 @@ public class CatalogActivity extends AppCompatActivity  {
         if(!(filterTrips.getmCountries().contains(String.valueOf(event.getCountry())))){
             return false;
         }
-        //TODO check sports
-
         if(!(CurrencyHelper.currencyToPLN(Integer.valueOf(filterTrips.getmCost()),filterTrips.getmCurrency())>=CurrencyHelper.currencyToPLN(event.getCost(),event.getCurrency()))){
             return false;
         }
-        return true;
+        if(filterTrips.getmSports().contains("0") && event.checkWindsurfingAvailability()){
+            return true;
+        } else if(filterTrips.getmSports().contains("1") && event.checkKitesurfingAvailability()){
+            return true;
+        } else if(filterTrips.getmSports().contains("2") && event.checkSurfingAvailability()) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
