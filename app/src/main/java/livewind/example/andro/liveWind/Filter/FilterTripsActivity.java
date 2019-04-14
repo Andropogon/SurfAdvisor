@@ -30,6 +30,7 @@ import livewind.example.andro.liveWind.HelpClasses.DateHelp;
 import livewind.example.andro.liveWind.ListView_help.ListViewHelp;
 import livewind.example.andro.liveWind.R;
 import livewind.example.andro.liveWind.data.EventContract;
+import livewind.example.andro.liveWind.data.FilterContract;
 
 /**
  * Created by JGJ on 20/03/19.
@@ -203,21 +204,21 @@ public class FilterTripsActivity extends AppCompatActivity
         Drawable interestedWindsurfingBackgroundView = mWindsurfingImageView.getBackground();
         Drawable interestedKitesurfingBackgroundView = mKitesurfingImageView.getBackground();
         Drawable interestedSurfingBackgroundView = mSurfingImageView.getBackground();
-        if(sports.contains("0")) {
+        if(sports.contains(FilterContract.FilterTripsEntry.SPORT_WINDSURFING)) {
             interestedWindsurfingBackgroundView.setColorFilter(interestedColorCode, PorterDuff.Mode.MULTIPLY);
             mCheckedItems[0] = true;
         } else {
             interestedWindsurfingBackgroundView.setColorFilter(noInterestedColorCode, PorterDuff.Mode.MULTIPLY);
             mCheckedItems[0] = false;
         }
-        if(sports.contains("1")) {
+        if(sports.contains(FilterContract.FilterTripsEntry.SPORT_KITESURFING)) {
             interestedKitesurfingBackgroundView.setColorFilter(interestedColorCode, PorterDuff.Mode.MULTIPLY);
             mCheckedItems[1] = true;
         } else {
             interestedKitesurfingBackgroundView.setColorFilter(noInterestedColorCode, PorterDuff.Mode.MULTIPLY);
             mCheckedItems[1] = false;
         }
-        if(sports.contains("2")) {
+        if(sports.contains(FilterContract.FilterTripsEntry.SPORT_SURFING)) {
             interestedSurfingBackgroundView.setColorFilter(interestedColorCode, PorterDuff.Mode.MULTIPLY);
             mCheckedItems[2] = true;
         } else {

@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import livewind.example.andro.liveWind.data.EventContract;
+import livewind.example.andro.liveWind.data.FilterContract;
 
 /**
  * Created by JGJ on 20/03/19.
@@ -60,17 +61,17 @@ public class FilterTripsPresenter implements FilterTripsContract.Presenter{
 
     @Override
     public void loadDefaultPreferences(){
-        mFilterTrips.setmCost("20000");
+        mFilterTrips.setmCost(FilterContract.FilterTripsEntry.DEFAULT_COST);
         mFilterTrips.setmCurrency(EventContract.EventEntry.CURRENCY_ZL);
         mFilterTrips.setmDateFromTimestamp(System.currentTimeMillis());
-        mFilterTrips.setmDateToTimestamp(System.currentTimeMillis() + 7889229000L);
+        mFilterTrips.setmDateToTimestamp(System.currentTimeMillis() + FilterContract.FilterTripsEntry.DEFAULT_DURATION_TIMESTAMP);
         Set<String> defaultSports = new HashSet<String>();
-        defaultSports.add("0");
-        defaultSports.add("1");
-        defaultSports.add("2");
+        defaultSports.add(FilterContract.FilterTripsEntry.SPORT_WINDSURFING);
+        defaultSports.add(FilterContract.FilterTripsEntry.SPORT_KITESURFING);
+        defaultSports.add(FilterContract.FilterTripsEntry.SPORT_SURFING);
         mFilterTrips.setmSports(defaultSports);
         Set<String> defaultCountries = new HashSet<String>();
-        defaultCountries.add("0");
+        defaultCountries.add(FilterContract.FilterTripsEntry.COUNTRIES_ALL);
         mFilterTrips.setmCountries(defaultCountries);
 
         mView.displayPreferences(mFilterTrips.getmCost(),mFilterTrips.getmCurrency(),mFilterTrips.getmDateFromTimestamp(),mFilterTrips.getmDateToTimestamp(),mFilterTrips.getmCountries());

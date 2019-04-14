@@ -10,6 +10,7 @@ import java.util.Set;
 
 import livewind.example.andro.liveWind.CatalogActivity;
 import livewind.example.andro.liveWind.R;
+import livewind.example.andro.liveWind.data.FilterContract;
 
 /**
  * Created by JGJ on 20/03/19.
@@ -102,11 +103,11 @@ public class FilterTrips {
      */
     public void getFilterTripsPreferences(){
         SharedPreferences filterPref = PreferenceManager.getDefaultSharedPreferences(mContext);
-        mCost = filterPref.getString(mContext.getString(R.string.settings_filter_cost_key),"20000");
+        mCost = filterPref.getString(mContext.getString(R.string.settings_filter_cost_key),FilterContract.FilterTripsEntry.DEFAULT_COST);
         mCurrency = filterPref.getInt(mContext.getString(R.string.settings_filter_currency_key),0);
         //TODO Add min. timestamp = today, checking
         mDateFromTimestamp = filterPref.getLong(mContext.getString(R.string.settings_filter_date_from_key),System.currentTimeMillis());
-        mDateToTimestamp = filterPref.getLong(mContext.getString(R.string.settings_filter_date_to_key),System.currentTimeMillis() + 7889229000L);
+        mDateToTimestamp = filterPref.getLong(mContext.getString(R.string.settings_filter_date_to_key),System.currentTimeMillis() + FilterContract.FilterTripsEntry.DEFAULT_DURATION_TIMESTAMP);
         mSports = filterPref.getStringSet(mContext.getString(R.string.settings_filter_sports_key),new HashSet<String>());
         mCountries = filterPref.getStringSet(mContext.getString(R.string.settings_display_countries_key), new HashSet<String>());
     }

@@ -7,8 +7,7 @@ public final class EventContract {
     private EventContract() {}
 
     /**
-     * Inner class that defines constant values for the pets database table.
-     * Each entry in the table represents a single pet.
+     * Inner class that defines constant values for the event database.
      */
     public static final class EventEntry implements BaseColumns {
 
