@@ -550,4 +550,14 @@
     <string name="share_trip_quote_comment">" Opis wyjazdu: "</string>
     <string name="share_trip_quote_contact">" Kontakt: "</string>
     <string name="share_trip_quote_foot">" Wyjazd z aplikacji: http://surf-advisor.info/"</string>
+
+    <!-- Filter trips activity -->
+    <string name="filter_trips_title">Filtry wyjazdów i wycieczek</string>
+    <string name="filter_trips_subtitle">Sprecyzuj czego szukasz...</string>
+    <string name="filter_trips_date">Data wyjazdu</string>
+    <string name="filter_trips_countries">Kraje, które Cie interesują</string>
+    <string name="filter_trips_sports">Sporty, które Cie interesują</string>
+    <string name="filter_trips_cost">Maksymalna cena</string>
+    <string name="filter_trips_search">Szukaj</string>
+    <string name="filter_trips_set_default">Ustaw domyślne</string>
 </resources>

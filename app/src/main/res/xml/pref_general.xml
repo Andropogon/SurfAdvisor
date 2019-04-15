@@ -113,7 +113,7 @@
         <ListPreference
             android:title="@string/settings_display_sorting_trips_by"
             android:key="@string/settings_display_sorting_trips_by_key"
-            android:defaultValue="1"
+            android:defaultValue="0"
             android:entries="@array/array_sorting_trips_options"
             android:entryValues="@array/array_sorting_trips_optionsValues"
             android:negativeButtonText="@null"

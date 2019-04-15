@@ -29,5 +29,10 @@ public class FilterContract {
          * Default value of countries filter
          */
         public static final String COUNTRIES_ALL = "0";
+        /**
+         * Possible options for sorting spinner
+         */
+        public static final int SORTING_DATE = 0;
+        public static final int SORTING_COST = 1;
     }
 }

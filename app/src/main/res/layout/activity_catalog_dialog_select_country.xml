@@ -40,7 +40,7 @@
     <android.support.v7.widget.AppCompatSpinner
         android:id="@+id/spinner_trip_display_options"
         android:singleLine="false"
-        android:spinnerMode="dropdown"
+        android:spinnerMode="dialog"
         android:layout_width="wrap_content"
         android:theme="@style/eventInfoCommentTextVerySmall"
         android:layout_height="48dp"></android.support.v7.widget.AppCompatSpinner>

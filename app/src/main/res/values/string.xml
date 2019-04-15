@@ -564,6 +564,8 @@
     <string name="filter_trips_sports">Sporty, które Cie interesują</string>
     <string name="filter_trips_cost">Maksymalna cena</string>
     <string name="filter_trips_search">Szukaj</string>
+    <string name="filter_trips_set_default">Set default</string>
+    <string name="filter_trips_sort">Sortuj po</string>
 
     <!-- Topic notification system keys -->
     <string name="country_number_0_key">All_world</string>

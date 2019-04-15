@@ -14,11 +14,10 @@ import livewind.example.andro.liveWind.data.FilterContract;
  */
 public class FilterTripsPresenter implements FilterTripsContract.Presenter{
 
+    //Model
     private FilterTrips mFilterTrips;
 
-    /**
-     * Views
-     */
+    //View in activity
     private FilterTripsContract.View mView;
 
     public FilterTripsPresenter(FilterTripsContract.View view) {
@@ -27,11 +26,12 @@ public class FilterTripsPresenter implements FilterTripsContract.Presenter{
     }
 
     @Override
-    public void savePreferences(String cost, int currency, long dateFromTimestamp, long dateToTimestamp) {
+    public void savePreferences(String cost, int currency, long dateFromTimestamp, long dateToTimestamp, int sortingPreferences) {
         mFilterTrips.setmCost(cost);
         mFilterTrips.setmCurrency(currency);
         mFilterTrips.setmDateFromTimestamp(dateFromTimestamp);
         mFilterTrips.setmDateToTimestamp(dateToTimestamp);
+        mFilterTrips.setmSortingPreferences(sortingPreferences);
     }
     @Override
     public void saveSports(Set<String> sports){
@@ -55,12 +55,13 @@ public class FilterTripsPresenter implements FilterTripsContract.Presenter{
     @Override
     public void loadPreferences() {
         mFilterTrips.getFilterTripsPreferences();
-        mView.displayPreferences(mFilterTrips.getmCost(),mFilterTrips.getmCurrency(),mFilterTrips.getmDateFromTimestamp(),mFilterTrips.getmDateToTimestamp(),mFilterTrips.getmCountries());
+        mView.displayPreferences(mFilterTrips.getmCost(),mFilterTrips.getmCurrency(),mFilterTrips.getmDateFromTimestamp(),mFilterTrips.getmDateToTimestamp(),mFilterTrips.getmCountries(),mFilterTrips.getmSortingPreferences());
         mView.displaySports(mFilterTrips.getmSports());
     }
 
     @Override
     public void loadDefaultPreferences(){
+        //Set default values to FilterTrips Model
         mFilterTrips.setmCost(FilterContract.FilterTripsEntry.DEFAULT_COST);
         mFilterTrips.setmCurrency(EventContract.EventEntry.CURRENCY_ZL);
         mFilterTrips.setmDateFromTimestamp(System.currentTimeMillis());
@@ -74,7 +75,8 @@ public class FilterTripsPresenter implements FilterTripsContract.Presenter{
         defaultCountries.add(FilterContract.FilterTripsEntry.COUNTRIES_ALL);
         mFilterTrips.setmCountries(defaultCountries);
 
-        mView.displayPreferences(mFilterTrips.getmCost(),mFilterTrips.getmCurrency(),mFilterTrips.getmDateFromTimestamp(),mFilterTrips.getmDateToTimestamp(),mFilterTrips.getmCountries());
+        //Display default values on FilterTripsActivity
+        mView.displayPreferences(mFilterTrips.getmCost(),mFilterTrips.getmCurrency(),mFilterTrips.getmDateFromTimestamp(),mFilterTrips.getmDateToTimestamp(),mFilterTrips.getmCountries(),mFilterTrips.getmSortingPreferences());
         mView.displayCountries();
         mView.displaySports(mFilterTrips.getmSports());
     }
