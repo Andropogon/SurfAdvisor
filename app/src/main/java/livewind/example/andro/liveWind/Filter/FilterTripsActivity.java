@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -173,7 +174,7 @@ public class FilterTripsActivity extends AppCompatActivity
         mSetDefaultTextView.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                mPresenter.loadDefaultPreferences();
+                showDefaultWarningDialog();
             }
         });
     }
@@ -450,5 +451,34 @@ public class FilterTripsActivity extends AppCompatActivity
         }
     }
 
-    
+    /**
+     * Show dialog about confirmation setting default filter values
+     */
+    private void showDefaultWarningDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AlertDialogStyle);
+        builder.setMessage(R.string.filter_trips_set_default_warning);
+        builder.setNegativeButton(R.string.dialog_cancel, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                // Windsurfer clicked the "Keep editing" button, so dismiss the dialog
+                // and continue editing the event.
+                if (dialog != null) {
+                    dialog.dismiss();
+                }
+            }
+        });
+
+        builder.setPositiveButton(R.string.dialog_yes, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                //User clicked that he want to load default values
+                mPresenter.loadDefaultPreferences();
+                if (dialog != null) {
+                    dialog.dismiss();
+                }
+            }
+        });
+        // Create and show the AlertDialog
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
+
 }

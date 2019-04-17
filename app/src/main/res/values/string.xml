@@ -569,6 +569,7 @@
     <string name="filter_trips_search">Szukaj</string>
     <string name="filter_trips_set_default">Set default</string>
     <string name="filter_trips_sort">Sortuj po</string>
+    <string name="filter_trips_set_default_warning">Czy na pewno chcesz ustawić domyślne ustawienia filtrów?</string>
 
     <!-- Topic notification system keys -->
     <string name="country_number_0_key">All_world</string>
