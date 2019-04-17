@@ -6,11 +6,14 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.NavUtils;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -19,6 +22,7 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Calendar;
 import java.util.Set;
@@ -26,6 +30,7 @@ import java.util.Set;
 import livewind.example.andro.liveWind.CatalogActivity;
 import livewind.example.andro.liveWind.Countries.CountryDialog;
 import livewind.example.andro.liveWind.Countries.CountryGridAdapter;
+import livewind.example.andro.liveWind.EditorActivity;
 import livewind.example.andro.liveWind.HelpClasses.DateHelp;
 import livewind.example.andro.liveWind.ListView_help.ListViewHelp;
 import livewind.example.andro.liveWind.R;
@@ -63,6 +68,10 @@ public class FilterTripsActivity extends AppCompatActivity
     int mCurrency = EventContract.EventEntry.CURRENCY_ZL;
     int mSortingPreferences = FilterTripsContract.FilterTripsEntry.SORTING_DATE;
     int mSortingOrderPreferences = FilterTripsContract.FilterTripsEntry.SORTING_DATE;
+    /**
+     * Boolean flag that keeps track of whether the filters has been edited (true) or not (false)
+     */
+    private boolean mFiltersHasChanged = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -98,6 +107,20 @@ public class FilterTripsActivity extends AppCompatActivity
 
         mSearchButtonTextView = findViewById(R.id.filter_search_button_text_view);
         mSetDefaultTextView = findViewById(R.id.filter_set_default_text_view);
+
+        //Set touch listeners to all views that could change @FilterTrips
+        mCostView.setOnTouchListener(mTouchListener);
+        mCurrencySpinner.setOnTouchListener(mTouchListener);
+        mDateFromTextView.setOnTouchListener(mTouchListener);
+        mDateToTextView.setOnTouchListener(mTouchListener);
+        mSportsTextView.setOnTouchListener(mTouchListener);
+        mWindsurfingImageView.setOnTouchListener(mTouchListener);
+        mKitesurfingImageView.setOnTouchListener(mTouchListener);
+        mSurfingImageView.setOnTouchListener(mTouchListener);
+        mCountriesTextView.setOnTouchListener(mTouchListener);
+        mSortingSpinner.setOnTouchListener(mTouchListener);
+        mSortingOrderSpinner.setOnTouchListener(mTouchListener);
+        mSetDefaultTextView.setOnTouchListener(mTouchListener);
 
         setupCurrencySpinner();
         setupSortingSpinner();
@@ -191,8 +214,13 @@ public class FilterTripsActivity extends AppCompatActivity
                 saveAndOpenCatalogActivity();
                     return true;
             case android.R.id.home:
-                    finish();
-                    return true;
+                    if (!mFiltersHasChanged) {
+                        NavUtils.navigateUpFromSameTask(FilterTripsActivity.this);
+                        return true;
+                    } else {
+                        showUnsavedChangesDialog();
+                        return true;
+                    }
                 }
         return super.onOptionsItemSelected(item);
     }
@@ -201,8 +229,13 @@ public class FilterTripsActivity extends AppCompatActivity
      */
     @Override
     public void onBackPressed() {
-            super.onBackPressed();
+        if (!mFiltersHasChanged) {
+            NavUtils.navigateUpFromSameTask(FilterTripsActivity.this);
             return;
+        } else {
+            showUnsavedChangesDialog();
+            return;
+        }
     }
 
     @Override
@@ -279,6 +312,7 @@ public class FilterTripsActivity extends AppCompatActivity
                 if(isChecked) {
                     if (!sports.contains(Integer.toString(position))) {
                         sports.add(Integer.toString(position));
+                        Log.i("LOL", "onClick: " + mPresenter.getSports().size());
                     }
                 }
                 else if(sports.contains(Integer.toString(position))){
@@ -292,7 +326,7 @@ public class FilterTripsActivity extends AppCompatActivity
             @Override
             public void onClick(DialogInterface dialogInterface, int which) {
                 mPresenter.saveSports(sports);
-
+                dialogInterface.dismiss();
             }
 
         });
@@ -431,7 +465,6 @@ public class FilterTripsActivity extends AppCompatActivity
                     }
                 }
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
                 mSortingOrderPreferences = FilterTripsContract.FilterTripsEntry.SORTING_DATE;
@@ -481,6 +514,45 @@ public class FilterTripsActivity extends AppCompatActivity
                 }
             }
         });
+        // Create and show the AlertDialog
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
+
+    /**
+     * OnTouchListener that listens for any user touches on a View, implying that they are modifying
+     * the view, and we change the mFiltersHasChanged boolean to true.
+     */
+    private View.OnTouchListener mTouchListener = new View.OnTouchListener() {
+        @Override
+        public boolean onTouch(View view, MotionEvent motionEvent) {
+            mFiltersHasChanged = true;
+            return false;
+        }
+    };
+
+    /**
+     * Show dialog about unsaved changes if user edited @FilterTrips and clicked cancel or back button.
+     */
+    private void showUnsavedChangesDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AlertDialogStyle);
+        builder.setMessage(R.string.filter_trips_dismiss_changes_warning);
+        builder.setPositiveButton(R.string.dialog_yes, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                mPresenter.dismissChanges();
+                finish();
+            }
+        });
+        builder.setNegativeButton(livewind.example.andro.liveWind.R.string.keep_editing, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                // Windsurfer clicked the "Keep editing" button, so dismiss the dialog
+                // and continue editing the filters.
+                if (dialog != null) {
+                    dialog.dismiss();
+                }
+            }
+        });
+
         // Create and show the AlertDialog
         AlertDialog alertDialog = builder.create();
         alertDialog.show();

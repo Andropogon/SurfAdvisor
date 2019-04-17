@@ -30,6 +30,8 @@ public interface FilterTripsContract {
         void loadPreferences();
 
         void loadDefaultPreferences();
+
+        void dismissChanges();
     }
 
     /**
