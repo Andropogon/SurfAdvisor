@@ -62,8 +62,8 @@ public class FilterTripsActivity extends AppCompatActivity
 
     boolean[] mCheckedItems = new boolean[3];
     int mCurrency = EventContract.EventEntry.CURRENCY_ZL;
-    int mSortingPreferences = FilterContract.FilterTripsEntry.SORTING_DATE;
-    int mSortingOrderPreferences = FilterContract.FilterTripsEntry.SORTING_DATE;
+    int mSortingPreferences = FilterTripsContract.FilterTripsEntry.SORTING_DATE;
+    int mSortingOrderPreferences = FilterTripsContract.FilterTripsEntry.SORTING_DATE;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -218,21 +218,21 @@ public class FilterTripsActivity extends AppCompatActivity
         Drawable interestedWindsurfingBackgroundView = mWindsurfingImageView.getBackground();
         Drawable interestedKitesurfingBackgroundView = mKitesurfingImageView.getBackground();
         Drawable interestedSurfingBackgroundView = mSurfingImageView.getBackground();
-        if(sports.contains(FilterContract.FilterTripsEntry.SPORT_WINDSURFING)) {
+        if(sports.contains(FilterTripsContract.FilterTripsEntry.SPORT_WINDSURFING)) {
             interestedWindsurfingBackgroundView.setColorFilter(interestedColorCode, PorterDuff.Mode.MULTIPLY);
             mCheckedItems[0] = true;
         } else {
             interestedWindsurfingBackgroundView.setColorFilter(noInterestedColorCode, PorterDuff.Mode.MULTIPLY);
             mCheckedItems[0] = false;
         }
-        if(sports.contains(FilterContract.FilterTripsEntry.SPORT_KITESURFING)) {
+        if(sports.contains(FilterTripsContract.FilterTripsEntry.SPORT_KITESURFING)) {
             interestedKitesurfingBackgroundView.setColorFilter(interestedColorCode, PorterDuff.Mode.MULTIPLY);
             mCheckedItems[1] = true;
         } else {
             interestedKitesurfingBackgroundView.setColorFilter(noInterestedColorCode, PorterDuff.Mode.MULTIPLY);
             mCheckedItems[1] = false;
         }
-        if(sports.contains(FilterContract.FilterTripsEntry.SPORT_SURFING)) {
+        if(sports.contains(FilterTripsContract.FilterTripsEntry.SPORT_SURFING)) {
             interestedSurfingBackgroundView.setColorFilter(interestedColorCode, PorterDuff.Mode.MULTIPLY);
             mCheckedItems[2] = true;
         } else {
@@ -371,16 +371,16 @@ public class FilterTripsActivity extends AppCompatActivity
                 String selection = (String) parent.getItemAtPosition(position);
                 if (!TextUtils.isEmpty(selection)) {
                     if (selection.equals(getString(R.string.sorting_trips_by_date))) {
-                        mSortingPreferences = FilterContract.FilterTripsEntry.SORTING_DATE;
+                        mSortingPreferences = FilterTripsContract.FilterTripsEntry.SORTING_DATE;
                     } else if (selection.equals(getString(R.string.sorting_trips_by_cost))) {
-                        mSortingPreferences = FilterContract.FilterTripsEntry.SORTING_COST;
+                        mSortingPreferences = FilterTripsContract.FilterTripsEntry.SORTING_COST;
                     }
                 }
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                mSortingPreferences = FilterContract.FilterTripsEntry.SORTING_DATE;
+                mSortingPreferences = FilterTripsContract.FilterTripsEntry.SORTING_DATE;
             }
         });
     }
@@ -390,10 +390,10 @@ public class FilterTripsActivity extends AppCompatActivity
      */
     private void loadSortingSpinner(){
         switch (mSortingPreferences) {
-            case FilterContract.FilterTripsEntry.SORTING_DATE:
+            case FilterTripsContract.FilterTripsEntry.SORTING_DATE:
                 mSortingSpinner.setSelection(0);
                 break;
-            case FilterContract.FilterTripsEntry.SORTING_COST:
+            case FilterTripsContract.FilterTripsEntry.SORTING_COST:
                 mSortingSpinner.setSelection(1);
                 break;
             default:
@@ -419,16 +419,16 @@ public class FilterTripsActivity extends AppCompatActivity
                 String selection = (String) parent.getItemAtPosition(position);
                 if (!TextUtils.isEmpty(selection)) {
                     if (selection.equals(getString(R.string.sorting_order_trips_increase))) {
-                        mSortingOrderPreferences = FilterContract.FilterTripsEntry.SORTING_DATE;
+                        mSortingOrderPreferences = FilterTripsContract.FilterTripsEntry.SORTING_DATE;
                     } else if (selection.equals(getString(R.string.sorting_order_trips_decrease))) {
-                        mSortingOrderPreferences = FilterContract.FilterTripsEntry.SORTING_COST;
+                        mSortingOrderPreferences = FilterTripsContract.FilterTripsEntry.SORTING_COST;
                     }
                 }
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                mSortingOrderPreferences = FilterContract.FilterTripsEntry.SORTING_DATE;
+                mSortingOrderPreferences = FilterTripsContract.FilterTripsEntry.SORTING_DATE;
             }
         });
     }
@@ -438,10 +438,10 @@ public class FilterTripsActivity extends AppCompatActivity
      */
     private void loadSortingOrderSpinner(){
         switch (mSortingOrderPreferences) {
-            case FilterContract.FilterTripsEntry.SORTING_DATE:
+            case FilterTripsContract.FilterTripsEntry.ORDER_DECREASE:
                 mSortingOrderSpinner.setSelection(0);
                 break;
-            case FilterContract.FilterTripsEntry.SORTING_COST:
+            case FilterTripsContract.FilterTripsEntry.ORDER_INCREASE:
                 mSortingOrderSpinner.setSelection(1);
                 break;
             default:
@@ -449,4 +449,6 @@ public class FilterTripsActivity extends AppCompatActivity
                 break;
         }
     }
+
+    
 }

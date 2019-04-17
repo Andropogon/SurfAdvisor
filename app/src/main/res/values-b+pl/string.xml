@@ -284,6 +284,8 @@
     <string name="settings_display_sorting_trips_by">Sortuj wycieczki po:</string>
     <string name="sorting_trips_by_date">Dacie</string>
     <string name="sorting_trips_by_cost">Koszcie</string>
+    <string name="sorting_order_trips_increase">Rosnąco</string>
+    <string name="sorting_order_trips_decrease">Malejąco</string>
     <string name="sorting_trips_by_type">Typie (prywatna lub zorganizowana)</string>
     <string name="settings_title_notifications">Opcje dotyczące powiadomień</string>
     <string name="settings_notifications_allow">Zezwól na powiadomienia</string>

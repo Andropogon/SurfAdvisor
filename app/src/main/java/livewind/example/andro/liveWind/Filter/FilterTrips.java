@@ -121,15 +121,15 @@ public class FilterTrips {
      */
     public void getFilterTripsPreferences(){
         SharedPreferences filterPref = PreferenceManager.getDefaultSharedPreferences(mContext);
-        mCost = filterPref.getString(mContext.getString(R.string.settings_filter_cost_key),FilterContract.FilterTripsEntry.DEFAULT_COST);
+        mCost = filterPref.getString(mContext.getString(R.string.settings_filter_cost_key),FilterTripsContract.FilterTripsEntry.DEFAULT_COST);
         mCurrency = filterPref.getInt(mContext.getString(R.string.settings_filter_currency_key),0);
         //TODO Add min. timestamp = today, checking
         mDateFromTimestamp = filterPref.getLong(mContext.getString(R.string.settings_filter_date_from_key),System.currentTimeMillis());
-        mDateToTimestamp = filterPref.getLong(mContext.getString(R.string.settings_filter_date_to_key),System.currentTimeMillis() + FilterContract.FilterTripsEntry.DEFAULT_DURATION_TIMESTAMP);
+        mDateToTimestamp = filterPref.getLong(mContext.getString(R.string.settings_filter_date_to_key),System.currentTimeMillis() + FilterTripsContract.FilterTripsEntry.DEFAULT_DURATION_TIMESTAMP);
         mSports = filterPref.getStringSet(mContext.getString(R.string.settings_filter_sports_key),new HashSet<String>());
         mCountries = filterPref.getStringSet(mContext.getString(R.string.settings_display_countries_key), new HashSet<String>());
-        mSortingPreferences = Integer.valueOf(filterPref.getString(mContext.getString(R.string.settings_display_sorting_trips_by_key),String.valueOf(FilterContract.FilterTripsEntry.SORTING_DATE)))-1;
-        mSortingOrderPreferences = Integer.valueOf(filterPref.getString(mContext.getString(R.string.settings_display_sorting_order_trips_by_key),String.valueOf(FilterContract.FilterTripsEntry.SORTING_DATE)))-1;
+        mSortingPreferences = Integer.valueOf(filterPref.getString(mContext.getString(R.string.settings_display_sorting_trips_by_key),String.valueOf(FilterTripsContract.FilterTripsEntry.SORTING_DATE)))-1;
+        mSortingOrderPreferences = Integer.valueOf(filterPref.getString(mContext.getString(R.string.settings_display_sorting_order_trips_by_key),String.valueOf(FilterTripsContract.FilterTripsEntry.ORDER_DECREASE)))-1;
     }
 
 }

@@ -63,19 +63,20 @@ public class FilterTripsPresenter implements FilterTripsContract.Presenter{
     @Override
     public void loadDefaultPreferences(){
         //Set default values to FilterTrips Model
-        mFilterTrips.setmCost(FilterContract.FilterTripsEntry.DEFAULT_COST);
+        mFilterTrips.setmCost(FilterTripsContract.FilterTripsEntry.DEFAULT_COST);
         mFilterTrips.setmCurrency(EventContract.EventEntry.CURRENCY_ZL);
         mFilterTrips.setmDateFromTimestamp(System.currentTimeMillis());
-        mFilterTrips.setmDateToTimestamp(System.currentTimeMillis() + FilterContract.FilterTripsEntry.DEFAULT_DURATION_TIMESTAMP);
+        mFilterTrips.setmDateToTimestamp(System.currentTimeMillis() + FilterTripsContract.FilterTripsEntry.DEFAULT_DURATION_TIMESTAMP);
         Set<String> defaultSports = new HashSet<String>();
-        defaultSports.add(FilterContract.FilterTripsEntry.SPORT_WINDSURFING);
-        defaultSports.add(FilterContract.FilterTripsEntry.SPORT_KITESURFING);
-        defaultSports.add(FilterContract.FilterTripsEntry.SPORT_SURFING);
+        defaultSports.add(FilterTripsContract.FilterTripsEntry.SPORT_WINDSURFING);
+        defaultSports.add(FilterTripsContract.FilterTripsEntry.SPORT_KITESURFING);
+        defaultSports.add(FilterTripsContract.FilterTripsEntry.SPORT_SURFING);
         mFilterTrips.setmSports(defaultSports);
         Set<String> defaultCountries = new HashSet<String>();
-        defaultCountries.add(FilterContract.FilterTripsEntry.COUNTRIES_ALL);
+        defaultCountries.add(FilterTripsContract.FilterTripsEntry.COUNTRIES_ALL);
         mFilterTrips.setmCountries(defaultCountries);
-        mFilterTrips.setmSortingPreferences(FilterContract.FilterTripsEntry.SORTING_DATE);
+        mFilterTrips.setmSortingPreferences(FilterTripsContract.FilterTripsEntry.SORTING_DATE);
+        mFilterTrips.setmSortingOrderPreferences(FilterTripsContract.FilterTripsEntry.ORDER_DECREASE);
 
         //Display default values on FilterTripsActivity
         mView.displayPreferences(mFilterTrips.getmCost(),mFilterTrips.getmCurrency(),mFilterTrips.getmDateFromTimestamp(),mFilterTrips.getmDateToTimestamp(),mFilterTrips.getmCountries(),mFilterTrips.getmSortingPreferences(),mFilterTrips.getmSortingOrderPreferences());
