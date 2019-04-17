@@ -16,17 +16,27 @@
         <item name="colorPrimary">@color/app_mint</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark2</item>
         <item name="colorAccent">#46bdbf</item>
+
         <item name="android:fontFamily">@font/dosis_light</item>
         <item name="android:windowBackground">@color/app_main_color</item>
         <item name="android:textColorSecondary">@color/blackColor</item>
     </style>
 
     <style name="EventThem" parent="Theme.AppCompat.DayNight">
+        <item name="android:textSize">10sp</item>
         <item name="colorPrimary">@color/app_main_color</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark2</item>
         <item name="android:fontFamily">@font/dosis_light</item>
         <item name="colorAccent">@color/dark_green</item>
     </style>
+    <style name="EventThem.ActionBar">
+        <item name="android:titleTextStyle">@style/EventThem.ActionBar.TitleTextStyle</item>
+    </style>
+
+    <style name="EventThem.ActionBar.TitleTextStyle" parent="@android:style/Widget.TextView">
+        <item name="android:textSize">6sp</item>
+    </style>
+
 
     <style name="eventInfoCommentTextVerySmall">
         <item name="android:layout_height">wrap_content</item>
@@ -189,5 +199,4 @@
         <item name="android:layout_marginLeft">20dp</item>
         <item name="android:background">@color/app_main_color</item>
     </style>
-
 </resources>
