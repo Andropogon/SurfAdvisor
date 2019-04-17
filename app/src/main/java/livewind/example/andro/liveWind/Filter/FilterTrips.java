@@ -27,6 +27,7 @@ public class FilterTrips {
     private Set<String> mSports;
     private Set<String> mCountries;
     private int mSortingPreferences;
+    private int mSortingOrderPreferences;
 
     public FilterTrips(){
         mContext = CatalogActivity.getContext();
@@ -67,6 +68,10 @@ public class FilterTrips {
         this.mSortingPreferences = mSortingPreferences;
     }
 
+    public void setmSortingOrderPreferences(int mSortingOrderPreferences) {
+        this.mSortingOrderPreferences = mSortingOrderPreferences;
+    }
+
     /**
      * Set all filter preferences
      */
@@ -80,6 +85,7 @@ public class FilterTrips {
         editor.putStringSet(mContext.getString(R.string.settings_filter_sports_key),mSports);
         editor.putStringSet(mContext.getString(R.string.settings_display_countries_key),mCountries);
         editor.putString(mContext.getString(R.string.settings_display_sorting_trips_by_key),String.valueOf(mSortingPreferences + 1));
+        editor.putString(mContext.getString(R.string.settings_display_sorting_order_trips_by_key),String.valueOf(mSortingOrderPreferences + 1));
         editor.apply();
     }
     /**
@@ -106,6 +112,9 @@ public class FilterTrips {
     public int getmSortingPreferences() {
         return mSortingPreferences;
     }
+    public int getmSortingOrderPreferences() {
+        return mSortingOrderPreferences;
+    }
 
     /**
      * Get filter data from preferences
@@ -120,6 +129,7 @@ public class FilterTrips {
         mSports = filterPref.getStringSet(mContext.getString(R.string.settings_filter_sports_key),new HashSet<String>());
         mCountries = filterPref.getStringSet(mContext.getString(R.string.settings_display_countries_key), new HashSet<String>());
         mSortingPreferences = Integer.valueOf(filterPref.getString(mContext.getString(R.string.settings_display_sorting_trips_by_key),String.valueOf(FilterContract.FilterTripsEntry.SORTING_DATE)))-1;
+        mSortingOrderPreferences = Integer.valueOf(filterPref.getString(mContext.getString(R.string.settings_display_sorting_order_trips_by_key),String.valueOf(FilterContract.FilterTripsEntry.SORTING_DATE)))-1;
     }
 
 }

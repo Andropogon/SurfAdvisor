@@ -55,6 +55,7 @@ public class FilterTripsActivity extends AppCompatActivity
     private GridView mCountriesGridView;
     private CountryGridAdapter mCountryGridAdapter;
     private Spinner mSortingSpinner;
+    private Spinner mSortingOrderSpinner;
 
     private TextView mSetDefaultTextView;
     private TextView mSearchButtonTextView;
@@ -62,6 +63,7 @@ public class FilterTripsActivity extends AppCompatActivity
     boolean[] mCheckedItems = new boolean[3];
     int mCurrency = EventContract.EventEntry.CURRENCY_ZL;
     int mSortingPreferences = FilterContract.FilterTripsEntry.SORTING_DATE;
+    int mSortingOrderPreferences = FilterContract.FilterTripsEntry.SORTING_DATE;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -93,14 +95,17 @@ public class FilterTripsActivity extends AppCompatActivity
         mCountriesGridView = findViewById(R.id.filter_countries_grid_view);
 
         mSortingSpinner = findViewById(R.id.filter_sort_spinner);
+        mSortingOrderSpinner = findViewById(R.id.filter_sort_order_spinner);
 
         mSearchButtonTextView = findViewById(R.id.filter_search_button_text_view);
         mSetDefaultTextView = findViewById(R.id.filter_set_default_text_view);
 
         setupCurrencySpinner();
         setupSortingSpinner();
+        setupSortingOrderSpinner();
         loadCurrencySpinner();
         loadSortingSpinner();
+        loadSortingOrderSpinner();
     }
 
     private void initClickListeners(){
@@ -195,12 +200,13 @@ public class FilterTripsActivity extends AppCompatActivity
     }
 
     @Override
-    public void displayPreferences(String cost, int currency, long dateFromTimestamp, long dateToTimestamp, Set<String> countries, int sortingPreferences){
+    public void displayPreferences(String cost, int currency, long dateFromTimestamp, long dateToTimestamp, Set<String> countries, int sortingPreferences, int sortingOrderPreferences){
         mCostView.setText(cost);
         mCurrencySpinner.setSelection(currency);
         mDateFromTextView.setText(DateHelp.timestampToDate(dateFromTimestamp));
         mDateToTextView.setText(DateHelp.timestampToDate(dateToTimestamp));
         mSortingSpinner.setSelection(sortingPreferences);
+        mSortingOrderSpinner.setSelection(sortingOrderPreferences);
     }
 
     @Override
@@ -246,7 +252,7 @@ public class FilterTripsActivity extends AppCompatActivity
      * Save data to preferences and open CatalogActivity
      */
     private void saveAndOpenCatalogActivity(){
-        mPresenter.savePreferences(mCostView.getText().toString(), mCurrency,DateHelp.dateToTimestamp(mDateFromTextView.getText().toString()),DateHelp.dateToTimestamp(mDateToTextView.getText().toString()),mSortingPreferences);
+        mPresenter.savePreferences(mCostView.getText().toString(), mCurrency,DateHelp.dateToTimestamp(mDateFromTextView.getText().toString()),DateHelp.dateToTimestamp(mDateToTextView.getText().toString()),mSortingPreferences, mSortingOrderPreferences);
         mPresenter.sendPreferences();
         Intent intentCatalog = new Intent(FilterTripsActivity.this,CatalogActivity.class);
         startActivity(intentCatalog);
@@ -385,13 +391,61 @@ public class FilterTripsActivity extends AppCompatActivity
     private void loadSortingSpinner(){
         switch (mSortingPreferences) {
             case FilterContract.FilterTripsEntry.SORTING_DATE:
-                mCurrencySpinner.setSelection(0);
+                mSortingSpinner.setSelection(0);
                 break;
             case FilterContract.FilterTripsEntry.SORTING_COST:
-                mCurrencySpinner.setSelection(1);
+                mSortingSpinner.setSelection(1);
                 break;
             default:
-                mCurrencySpinner.setSelection(0);
+                mSortingSpinner.setSelection(0);
+                break;
+        }
+    }
+
+    /**
+     * Setup the dropdown spinner that allows the user to select the sorting order preferences.
+     */
+    private void setupSortingOrderSpinner() {
+        ArrayAdapter sortingOrderSpinnerAdapter = ArrayAdapter.createFromResource(this,
+                R.array.array_sorting_order_options, android.R.layout.simple_spinner_item);
+
+        sortingOrderSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
+
+        mSortingOrderSpinner.setAdapter(sortingOrderSpinnerAdapter);
+
+        mSortingOrderSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String selection = (String) parent.getItemAtPosition(position);
+                if (!TextUtils.isEmpty(selection)) {
+                    if (selection.equals(getString(R.string.sorting_order_trips_increase))) {
+                        mSortingOrderPreferences = FilterContract.FilterTripsEntry.SORTING_DATE;
+                    } else if (selection.equals(getString(R.string.sorting_order_trips_decrease))) {
+                        mSortingOrderPreferences = FilterContract.FilterTripsEntry.SORTING_COST;
+                    }
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                mSortingOrderPreferences = FilterContract.FilterTripsEntry.SORTING_DATE;
+            }
+        });
+    }
+
+    /**
+     * Load the dropdown spinner that allows the user to select the sorting order preferences.
+     */
+    private void loadSortingOrderSpinner(){
+        switch (mSortingOrderPreferences) {
+            case FilterContract.FilterTripsEntry.SORTING_DATE:
+                mSortingOrderSpinner.setSelection(0);
+                break;
+            case FilterContract.FilterTripsEntry.SORTING_COST:
+                mSortingOrderSpinner.setSelection(1);
+                break;
+            default:
+                mSortingOrderSpinner.setSelection(0);
                 break;
         }
     }

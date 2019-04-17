@@ -3,42 +3,49 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools">
+
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:gravity="center_vertical"
                 android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp">
-            <TextView
-                style="@style/eventInfoTextSmall"
-                android:layout_margin="12dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="@string/filter_trips_subtitle"/>
-            <TextView
-                android:id="@+id/filter_set_default_text_view"
-                style="@style/eventInfoCommentTextVerySmall"
-                android:layout_width="128dp"
-                android:layout_height="40dp"
-                android:layout_centerVertical="true"
-                android:layout_alignParentRight="true"
-                android:layout_marginLeft="64dp"
-                android:layout_marginRight="16dp"
-                android:background="@drawable/filter_background"
-                android:gravity="center"
-                android:text="@string/filter_trips_set_default"
-                android:textAllCaps="true"
-                android:textColor="@color/dark_green"
-                android:textStyle="bold" />
+                android:layout_marginBottom="10dp"
+                android:gravity="center_vertical">
+
+                <TextView
+                    style="@style/eventInfoTextSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="12dp"
+                    android:text="@string/filter_trips_subtitle" />
+
+                <TextView
+                    android:id="@+id/filter_set_default_text_view"
+                    style="@style/eventInfoCommentTextVerySmall"
+                    android:layout_width="128dp"
+                    android:layout_height="40dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="64dp"
+                    android:layout_marginRight="16dp"
+                    android:background="@drawable/filter_background"
+                    android:gravity="center"
+                    android:text="@string/filter_trips_set_default"
+                    android:textAllCaps="true"
+                    android:textColor="@color/dark_green"
+                    android:textStyle="bold" />
             </RelativeLayout>
 
             <LinearLayout
@@ -46,83 +53,60 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="12dp"
                 android:layout_marginRight="12dp"
-                android:orientation="vertical"
-                android:background="@drawable/filter_background">
+                android:background="@drawable/filter_background"
+                android:orientation="vertical">
 
                 <TextView
                     style="@style/eventInfoTextSmall"
-                    android:drawableLeft="@drawable/calendar_black_24"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/calendar_black_24"
                     android:gravity="center"
                     android:padding="8dp"
                     android:text="@string/filter_trips_date" />
-                <View style="@style/DividerFilter"
+
+                <View
+                    style="@style/DividerFilter"
                     android:layout_marginTop="4dp"
                     android:layout_marginBottom="4dp" />
-            <LinearLayout
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <TextView
-                    style="@style/eventInfoTextSmall"
-                    android:id="@+id/filter_date_from_text_view"
-                    android:layout_width="0dp"
-                    android:layout_height="48dp"
-                    android:layout_weight="10"
-                    android:gravity="center"
-                    android:background="?attr/editTextBackground"
-                    android:hint="@string/event_trip_from"/>
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="48dp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="-" />
-                <TextView
-                    style="@style/eventInfoTextSmall"
-                    android:id="@+id/filter_date_to_text_view"
-                    android:layout_width="0dp"
-                    android:layout_height="48dp"
-                    android:layout_weight="10"
-                    android:gravity="center"
-                    android:background="?attr/editTextBackground"
-                    android:hint="@string/event_trip_to"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/filter_date_from_text_view"
+                        style="@style/eventInfoTextSmall"
+                        android:layout_width="0dp"
+                        android:layout_height="48dp"
+                        android:layout_weight="10"
+                        android:background="?attr/editTextBackground"
+                        android:gravity="center"
+                        android:hint="@string/event_trip_from" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="48dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="-" />
+
+                    <TextView
+                        android:id="@+id/filter_date_to_text_view"
+                        style="@style/eventInfoTextSmall"
+                        android:layout_width="0dp"
+                        android:layout_height="48dp"
+                        android:layout_weight="10"
+                        android:background="?attr/editTextBackground"
+                        android:gravity="center"
+                        android:hint="@string/event_trip_to" />
+                </LinearLayout>
             </LinearLayout>
-            </LinearLayout>
 
 
-
-            <LinearLayout
-        android:layout_marginTop="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="12dp"
-        android:layout_marginRight="12dp"
-        android:orientation="vertical"
-        android:background="@drawable/filter_background">
-            <TextView
-                android:drawableLeft="@drawable/baseline_place_24"
-                android:id="@+id/filter_countries_text_view"
-                android:padding="8dp"
-                style="@style/eventInfoTextSmall"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="@string/filter_trips_countries"/>
-        <View style="@style/DividerFilter"
-            android:layout_marginTop="4dp"
-            android:layout_marginBottom="4dp" />
-            <GridView
-                android:layout_marginRight="8dp"
-                android:layout_marginLeft="8dp"
-                android:id="@+id/filter_countries_grid_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:numColumns="6"></GridView>
-    </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -133,11 +117,44 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:drawableLeft="@drawable/ic_thumb_up_black_24dp"
+                    android:id="@+id/filter_countries_text_view"
+                    style="@style/eventInfoTextSmall"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/baseline_place_24"
+                    android:gravity="center"
+                    android:padding="8dp"
+                    android:text="@string/filter_trips_countries" />
+
+                <View
+                    style="@style/DividerFilter"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="4dp" />
+
+                <GridView
+                    android:id="@+id/filter_countries_grid_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:numColumns="6"></GridView>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="12dp"
+                android:background="@drawable/filter_background"
+                android:orientation="vertical">
+
+                <TextView
                     android:id="@+id/filter_sports_text_view"
                     style="@style/eventInfoTextSmall"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/ic_thumb_up_black_24dp"
                     android:gravity="center"
                     android:padding="8dp"
                     android:text="@string/filter_trips_sports" />
@@ -187,92 +204,121 @@
                         android:src="@drawable/surfing_icon" />
                 </LinearLayout>
             </LinearLayout>
-            <LinearLayout
-        android:layout_marginTop="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="12dp"
-        android:layout_marginRight="12dp"
-        android:orientation="vertical"
-        android:background="@drawable/filter_background">
-            <TextView
-                android:drawableLeft="@drawable/ic_attach_money_black_24dp"
-                android:id="@+id/filter_price_text_view"
-                android:padding="8dp"
-                style="@style/eventInfoTextSmall"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="@string/filter_trips_cost"/>
-        <View style="@style/DividerFilter"
-            android:layout_marginTop="4dp"
-            android:layout_marginBottom="4dp" />
-            <LinearLayout
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <EditText
-                    android:id="@+id/filter_price_value_edit_text"
-                    android:layout_width="150dp"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
 
-                    android:inputType="number"
-                    android:hint="Kwota"/>
-                <Spinner
-                    android:id="@+id/filter_price_currency_spinner"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:spinnerMode="dropdown"/>
-            </LinearLayout>
-    </LinearLayout>
             <LinearLayout
-                android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="12dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginRight="12dp"
-                android:orientation="vertical"
-                android:background="@drawable/filter_background">
+                android:background="@drawable/filter_background"
+                android:orientation="vertical">
+
                 <TextView
-                    android:drawableLeft="@drawable/ic_sort_black_24dp"
-                    android:id="@+id/filter_sorting_text_view"
-                    android:padding="8dp"
+                    android:id="@+id/filter_price_text_view"
                     style="@style/eventInfoTextSmall"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/ic_attach_money_black_24dp"
                     android:gravity="center"
-                    android:text="@string/filter_trips_sort"/>
-                <View style="@style/DividerFilter"
+                    android:padding="8dp"
+                    android:text="@string/filter_trips_cost" />
+
+                <View
+                    style="@style/DividerFilter"
                     android:layout_marginTop="4dp"
                     android:layout_marginBottom="4dp" />
+
                 <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="16dp"
-                    android:layout_width="128dp"
-                    android:layout_gravity="center"
-                    android:layout_height="wrap_content"
                     android:orientation="horizontal">
-                    <Spinner
-                        style="@style/eventInfoTextSmall"
+
+                    <EditText
+                        android:id="@+id/filter_price_value_edit_text"
+                        android:layout_width="150dp"
+                        android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:layout_gravity="center"
-                        android:id="@+id/filter_sort_spinner"
-                        android:layout_width="128dp"
-                        android:layout_height="48dp"
-                        android:spinnerMode="dropdown"/>
+
+                        android:hint="Kwota"
+                        android:inputType="number" />
+
+                    <Spinner
+                        android:id="@+id/filter_price_currency_spinner"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:spinnerMode="dropdown" />
                 </LinearLayout>
             </LinearLayout>
-            <TextView
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
                 android:layout_marginTop="10dp"
+                android:layout_marginRight="12dp"
+                android:background="@drawable/filter_background"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/filter_sorting_text_view"
+                    style="@style/eventInfoTextSmall"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/ic_sort_black_24dp"
+                    android:gravity="center"
+                    android:padding="8dp"
+                    android:text="@string/filter_trips_sort" />
+
+                <View
+                    style="@style/DividerFilter"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="4dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:orientation="horizontal">
+
+                    <Spinner
+                        android:id="@+id/filter_sort_spinner"
+                        style="@style/eventInfoTextSmall"
+                        android:layout_weight="4"
+                        android:layout_width="0dp"
+                        android:layout_height="48dp"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:spinnerMode="dropdown" />
+                    <TextView
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        />
+                    <Spinner
+                        android:id="@+id/filter_sort_order_spinner"
+                        style="@style/eventInfoTextSmall"
+                        android:layout_weight="4"
+                        android:layout_width="0dp"
+                        android:layout_height="48dp"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:spinnerMode="dropdown" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <TextView
                 android:id="@+id/filter_search_button_text_view"
                 style="@style/eventInfoTextSmall"
                 android:layout_width="128dp"
                 android:layout_height="48dp"
                 android:layout_gravity="center"
                 android:layout_marginLeft="16dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginRight="16dp"
                 android:layout_marginBottom="4dp"
                 android:background="@drawable/custom_button_small"

@@ -1354,7 +1354,9 @@ public class EventAdapter extends ArrayAdapter<Event> {
         String sortEventsString = sharedPref.getString(getContext().getString(livewind.example.andro.liveWind.R.string.settings_display_sorting_events_by_key),"1");
         int sortEventsInt = Integer.parseInt(sortEventsString);
         String sortTripsString = sharedPref.getString(getContext().getString(livewind.example.andro.liveWind.R.string.settings_display_sorting_trips_by_key),"1");
+        String sortOrderTripsString = sharedPref.getString(getContext().getString(R.string.settings_display_sorting_order_trips_by_key),"1");
         int sortTripsInt = Integer.parseInt(sortTripsString);
+        int sortOrderTripsInt = Integer.parseInt(sortOrderTripsString);
 
         Collections.sort(objects);
 
@@ -1375,17 +1377,27 @@ public class EventAdapter extends ArrayAdapter<Event> {
                  Collections.sort(objects, new EventDateComparator());
                  break;
          }
+
          switch (sortTripsInt) {
              case 1:
-                 Collections.sort(objects, new TripsDateComparator());
+                 if(sortOrderTripsInt==1) {
+                     Collections.sort(objects, new TripsDateComparator());
+                 } else {
+                     Collections.sort(objects, new TripsDateDecreaseComparator());
+                 }
                  break;
              case 2:
-                 Collections.sort(objects, new TripsCostComparator());
+                 if(sortOrderTripsInt==1) {
+                     Collections.sort(objects, new TripsCostComparator());
+                 } else {
+                     Collections.sort(objects, new TripsCostDescreaseComparator());
+                 }
                  break;
              default:
                  Collections.sort(objects, new TripsDateComparator());
                  break;
          }
+
     }
 
     public void setEventDurationOnDateTextView(final Event event,final TextView view){

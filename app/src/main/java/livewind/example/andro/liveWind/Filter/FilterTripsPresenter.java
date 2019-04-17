@@ -26,12 +26,13 @@ public class FilterTripsPresenter implements FilterTripsContract.Presenter{
     }
 
     @Override
-    public void savePreferences(String cost, int currency, long dateFromTimestamp, long dateToTimestamp, int sortingPreferences) {
+    public void savePreferences(String cost, int currency, long dateFromTimestamp, long dateToTimestamp, int sortingPreferences, int sortingOrderPreferences) {
         mFilterTrips.setmCost(cost);
         mFilterTrips.setmCurrency(currency);
         mFilterTrips.setmDateFromTimestamp(dateFromTimestamp);
         mFilterTrips.setmDateToTimestamp(dateToTimestamp);
         mFilterTrips.setmSortingPreferences(sortingPreferences);
+        mFilterTrips.setmSortingOrderPreferences(sortingOrderPreferences);
     }
     @Override
     public void saveSports(Set<String> sports){
@@ -55,7 +56,7 @@ public class FilterTripsPresenter implements FilterTripsContract.Presenter{
     @Override
     public void loadPreferences() {
         mFilterTrips.getFilterTripsPreferences();
-        mView.displayPreferences(mFilterTrips.getmCost(),mFilterTrips.getmCurrency(),mFilterTrips.getmDateFromTimestamp(),mFilterTrips.getmDateToTimestamp(),mFilterTrips.getmCountries(),mFilterTrips.getmSortingPreferences());
+        mView.displayPreferences(mFilterTrips.getmCost(),mFilterTrips.getmCurrency(),mFilterTrips.getmDateFromTimestamp(),mFilterTrips.getmDateToTimestamp(),mFilterTrips.getmCountries(),mFilterTrips.getmSortingPreferences(), mFilterTrips.getmSortingOrderPreferences());
         mView.displaySports(mFilterTrips.getmSports());
     }
 
@@ -74,9 +75,10 @@ public class FilterTripsPresenter implements FilterTripsContract.Presenter{
         Set<String> defaultCountries = new HashSet<String>();
         defaultCountries.add(FilterContract.FilterTripsEntry.COUNTRIES_ALL);
         mFilterTrips.setmCountries(defaultCountries);
+        mFilterTrips.setmSortingPreferences(FilterContract.FilterTripsEntry.SORTING_DATE);
 
         //Display default values on FilterTripsActivity
-        mView.displayPreferences(mFilterTrips.getmCost(),mFilterTrips.getmCurrency(),mFilterTrips.getmDateFromTimestamp(),mFilterTrips.getmDateToTimestamp(),mFilterTrips.getmCountries(),mFilterTrips.getmSortingPreferences());
+        mView.displayPreferences(mFilterTrips.getmCost(),mFilterTrips.getmCurrency(),mFilterTrips.getmDateFromTimestamp(),mFilterTrips.getmDateToTimestamp(),mFilterTrips.getmCountries(),mFilterTrips.getmSortingPreferences(),mFilterTrips.getmSortingOrderPreferences());
         mView.displayCountries();
         mView.displaySports(mFilterTrips.getmSports());
     }

@@ -181,6 +181,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
          //   bindPreferenceSummaryToValue(findPreference(getString(R.string.settings_display_trips)));
             bindPreferenceSummaryToValue(findPreference(getString(livewind.example.andro.liveWind.R.string.settings_display_sorting_events_by_key)));
             bindPreferenceSummaryToValue(findPreference(getString(livewind.example.andro.liveWind.R.string.settings_display_sorting_trips_by_key)));
+            bindPreferenceSummaryToValue(findPreference(getString(R.string.settings_display_sorting_order_trips_by_key)));
             bindPreferenceSummaryToValue(findPreference(getString(R.string.settings_display_wind_power_key)));
             bindPreferenceSummaryToValue(findPreference(getString(R.string.settings_display_trips_key)));
             //bindPreferenceSummaryToValue(findPreference(getString(R.string.settings_filter_cost_key)));
