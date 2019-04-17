@@ -161,11 +161,9 @@
         <item name="android:textColorPrimary">@color/blackColor</item>
     </style>
 
-    <style name="AlertDialogStyle" parent="Base.Theme.AppCompat.Dialog.Alert"> <!-- This theme has black settings icons -->
+    <style name="AlertDialogStyle" parent="Theme.AppCompat.Dialog.Alert"> <!-- This theme has black settings icons -->
         <item name="colorPrimary">@color/app_mint</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/blackColor</item>
-        <item name="android:windowBackground">@color/whiteColor</item>
         <item name="android:background">@color/app_main_color</item>
         <item name="android:fontFamily">@font/dosis_light</item>
         <!-- active thumb & track color (30% transparency) -->
