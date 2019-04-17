@@ -5,7 +5,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import livewind.example.andro.liveWind.data.EventContract;
-import livewind.example.andro.liveWind.data.FilterContract;
 
 /**
  * Created by JGJ on 20/03/19.

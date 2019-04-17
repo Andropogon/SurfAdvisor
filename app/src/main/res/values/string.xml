@@ -565,6 +565,7 @@
     <string name="filter_trips_date">Data wyjazdu</string>
     <string name="filter_trips_countries">Kraje, które Cie interesują</string>
     <string name="filter_trips_sports">Sporty, które Cie interesują</string>
+    <string name="filter_trips_sports_dialog_title">Wybierz interesujące Cie sporty</string>
     <string name="filter_trips_cost">Maksymalna cena</string>
     <string name="filter_trips_search">Szukaj</string>
     <string name="filter_trips_set_default">Set default</string>

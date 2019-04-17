@@ -516,7 +516,7 @@ public class EditorActivity extends AppCompatActivity {
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
-        // If this is a new pet, hide the "Delete" menu item.
+        // If this is a new event, hide the "Delete" menu item.
         if (mEvent == null) {
             MenuItem menuItem = menu.findItem(livewind.example.andro.liveWind.R.id.action_delete);
             menuItem.setVisible(false);

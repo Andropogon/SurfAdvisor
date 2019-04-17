@@ -4,13 +4,11 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-import java.util.GregorianCalendar;
 import java.util.HashSet;
 import java.util.Set;
 
 import livewind.example.andro.liveWind.CatalogActivity;
 import livewind.example.andro.liveWind.R;
-import livewind.example.andro.liveWind.data.FilterContract;
 
 /**
  * Created by JGJ on 20/03/19.

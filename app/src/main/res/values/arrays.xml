@@ -145,8 +145,8 @@
         <item >2</item>
     </string-array>
     <string-array name="array_sorting_order_options">
-        <item name="0">@string/sorting_order_trips_decrease</item>
-        <item name="1">@string/sorting_order_trips_increase</item>
+        <item name="1">@string/sorting_order_trips_decrease</item>
+        <item name="0">@string/sorting_order_trips_increase</item>
     </string-array>
     <string-array name="array_sorting_order_trips_optionsValues">
         <item >1</item>

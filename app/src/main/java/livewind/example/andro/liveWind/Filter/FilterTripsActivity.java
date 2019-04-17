@@ -11,7 +11,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -31,7 +30,6 @@ import livewind.example.andro.liveWind.HelpClasses.DateHelp;
 import livewind.example.andro.liveWind.ListView_help.ListViewHelp;
 import livewind.example.andro.liveWind.R;
 import livewind.example.andro.liveWind.data.EventContract;
-import livewind.example.andro.liveWind.data.FilterContract;
 
 /**
  * Created by JGJ on 20/03/19.
@@ -193,11 +191,18 @@ public class FilterTripsActivity extends AppCompatActivity
                 saveAndOpenCatalogActivity();
                     return true;
             case android.R.id.home:
-                // TODO Add checking unsaved edits if (!mEventHasChanged) {
                     finish();
                     return true;
                 }
         return super.onOptionsItemSelected(item);
+    }
+    /**
+     * This method is called when the back button is pressed.
+     */
+    @Override
+    public void onBackPressed() {
+            super.onBackPressed();
+            return;
     }
 
     @Override
@@ -267,7 +272,7 @@ public class FilterTripsActivity extends AppCompatActivity
         final String[] listItems;
         listItems = getResources().getStringArray(R.array.array_filter_sports);
         AlertDialog.Builder mBuilder = new AlertDialog.Builder(FilterTripsActivity.this);
-        mBuilder.setTitle("Wybierz interesujące Cie sporty HC");
+        mBuilder.setTitle(getResources().getString(R.string.filter_trips_sports_dialog_title));
         mBuilder.setMultiChoiceItems(listItems, mCheckedItems, new DialogInterface.OnMultiChoiceClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int position, boolean isChecked) {

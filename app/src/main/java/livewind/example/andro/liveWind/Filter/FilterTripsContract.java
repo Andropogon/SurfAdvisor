@@ -45,7 +45,7 @@ public interface FilterTripsContract {
         /**
          * Default value to add to current date timestamp to get "date_to_timestamp"
          */
-        public static final Long DEFAULT_DURATION_TIMESTAMP = 7889229000L;
+        public static final Long DEFAULT_DURATION_TIMESTAMP = 15552000000L;
 
         /**
          * Possible filter sports values
@@ -67,7 +67,7 @@ public interface FilterTripsContract {
         /**
          * Possible options for sorting order spinner
          */
-        public static final int ORDER_DECREASE = 0;
-        public static final int ORDER_INCREASE = 1;
+        public static final int ORDER_DECREASE = 1;
+        public static final int ORDER_INCREASE = 0;
     }
 }
