@@ -18,7 +18,7 @@ import livewind.example.andro.liveWind.R;
 public class FilterTrips {
 
     private Context mContext;
-    private String mCost; //Max cost
+    private String mCost;
     private int mCurrency;
     private long mDateFromTimestamp;
     private long mDateToTimestamp;
@@ -48,17 +48,17 @@ public class FilterTrips {
         this.mDateToTimestamp = mDateToTimestamp;
     }
     public void setmSports(Set<String> sports) {
-        SharedPreferences filterPref = PreferenceManager.getDefaultSharedPreferences(mContext);
-        SharedPreferences.Editor editor = filterPref.edit();
-        editor.putStringSet(mContext.getString(R.string.settings_filter_sports_key),sports);
-        editor.apply();
+        //SharedPreferences filterPref = PreferenceManager.getDefaultSharedPreferences(mContext);
+        //SharedPreferences.Editor editor = filterPref.edit();
+        //editor.putStringSet(mContext.getString(R.string.settings_filter_sports_key),sports);
+        //editor.apply();
         this.mSports = sports;
     }
     public void setmCountries(Set<String> countries){
-        SharedPreferences filterPref = PreferenceManager.getDefaultSharedPreferences(mContext);
-        SharedPreferences.Editor editor = filterPref.edit();
-        editor.putStringSet(mContext.getString(R.string.settings_display_countries_key),countries);
-        editor.apply();
+        //SharedPreferences filterPref = PreferenceManager.getDefaultSharedPreferences(mContext);
+        //SharedPreferences.Editor editor = filterPref.edit();
+        //editor.putStringSet(mContext.getString(R.string.settings_display_countries_key),countries);
+        //editor.apply();
         this.mCountries = countries;
     }
 
@@ -69,6 +69,7 @@ public class FilterTrips {
     public void setmSortingOrderPreferences(int mSortingOrderPreferences) {
         this.mSortingOrderPreferences = mSortingOrderPreferences;
     }
+
 
     /**
      * Set all filter preferences
@@ -113,7 +114,6 @@ public class FilterTrips {
     public int getmSortingOrderPreferences() {
         return mSortingOrderPreferences;
     }
-
     /**
      * Get filter data from preferences
      */
@@ -124,8 +124,8 @@ public class FilterTrips {
         //TODO Add min. timestamp = today, checking
         mDateFromTimestamp = filterPref.getLong(mContext.getString(R.string.settings_filter_date_from_key),System.currentTimeMillis());
         mDateToTimestamp = filterPref.getLong(mContext.getString(R.string.settings_filter_date_to_key),System.currentTimeMillis() + FilterTripsContract.FilterTripsEntry.DEFAULT_DURATION_TIMESTAMP);
-        mSports = filterPref.getStringSet(mContext.getString(R.string.settings_filter_sports_key),new HashSet<String>());
-        mCountries = filterPref.getStringSet(mContext.getString(R.string.settings_display_countries_key), new HashSet<String>());
+        this.mSports = filterPref.getStringSet(mContext.getString(R.string.settings_filter_sports_key),new HashSet<String>());
+        this.mCountries = filterPref.getStringSet(mContext.getString(R.string.settings_display_countries_key), new HashSet<String>());
         mSortingPreferences = Integer.valueOf(filterPref.getString(mContext.getString(R.string.settings_display_sorting_trips_by_key),String.valueOf(FilterTripsContract.FilterTripsEntry.SORTING_DATE)))-1;
         mSortingOrderPreferences = Integer.valueOf(filterPref.getString(mContext.getString(R.string.settings_display_sorting_order_trips_by_key),String.valueOf(FilterTripsContract.FilterTripsEntry.ORDER_DECREASE)))-1;
     }

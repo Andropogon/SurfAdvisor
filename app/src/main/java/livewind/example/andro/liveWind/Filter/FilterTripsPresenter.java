@@ -15,15 +15,12 @@ public class FilterTripsPresenter implements FilterTripsContract.Presenter{
 
     //Model
     private FilterTrips mFilterTrips;
-    //Copy of loaded FilterTrips to give user possibility to dismiss changes
-    private final FilterTrips mCopyFilterTrips;
 
     //View in activity
     private FilterTripsContract.View mView;
 
     public FilterTripsPresenter(FilterTripsContract.View view) {
         mFilterTrips = new FilterTrips();
-        mCopyFilterTrips = new FilterTrips();
         mView = view;
     }
 
@@ -38,7 +35,6 @@ public class FilterTripsPresenter implements FilterTripsContract.Presenter{
     }
     @Override
     public void saveSports(Set<String> sports){
-
         mFilterTrips.setmSports(sports);
         mView.displaySports(sports);
     }
@@ -59,8 +55,6 @@ public class FilterTripsPresenter implements FilterTripsContract.Presenter{
     @Override
     public void loadPreferences() {
         mFilterTrips.getFilterTripsPreferences();
-        //Save loaded FilterTrips settings to temporary copy
-        mCopyFilterTrips.getFilterTripsPreferences();
         mView.displayPreferences(mFilterTrips.getmCost(),mFilterTrips.getmCurrency(),mFilterTrips.getmDateFromTimestamp(),mFilterTrips.getmDateToTimestamp(),mFilterTrips.getmCountries(),mFilterTrips.getmSortingPreferences(), mFilterTrips.getmSortingOrderPreferences());
         mView.displaySports(mFilterTrips.getmSports());
     }
@@ -91,6 +85,6 @@ public class FilterTripsPresenter implements FilterTripsContract.Presenter{
 
     @Override
     public void dismissChanges(){
-        mCopyFilterTrips.setFilterTripsPreferences();
+        //Do nothing
     }
 }

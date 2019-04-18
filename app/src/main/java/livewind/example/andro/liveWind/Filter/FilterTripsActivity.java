@@ -24,6 +24,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.Task;
+
 import java.util.Calendar;
 import java.util.Set;
 
@@ -43,7 +45,7 @@ import livewind.example.andro.liveWind.data.EventContract;
  */
 public class FilterTripsActivity extends AppCompatActivity
         implements FilterTripsContract.View {
-
+    private static final String TAG = "FilterTripsActivity";
     private FilterTripsContract.Presenter mPresenter;
 
     //UI properties
@@ -129,7 +131,6 @@ public class FilterTripsActivity extends AppCompatActivity
         loadSortingSpinner();
         loadSortingOrderSpinner();
     }
-
     private void initClickListeners(){
         mDateFromTextView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -200,6 +201,16 @@ public class FilterTripsActivity extends AppCompatActivity
         });
     }
 
+    @Override
+    public void onResume(){
+        super.onResume();
+        Log.i(TAG, "onResume: ");
+    }
+    @Override
+    public void onPause(){
+        super.onPause();
+        Log.i(TAG, "onPause: ");
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_filter, menu);
@@ -312,7 +323,6 @@ public class FilterTripsActivity extends AppCompatActivity
                 if(isChecked) {
                     if (!sports.contains(Integer.toString(position))) {
                         sports.add(Integer.toString(position));
-                        Log.i("LOL", "onClick: " + mPresenter.getSports().size());
                     }
                 }
                 else if(sports.contains(Integer.toString(position))){
@@ -557,5 +567,6 @@ public class FilterTripsActivity extends AppCompatActivity
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
     }
+
 
 }
