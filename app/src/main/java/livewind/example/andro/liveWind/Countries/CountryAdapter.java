@@ -23,6 +23,14 @@ import livewind.example.andro.liveWind.data.EventContract;
 public class CountryAdapter extends ArrayAdapter<Country> {
     private int mColorResourceId;
     private boolean coverageOrTrip;
+    private Set<String> mSelectedCountries;
+    //For trips
+    public CountryAdapter(Activity context, ArrayList<Country> profileIcons,boolean coverageOrTrip,Set<String> selectedCountries) {
+        super(context, 0, profileIcons);
+        this.coverageOrTrip=coverageOrTrip;
+        this.mSelectedCountries=selectedCountries;
+    }
+    //For coverages
     public CountryAdapter(Activity context, ArrayList<Country> profileIcons,boolean coverageOrTrip) {
         super(context, 0, profileIcons);
         this.coverageOrTrip=coverageOrTrip;
@@ -38,8 +46,7 @@ public class CountryAdapter extends ArrayAdapter<Country> {
         Country currentCountry = getItem(position);
         Set<String> selectedCountries;
         if (coverageOrTrip==EventContract.EventEntry.IT_IS_TRIP) {
-            SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getContext());
-            selectedCountries = sharedPrefs.getStringSet(getContext().getString(R.string.settings_display_countries_key), new HashSet<String>());
+            selectedCountries = mSelectedCountries;
         } else {
             SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getContext());
             selectedCountries = sharedPrefs.getStringSet(getContext().getString(R.string.settings_display_coverages_countries_key), new HashSet<String>());

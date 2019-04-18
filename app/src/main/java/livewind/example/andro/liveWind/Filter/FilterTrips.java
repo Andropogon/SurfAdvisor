@@ -17,13 +17,19 @@ import livewind.example.andro.liveWind.R;
  */
 public class FilterTrips {
 
+    //Context to have possibility to change sharedPreferences
     private Context mContext;
+    //Max possible cost and its currency
     private String mCost;
     private int mCurrency;
+    //Possible date period
     private long mDateFromTimestamp;
     private long mDateToTimestamp;
+    //User interesting sports
     private Set<String> mSports;
+    //User interesting countries
     private Set<String> mCountries;
+    //Sorting and sorting order preferences
     private int mSortingPreferences;
     private int mSortingOrderPreferences;
 
@@ -52,11 +58,9 @@ public class FilterTrips {
     public void setmCountries(Set<String> countries){
         this.mCountries = countries;
     }
-
     public void setmSortingPreferences(int mSortingPreferences) {
         this.mSortingPreferences = mSortingPreferences;
     }
-
     public void setmSortingOrderPreferences(int mSortingOrderPreferences) {
         this.mSortingOrderPreferences = mSortingOrderPreferences;
     }
@@ -93,6 +97,7 @@ public class FilterTrips {
     public long getmDateToTimestamp() {
         return mDateToTimestamp;
     }
+    //It need to be new HashSet otherwise possibility to dismiss Filter sports and countries changes didn't work
     public Set<String> getmSports() {
         return new HashSet<String>(mSports);
     }
@@ -105,6 +110,7 @@ public class FilterTrips {
     public int getmSortingOrderPreferences() {
         return mSortingOrderPreferences;
     }
+
     /**
      * Get filter data from preferences
      */
@@ -112,7 +118,6 @@ public class FilterTrips {
         SharedPreferences filterPref = PreferenceManager.getDefaultSharedPreferences(mContext);
         mCost = filterPref.getString(mContext.getString(R.string.settings_filter_cost_key),FilterTripsContract.FilterTripsEntry.DEFAULT_COST);
         mCurrency = filterPref.getInt(mContext.getString(R.string.settings_filter_currency_key),0);
-        //TODO Add min. timestamp = today, checking
         mDateFromTimestamp = filterPref.getLong(mContext.getString(R.string.settings_filter_date_from_key),System.currentTimeMillis());
         mDateToTimestamp = filterPref.getLong(mContext.getString(R.string.settings_filter_date_to_key),System.currentTimeMillis() + FilterTripsContract.FilterTripsEntry.DEFAULT_DURATION_TIMESTAMP);
         mSports = filterPref.getStringSet(mContext.getString(R.string.settings_filter_sports_key),new HashSet<String>());

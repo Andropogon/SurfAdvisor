@@ -14,6 +14,7 @@ public interface FilterTripsContract {
         void displayPreferences(String cost, int currency, long dateFromTimestamp, long dateToTimestamp,Set<String> countries,int sortingPreferences, int sortingOrderPreferences);
         void displaySports(Set <String> sports);
         void displayCountries();
+        void showBadFilterToast(int errorCode);
     }
 
     /** Represents the Presenter in MVP. */
@@ -73,5 +74,12 @@ public interface FilterTripsContract {
          */
         public static final int ORDER_DECREASE = 1;
         public static final int ORDER_INCREASE = 0;
+
+        /**
+         * Possible bad filter codes
+         */
+        public static final int BAD_FILTER_DATE = 1;
+        public static final int BAD_FILTER_UNKNOWN_ERROR = 0;
+
     }
 }

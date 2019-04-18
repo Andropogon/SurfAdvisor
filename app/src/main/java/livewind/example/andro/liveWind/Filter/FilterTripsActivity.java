@@ -198,16 +198,6 @@ public class FilterTripsActivity extends AppCompatActivity
     }
 
     @Override
-    public void onResume(){
-        super.onResume();
-        Log.i(TAG, "onResume: ");
-    }
-    @Override
-    public void onPause(){
-        super.onPause();
-        Log.i(TAG, "onPause: ");
-    }
-    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_filter, menu);
         return true;
@@ -483,10 +473,10 @@ public class FilterTripsActivity extends AppCompatActivity
      */
     private void loadSortingOrderSpinner(){
         switch (mSortingOrderPreferences) {
-            case FilterTripsContract.FilterTripsEntry.ORDER_DECREASE:
+            case FilterTripsContract.FilterTripsEntry.ORDER_INCREASE:
                 mSortingOrderSpinner.setSelection(0);
                 break;
-            case FilterTripsContract.FilterTripsEntry.ORDER_INCREASE:
+            case FilterTripsContract.FilterTripsEntry.ORDER_DECREASE:
                 mSortingOrderSpinner.setSelection(1);
                 break;
             default:
@@ -562,6 +552,11 @@ public class FilterTripsActivity extends AppCompatActivity
         // Create and show the AlertDialog
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
+    }
+
+    @Override
+    public void showBadFilterToast(int errorCode){
+
     }
 
 

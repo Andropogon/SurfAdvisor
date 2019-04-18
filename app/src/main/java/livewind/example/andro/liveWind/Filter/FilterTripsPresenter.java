@@ -72,6 +72,9 @@ public class FilterTripsPresenter implements FilterTripsContract.Presenter{
         mView.displaySports(mFilterTrips.getmSports());
     }
 
+    /**
+     * Load default preferences
+     */
     @Override
     public void loadDefaultPreferences(){
         //Set default values to FilterTrips Model
@@ -98,5 +101,6 @@ public class FilterTripsPresenter implements FilterTripsContract.Presenter{
 
     @Override
     public void dismissChanges(){
+        mCopyFilterTrips.setFilterTripsPreferences();
     }
 }

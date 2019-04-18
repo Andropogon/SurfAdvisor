@@ -93,7 +93,7 @@ public class CountryDialog {
         mList.add(new Country(context.getString(R.string.country_number_18),R.drawable.flag_vn,context.getString(R.string.country_number_18_key)));
         mList.add(new Country(context.getString(R.string.country_number_19),R.drawable.flag_mt,context.getString(R.string.country_number_19_key)));
         mList.add(new Country(context.getString(R.string.country_number_20),R.drawable.flag_world,context.getString(R.string.country_number_20_key)));
-        CountryAdapter adapter = new CountryAdapter(context, mList,coverageOrTrip);
+        CountryAdapter adapter = new CountryAdapter(context, mList,coverageOrTrip,selectedCountries);
         listView.setAdapter(adapter);
         listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
         listView.setSelector(R.color.app_primary_color);
@@ -210,7 +210,7 @@ public class CountryDialog {
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
         ((Button)alertDialog.findViewById(android.R.id.button1)).setBackgroundResource(R.drawable.custom_button);
-        
+
         return selectedCountries;
     }
 
