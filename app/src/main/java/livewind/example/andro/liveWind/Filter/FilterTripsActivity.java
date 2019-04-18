@@ -198,16 +198,6 @@ public class FilterTripsActivity extends AppCompatActivity
     }
 
     @Override
-    public void onResume(){
-        super.onResume();
-        Log.i(TAG, "onResume: ");
-    }
-    @Override
-    public void onPause(){
-        super.onPause();
-        Log.i(TAG, "onPause: ");
-    }
-    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_filter, menu);
         return true;
