@@ -43,7 +43,7 @@ public class CountryDialog {
      * SELECT COUNTRY DIALOG
      */
     // Show select photo action
-    public static void showSelectCountryDialog(final FilterTripsActivity context, final boolean coverageOrTrip) {
+    public static Set<String> showSelectCountryDialog(final FilterTripsActivity context, final boolean coverageOrTrip, final Set<String> selectedCountries) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.DialogeTheme);
         // Get the layout inflater
         LayoutInflater inflater = LayoutInflater.from(context);
@@ -106,29 +106,14 @@ public class CountryDialog {
                         mList.get(position).setChecked(false);
                         ImageView mCheckBoxImageView = view.findViewById(R.id.select_country_list_check_box_image_view);
                         mCheckBoxImageView.setImageResource(R.drawable.ic_check_box_outline_blank_white_24dp);
-                        //Remove this country from "interested_countries" in sharedPref
-                        //Get interested countries Set
-                        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-                        Set<String> selectedCountries = sharedPrefs.getStringSet(context.getString(R.string.settings_display_countries_key), new HashSet<String>());
                         selectedCountries.remove(Integer.toString(position));
-                        //Set interested countries Set without unchecked country
-                        SharedPreferences.Editor editor = sharedPrefs.edit();
-                        editor.putStringSet(context.getString(R.string.settings_display_countries_key), selectedCountries);
-                        editor.apply();
                     } else {
                         //Check country and countryItemView
                         mList.get(position).setChecked(true);
                         ImageView mCheckBoxImageView = view.findViewById(R.id.select_country_list_check_box_image_view);
                         mCheckBoxImageView.setImageResource(R.drawable.ic_check_box_white_24dp);
                         //Set this country in "interested_countries" in sharedPref
-                        //Get interested countries Set
-                        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-                        Set<String> selectedCountries = sharedPrefs.getStringSet(context.getString(R.string.settings_display_countries_key), new HashSet<String>());
                         selectedCountries.add(Integer.toString(position));
-                        //Set interested countries Set with checked country
-                        SharedPreferences.Editor editor = sharedPrefs.edit();
-                        editor.putStringSet(context.getString(R.string.settings_display_countries_key), selectedCountries);
-                        editor.apply();
                     }
                 } else if (coverageOrTrip==EventContract.EventEntry.IT_IS_EVENT){
                     if (mList.get(position).isChecked()) {
@@ -200,13 +185,10 @@ public class CountryDialog {
                     public void onClick(DialogInterface dialog, int id) {
                         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
                         SharedPreferences.Editor editor = sharedPrefs.edit();
-                        Set<String> selectedCountries;
+
                         if(coverageOrTrip==EventContract.EventEntry.IT_IS_TRIP) {
-                            selectedCountries = sharedPrefs.getStringSet(context.getString(R.string.settings_display_countries_key), new HashSet<String>());
-                            editor.putString(context.getString(R.string.settings_display_trips_key), Integer.toString(mTripsOptions));
-                            editor.apply();
+
                         } else {
-                            selectedCountries = sharedPrefs.getStringSet(context.getString(R.string.settings_display_coverages_countries_key), new HashSet<String>());
                         }
                         if(selectedCountries.contains("0")&&selectedCountries.size()!=1){
                             showCountryChangesConfirmationDialog(context,coverageOrTrip);
@@ -228,6 +210,8 @@ public class CountryDialog {
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
         ((Button)alertDialog.findViewById(android.R.id.button1)).setBackgroundResource(R.drawable.custom_button);
+        
+        return selectedCountries;
     }
 
     /**

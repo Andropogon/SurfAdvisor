@@ -21,9 +21,11 @@ public interface FilterTripsContract {
         void savePreferences(String cost, int currency, long dateFromTimestamp, long dateToTimestamp,int sortingPreferences, int sortingOrderPreferences);
 
         void saveSports(Set<String>sports);
+        void saveCountries(Set<String> countries);
 
         Set<String> getSports();
-        ArrayList<String> getCountries();
+        ArrayList<String> getCountriesArray();
+        Set<String> getCountries();
 
         void sendPreferences();
 

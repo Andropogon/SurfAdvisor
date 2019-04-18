@@ -31,7 +31,6 @@ public class FilterTrips {
         mContext = CatalogActivity.getContext();
     }
 
-
     /**
      * Set methods
      */
@@ -48,17 +47,9 @@ public class FilterTrips {
         this.mDateToTimestamp = mDateToTimestamp;
     }
     public void setmSports(Set<String> sports) {
-        //SharedPreferences filterPref = PreferenceManager.getDefaultSharedPreferences(mContext);
-        //SharedPreferences.Editor editor = filterPref.edit();
-        //editor.putStringSet(mContext.getString(R.string.settings_filter_sports_key),sports);
-        //editor.apply();
         this.mSports = sports;
     }
     public void setmCountries(Set<String> countries){
-        //SharedPreferences filterPref = PreferenceManager.getDefaultSharedPreferences(mContext);
-        //SharedPreferences.Editor editor = filterPref.edit();
-        //editor.putStringSet(mContext.getString(R.string.settings_display_countries_key),countries);
-        //editor.apply();
         this.mCountries = countries;
     }
 
@@ -103,10 +94,10 @@ public class FilterTrips {
         return mDateToTimestamp;
     }
     public Set<String> getmSports() {
-        return mSports;
+        return new HashSet<String>(mSports);
     }
     public Set<String> getmCountries() {
-        return mCountries;
+        return new HashSet<String>(mCountries);
     }
     public int getmSortingPreferences() {
         return mSortingPreferences;
@@ -124,8 +115,8 @@ public class FilterTrips {
         //TODO Add min. timestamp = today, checking
         mDateFromTimestamp = filterPref.getLong(mContext.getString(R.string.settings_filter_date_from_key),System.currentTimeMillis());
         mDateToTimestamp = filterPref.getLong(mContext.getString(R.string.settings_filter_date_to_key),System.currentTimeMillis() + FilterTripsContract.FilterTripsEntry.DEFAULT_DURATION_TIMESTAMP);
-        this.mSports = filterPref.getStringSet(mContext.getString(R.string.settings_filter_sports_key),new HashSet<String>());
-        this.mCountries = filterPref.getStringSet(mContext.getString(R.string.settings_display_countries_key), new HashSet<String>());
+        mSports = filterPref.getStringSet(mContext.getString(R.string.settings_filter_sports_key),new HashSet<String>());
+        mCountries = filterPref.getStringSet(mContext.getString(R.string.settings_display_countries_key), new HashSet<String>());
         mSortingPreferences = Integer.valueOf(filterPref.getString(mContext.getString(R.string.settings_display_sorting_trips_by_key),String.valueOf(FilterTripsContract.FilterTripsEntry.SORTING_DATE)))-1;
         mSortingOrderPreferences = Integer.valueOf(filterPref.getString(mContext.getString(R.string.settings_display_sorting_order_trips_by_key),String.valueOf(FilterTripsContract.FilterTripsEntry.ORDER_DECREASE)))-1;
     }

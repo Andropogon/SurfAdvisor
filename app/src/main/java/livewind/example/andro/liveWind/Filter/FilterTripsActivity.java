@@ -22,9 +22,6 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.google.android.gms.tasks.Task;
 
 import java.util.Calendar;
 import java.util.Set;
@@ -32,7 +29,6 @@ import java.util.Set;
 import livewind.example.andro.liveWind.CatalogActivity;
 import livewind.example.andro.liveWind.Countries.CountryDialog;
 import livewind.example.andro.liveWind.Countries.CountryGridAdapter;
-import livewind.example.andro.liveWind.EditorActivity;
 import livewind.example.andro.liveWind.HelpClasses.DateHelp;
 import livewind.example.andro.liveWind.ListView_help.ListViewHelp;
 import livewind.example.andro.liveWind.R;
@@ -83,7 +79,7 @@ public class FilterTripsActivity extends AppCompatActivity
         // Creates presenter
         mPresenter = new FilterTripsPresenter(this);
         mPresenter.loadPreferences();
-        mCountryGridAdapter = new CountryGridAdapter(this, mPresenter.getCountries(),0);
+        mCountryGridAdapter = new CountryGridAdapter(this, mPresenter.getCountriesArray(),0);
         mCountriesGridView.setAdapter(mCountryGridAdapter);
         ListViewHelp.setListViewHeightBasedOnChildren(mCountriesGridView,6);
         initClickListeners();
@@ -177,14 +173,14 @@ public class FilterTripsActivity extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 //CountryDialog is saving checked countries as interesting.
-                CountryDialog.showSelectCountryDialog(FilterTripsActivity.this,EventContract.EventEntry.IT_IS_TRIP);
+                mPresenter.saveCountries(CountryDialog.showSelectCountryDialog(FilterTripsActivity.this,EventContract.EventEntry.IT_IS_TRIP,mPresenter.getCountries()));
             }
         });
         mCountriesGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                 //CountryDialog is saving checked countries as interesting.
-                CountryDialog.showSelectCountryDialog(FilterTripsActivity.this,EventContract.EventEntry.IT_IS_TRIP);
+                mPresenter.saveCountries(CountryDialog.showSelectCountryDialog(FilterTripsActivity.this,EventContract.EventEntry.IT_IS_TRIP,mPresenter.getCountries()));
             }
         });
         mSearchButtonTextView.setOnClickListener(new View.OnClickListener(){
@@ -293,7 +289,7 @@ public class FilterTripsActivity extends AppCompatActivity
 
     @Override
     public void displayCountries(){
-        mCountryGridAdapter = new CountryGridAdapter(this, mPresenter.getCountries(),0);
+        mCountryGridAdapter = new CountryGridAdapter(this, mPresenter.getCountriesArray(),0);
         mCountriesGridView.setAdapter(mCountryGridAdapter);
         ListViewHelp.setListViewHeightBasedOnChildren(mCountriesGridView,6);
     }

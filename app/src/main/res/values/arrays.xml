@@ -243,4 +243,9 @@
         <item name="1">@string/type_kitesurfing</item>
         <item name="2">@string/type_surfing</item>
     </string-array>
+    <string-array name="array_filter_sports2">
+        <item name="0">@string/type_windsurfing</item>
+        <item name="1">@string/type_kitesurfing</item>
+        <item name="2">@string/type_surfing</item>
+    </string-array>
 </resources>
