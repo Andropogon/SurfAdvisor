@@ -19,7 +19,7 @@ public interface FilterTripsContract {
 
     /** Represents the Presenter in MVP. */
     interface Presenter {
-        void savePreferences(String cost, int currency, long dateFromTimestamp, long dateToTimestamp,int sortingPreferences, int sortingOrderPreferences);
+        boolean savePreferences(String cost, int currency, long dateFromTimestamp, long dateToTimestamp,int sortingPreferences, int sortingOrderPreferences);
 
         void saveSports(Set<String>sports);
         void saveCountries(Set<String> countries);
@@ -79,7 +79,9 @@ public interface FilterTripsContract {
          * Possible bad filter codes
          */
         public static final int BAD_FILTER_DATE = 1;
-        public static final int BAD_FILTER_UNKNOWN_ERROR = 0;
+        public static final int BAD_FILTER_NO_COUNTRIES = 2;
+        public static final int BAD_FILTER_NO_SPORTS = 3;
+        public static final int BAD_FILTER_COST = 4;
 
     }
 }

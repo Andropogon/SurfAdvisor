@@ -572,7 +572,12 @@
     <string name="filter_trips_sort">Sortuj po</string>
     <string name="filter_trips_set_default_warning">Czy na pewno chcesz ustawić domyślne ustawienia filtrów?</string>
     <string name="filter_trips_dismiss_changes_warning">Czy na pewno nie chcesz zapisać wybranych ustawień filtrów?</string>
-
+    <!-- Filter trips activity toasts -->
+    <string name="filter_trips_bad_date_toast">Data wyjazdu nie może być późniejsza niż data powrotu</string>
+    <string name="filter_trips_bad_countries_toast">Musisz zaznaczyć conajmniej jeden kraj</string>
+    <string name="filter_trips_bad_sports_toast">Musisz zaznaczyć conajmniej jeden interesujący Cie sport</string>
+    <string name="filter_trips_bad_cost_toast">Koszt wycieczki niestety nie może być równy zeru lub ujemny :) Żaden z naszych partnerów nie dopłaca za wybór ich wycieczki</string>
+    <string name="filter_trips_bad_unknown_toast">Nieznany błąd związany z filtrami - skontaktuj się z developerem</string>
 
     <!-- Topic notification system keys -->
     <string name="country_number_0_key">All_world</string>

@@ -15,7 +15,6 @@ public class FilterTripsPresenter implements FilterTripsContract.Presenter{
 
     //Model
     private FilterTrips mFilterTrips;
-
     //View in activity
     private FilterTripsContract.View mView;
 
@@ -25,13 +24,22 @@ public class FilterTripsPresenter implements FilterTripsContract.Presenter{
     }
 
     @Override
-    public void savePreferences(String cost, int currency, long dateFromTimestamp, long dateToTimestamp, int sortingPreferences, int sortingOrderPreferences) {
+    public boolean savePreferences(String cost, int currency, long dateFromTimestamp, long dateToTimestamp, int sortingPreferences, int sortingOrderPreferences) {
+        if(Integer.valueOf(cost)<=0) {
+            mView.showBadFilterToast(FilterTripsContract.FilterTripsEntry.BAD_FILTER_COST);
+            return false;
+        }
+        if(dateToTimestamp<dateFromTimestamp){
+            mView.showBadFilterToast(FilterTripsContract.FilterTripsEntry.BAD_FILTER_DATE);
+            return false;
+        }
         mFilterTrips.setmCost(cost);
         mFilterTrips.setmCurrency(currency);
         mFilterTrips.setmDateFromTimestamp(dateFromTimestamp);
         mFilterTrips.setmDateToTimestamp(dateToTimestamp);
         mFilterTrips.setmSortingPreferences(sortingPreferences);
         mFilterTrips.setmSortingOrderPreferences(sortingOrderPreferences);
+        return true;
     }
     @Override
     public void saveSports(Set<String> sports){
@@ -99,6 +107,5 @@ public class FilterTripsPresenter implements FilterTripsContract.Presenter{
 
     @Override
     public void dismissChanges(){
-        mCopyFilterTrips.setFilterTripsPreferences();
     }
 }

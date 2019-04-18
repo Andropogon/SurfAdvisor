@@ -22,6 +22,7 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Calendar;
 import java.util.Set;
@@ -288,10 +289,14 @@ public class FilterTripsActivity extends AppCompatActivity
      * Save data to preferences and open CatalogActivity
      */
     private void saveAndOpenCatalogActivity(){
-        mPresenter.savePreferences(mCostView.getText().toString(), mCurrency,DateHelp.dateToTimestamp(mDateFromTextView.getText().toString()),DateHelp.dateToTimestamp(mDateToTextView.getText().toString()),mSortingPreferences, mSortingOrderPreferences);
-        mPresenter.sendPreferences();
-        Intent intentCatalog = new Intent(FilterTripsActivity.this,CatalogActivity.class);
-        startActivity(intentCatalog);
+        if(mPresenter.savePreferences(mCostView.getText().toString(), mCurrency,DateHelp.dateToTimestamp(mDateFromTextView.getText().toString()),DateHelp.dateToTimestamp(mDateToTextView.getText().toString()),mSortingPreferences, mSortingOrderPreferences)){
+            mPresenter.sendPreferences();
+            Intent intentCatalog = new Intent(FilterTripsActivity.this,CatalogActivity.class);
+            startActivity(intentCatalog);
+        } else {
+            //Toast message with info about bad filter will be displayed
+        }
+
     }
 
     /**
@@ -556,6 +561,23 @@ public class FilterTripsActivity extends AppCompatActivity
 
     @Override
     public void showBadFilterToast(int errorCode){
+        switch (errorCode){
+            case FilterTripsContract.FilterTripsEntry.BAD_FILTER_DATE:
+                Toast.makeText(getApplicationContext(), getString(R.string.filter_trips_bad_date_toast), Toast.LENGTH_SHORT).show();
+                break;
+            case FilterTripsContract.FilterTripsEntry.BAD_FILTER_NO_COUNTRIES:
+                Toast.makeText(getApplicationContext(), getString(R.string.filter_trips_bad_countries_toast), Toast.LENGTH_SHORT).show();
+                break;
+            case FilterTripsContract.FilterTripsEntry.BAD_FILTER_NO_SPORTS:
+                Toast.makeText(getApplicationContext(), getString(R.string.filter_trips_bad_sports_toast), Toast.LENGTH_SHORT).show();
+                break;
+            case FilterTripsContract.FilterTripsEntry.BAD_FILTER_COST:
+                Toast.makeText(getApplicationContext(), getString(R.string.filter_trips_bad_cost_toast), Toast.LENGTH_SHORT).show();
+                break;
+            default:
+                Toast.makeText(getApplicationContext(), getString(R.string.filter_trips_bad_unknown_toast), Toast.LENGTH_SHORT).show();
+                break;
+        }
 
     }
 
