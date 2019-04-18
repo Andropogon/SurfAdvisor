@@ -210,7 +210,7 @@ public class CountryDialog {
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
         ((Button)alertDialog.findViewById(android.R.id.button1)).setBackgroundResource(R.drawable.custom_button);
-        
+
         return selectedCountries;
     }
 

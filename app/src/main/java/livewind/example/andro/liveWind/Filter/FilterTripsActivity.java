@@ -483,10 +483,10 @@ public class FilterTripsActivity extends AppCompatActivity
      */
     private void loadSortingOrderSpinner(){
         switch (mSortingOrderPreferences) {
-            case FilterTripsContract.FilterTripsEntry.ORDER_DECREASE:
+            case FilterTripsContract.FilterTripsEntry.ORDER_INCREASE:
                 mSortingOrderSpinner.setSelection(0);
                 break;
-            case FilterTripsContract.FilterTripsEntry.ORDER_INCREASE:
+            case FilterTripsContract.FilterTripsEntry.ORDER_DECREASE:
                 mSortingOrderSpinner.setSelection(1);
                 break;
             default:
