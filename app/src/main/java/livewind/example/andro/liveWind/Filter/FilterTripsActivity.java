@@ -10,7 +10,6 @@ import android.support.v4.app.NavUtils;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -63,10 +62,12 @@ public class FilterTripsActivity extends AppCompatActivity
     private TextView mSetDefaultTextView;
     private TextView mSearchButtonTextView;
 
+    // Helper global variables for spinner and multiselect lists
     boolean[] mCheckedItems = new boolean[3];
     int mCurrency = EventContract.EventEntry.CURRENCY_ZL;
     int mSortingPreferences = FilterTripsContract.FilterTripsEntry.SORTING_DATE;
     int mSortingOrderPreferences = FilterTripsContract.FilterTripsEntry.SORTING_DATE;
+
     /**
      * Boolean flag that keeps track of whether the filters has been edited (true) or not (false)
      */
@@ -77,12 +78,14 @@ public class FilterTripsActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_filter);
         initViews();
-        // Creates presenter
+        // Create presenter
         mPresenter = new FilterTripsPresenter(this);
         mPresenter.loadPreferences();
+        // Create adapter for CountryGridView
         mCountryGridAdapter = new CountryGridAdapter(this, mPresenter.getCountriesArray(),0);
         mCountriesGridView.setAdapter(mCountryGridAdapter);
         ListViewHelp.setListViewHeightBasedOnChildren(mCountriesGridView,6);
+        //Initialize click listeners on views
         initClickListeners();
     }
 
@@ -198,12 +201,14 @@ public class FilterTripsActivity extends AppCompatActivity
         });
     }
 
+    /**
+     * Some menu methods
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_filter, menu);
         return true;
     }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -236,6 +241,9 @@ public class FilterTripsActivity extends AppCompatActivity
         }
     }
 
+    /**
+     * Display loaded filters on start method
+     */
     @Override
     public void displayPreferences(String cost, int currency, long dateFromTimestamp, long dateToTimestamp, Set<String> countries, int sortingPreferences, int sortingOrderPreferences){
         mCostView.setText(cost);
@@ -245,7 +253,6 @@ public class FilterTripsActivity extends AppCompatActivity
         mSortingSpinner.setSelection(sortingPreferences);
         mSortingOrderSpinner.setSelection(sortingOrderPreferences);
     }
-
     @Override
     public void displaySports(Set <String> sports){
         int interestedColor = R.color.sport_available_course;
@@ -277,24 +284,46 @@ public class FilterTripsActivity extends AppCompatActivity
             mCheckedItems[2] = false;
         }
     }
-
     @Override
     public void displayCountries(){
         mCountryGridAdapter = new CountryGridAdapter(this, mPresenter.getCountriesArray(),0);
         mCountriesGridView.setAdapter(mCountryGridAdapter);
         ListViewHelp.setListViewHeightBasedOnChildren(mCountriesGridView,6);
     }
-
+    /**
+     * Show toast message about bad set filter
+     * @param errorCode - code of bad set filter error from {@FilterTripsContract}
+     */
+    @Override
+    public void showBadFilterToast(int errorCode){
+        switch (errorCode){
+            case FilterTripsContract.FilterTripsEntry.BAD_FILTER_DATE:
+                Toast.makeText(getApplicationContext(), getString(R.string.filter_trips_bad_date_toast), Toast.LENGTH_LONG).show();
+                break;
+            case FilterTripsContract.FilterTripsEntry.BAD_FILTER_NO_COUNTRIES:
+                Toast.makeText(getApplicationContext(), getString(R.string.filter_trips_bad_countries_toast), Toast.LENGTH_LONG).show();
+                break;
+            case FilterTripsContract.FilterTripsEntry.BAD_FILTER_NO_SPORTS:
+                Toast.makeText(getApplicationContext(), getString(R.string.filter_trips_bad_sports_toast), Toast.LENGTH_LONG).show();
+                break;
+            case FilterTripsContract.FilterTripsEntry.BAD_FILTER_COST:
+                Toast.makeText(getApplicationContext(), getString(R.string.filter_trips_bad_cost_toast), Toast.LENGTH_LONG).show();
+                break;
+            default:
+                Toast.makeText(getApplicationContext(), getString(R.string.filter_trips_bad_unknown_toast), Toast.LENGTH_LONG).show();
+                break;
+        }
+    }
     /**
      * Save data to preferences and open CatalogActivity
      */
     private void saveAndOpenCatalogActivity(){
-        if(mPresenter.savePreferences(mCostView.getText().toString(), mCurrency,DateHelp.dateToTimestamp(mDateFromTextView.getText().toString()),DateHelp.dateToTimestamp(mDateToTextView.getText().toString()),mSortingPreferences, mSortingOrderPreferences)){
+        if(mPresenter.setPreferences(mCostView.getText().toString(), mCurrency,DateHelp.dateToTimestamp(mDateFromTextView.getText().toString()),DateHelp.dateToTimestamp(mDateToTextView.getText().toString()),mSortingPreferences, mSortingOrderPreferences)){
             mPresenter.sendPreferences();
             Intent intentCatalog = new Intent(FilterTripsActivity.this,CatalogActivity.class);
             startActivity(intentCatalog);
         } else {
-            //Toast message with info about bad filter will be displayed
+            //Toast message with info about bad filter will be displayed (because of @setPreferences method
         }
 
     }
@@ -353,7 +382,6 @@ public class FilterTripsActivity extends AppCompatActivity
         ArrayAdapter currencySpinnerAdapter = ArrayAdapter.createFromResource(this,
                 R.array.array_currency_options, android.R.layout.simple_spinner_item);
         currencySpinnerAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
-
         mCurrencySpinner.setAdapter(currencySpinnerAdapter);
         mCurrencySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -372,7 +400,6 @@ public class FilterTripsActivity extends AppCompatActivity
                     }
                 }
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
                 mCurrency = EventContract.EventEntry.CURRENCY_ZL;
@@ -403,13 +430,9 @@ public class FilterTripsActivity extends AppCompatActivity
      * Setup the dropdown spinner that allows the user to select the sorting preferences.
      */
     private void setupSortingSpinner() {
-        ArrayAdapter sortingSpinnerAdapter = ArrayAdapter.createFromResource(this,
-                R.array.array_sorting_trips_options, android.R.layout.simple_spinner_item);
-
+        ArrayAdapter sortingSpinnerAdapter = ArrayAdapter.createFromResource(this, R.array.array_sorting_trips_options, android.R.layout.simple_spinner_item);
         sortingSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
-
         mSortingSpinner.setAdapter(sortingSpinnerAdapter);
-
         mSortingSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -422,7 +445,6 @@ public class FilterTripsActivity extends AppCompatActivity
                     }
                 }
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
                 mSortingPreferences = FilterTripsContract.FilterTripsEntry.SORTING_DATE;
@@ -451,13 +473,9 @@ public class FilterTripsActivity extends AppCompatActivity
      * Setup the dropdown spinner that allows the user to select the sorting order preferences.
      */
     private void setupSortingOrderSpinner() {
-        ArrayAdapter sortingOrderSpinnerAdapter = ArrayAdapter.createFromResource(this,
-                R.array.array_sorting_order_options, android.R.layout.simple_spinner_item);
-
+        ArrayAdapter sortingOrderSpinnerAdapter = ArrayAdapter.createFromResource(this, R.array.array_sorting_order_options, android.R.layout.simple_spinner_item);
         sortingOrderSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
-
         mSortingOrderSpinner.setAdapter(sortingOrderSpinnerAdapter);
-
         mSortingOrderSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -495,7 +513,7 @@ public class FilterTripsActivity extends AppCompatActivity
     }
 
     /**
-     * Show dialog about confirmation setting default filter values
+     * Show dialog about confirmation to set default filter values
      */
     private void showDefaultWarningDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AlertDialogStyle);
@@ -562,28 +580,4 @@ public class FilterTripsActivity extends AppCompatActivity
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
     }
-
-    @Override
-    public void showBadFilterToast(int errorCode){
-        switch (errorCode){
-            case FilterTripsContract.FilterTripsEntry.BAD_FILTER_DATE:
-                Toast.makeText(getApplicationContext(), getString(R.string.filter_trips_bad_date_toast), Toast.LENGTH_LONG).show();
-                break;
-            case FilterTripsContract.FilterTripsEntry.BAD_FILTER_NO_COUNTRIES:
-                Toast.makeText(getApplicationContext(), getString(R.string.filter_trips_bad_countries_toast), Toast.LENGTH_LONG).show();
-                break;
-            case FilterTripsContract.FilterTripsEntry.BAD_FILTER_NO_SPORTS:
-                Toast.makeText(getApplicationContext(), getString(R.string.filter_trips_bad_sports_toast), Toast.LENGTH_LONG).show();
-                break;
-            case FilterTripsContract.FilterTripsEntry.BAD_FILTER_COST:
-                Toast.makeText(getApplicationContext(), getString(R.string.filter_trips_bad_cost_toast), Toast.LENGTH_LONG).show();
-                break;
-            default:
-                Toast.makeText(getApplicationContext(), getString(R.string.filter_trips_bad_unknown_toast), Toast.LENGTH_LONG).show();
-                break;
-        }
-
-    }
-
-
 }

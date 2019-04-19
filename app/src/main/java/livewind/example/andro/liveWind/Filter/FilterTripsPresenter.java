@@ -23,16 +23,24 @@ public class FilterTripsPresenter implements FilterTripsContract.Presenter{
         mView = view;
     }
 
+    /**
+     * Set all filter trips preferences (without sports and countries - methods below) to {@FilterTrips} model
+     * @return true if saved correctly
+     * @return false if one or more filters have bad value
+     */
     @Override
-    public boolean savePreferences(String cost, int currency, long dateFromTimestamp, long dateToTimestamp, int sortingPreferences, int sortingOrderPreferences) {
+    public boolean setPreferences(String cost, int currency, long dateFromTimestamp, long dateToTimestamp, int sortingPreferences, int sortingOrderPreferences) {
+        //Check that cost is >0
         if(Integer.valueOf(cost)<=0) {
             mView.showBadFilterToast(FilterTripsContract.FilterTripsEntry.BAD_FILTER_COST);
             return false;
         }
+        //Check that "fromDate" is smaller than "toDate"
         if(dateToTimestamp<dateFromTimestamp){
             mView.showBadFilterToast(FilterTripsContract.FilterTripsEntry.BAD_FILTER_DATE);
             return false;
         }
+        //Everything is correct - save filter preferences
         mFilterTrips.setmCost(cost);
         mFilterTrips.setmCurrency(currency);
         mFilterTrips.setmDateFromTimestamp(dateFromTimestamp);
@@ -41,26 +49,42 @@ public class FilterTripsPresenter implements FilterTripsContract.Presenter{
         mFilterTrips.setmSortingOrderPreferences(sortingOrderPreferences);
         return true;
     }
+
+    /**
+     * Check and save to {@FilterTrips} model sports filters if they aren't empty
+     * @return false if sports are empty
+     */
     @Override
     public boolean saveSports(Set<String> sports) {
+        //If empty show toast message and don't save
         if (sports.isEmpty()) {
             mView.showBadFilterToast(FilterTripsContract.FilterTripsEntry.BAD_FILTER_NO_SPORTS);
             return false;
         } else {
+            //If correct - save
             mFilterTrips.setmSports(sports);
             mView.displaySports(sports);
             return true;
         }
     }
+    /**
+     * Save to {@FilterTrips} model countries filters if they aren't empty
+     * They correcties was checked in {@CountryDialog}
+     */
+    @Override
+    public void saveCountries(Set<String> countries){
+        mFilterTrips.setmCountries(countries);
+        mView.displayCountries();
+    }
+
+    /**
+     * Some get methods - to load filters from {@FilterTrips} model that have them from sharedPreferences
+     */
     @Override
     public Set<String>getSports(){
         return mFilterTrips.getmSports();
     }
-    @Override
-    public void saveCountries(Set<String> countries){
-            mFilterTrips.setmCountries(countries);
-            mView.displayCountries();
-    }
+
     @Override
     public ArrayList<String> getCountriesArray(){
         return new ArrayList<>(mFilterTrips.getmCountries());
@@ -70,6 +94,9 @@ public class FilterTripsPresenter implements FilterTripsContract.Presenter{
         return mFilterTrips.getmCountries();
     }
 
+    /**
+     * Send all preferences to {@FilterTrips} model to save them to sharedPreferences
+     */
     @Override
     public void sendPreferences(){
         mFilterTrips.setFilterTripsPreferences();
@@ -111,7 +138,11 @@ public class FilterTripsPresenter implements FilterTripsContract.Presenter{
         mView.displaySports(mFilterTrips.getmSports());
     }
 
+    /**
+     * Empty method - if some don't want to dismiss changes don't do anythingS
+     */
     @Override
     public void dismissChanges(){
+        //Do nothing
     }
 }

@@ -19,28 +19,22 @@ public interface FilterTripsContract {
 
     /** Represents the Presenter in MVP. */
     interface Presenter {
-        boolean savePreferences(String cost, int currency, long dateFromTimestamp, long dateToTimestamp,int sortingPreferences, int sortingOrderPreferences);
-
+        boolean setPreferences(String cost, int currency, long dateFromTimestamp, long dateToTimestamp, int sortingPreferences, int sortingOrderPreferences);
         boolean saveSports(Set<String>sports);
         void saveCountries(Set<String> countries);
-
         Set<String> getSports();
         ArrayList<String> getCountriesArray();
         Set<String> getCountries();
-
         void sendPreferences();
-
         void loadPreferences();
-
         void loadDefaultPreferences();
-
         void dismissChanges();
     }
 
     /**
      * Constants and default values
      */
-    public static final class FilterTripsEntry {
+    final class FilterTripsEntry {
 
         /**
          * Default filter cost
@@ -82,6 +76,5 @@ public interface FilterTripsContract {
         public static final int BAD_FILTER_NO_COUNTRIES = 2;
         public static final int BAD_FILTER_NO_SPORTS = 3;
         public static final int BAD_FILTER_COST = 4;
-
     }
 }
