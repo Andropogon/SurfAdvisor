@@ -21,7 +21,7 @@ public interface FilterTripsContract {
     interface Presenter {
         boolean savePreferences(String cost, int currency, long dateFromTimestamp, long dateToTimestamp,int sortingPreferences, int sortingOrderPreferences);
 
-        void saveSports(Set<String>sports);
+        boolean saveSports(Set<String>sports);
         void saveCountries(Set<String> countries);
 
         Set<String> getSports();

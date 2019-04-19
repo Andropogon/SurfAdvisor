@@ -191,9 +191,9 @@ public class CountryDialog {
                         } else {
                         }
                         if(selectedCountries.contains("0")&&selectedCountries.size()!=1){
-                            showCountryChangesConfirmationDialog(context,coverageOrTrip);
+                            showCountryChangesConfirmationDialog(context,coverageOrTrip,selectedCountries);
                         } else if (selectedCountries.isEmpty()) {
-                            showCountryChangesNullDialog(context,coverageOrTrip);
+                            showCountryChangesNullDialog(context,coverageOrTrip,selectedCountries);
                         } else {
                             if(coverageOrTrip==EventContract.EventEntry.IT_IS_EVENT) {
                                 context.recreate();
@@ -217,7 +217,7 @@ public class CountryDialog {
     /**
      * Dialog showed when user click apply on SelectCountryDialog and check "All world" and one or more other country.
      */
-    public static void showCountryChangesConfirmationDialog(final FilterTripsActivity context, final boolean coverageOrTrip) {
+    public static void showCountryChangesConfirmationDialog(final FilterTripsActivity context, final boolean coverageOrTrip, final Set<String> selectedCountries) {
         // Create an AlertDialog.Builder and set the message, and click listeners
         // for the postivie and negative buttons on the dialog.
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -225,14 +225,7 @@ public class CountryDialog {
 
         builder.setPositiveButton(R.string.catalog_activity_changes_confrimity_dialog_positive_button, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-                Set<String> selectedCountries = sharedPrefs.getStringSet(context.getString(R.string.settings_display_countries_key), new HashSet<String>());
-                SharedPreferences displayOptions = PreferenceManager.getDefaultSharedPreferences(context);
-                SharedPreferences.Editor editor = displayOptions.edit();
                 selectedCountries.remove(EventContract.EventEntry.COUNTRY_ALL_WORLD);
-                editor.putStringSet(context.getString(R.string.settings_display_countries_key),selectedCountries);
-                // Commit the edits!
-                editor.apply();
                 if(coverageOrTrip==EventContract.EventEntry.IT_IS_EVENT) {
                     context.recreate();
                 } else {
@@ -247,7 +240,7 @@ public class CountryDialog {
 
         builder.setNegativeButton(R.string.dialog_edit, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                showSelectCountryDialog(context, coverageOrTrip);
+                showSelectCountryDialog(context, coverageOrTrip,selectedCountries);
                 if (dialog != null) {
                     dialog.dismiss();
                 }
@@ -261,7 +254,7 @@ public class CountryDialog {
     /**
      * Dialog showed when user click apply on SelectCountryDialog and check 0 countries.
      */
-    private static void showCountryChangesNullDialog(final FilterTripsActivity context, final boolean coverageOrTrip) {
+    private static void showCountryChangesNullDialog(final FilterTripsActivity context, final boolean coverageOrTrip, final Set<String> selectedCountries) {
         // Create an AlertDialog.Builder and set the message, and click listeners
         // for the postivie and negative buttons on the dialog.
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -269,14 +262,7 @@ public class CountryDialog {
 
         builder.setPositiveButton(R.string.catalog_activity_changes_null_dialog_positive_button, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-                Set<String> selectedCountries = sharedPrefs.getStringSet(context.getString(R.string.settings_display_countries_key), new HashSet<String>());
-                SharedPreferences displayOptions = PreferenceManager.getDefaultSharedPreferences(context);
-                SharedPreferences.Editor editor = displayOptions.edit();
                 selectedCountries.add(EventContract.EventEntry.COUNTRY_ALL_WORLD);
-                editor.putStringSet(context.getString(R.string.settings_display_countries_key),selectedCountries);
-                // Commit the edits!
-                editor.apply();
                 if(coverageOrTrip==EventContract.EventEntry.IT_IS_EVENT) {
                     context.recreate();
                 } else {
@@ -291,7 +277,7 @@ public class CountryDialog {
 
         builder.setNegativeButton(R.string.dialog_edit, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                showSelectCountryDialog(context,coverageOrTrip );
+                showSelectCountryDialog(context,coverageOrTrip, selectedCountries );
                 if (dialog != null) {
                     dialog.dismiss();
                 }

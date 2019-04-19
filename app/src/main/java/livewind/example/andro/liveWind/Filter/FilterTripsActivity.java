@@ -326,8 +326,12 @@ public class FilterTripsActivity extends AppCompatActivity
         mBuilder.setPositiveButton(R.string.dialog_ok, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int which) {
-                mPresenter.saveSports(sports);
-                dialogInterface.dismiss();
+                //If sports aren't empties save them otherwise show dialog again
+                if(mPresenter.saveSports(sports)) {
+                    dialogInterface.dismiss();
+                } else {
+                    showMultiSelectSportsList(sports);
+                }
             }
 
         });
@@ -563,19 +567,19 @@ public class FilterTripsActivity extends AppCompatActivity
     public void showBadFilterToast(int errorCode){
         switch (errorCode){
             case FilterTripsContract.FilterTripsEntry.BAD_FILTER_DATE:
-                Toast.makeText(getApplicationContext(), getString(R.string.filter_trips_bad_date_toast), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), getString(R.string.filter_trips_bad_date_toast), Toast.LENGTH_LONG).show();
                 break;
             case FilterTripsContract.FilterTripsEntry.BAD_FILTER_NO_COUNTRIES:
-                Toast.makeText(getApplicationContext(), getString(R.string.filter_trips_bad_countries_toast), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), getString(R.string.filter_trips_bad_countries_toast), Toast.LENGTH_LONG).show();
                 break;
             case FilterTripsContract.FilterTripsEntry.BAD_FILTER_NO_SPORTS:
-                Toast.makeText(getApplicationContext(), getString(R.string.filter_trips_bad_sports_toast), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), getString(R.string.filter_trips_bad_sports_toast), Toast.LENGTH_LONG).show();
                 break;
             case FilterTripsContract.FilterTripsEntry.BAD_FILTER_COST:
-                Toast.makeText(getApplicationContext(), getString(R.string.filter_trips_bad_cost_toast), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), getString(R.string.filter_trips_bad_cost_toast), Toast.LENGTH_LONG).show();
                 break;
             default:
-                Toast.makeText(getApplicationContext(), getString(R.string.filter_trips_bad_unknown_toast), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), getString(R.string.filter_trips_bad_unknown_toast), Toast.LENGTH_LONG).show();
                 break;
         }
 

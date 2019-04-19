@@ -42,9 +42,15 @@ public class FilterTripsPresenter implements FilterTripsContract.Presenter{
         return true;
     }
     @Override
-    public void saveSports(Set<String> sports){
-        mFilterTrips.setmSports(sports);
-        mView.displaySports(sports);
+    public boolean saveSports(Set<String> sports) {
+        if (sports.isEmpty()) {
+            mView.showBadFilterToast(FilterTripsContract.FilterTripsEntry.BAD_FILTER_NO_SPORTS);
+            return false;
+        } else {
+            mFilterTrips.setmSports(sports);
+            mView.displaySports(sports);
+            return true;
+        }
     }
     @Override
     public Set<String>getSports(){
@@ -52,8 +58,8 @@ public class FilterTripsPresenter implements FilterTripsContract.Presenter{
     }
     @Override
     public void saveCountries(Set<String> countries){
-        mFilterTrips.setmCountries(countries);
-        mView.displayCountries();
+            mFilterTrips.setmCountries(countries);
+            mView.displayCountries();
     }
     @Override
     public ArrayList<String> getCountriesArray(){
