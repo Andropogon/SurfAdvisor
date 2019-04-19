@@ -21,7 +21,6 @@ import livewind.example.andro.liveWind.R;
 import livewind.example.andro.liveWind.data.EventContract;
 
 public class CountryAdapter extends ArrayAdapter<Country> {
-    private int mColorResourceId;
     private boolean coverageOrTrip;
     private Set<String> mSelectedCountries;
     //For trips
