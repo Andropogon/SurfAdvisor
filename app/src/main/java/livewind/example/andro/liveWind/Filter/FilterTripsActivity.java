@@ -177,14 +177,14 @@ public class FilterTripsActivity extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 //CountryDialog is saving checked countries as interesting.
-                mPresenter.saveCountries(CountryDialog.showSelectCountryDialog(FilterTripsActivity.this,EventContract.EventEntry.IT_IS_TRIP,mPresenter.getCountries()));
+                mPresenter.saveCountries(CountryDialog.showSelectCountryDialog(FilterTripsActivity.this,mPresenter.getCountries()));
             }
         });
         mCountriesGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                 //CountryDialog is saving checked countries as interesting.
-                mPresenter.saveCountries(CountryDialog.showSelectCountryDialog(FilterTripsActivity.this,EventContract.EventEntry.IT_IS_TRIP,mPresenter.getCountries()));
+                mPresenter.saveCountries(CountryDialog.showSelectCountryDialog(FilterTripsActivity.this,mPresenter.getCountries()));
             }
         });
         mSearchButtonTextView.setOnClickListener(new View.OnClickListener(){

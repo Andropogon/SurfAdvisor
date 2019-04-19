@@ -267,7 +267,7 @@ public class CatalogActivity extends AppCompatActivity  {
                 SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                 boolean displayBoolean = sharedPrefs.getBoolean(getApplicationContext().getString(livewind.example.andro.liveWind.R.string.settings_display_boolean_key), true);
                 if (displayBoolean==EventContract.EventEntry.IT_IS_EVENT) {
-                    CountryDialog.showSelectCountryDialog(CatalogActivity.this,EventContract.EventEntry.IT_IS_EVENT);
+                    CountryDialog.showSelectCountryDialog(CatalogActivity.this);
                 } else {
                     Intent intentFilter = new Intent(CatalogActivity.this,FilterTripsActivity.class);
                     startActivity(intentFilter);
@@ -377,7 +377,8 @@ public class CatalogActivity extends AppCompatActivity  {
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         Set<String> selectedCountries = sharedPrefs.getStringSet(getString(R.string.settings_display_countries_key), new HashSet<String>());
         if(selectedCountries.contains("0")&&selectedCountries.size()!=1){ //Check if is selected "all world" and other country if yes - show dialog to change it
-            CountryDialog.showCountryChangesConfirmationDialog(CatalogActivity.this,EventContract.EventEntry.IT_IS_TRIP);
+            CountryDialog.showCountryChangesConfirmationDialog(CatalogActivity.this);
+            //TODO change this - covergas?
         }
     }
 
