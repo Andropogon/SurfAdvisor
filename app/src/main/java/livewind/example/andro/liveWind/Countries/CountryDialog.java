@@ -53,27 +53,6 @@ public class CountryDialog {
         AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.DialogeTheme);
         LayoutInflater inflater = LayoutInflater.from(context);
         View dialogView = inflater.inflate(R.layout.activity_catalog_dialog_select_country,null);
-
-        //Show select trip display options
-        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-        int displayTripsOptions = Integer.valueOf(sharedPrefs.getString(context.getString(R.string.settings_display_trips_key), "1"));
-        Spinner mTripsOptionsSpinner = (Spinner) dialogView.findViewById(R.id.spinner_trip_display_options);
-        setupTripOptionsSpinner(context, mTripsOptionsSpinner);
-        switch (displayTripsOptions) {
-            case EventContract.EventEntry.DISPLAY_TRIPS_FROM_AND_TO:
-                mTripsOptionsSpinner.setSelection(0);
-                break;
-            case EventContract.EventEntry.DISPLAY_TRIPS_FROM:
-                mTripsOptionsSpinner.setSelection(1);
-                break;
-            case EventContract.EventEntry.DISPLAY_TRIPS_TO:
-                mTripsOptionsSpinner.setSelection(2);
-                break;
-            default:
-                mTripsOptionsSpinner.setSelection(0);
-                break;
-        }
-
         //Make list with countries
         ListView listView = dialogView.findViewById(R.id.dialog_catalog_activity_select_country_list_view);
         final ArrayList<Country> mList = new ArrayList<Country>();
@@ -190,46 +169,6 @@ public class CountryDialog {
         // Create and show the AlertDialog
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
-    }
-
-    /**
-     * Setup the dropdown spinner that allows the user to select the countries display preferences.
-     * (For trips country dialog)
-     */
-    private static void setupTripOptionsSpinner(final Activity context, Spinner tripOptionsSpinner) {
-        // Create adapter for spinner. The list options are from the String array it will use
-        // the spinner will use the default layout
-        ArrayAdapter tripOptionsSpinnerAdapter = ArrayAdapter.createFromResource(context,
-                R.array.array_trips_display_options, android.R.layout.simple_spinner_item);
-
-        // Specify dropdown layout style - simple list view with 1 item per line
-        tripOptionsSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
-
-        // Apply the adapter to the spinner
-        tripOptionsSpinner.setAdapter(tripOptionsSpinnerAdapter);
-
-        // Set the integer mSelected to the constant values
-        tripOptionsSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String selection = (String) parent.getItemAtPosition(position);
-                if (!TextUtils.isEmpty(selection)) {
-                    if (selection.equals(context.getString(R.string.display_trips_from_and_to))) {
-                        mTripsOptions = EventContract.EventEntry.DISPLAY_TRIPS_FROM_AND_TO;
-                    } else if (selection.equals(context.getString(R.string.display_trips_from))) {
-                        mTripsOptions = EventContract.EventEntry.DISPLAY_TRIPS_FROM;
-                    } else if (selection.equals(context.getString(R.string.display_trips_to))){
-                        mTripsOptions = EventContract.EventEntry.DISPLAY_TRIPS_TO;
-                    }
-                }
-            }
-
-            // Because AdapterView is an abstract class, onNothingSelected must be defined
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                mTripsOptions = EventContract.EventEntry.TYPE_WINDSURFING;
-            }
-        });
     }
 
     /**
