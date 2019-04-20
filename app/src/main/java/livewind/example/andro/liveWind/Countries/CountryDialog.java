@@ -88,6 +88,7 @@ public class CountryDialog {
                         } else if (selectedCountries.isEmpty()) {
                             showCountryChangesNullDialog(context,selectedCountries);
                         }
+                        context.displayCountries();
                     }
                 });
         AlertDialog alertDialog = builder.create();

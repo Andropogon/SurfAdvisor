@@ -31,6 +31,13 @@
             android:layout_centerVertical="true"
             android:src="@drawable/ic_notifications_active_black_24dp"
             android:layout_margin="8dp" />
+        <Spinner
+            android:id="@+id/fake_spinner"
+            android:layout_width="match_parent"
+            android:visibility="gone"
+            android:layout_height="wrap_content"
+            android:spinnerMode="dropdown">
+        </Spinner>
         <TextView
             android:id="@+id/select_country_dialog_receive_notification_text_view"
             style="@style/eventInfoTextSmall"
