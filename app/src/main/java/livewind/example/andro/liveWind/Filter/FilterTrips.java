@@ -131,7 +131,7 @@ public class FilterTrips {
         mDateToTimestamp = filterPref.getLong(mContext.getString(R.string.settings_filter_date_to_key),System.currentTimeMillis() + FilterTripsContract.FilterTripsEntry.DEFAULT_DURATION_TIMESTAMP);
         mSports = filterPref.getStringSet(mContext.getString(R.string.settings_filter_sports_key),new HashSet<String>());
         mCountries = filterPref.getStringSet(mContext.getString(R.string.settings_display_countries_key), new HashSet<String>());
-        mCountriesDisplayPreferences = Integer.valueOf(filterPref.getString(mContext.getString(R.string.settings_display_trips_key),String.valueOf(FilterTripsContract.FilterTripsEntry.DISPLAY_FROM_AND_TO)))-1; // TODO  change default
+        mCountriesDisplayPreferences = Integer.valueOf(filterPref.getString(mContext.getString(R.string.settings_display_trips_key),String.valueOf(FilterTripsContract.FilterTripsEntry.DISPLAY_FROM_AND_TO)))-1;
         mSortingPreferences = Integer.valueOf(filterPref.getString(mContext.getString(R.string.settings_display_sorting_trips_by_key),String.valueOf(FilterTripsContract.FilterTripsEntry.SORTING_DATE)))-1;
         mSortingOrderPreferences = Integer.valueOf(filterPref.getString(mContext.getString(R.string.settings_display_sorting_order_trips_by_key),String.valueOf(FilterTripsContract.FilterTripsEntry.ORDER_DECREASE)))-1;
     }
