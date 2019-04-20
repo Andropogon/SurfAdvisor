@@ -12,7 +12,6 @@ import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -36,7 +35,8 @@ import com.bumptech.glide.request.target.Target;
 import livewind.example.andro.liveWind.Comments.Comment;
 import livewind.example.andro.liveWind.Comments.CommentAdapter;
 import livewind.example.andro.liveWind.ListView_help.ListViewHelp;
-import livewind.example.andro.liveWind.firebase.FirebaseHelp;
+import livewind.example.andro.liveWind.Notifications.MyFirebaseMessagingService;
+import livewind.example.andro.liveWind.user.UserHelper;
 import livewind.example.andro.liveWind.user.Windsurfer;
 
 import com.facebook.share.model.ShareLinkContent;
@@ -61,8 +61,23 @@ import java.util.Map;
 
 import livewind.example.andro.liveWind.data.EventContract;
 
+import static livewind.example.andro.liveWind.ExtraInfoHelp.getInfoFromIntent;
+import static livewind.example.andro.liveWind.ExtraInfoHelp.getWindsurferFromIntent;
+import static livewind.example.andro.liveWind.ExtraInfoHelp.putInfoToIntent;
+import static livewind.example.andro.liveWind.ExtraInfoHelp.putWindsurferToIntent;
+import static livewind.example.andro.liveWind.firebase.FirebaseHelp.removePoints;
+
+/**
+ * Created by JGJ on 10/10/18.
+ * Header added during refactoring add 10/04/2019 by JGJ.
+ *
+ * Display single coverage and give users possibility to like, comment and "join it" it.
+ *
+ */
 public class EventActivity extends AppCompatActivity {
 
+    /** Views **/
+    //Event Views
     private TextView mPlaceTextView;
     private TextView mDateTextView;
     private TextView mWaveSizeTextView;
@@ -72,77 +87,98 @@ public class EventActivity extends AppCompatActivity {
     private ImageView mPhotoImageView;
     private ImageView mNoPhotoImageView;
     private ImageView mCountryImageView;
-
-    private String CHANNEL_ID = "3";
-    /**
-     * FOR ADDING MEMBERS
-     */
-
-    // private String mEventId;
-    //   private String yourUsername = "";
-    private Windsurfer mWindsurfer = new Windsurfer();
-
-    private ListView mMemberListView;
-    private MemberAdapter mMemberAdapter;
-    final List<MyMember> myMembers = new ArrayList<>();
+    //"Joint it" views
     private TextView mMemberNumberTextView;
-
-    /**
-     * FOR THANKS
-     */
-    private DatabaseReference mThanksDatabaseReference;
-    private DatabaseReference mThanksSizeDatabaseReference;
-    private DatabaseReference mUserDatabaseReference;
+    private ListView mMemberListView;
+    //"Thanks / Like" views
     private TextView mThanksNumberTextView;
-    final List<MyMember> myThanks = new ArrayList<>();
-    ChildEventListener mChildThanksListener;
-    /**
-     * FOR EDITING EVENTS
-     */
-    private Event mEvent;
-    private DatabaseReference mEventsDatabaseReference;
-    ExtraInfoHelp mExtraInfoHelp = new ExtraInfoHelp();
-    FirebaseHelp mFirebaseHelp = new FirebaseHelp();
-
-    /**
-     * FIREBASE
-     */
-    private FirebaseDatabase mFirebaseDatabase = FirebaseDatabase.getInstance();
-    private DatabaseReference mMembersDatabaseReference;
-    ChildEventListener mChildMemberListener;
-    private DatabaseReference mCurrentTimeReference;
-    private FirebaseStorage mFirebaseStorage;
-    private StorageReference mEventsStorageReference;
-    private DatabaseReference mSharesDatabaseReference;
-
-    /**
-     * COMMENTS
-     */
-    private DatabaseReference mCommentsDatabaseReference;
+    //"Comment" views
     private ListView mCommentsListView;
-    final List<Comment> myComments = new ArrayList<>();
-    ChildEventListener mChildCommentListener;
-    private CommentAdapter mCommentAdapter;
     private TextView hideAllCommentsTextView;
     private TextView showAllCommentsTextView;
     private TextView mCommentsTitleTextView;
+    //"Share" views
+    private TextView mSharesNumberTextView;
+    //FABs
+    private FloatingActionButton mJoinFAB;
+    private FloatingActionButton mThanksFAB;
+    private FloatingActionButton mCommentFAB;
+    //EmptyView -> Coverage isn't exist yet (for deleted coverages opened from notification)
+    private TextView mDeletedCoverageInfoTextView;
 
-    /**
-     * SHARING
-     */
+    /** Current user and event data **/
+    private Event mEvent;
+    private Windsurfer mWindsurfer = new Windsurfer();
+
+    /** FIREBASE **/
+    //TODO Add dbHelper and Contract and clean it...
+    private FirebaseDatabase mFirebaseDatabase = FirebaseDatabase.getInstance();
+    private DatabaseReference mMembersDatabaseReference;
+    private DatabaseReference mEventsDatabaseReference;
+    private DatabaseReference mThanksDatabaseReference;
+    private DatabaseReference mThanksSizeDatabaseReference;
+    private DatabaseReference mUserDatabaseReference;
+    private ChildEventListener mChildThanksListener;
+    private ChildEventListener mChildMemberListener;
+    private ChildEventListener mChildCommentListener;
+    private DatabaseReference mCurrentTimeReference;
+    private FirebaseStorage mFirebaseStorage;
+    private DatabaseReference mSharesDatabaseReference;
+    private DatabaseReference mCommentsDatabaseReference;
+
+    /** "JOIN IT" Option */
+    private final List<MyMember> myMembers = new ArrayList<>();
+    private MemberAdapter mMemberAdapter;
+
+    /** "Thanks / Like" Option */
+    private final List<MyMember> myThanks = new ArrayList<>();
+
+    /** "Comment" Option */
+    private final List<Comment> myComments = new ArrayList<>();
+    private CommentAdapter mCommentAdapter;
+
+    /** "Share" Option */
     private String defaultPhotoUrl = "http://surf-advisor.info/";
     private String countryEmoji = "";
-    private TextView mSharesNumberTextView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(livewind.example.andro.liveWind.R.layout.activity_event);
-
-
+        initViews();
+        //Load coverage data from intent
         final Intent intent = getIntent();
-        //  getLoaderManager().initLoader(EXISTING_EVENT_LOADER, null, this);
+        mEvent = new Event();
+        getInfoFromIntent(intent, mEvent, getApplicationContext());
 
-        // Find all relevant views that we will need to read user input from
+        //Firebase
+        initFirebaseVariables();
+
+        //Init adapters and set them to listViews
+        mCommentAdapter = new CommentAdapter(this, myComments, 0);
+        mCommentsListView.setAdapter(mCommentAdapter);
+        mMemberAdapter = new MemberAdapter(this, myMembers, 0);
+        mMemberListView.setAdapter(mMemberAdapter);
+
+        displayCoverage();
+        attachDatabaseReadListener();
+
+        //Load user data from intent or from firebase
+        getWindsurferFromIntent(intent,mWindsurfer, getApplicationContext());
+        if(mWindsurfer.getUsername().equals(MyFirebaseMessagingService.NOTIFICATION_NEW_COVERAGE)){
+            //If this activity is open from notification we have to download data from firebase
+            UserHelper.downloadUserData(mWindsurfer,EventActivity.this);
+            checkEventExist(); // Check that event still exist -> if exist initialize FABs
+        } else {
+            setupFABs();
+        }
+
+    }
+
+    /**
+     * Init methods
+     */
+    private void initViews() {
         mPlaceTextView = (TextView) findViewById(livewind.example.andro.liveWind.R.id.event_place_text_view);
         mDateTextView = (TextView) findViewById(R.id.event_date_text_view);
         mWindPowerTextView = (TextView) findViewById(livewind.example.andro.liveWind.R.id.event_wind_power_text_view);
@@ -152,16 +188,17 @@ public class EventActivity extends AppCompatActivity {
         mNoPhotoImageView = findViewById(R.id.no_photo_image_view);
         mThanksNumberTextView = (TextView) findViewById(livewind.example.andro.liveWind.R.id.event_thanks_number_text_view);
         mMemberNumberTextView = (TextView) findViewById(R.id.event_members_number_text_view);
-
         mCountryImageView = (ImageView) findViewById(R.id.event_flag_image_view);
         mWindPowerUnitTextView = (TextView) findViewById(R.id.event_wind_power_unit_text_view);
         mCommentsTitleTextView = findViewById(R.id.event_activity_comments_title);
+        mCommentsListView = (ListView) findViewById(R.id.event_comments_list);
         mSharesNumberTextView = findViewById(R.id.event_shares_number_text_view);
-
-        //Load event data
-        mEvent = new Event();
-        mExtraInfoHelp.getInfoFromIntent(intent, mEvent, getApplicationContext());
-        //FIREBASE
+        mMemberListView = (ListView) findViewById(livewind.example.andro.liveWind.R.id.members_list_view);
+        mJoinFAB = (FloatingActionButton) findViewById(livewind.example.andro.liveWind.R.id.join_event_fab);
+        mThanksFAB = (FloatingActionButton) findViewById(livewind.example.andro.liveWind.R.id.thanks_event_fab);
+        mDeletedCoverageInfoTextView = findViewById(R.id.event_activity_coverage_no_exist);
+    }
+    private void initFirebaseVariables() {
         //For adding members
         mMembersDatabaseReference = mFirebaseDatabase.getReference().child("events").child(mEvent.getId()).child("mMembers");
         //For thanks
@@ -171,81 +208,22 @@ public class EventActivity extends AppCompatActivity {
         //For deleting events
         mEventsDatabaseReference = mFirebaseDatabase.getReference().child("events");
         mSharesDatabaseReference = mFirebaseDatabase.getReference().child("events").child(mEvent.getId()).child("mSharesCounter");
-
         mCurrentTimeReference = mFirebaseDatabase.getReference().child("currentTime");
+        //For comments
+        mCommentsDatabaseReference = mFirebaseDatabase.getReference().child("events").child(mEvent.getId()).child("mUsersComments");
+
         //For deleting photos with relation
         mFirebaseStorage = FirebaseStorage.getInstance();
-        mEventsStorageReference = mFirebaseStorage.getReference().child("events_photos");
-        mWindsurfer = mExtraInfoHelp.getWindsurferFromIntent(intent, getApplicationContext());
-        // Update the views on the screen with the values from the database
+    }
+
+    /**
+     * Display coverage using data from mEvent
+     */
+    private void displayCoverage(){
         mPlaceTextView.setText(mEvent.getPlace());
         mSharesNumberTextView.setText(Integer.toString(mEvent.getmSharesCounter()));
         setEventDurationOnDateTextView(mEvent,mDateTextView);
-        //mDateTextView.setText(mEvent.getDate());
-        /**
-         *  COMMENTS
-         */
-        mCommentsDatabaseReference = mFirebaseDatabase.getReference().child("events").child(mEvent.getId()).child("mUsersComments");
-        mCommentsListView = (ListView) findViewById(R.id.event_comments_list);
-        mCommentAdapter = new CommentAdapter(this, myComments, 0);
-        mCommentsListView.setAdapter(mCommentAdapter);
-
-        /** Color of icon according to wind power */
-        int windPowerInBft = 0;
-        double windPowerInSailSize = 0;
-        if (mEvent.getWindPower() >= 0 && mEvent.getWindPower() <= 3) {
-            windPowerInBft=1;
-            windPowerInSailSize=13;
-        } else if (mEvent.getWindPower() >= 4 && mEvent.getWindPower() <= 6) {
-            windPowerInBft=2;
-            windPowerInSailSize=12.5;
-        } else if (mEvent.getWindPower() >= 7 && mEvent.getWindPower() <= 10) {
-            windPowerInBft=3;
-            windPowerInSailSize=11.5;
-        } else if (mEvent.getWindPower() >= 11 && mEvent.getWindPower() <= 13) {
-            windPowerInBft=4;
-            windPowerInSailSize=9.5;
-        } else if (mEvent.getWindPower() >= 14 && mEvent.getWindPower() <= 16) {
-            windPowerInBft=4;
-            windPowerInSailSize=7.5;
-        }else if (mEvent.getWindPower() >= 17 && mEvent.getWindPower() <= 19) {
-            windPowerInBft=5;
-            windPowerInSailSize=6.0;
-        } else if (mEvent.getWindPower() >= 20 && mEvent.getWindPower() <= 21) {
-            windPowerInBft=5;
-            windPowerInSailSize=5.3;
-        } else if (mEvent.getWindPower() >= 22 && mEvent.getWindPower() <= 24) {
-            windPowerInBft=6;
-            windPowerInSailSize=4.8;
-        } else if (mEvent.getWindPower() >= 25 && mEvent.getWindPower() <= 27) {
-            windPowerInBft=6;
-            windPowerInSailSize=4.2;
-        } else if (mEvent.getWindPower() >= 28 && mEvent.getWindPower() <= 30) {
-            windPowerInBft=7;
-            windPowerInSailSize=3.7;
-        } else if (mEvent.getWindPower() >= 31 && mEvent.getWindPower() <= 33) {
-            windPowerInBft=7;
-            windPowerInSailSize=3.5;
-        } else if (mEvent.getWindPower() >= 34 && mEvent.getWindPower() <= 36) {
-            windPowerInBft=8;
-            windPowerInSailSize=3.3;
-        } else if (mEvent.getWindPower() >= 37 && mEvent.getWindPower() <= 40) {
-            windPowerInBft=8;
-            windPowerInSailSize=3.0;
-        } else if (mEvent.getWindPower() >= 41 && mEvent.getWindPower() <= 47) {
-            windPowerInBft=9;
-            windPowerInSailSize=3.0;
-        }else if (mEvent.getWindPower() >= 48 && mEvent.getWindPower() <= 55) {
-            windPowerInBft=10;
-            windPowerInSailSize=3.0;
-        }else if (mEvent.getWindPower() >= 56 && mEvent.getWindPower() <= 63) {
-            windPowerInBft=11;
-            windPowerInSailSize=3.0;
-        }else if (mEvent.getWindPower() >= 64) {
-            windPowerInBft=12;
-            windPowerInSailSize=-1.0;
-        } else {
-        }
+        //Wind power and wind unit
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         int windPowerUnit = Integer.parseInt(sharedPrefs.getString(getApplicationContext().getString(R.string.settings_display_wind_power_key),"1"));
         switch (windPowerUnit){
@@ -255,19 +233,21 @@ public class EventActivity extends AppCompatActivity {
                 break;
             case EventContract.EventEntry.UNIT_BEAUFORT:
                 mWindPowerUnitTextView.setText(R.string.unit_wind_bft);
-                mWindPowerTextView.setText(Integer.toString(windPowerInBft));
+                mWindPowerTextView.setText(Integer.toString(Event.knotsToBft(mEvent.getWindPower())));
                 break;
             case EventContract.EventEntry.UNIT_SAILS_SIZE:
                 mWindPowerUnitTextView.setText(R.string.unit_wind_sail_size);
-                mWindPowerTextView.setText(Double.toString(windPowerInSailSize));
+                mWindPowerTextView.setText(Double.toString(Event.knotsToSailSize(mEvent.getWindPower())));
                 break;
             default:
                 mWindPowerUnitTextView.setText(R.string.unit_wind_kn);
-                mWindPowerTextView.setText(Double.toString(windPowerInSailSize));
+                mWindPowerTextView.setText(Integer.toString(mEvent.getWindPower()));
                 break;
         }
+        //Wave size
         mWaveSizeTextView.setText(Double.toString(mEvent.getWaveSize()));
 
+        //Wind direction:
         switch (mEvent.getConditions()) {
             case EventContract.EventEntry.CONDITIONS_ONSHORE:
                 mConditionsTextView.setText(livewind.example.andro.liveWind.R.string.conditions_onshore);
@@ -328,6 +308,7 @@ public class EventActivity extends AppCompatActivity {
                 break;
         }
 
+        //Country
         switch(mEvent.getCountry()) {
             case EventContract.EventEntry.COUNTRY_WORLD:
                 mCountryImageView.setImageResource(R.drawable.flag_world);
@@ -416,6 +397,16 @@ public class EventActivity extends AppCompatActivity {
                 break;
         }
 
+        //Coverage photo
+        loadPhoto();
+
+        //Join, likes, shares counters:
+        mMemberNumberTextView.setText(Integer.toString(myMembers.size()));
+        mThanksNumberTextView.setText(Integer.toString(myThanks.size()));
+        //Comments
+        setupCommentsViews();
+    }
+    private void loadPhoto(){
         final ProgressBar progressBar = (ProgressBar) findViewById(livewind.example.andro.liveWind.R.id.progress);
         if(!mEvent.getPhotoUrl().isEmpty()) {
             Glide.with(mPhotoImageView.getContext())
@@ -440,22 +431,48 @@ public class EventActivity extends AppCompatActivity {
             mNoPhotoImageView.setVisibility(View.VISIBLE);
             mPhotoImageView.setVisibility(View.GONE);
             progressBar.setVisibility(View.GONE);
-            //mPhotoImageView.setImageResource(R.drawable.event_activity_no_photo);
         }
-
-
-        //MEMBERS
-        mMemberListView = (ListView) findViewById(livewind.example.andro.liveWind.R.id.members_list_view);
-        // Initialize events ListView and its adapter
-
-        mMemberAdapter = new MemberAdapter(this, myMembers, 0);
-        mMemberListView.setAdapter(mMemberAdapter);
-        attachDatabaseReadListener();
-
-        mMemberNumberTextView.setText(Integer.toString(myMembers.size()));
-        // Setup FAB to open EventActivity to join an event
-        FloatingActionButton joinFAB = (FloatingActionButton) findViewById(livewind.example.andro.liveWind.R.id.join_event_fab);
-        joinFAB.setOnClickListener(new View.OnClickListener() {
+    }
+    private void setupCommentsViews(){
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+        lp.setMargins(48, 16, 48, 16);
+        mCommentsListView.setLayoutParams(lp);
+        hideAllCommentsTextView = findViewById(R.id.event_hide_all_comments_text_view);
+        hideAllCommentsTextView.setVisibility(View.GONE);
+        showAllCommentsTextView = findViewById(R.id.event_show_all_comments_text_view);
+        if(mCommentAdapter.isEmpty()){
+            mCommentsTitleTextView.setVisibility(View.GONE);
+            showAllCommentsTextView.setVisibility(View.GONE);
+            ListViewHelp.setListViewHeightBasedOnChildren(mCommentsListView);
+        } else if (mCommentAdapter.getCount()==1) {
+            mCommentsTitleTextView.setVisibility(View.VISIBLE);
+            showAllCommentsTextView.setVisibility(View.GONE);
+            ListViewHelp.setListViewHeightBasedOnChildren(mCommentsListView);
+        } else {
+            mCommentsTitleTextView.setVisibility(View.VISIBLE);
+            showAllCommentsTextView.setVisibility(View.VISIBLE);
+        }
+        showAllCommentsTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                hideAllCommentsTextView.setVisibility(View.VISIBLE);
+                showAllCommentsTextView.setVisibility(View.GONE);
+                ListViewHelp.setListViewHeightBasedOnChildren(mCommentsListView);
+            }
+        });
+        hideAllCommentsTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                hideAllCommentsTextView.setVisibility(View.GONE);
+                showAllCommentsTextView.setVisibility(View.VISIBLE);
+                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+                lp.setMargins(48, 16, 48, 16);
+                mCommentsListView.setLayoutParams(lp);
+            }
+        });
+    }
+    private void setupFABs(){
+        mJoinFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -486,11 +503,9 @@ public class EventActivity extends AppCompatActivity {
                 });
             }
         });
-        //Setup FAB THANKS to thank for add event
 
-        mThanksNumberTextView.setText(Integer.toString(myThanks.size()));
-        FloatingActionButton thanksFAB = (FloatingActionButton) findViewById(livewind.example.andro.liveWind.R.id.thanks_event_fab);
-        thanksFAB.setOnClickListener(new View.OnClickListener() {
+
+        mThanksFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -539,57 +554,16 @@ public class EventActivity extends AppCompatActivity {
                 });
             }
         });
-
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
-        lp.setMargins(48, 16, 48, 16);
-        mCommentsListView.setLayoutParams(lp);
-        hideAllCommentsTextView = findViewById(R.id.event_hide_all_comments_text_view);
-        hideAllCommentsTextView.setVisibility(View.GONE);
-        showAllCommentsTextView = findViewById(R.id.event_show_all_comments_text_view);
-        if(mCommentAdapter.isEmpty()){
-            mCommentsTitleTextView.setVisibility(View.GONE);
-            showAllCommentsTextView.setVisibility(View.GONE);
-            ListViewHelp.setListViewHeightBasedOnChildren(mCommentsListView);
-        } else if (mCommentAdapter.getCount()==1) {
-            mCommentsTitleTextView.setVisibility(View.VISIBLE);
-            showAllCommentsTextView.setVisibility(View.GONE);
-            ListViewHelp.setListViewHeightBasedOnChildren(mCommentsListView);
-        } else {
-            mCommentsTitleTextView.setVisibility(View.VISIBLE);
-            showAllCommentsTextView.setVisibility(View.VISIBLE);
-        }
-        showAllCommentsTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                hideAllCommentsTextView.setVisibility(View.VISIBLE);
-                showAllCommentsTextView.setVisibility(View.GONE);
-                ListViewHelp.setListViewHeightBasedOnChildren(mCommentsListView);
-            }
-        });
-        hideAllCommentsTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                hideAllCommentsTextView.setVisibility(View.GONE);
-                showAllCommentsTextView.setVisibility(View.VISIBLE);
-                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
-                lp.setMargins(48, 16, 48, 16);
-                mCommentsListView.setLayoutParams(lp);
-            }
-        });
-
-        FloatingActionButton commentFAB = (FloatingActionButton) findViewById(livewind.example.andro.liveWind.R.id.comment_event_fab);
-        commentFAB.setOnClickListener(new View.OnClickListener() {
+        mCommentFAB = (FloatingActionButton) findViewById(livewind.example.andro.liveWind.R.id.comment_event_fab);
+        mCommentFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 showAddCommentDialog();
             }
         });
-
-
-
     }
-
     private void attachDatabaseReadListener() {
+        //TODO clean it...
         if (mChildMemberListener == null) {
             mChildMemberListener = new ChildEventListener() {
                 @Override
@@ -687,7 +661,6 @@ public class EventActivity extends AppCompatActivity {
         }
     }
 
-
     /**
      * ************************ MENU ***************************
      */
@@ -734,28 +707,13 @@ public class EventActivity extends AppCompatActivity {
                 showDeleteConfirmationDialog();
                 return true;
             case R.id.action_share_facebook:
-                String quoteToShareFB =
-                        getEmojiByUnicode(0x1F30D)+
-                                getResources().getString(R.string.share_quote_place)+mEvent.getPlace() +" "+ countryEmoji+ ":\n" +
-                                getEmojiByUnicode(0x1F55B)+
-                                getResources().getString(R.string.share_quote_time)+mDateTextView.getText().toString().trim()+ "\n" +
-                                getEmojiByUnicode(0x1F4A8)+
-                                getResources().getString(R.string.share_quote_wind)+mEvent.getWindPower()+ "kn\n" +
-                                getEmojiByUnicode(0x1F30A)+
-                                getResources().getString(R.string.share_quote_wave)+mEvent.getWaveSize()+ "m\n" +
-                                getEmojiByUnicode(0x1F6A9)+
-                                getResources().getString(R.string.share_quote_conditions)+mConditionsTextView.getText().toString()+ "\n" +
-                                getEmojiByUnicode(0x1F4DD)+
-                                getResources().getString(R.string.share_quote_comment)+mEvent.getComment()+ "\n\n" +
-                                getEmojiByUnicode(0x1F3C4)+
-                                getResources().getString(R.string.share_quote_foot);
                 //SHARING TO FACEBOOK
                 if(!mEvent.getPhotoUrl().isEmpty()){
                     defaultPhotoUrl=mEvent.getPhotoUrl();
                 }
                 ShareLinkContent content = new ShareLinkContent.Builder()
                         .setContentUrl(Uri.parse(defaultPhotoUrl))
-                        .setQuote(quoteToShareFB)
+                        .setQuote(getShareToFbQuote())
                         .build();
                 ShareDialog share = new ShareDialog(EventActivity.this);
                 if(share.canShow(content,ShareDialog.Mode.NATIVE)) {
@@ -773,28 +731,9 @@ public class EventActivity extends AppCompatActivity {
                 return true;
             case R.id.action_share_messenger:
                 try {
-                    String quoteToShareM =
-                            getEmojiByUnicode(0x1F30D)+
-                                    getResources().getString(R.string.share_quote_place)+mEvent.getPlace()+" "+ countryEmoji+ ":\n" +
-                                    getEmojiByUnicode(0x1F55B)+
-                                    getResources().getString(R.string.share_quote_time)+mDateTextView.getText().toString().trim()+ "\n" +
-                                    getEmojiByUnicode(0x1F4A8)+
-                                    getResources().getString(R.string.share_quote_wind)+mEvent.getWindPower()+ "kn\n" +
-                                    getEmojiByUnicode(0x1F30A)+
-                                    getResources().getString(R.string.share_quote_wave)+mEvent.getWaveSize()+ "m\n" +
-                                    getEmojiByUnicode(0x1F6A9)+
-                                    getResources().getString(R.string.share_quote_conditions)+mConditionsTextView.getText().toString()+ "\n" +
-                                    getEmojiByUnicode(0x1F4DD)+
-                                    getResources().getString(R.string.share_quote_comment)+mEvent.getComment()+ "\n";
-                                    if(!mEvent.getPhotoUrl().isEmpty()){
-                                        quoteToShareM = quoteToShareM + getEmojiByUnicode(0x1F4F7) + getResources().getString(R.string.share_quote_photo)+mEvent.getPhotoUrl() +"\n\n";
-                                    }
-                                    quoteToShareM = quoteToShareM +
-                                    getEmojiByUnicode(0x1F3C4)+
-                                    getResources().getString(R.string.share_quote_foot);
                     Intent sendIntent = new Intent();
                     sendIntent.setAction(Intent.ACTION_SEND);
-                    sendIntent.putExtra(Intent.EXTRA_TEXT, quoteToShareM);
+                    sendIntent.putExtra(Intent.EXTRA_TEXT, getShareToMessengerQuote());
                     sendIntent.setType("text/plain");
                     sendIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     sendIntent.setPackage("com.facebook.orca");
@@ -806,31 +745,11 @@ public class EventActivity extends AppCompatActivity {
                 return true;
             case R.id.action_share_other:
                 try {
-                    String quoteToShareM =
-                            getEmojiByUnicode(0x1F30D)+
-                                    getResources().getString(R.string.share_quote_place)+mEvent.getPlace()+" "+ countryEmoji+ ":\n" +
-                                    getEmojiByUnicode(0x1F55B)+
-                                    getResources().getString(R.string.share_quote_time)+mDateTextView.getText().toString().trim()+ "\n" +
-                                    getEmojiByUnicode(0x1F4A8)+
-                                    getResources().getString(R.string.share_quote_wind)+mEvent.getWindPower()+ "kn\n" +
-                                    getEmojiByUnicode(0x1F30A)+
-                                    getResources().getString(R.string.share_quote_wave)+mEvent.getWaveSize()+ "m\n" +
-                                    getEmojiByUnicode(0x1F6A9)+
-                                    getResources().getString(R.string.share_quote_conditions)+mConditionsTextView.getText().toString()+ "\n" +
-                                    getEmojiByUnicode(0x1F4DD)+
-                                    getResources().getString(R.string.share_quote_comment)+mEvent.getComment()+ "\n";
-                    if(!mEvent.getPhotoUrl().isEmpty()){
-                        quoteToShareM = quoteToShareM + getEmojiByUnicode(0x1F4F7) + getResources().getString(R.string.share_quote_photo)+mEvent.getPhotoUrl() +"\n\n";
-                    }
-                    quoteToShareM = quoteToShareM +
-                            getEmojiByUnicode(0x1F3C4)+
-                            getResources().getString(R.string.share_quote_foot);
                     Intent sendIntent = new Intent();
                     sendIntent.setAction(Intent.ACTION_SEND);
-                    sendIntent.putExtra(Intent.EXTRA_TEXT, quoteToShareM);
+                    sendIntent.putExtra(Intent.EXTRA_TEXT, getShareToMessengerQuote());
                     sendIntent.setType("text/plain");
                     sendIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    //sendIntent.setPackage("com.facebook.orca");
                     sharesPlusOne();
                     startActivity(Intent.createChooser(sendIntent,getString(R.string.share)));
                 } catch (ActivityNotFoundException e) {
@@ -838,9 +757,8 @@ public class EventActivity extends AppCompatActivity {
                 }
                 return true;
             case android.R.id.home:
-                // If the pet hasn't changed, continue with navigating up to parent activity
-                // which is the {@link CatalogActivity}.
-                NavUtils.navigateUpFromSameTask(EventActivity.this);
+                Intent intent = new Intent(EventActivity.this,CatalogActivity.class);
+                startActivity(intent);
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -851,7 +769,8 @@ public class EventActivity extends AppCompatActivity {
      */
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+        Intent intent = new Intent(EventActivity.this,CatalogActivity.class);
+        startActivity(intent);
         return;
     }
 
@@ -886,7 +805,7 @@ public class EventActivity extends AppCompatActivity {
     }
 
     /**
-     * Perform the deletion of the pet in the database.
+     * Perform the deletion of the coverage in the database - available only for creator
      */
     private void deleteEvent() {
         // Only perform the delete if this is an existing event.
@@ -895,7 +814,7 @@ public class EventActivity extends AppCompatActivity {
                 StorageReference ref = mFirebaseStorage.getReferenceFromUrl(mEvent.getPhotoUrl());
                 ref.delete();
             }
-            mFirebaseHelp.removePoints(mEvent.getmUserUId(), EventContract.EventEntry.IT_IS_EVENT);
+            removePoints(mEvent.getmUserUId(), EventContract.EventEntry.IT_IS_EVENT);
             mEventsDatabaseReference.child(mEvent.getId()).removeValue();
 
             // Show a toast message depending on whether or not the delete was successful.
@@ -914,34 +833,21 @@ public class EventActivity extends AppCompatActivity {
         finish();
     }
 
+    /**
+     * Edit coverage - available only for creator
+     */
     private void editEvent() {
         Intent intent = new Intent(EventActivity.this, EditorActivity.class);
-        mExtraInfoHelp.putInfoToIntent(intent, mEvent, mWindsurfer.getUsername(), getApplicationContext());
-        mExtraInfoHelp.putWindsurferToIntent(intent, mWindsurfer, getApplicationContext());
+        putInfoToIntent(intent, mEvent, mWindsurfer.getUsername(), getApplicationContext());
+        putWindsurferToIntent(intent, mWindsurfer, getApplicationContext());
         // Launch the {@link EditorActivity} to display the data for the current event
         startActivity(intent);
     }
 
     /**
-     * I THINK THAT I NEED CLOUD FUNCTIONS :(
-     * public void showThanksNotification(){
-     * // Create an explicit intent for an Activity in your app
-     * Intent notificationIntent = new Intent(this, CatalogActivity.class);
-     * notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-     * PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
-     * <p>
-     * final NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, CHANNEL_ID)
-     * .setSmallIcon(R.drawable.windsurfing_icon)
-     * .setContentTitle("Someone thanks you!")
-     * .setContentText("Forecast added by you in "+mEvent.getPlace()+" gets new thanks.")
-     * .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-     * // Set the intent that will fire when the user taps the notification
-     * .setContentIntent(pendingIntent)
-     * .setAutoCancel(true);
-     * <p>
-     * NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-     * notificationManager.notify(123, mBuilder.build());
-     * }
+     * Calculate and set event duration (current time is downloaded from firebase)
+     * @param event - coverage from them we can get time of creation
+     * @param view - view to set duration time
      */
     public void setEventDurationOnDateTextView(final Event event,final TextView view){
         mCurrentTimeReference.addValueEventListener(new ValueEventListener() {
@@ -975,13 +881,14 @@ public class EventActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
             }
         });
-       // mCurrentTimeReference.addListenerForSingleValueEvent(listener);
     }
 
-    // Show select photo action
+
+    /**
+     * Method for creation comment dialog
+     */
     private void showAddCommentDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this, livewind.example.andro.liveWind.R.style.DialogeTheme);
         LayoutInflater inflater = this.getLayoutInflater();
@@ -989,7 +896,6 @@ public class EventActivity extends AppCompatActivity {
 
         final EditText commentEditText = dialogView.findViewById(R.id.activity_event_dialog_add_comment_edit_text);
         builder.setView(dialogView)
-                //builder.setView(gridView)
                 .setPositiveButton(livewind.example.andro.liveWind.R.string.dialog_add, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
@@ -1009,7 +915,6 @@ public class EventActivity extends AppCompatActivity {
                                         mCommentAdapter.add(newComment);
                                         mCommentAdapter.sort();
                                         mCommentsDatabaseReference.child(id).setValue(newComment);
-                                        //ListViewHelp.setListViewHeightBasedOnChildren(mCommentsListView);
                                         Toast.makeText(EventActivity.this, getString(R.string.event_activity_comment_added), Toast.LENGTH_SHORT).show();
                                         mCommentsDatabaseReference.removeEventListener(mChildCommentListener);
                                         query.removeEventListener(this);
@@ -1027,7 +932,6 @@ public class EventActivity extends AppCompatActivity {
                                             ListViewHelp.setListViewHeightBasedOnChildren(mCommentsListView);
                                         }
                                     } else {
-                                        //Toast.makeText(EventActivity.this, "KOMENTARZ PODWÓJNY", Toast.LENGTH_SHORT).show();
                                         query.removeEventListener(this);
                                     }
                                 }
@@ -1046,13 +950,68 @@ public class EventActivity extends AppCompatActivity {
         alertDialog.show();
         ((Button)alertDialog.findViewById(android.R.id.button1)).setBackgroundResource(livewind.example.andro.liveWind.R.drawable.custom_button);
     }
+
+    /**
+     * Get Emoji by them unicode
+     * @param unicode - unicode of emoji
+     * @return String that is emoji (if unicode is correct)
+     */
     public String getEmojiByUnicode(int unicode){
         return new String(Character.toChars(unicode));
     }
 
+    /**
+     * Make quote to share on facebook
+     * @return quote to share on fb
+     */
+    private String getShareToFbQuote(){
+        String quoteToShareFB =
+                getEmojiByUnicode(0x1F30D)+
+                        getResources().getString(R.string.share_quote_place)+mEvent.getPlace() +" "+ countryEmoji+ ":\n" +
+                        getEmojiByUnicode(0x1F55B)+
+                        getResources().getString(R.string.share_quote_time)+mDateTextView.getText().toString().trim()+ "\n" +
+                        getEmojiByUnicode(0x1F4A8)+
+                        getResources().getString(R.string.share_quote_wind)+mEvent.getWindPower()+ "kn\n" +
+                        getEmojiByUnicode(0x1F30A)+
+                        getResources().getString(R.string.share_quote_wave)+mEvent.getWaveSize()+ "m\n" +
+                        getEmojiByUnicode(0x1F6A9)+
+                        getResources().getString(R.string.share_quote_conditions)+mConditionsTextView.getText().toString()+ "\n" +
+                        getEmojiByUnicode(0x1F4DD)+
+                        getResources().getString(R.string.share_quote_comment)+mEvent.getComment()+ "\n\n" +
+                        getEmojiByUnicode(0x1F3C4)+
+                        getResources().getString(R.string.share_quote_foot);
+        return quoteToShareFB;
+    }
+    /**
+     * Make quote to share on messenger
+     * @return quote to share on messenger
+     */
+    private String getShareToMessengerQuote(){
+        String quoteToShareM =
+                getEmojiByUnicode(0x1F30D)+
+                        getResources().getString(R.string.share_quote_place)+mEvent.getPlace()+" "+ countryEmoji+ ":\n" +
+                        getEmojiByUnicode(0x1F55B)+
+                        getResources().getString(R.string.share_quote_time)+mDateTextView.getText().toString().trim()+ "\n" +
+                        getEmojiByUnicode(0x1F4A8)+
+                        getResources().getString(R.string.share_quote_wind)+mEvent.getWindPower()+ "kn\n" +
+                        getEmojiByUnicode(0x1F30A)+
+                        getResources().getString(R.string.share_quote_wave)+mEvent.getWaveSize()+ "m\n" +
+                        getEmojiByUnicode(0x1F6A9)+
+                        getResources().getString(R.string.share_quote_conditions)+mConditionsTextView.getText().toString()+ "\n" +
+                        getEmojiByUnicode(0x1F4DD)+
+                        getResources().getString(R.string.share_quote_comment)+mEvent.getComment()+ "\n";
+        if(!mEvent.getPhotoUrl().isEmpty()){
+            quoteToShareM = quoteToShareM + getEmojiByUnicode(0x1F4F7) + getResources().getString(R.string.share_quote_photo)+mEvent.getPhotoUrl() +"\n\n";
+        }
+        quoteToShareM = quoteToShareM +
+                getEmojiByUnicode(0x1F3C4)+
+                getResources().getString(R.string.share_quote_foot);
+        return quoteToShareM;
+    }
 
-
-    //Add points for created an event
+    /**
+     * Change shares counter method
+     */
     public void sharesPlusOne(){
         mSharesDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -1069,5 +1028,30 @@ public class EventActivity extends AppCompatActivity {
             }
         });
     }
+
+    /**
+     * Method to handle coverages open from notification that doesn't exist now:
+     * If coverage isn't exist in firebase method isn't initialize FABs and show Toast and special textView
+     */
+    public void checkEventExist() {
+        mEventsDatabaseReference.child(mEvent.getId()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    mEvent = dataSnapshot.getValue(Event.class);
+                    setupFABs();
+                    displayCoverage(); // Updated displayed coverage data
+                } else {
+                    mDeletedCoverageInfoTextView.setVisibility(View.VISIBLE);
+                    Toast.makeText(getApplicationContext(), "Sorry, this coverage was deleted... HC", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
+    }
+
 
 }

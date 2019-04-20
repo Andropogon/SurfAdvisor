@@ -54,6 +54,8 @@ import java.util.Map;
 
 import livewind.example.andro.liveWind.data.EventContract;
 
+import static livewind.example.andro.liveWind.ExtraInfoHelp.getWindsurferFromIntent;
+
 /**
  * Allows user to create a new event or edit an existing one.
  */
@@ -193,7 +195,7 @@ public class EditorActivity extends AppCompatActivity {
 
 
         //Get windsurfer data
-        mWindsurfer = mExtraInfoHelp.getWindsurferFromIntent(intent,getApplicationContext());
+        getWindsurferFromIntent(intent,mWindsurfer,getApplicationContext());
 
         setupTypeSpinner();
         setupConditionsSpinner();
@@ -445,7 +447,7 @@ public class EditorActivity extends AppCompatActivity {
                     Log.i("ADD RELATION",mWindsurfer.getUid());
                     //New event
                     String id = mEventsDatabaseReference.push().getKey();
-                    Event newEventData = new Event(id, mWindsurfer.getUsername(), mWindsurfer.getUid(), placeString,mCountry, mType, wind_power, wave_size, mConditions, commentString, mEventPhotoUrl , mWindsurfer.getPhotoName(),EditorActivity.this);
+                    Event newEventData = new Event(EditorActivity.this, id, mWindsurfer.getUsername(), mWindsurfer.getUid(), placeString,mCountry, mType, wind_power, wave_size, mConditions, commentString, mEventPhotoUrl , mWindsurfer.getPhotoName());
                     mEventsDatabaseReference.child(id).setValue(newEventData);
                     //save creation timestamp
                     Map<String, Object> value = new HashMap<>();
@@ -511,7 +513,7 @@ public class EditorActivity extends AppCompatActivity {
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
-        // If this is a new pet, hide the "Delete" menu item.
+        // If this is a new event, hide the "Delete" menu item.
         if (mEvent == null) {
             MenuItem menuItem = menu.findItem(livewind.example.andro.liveWind.R.id.action_delete);
             menuItem.setVisible(false);
@@ -626,20 +628,19 @@ public class EditorActivity extends AppCompatActivity {
      */
     private void showDeleteConfirmationDialog() {
         // Create an AlertDialog.Builder and set the message, and click listeners
-        // for the postivie and negative buttons on the dialog.
+        // for the positive and negative buttons on the dialog.
         AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AlertDialogStyle);
         builder.setMessage(livewind.example.andro.liveWind.R.string.delete_dialog_msg);
         builder.setPositiveButton(livewind.example.andro.liveWind.R.string.delete, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 // Windsurfer clicked the "Delete" button, so delete the event and remove 5 points.
-
                 deleteEvent();
             }
         });
         builder.setNegativeButton(livewind.example.andro.liveWind.R.string.cancel, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 // Windsurfer clicked the "Cancel" button, so dismiss the dialog
-                // and continue editing the pet.
+                // and continue editing.
                 if (dialog != null) {
                     dialog.dismiss();
                 }

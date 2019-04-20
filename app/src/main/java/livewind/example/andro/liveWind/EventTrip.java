@@ -1,134 +1,184 @@
 package livewind.example.andro.liveWind;
 
 import android.widget.Spinner;
-
 import livewind.example.andro.liveWind.data.EventContract;
 
+/**
+ * Created by JGJ on 25/10/18.
+ * Header added during refactoring add 05/04/2019 by JGJ.
+ *
+ * Class for trips, with wrongly designed the inheritance tree on which the database is built. (now I couldn't change it because users use database)
+ * It's why Event extends EventTrip (not opposite) and I use strange initEventTrip constructor
+ *
+ */
 public class EventTrip{
     protected String startPlace;
     protected int startCountry;
     protected String startDate;
+    protected long timestampStartDate;
     protected int character;
     protected int transport;
-    protected long timestampStartDate;
     protected int windsurfingAvailable;
     protected int kitesurfingAvailable;
     protected int surfingAvailable;
-
     protected int cost;
     protected int costDiscount;
     protected int currency;
     protected String costAbout;
-
     protected int displayAs;
 
     EventTrip(){
+        //It difference trip from coverage
         startDate="DEFAULT";
     }
 
-    void setStartPlace(String mStartPlace){
+    /**
+     * This constructor is separating EventTrip attributes from Event attributes in Event constructor (for trips).
+     * It is required because I have wrongly designed the inheritance tree on which the database is built. (now I couldn't change it because users use database
+     */
+    EventTrip(String startPlace, int startCountry, String startDate, int transport, int character, int cost, int costDiscount, int currency, String costAbout, int windsurfingAvailable, int kitesurfingAvailable, int surfingAvailable, int displayAs){
+        this.startPlace=startPlace;
+        this.startCountry=startCountry;
+        this.startDate=startDate;
+        this.transport=transport;
+        this.character=character;
+        this.cost=cost;
+        this.costDiscount=costDiscount;
+        this.currency=currency;
+        this.costAbout=costAbout;
+        this.windsurfingAvailable=windsurfingAvailable;
+        this.kitesurfingAvailable=kitesurfingAvailable;
+        this.surfingAvailable=surfingAvailable;
+        this.displayAs=displayAs;
+    }
+
+    /**
+     *  Set methods
+     */
+    public void setStartPlace(String mStartPlace){
         startPlace=mStartPlace;
     }
-    void setStartDate(String mStartDate){
-        startDate=mStartDate;
-    }
-    void setTransport(int mTransport){
-        transport=mTransport;
-    }
-    void setCharacter(int mCharacter){
-        character=mCharacter;
-    }
-    void setCost(int mCost){cost=mCost;}
-
-    public void setCostAbout(String costAbout) {
-        this.costAbout = costAbout;
-    }
-
-    public String getStartPlace(){
-        return startPlace;
-    }
-    public String getStartDate(){
-        return startDate;
-    }
-    public int getTransport(){
-        return transport;
-    }
-    public int getCharacter(){
-        return character;
-    }
-
-    public int getCost() {
-        return cost;
-    }
-
-    public String getCostAbout() {
-        return costAbout;
-    }
-
-    public long getTimestampStartDate() {
-        return timestampStartDate;
-    }
-
-    public void setCurrency(int currency) {
-        this.currency = currency;
-    }
-
-    public int getCurrency() {
-        return currency;
-    }
-
-    public void setTimestampStartDate(long timestampStartDate) {
-        this.timestampStartDate = timestampStartDate;
-    }
-
     public void setStartCountry(int startCountry) {
         this.startCountry = startCountry;
     }
-
-    public int getStartCountry() {
-        return startCountry;
+    public void setStartDate(String mStartDate){
+        startDate=mStartDate;
     }
-
-    public int getKitesurfingAvailable() {
-        return kitesurfingAvailable;
+    public void setTimestampStartDate(long timestampStartDate) {
+        this.timestampStartDate = timestampStartDate;
     }
-
-    public int getSurfingAvailable() {
-        return surfingAvailable;
+    public void setCharacter(int mCharacter){
+        character=mCharacter;
     }
-
-    public int getWindsurfingAvailable() {
-        return windsurfingAvailable;
+    public void setTransport(int mTransport){
+        transport=mTransport;
     }
-
-    public void setKitesurfingAvailable(int kitesurfingAvailable) {
-        this.kitesurfingAvailable = kitesurfingAvailable;
-    }
-
-    public void setSurfingAvailable(int surfingAvailable) {
-        this.surfingAvailable = surfingAvailable;
-    }
-
     public void setWindsurfingAvailable(int windsurfingAvailable) {
         this.windsurfingAvailable = windsurfingAvailable;
     }
-
-    public int getCostDiscount() {
-        return costDiscount;
+    public void setKitesurfingAvailable(int kitesurfingAvailable) {
+        this.kitesurfingAvailable = kitesurfingAvailable;
     }
-
+    public void setSurfingAvailable(int surfingAvailable) {
+        this.surfingAvailable = surfingAvailable;
+    }
+    public void setCost(int mCost){cost=mCost;}
     public void setCostDiscount(int costDiscount) {
         this.costDiscount = costDiscount;
     }
-
+    public void setCostAbout(String costAbout) {
+        this.costAbout = costAbout;
+    }
+    public void setCurrency(int currency) {
+        this.currency = currency;
+    }
     public void setDisplayAs(int displayAs) {
         this.displayAs = displayAs;
     }
 
+    /**
+     * Get methods
+     */
+    public String getStartPlace(){
+        return startPlace;
+    }
+    public int getStartCountry() {
+        return startCountry;
+    }
+    public String getStartDate(){
+        return startDate;
+    }
+    public long getTimestampStartDate() {
+        return timestampStartDate;
+    }
+    public int getCharacter(){
+        return character;
+    }
+    public int getTransport(){
+        return transport;
+    }
+    public int getWindsurfingAvailable() {
+        return windsurfingAvailable;
+    }
+    public int getKitesurfingAvailable() {
+        return kitesurfingAvailable;
+    }
+    public int getSurfingAvailable() {
+        return surfingAvailable;
+    }
+    public int getCost() {
+        return cost;
+    }
+    public int getCostDiscount() {
+        return costDiscount;
+    }
+    public String getCostAbout() {
+        return costAbout;
+    }
+    public int getCurrency() {
+        return currency;
+    }
     public int getDisplayAs() {
         return displayAs;
     }
 
+
+    /**
+     * Check windsurfing availability
+     * @return true if this sport is available to learn on this trip
+     */
+    public boolean checkWindsurfingAvailability(){
+        if(windsurfingAvailable==EventContract.EventEntry.TRIP_AVAILABLE_COURSE ||windsurfingAvailable==EventContract.EventEntry.TRIP_AVAILABLE_YES ||windsurfingAvailable==EventContract.EventEntry.TRIP_AVAILABLE_INSTRUCTOR_COURSE){
+            return true;
+        } else {
+            return false;
+        }
+    }
+    /**
+     * Check Kitesurfing availability
+     * @return true if this sport is available to learn on this trip
+     */
+    public boolean checkKitesurfingAvailability(){
+        if(kitesurfingAvailable==EventContract.EventEntry.TRIP_AVAILABLE_COURSE || kitesurfingAvailable==EventContract.EventEntry.TRIP_AVAILABLE_YES || kitesurfingAvailable==EventContract.EventEntry.TRIP_AVAILABLE_INSTRUCTOR_COURSE){
+            return true;
+        } else {
+            return false;
+        }
+    }
+    /**
+     * Check Surfing availability
+     * @return true if this sport is available to learn on this trip
+     */
+    public boolean checkSurfingAvailability(){
+        if(surfingAvailable==EventContract.EventEntry.TRIP_AVAILABLE_COURSE || surfingAvailable==EventContract.EventEntry.TRIP_AVAILABLE_YES || surfingAvailable==EventContract.EventEntry.TRIP_AVAILABLE_INSTRUCTOR_COURSE){
+            return true;
+        } else {
+            return false;
+        }
+    }
+    /**
+     * Additional method for spinner - //TODO this method should be deleted from here
+     */
     public void loadStartCountrySpinner(Spinner startCountrySpinner) {
         switch (startCountry) {
             case EventContract.EventEntry.COUNTRY_POLAND:

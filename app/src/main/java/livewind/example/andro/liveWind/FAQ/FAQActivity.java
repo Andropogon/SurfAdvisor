@@ -2,18 +2,15 @@ package livewind.example.andro.liveWind.FAQ;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
 
-import livewind.example.andro.liveWind.CatalogActivity;
 import livewind.example.andro.liveWind.R;
 
-import static livewind.example.andro.liveWind.CatalogActivity.FACEBOOK_PAGE_ID;
-import static livewind.example.andro.liveWind.CatalogActivity.FACEBOOK_URL;
+import static livewind.example.andro.liveWind.HelpClasses.SocialHelper.getFacebookPageURL;
 
 public class FAQActivity extends AppCompatActivity {
 
@@ -50,16 +47,5 @@ public class FAQActivity extends AppCompatActivity {
         intent.putExtra(Intent.EXTRA_SUBJECT, "[SurfAdvisor FAQ] ");
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(Intent.createChooser(intent, context.getString(R.string.choose_email_client)));
-    }
-
-    //method to get the right URL to use in the intent
-    public String getFacebookPageURL(Context context) {
-        PackageManager packageManager = context.getPackageManager();
-        try {
-            int versionCode = packageManager.getPackageInfo("com.facebook.katana", 0).versionCode;
-            return "fb://page/" + FACEBOOK_PAGE_ID;
-        } catch (PackageManager.NameNotFoundException e) {
-            return FACEBOOK_URL; //normal web url
-        }
     }
 }

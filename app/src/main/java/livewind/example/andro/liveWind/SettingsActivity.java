@@ -12,7 +12,9 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.EditTextPreference;
 import android.preference.ListPreference;
+import android.preference.MultiSelectListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceCategory;
@@ -160,8 +162,14 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             // guidelines.
 
             SwitchPreference mChangeDisplay = (SwitchPreference) findPreference(getString(R.string.settings_display_boolean_key));
+            EditTextPreference mCostFilter = (EditTextPreference) findPreference(getString(R.string.settings_filter_cost_key));
+            MultiSelectListPreference mSportsFilter = (MultiSelectListPreference) findPreference(getString(R.string.settings_filter_sports_key));
             PreferenceCategory mCategory = (PreferenceCategory) findPreference("pref_key_settings_title_display");
             mCategory.removePreference(mChangeDisplay);
+            mCategory.removePreference(mCostFilter);
+            mCategory.removePreference(mSportsFilter);
+            //mCategory.removePreference(mFromTimestamp);
+            //mCategory.removePreference(mToTimestamp);
 
             bindPreferenceSummaryToValue(findPreference(getString(livewind.example.andro.liveWind.R.string.settings_user_phone_key)));
             bindPreferenceSummaryToValue(findPreference(getString(livewind.example.andro.liveWind.R.string.settings_user_email_key)));
@@ -173,9 +181,10 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
          //   bindPreferenceSummaryToValue(findPreference(getString(R.string.settings_display_trips)));
             bindPreferenceSummaryToValue(findPreference(getString(livewind.example.andro.liveWind.R.string.settings_display_sorting_events_by_key)));
             bindPreferenceSummaryToValue(findPreference(getString(livewind.example.andro.liveWind.R.string.settings_display_sorting_trips_by_key)));
+            bindPreferenceSummaryToValue(findPreference(getString(R.string.settings_display_sorting_order_trips_by_key)));
             bindPreferenceSummaryToValue(findPreference(getString(R.string.settings_display_wind_power_key)));
             bindPreferenceSummaryToValue(findPreference(getString(R.string.settings_display_trips_key)));
-            bindPreferenceSummaryToValue(findPreference(getString(R.string.settings_filter_cost_key)));
+            //bindPreferenceSummaryToValue(findPreference(getString(R.string.settings_filter_cost_key)));
             //bindPreferenceSummaryToValue(findPreference(getString(R.string.settings_filter_date_from_key)));
             //bindPreferenceSummaryToValue(findPreference(getString(R.string.settings_filter_date_to_key)));
             // feedback preference click listener

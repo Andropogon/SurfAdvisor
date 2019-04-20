@@ -1,20 +1,13 @@
 package livewind.example.andro.liveWind.data;
-
-import android.content.ContentProvider;
-import android.content.ContentResolver;
-import android.content.UriMatcher;
-import android.net.Uri;
 import android.provider.BaseColumns;
 
-import java.net.URI;
 
 public final class EventContract {
 
     private EventContract() {}
 
     /**
-     * Inner class that defines constant values for the pets database table.
-     * Each entry in the table represents a single pet.
+     * Inner class that defines constant values for the event database.
      */
     public static final class EventEntry implements BaseColumns {
 

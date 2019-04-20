@@ -1,6 +1,7 @@
 package livewind.example.andro.liveWind;
 
 
+import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
@@ -16,6 +17,8 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -46,6 +49,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import livewind.example.andro.liveWind.data.EventContract;
+
+import static livewind.example.andro.liveWind.ExtraInfoHelp.getWindsurferFromIntent;
 
 public class EventTripActivity extends AppCompatActivity {
 
@@ -114,6 +119,7 @@ public class EventTripActivity extends AppCompatActivity {
         setContentView(livewind.example.andro.liveWind.R.layout.activity_trip_event);
 
         final Intent intent = getIntent();
+
         //  getLoaderManager().initLoader(EXISTING_EVENT_LOADER, null, this);
       //  yourUsername = intent.getStringExtra("EXTRA_MY_USERNAME");
         // Find all relevant views that we will need to read user input from
@@ -158,7 +164,7 @@ public class EventTripActivity extends AppCompatActivity {
         //Load event data
         mEvent = new Event();
         mExtraInfoHelp.getInfoFromIntent(intent, mEvent,getApplicationContext());
-        mWindsurfer = mExtraInfoHelp.getWindsurferFromIntent(intent, getApplicationContext());
+        getWindsurferFromIntent(intent, mWindsurfer,getApplicationContext());
         // Update the views on the screen with the values from the database
         mPlaceTextView.setText(mEvent.getPlace());
         mDateTextView.setText(mEvent.getDate());
@@ -220,9 +226,13 @@ public class EventTripActivity extends AppCompatActivity {
         //if startCountry == 1000 it is CAMP
         if(mEvent.getStartCountry()==EventContract.EventEntry.IT_IS_CAMP){
             if(mEvent.getDisplayAs()==EventContract.EventEntry.DISPLAY_AS_CAMP) {
-                setTitle(getString(R.string.event_trip_activity_title_camp));
+                //setTitle(getString(R.string.event_trip_activity_title_camp));
+                android.support.v7.app.ActionBar actionbar = this.getSupportActionBar();
+                actionbar.setTitle(Html.fromHtml("<small><small>"+getResources().getString(R.string.event_trip_activity_title_camp)+"</small></small>"));
             } else {
-                setTitle(getString(R.string.event_trip_activity_title_training));
+                //setTitle(getString(R.string.event_trip_activity_title_training));
+                android.support.v7.app.ActionBar actionbar = this.getSupportActionBar();
+                actionbar.setTitle(Html.fromHtml("<small><small>"+getResources().getString(R.string.event_trip_activity_title_training)+"</small></small>"));
             }
             mDateStartCampTextView.setText(mEvent.getStartDate());
             mStartCountryImageView.setVisibility(View.GONE);

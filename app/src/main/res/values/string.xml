@@ -144,6 +144,7 @@
     <string name="event_activity_dialog_add_comment_max">Max 160 characters</string>
     <string name="event_activity_dialog_write_comment">Write your comment here</string>
     <string name="event_activity_comment_creator">Creator comment</string>
+    <string name="event_activity_coverage_no_exist">This coverage was probably deleted yet!</string>
 
     <string name="extra_place">EXTRA_PLACE</string>
     <string name="extra_date">EXTRA_DATE</string>
@@ -254,11 +255,15 @@
     <string name="settings_display_trips_key">Display_trips_key</string>
     <string name="settings_display_wind_power_key">Choose_wind_unit_key</string>
     <string name="settings_display_sorting_trips_by_key">sort_trips_key</string>
+    <string name="settings_display_sorting_order_trips_by_key">sort_order_trips_key</string>
     <string name="settings_notifications_allow_key">notifications_key</string>
+    <string name="settings_notifications_allow_about_new_coverage_key">notifications_new_coverage_key</string>
     <string name="settings_feedback_send_key">feedback_key</string>
     <string name="settings_display_countries_key">interested_countries_key</string>
+    <string name="settings_display_coverages_countries_key">interested_coverages_countries_key</string>
     <!-- Filter keys !-->
     <string name="settings_filter_cost_key">Cost_key</string>
+    <string name="settings_filter_currency_key">Currency_key</string>
     <string name="settings_filter_date_from_key">Date_from_key</string>
     <string name="settings_filter_date_to_key">Date_to_key</string>
     <string name="settings_filter_sports_key">Sports_key</string>
@@ -276,8 +281,8 @@
     <string name="settings_display_sorting_events_by">Sort spot coverage by:</string>
     <string name="settings_display_trips_title">Choose camps displaying settings</string>
     <string name="display_trips_from_and_to">Display camps from and to countries you\'re interested in</string>
-    <string name="display_trips_from">Dispaly countries only from countries you\'re interested in</string>
-    <string name="display_trips_to">Dispaly countries only to countries you\'re interested in</string>
+    <string name="display_trips_from">Dispaly camps only from countries you\'re interested in</string>
+    <string name="display_trips_to">Dispaly camps only to countries you\'re interested in</string>
     <string name="sorting_event_by_date">Date</string>
     <string name="sorting_event_by_members">Number of participants</string>
     <string name="sorting_event_by_wind_power">Wind speed</string>
@@ -289,6 +294,8 @@
     <string name="settings_display_sorting_trips_by">Sort trips by:</string>
     <string name="sorting_trips_by_date">Date</string>
     <string name="sorting_trips_by_cost">Price</string>
+    <string name="sorting_order_trips_increase">Increase</string>
+    <string name="sorting_order_trips_decrease">Decrease</string>
     <string name="sorting_trips_by_type">Type (private or company-organised)</string>
     <string name="settings_title_notifications">Notifications settings</string>
     <string name="settings_notifications_allow">Allow notifications</string>
@@ -297,7 +304,8 @@
     <string name="settings_feedback_send">Send feedback</string>
     <string name="settings_feedback_send_summary">Send feedback to developer</string>
     <string name="choose_email_client">Choose email client</string>
-    <string name="settings_display_countries_title">Choose countries you\'re interested in</string>
+    <string name="settings_display_countries_title">[Trip] Choose countries you\'re interested in</string>
+    <string name="settings_display_coverages_countries_title">[Coverage] Choose countries you\'re interested in</string>
     <!-- ERROR STRINGS !-->
     <string name="error_TAG">ERROR</string>
 
@@ -455,7 +463,7 @@
     <string name="about_activity_dialog_donate_method_google_pay">Google Pay</string>
 
     <!-- Shared preferences- nie trzeba tłumaczyć -->
-    <string name="user_uid_shared_preference">User_nickname_shared_preference</string>
+    <string name="user_uid_shared_preference">User_uid_shared_preference</string>
     <string name="user_tokenId_shared_preference">User_tokenId_shared_preference</string>
 
     <!-- Toast messages dd-->
@@ -497,6 +505,7 @@
     <string name="notification_relation_liked_title">Someone liked your coverage!</string>
     <string name="notification_relation_liked_text1">Your coverage from </string>
     <string name="notification_relation_liked_text2"> was liked (</string>
+    <string name="notification_new_coverage_title">"New coverage from "</string>
 
     <!-- Events Categories -->
     <string name="category_event_relation">Live Coverage</string>
@@ -552,5 +561,47 @@
     <string name="share_trip_quote_contact">" Contact: "</string>
     <string name="share_trip_quote_foot">" Trip from app: http://surf-advisor.info/"</string>
 
+    <!-- Filter trips activity -->
+    <string name="filter_trips_title">Filtry wyjazdów i wycieczek</string>
+    <string name="filter_trips_subtitle">Sprecyzuj czego szukasz...</string>
+    <string name="filter_trips_date">Data wyjazdu</string>
+    <string name="filter_trips_countries">Kraje, które Cie interesują</string>
+    <string name="filter_trips_countries_display_preferences">Preferencje wyświetlania krajów</string>
+    <string name="filter_trips_sports">Sporty, które Cie interesują</string>
+    <string name="filter_trips_sports_dialog_title">Wybierz interesujące Cie sporty</string>
+    <string name="filter_trips_cost">Maksymalna cena</string>
+    <string name="filter_trips_search">Szukaj</string>
+    <string name="filter_trips_set_default">Set default</string>
+    <string name="filter_trips_sort">Sortuj po</string>
+    <string name="filter_trips_set_default_warning">Czy na pewno chcesz ustawić domyślne ustawienia filtrów?</string>
+    <string name="filter_trips_dismiss_changes_warning">Czy na pewno nie chcesz zapisać wybranych ustawień filtrów?</string>
+    <!-- Filter trips activity toasts -->
+    <string name="filter_trips_bad_date_toast">Data wyjazdu nie może być późniejsza niż data powrotu</string>
+    <string name="filter_trips_bad_countries_toast">Musisz zaznaczyć conajmniej jeden kraj</string>
+    <string name="filter_trips_bad_sports_toast">Musisz zaznaczyć conajmniej jeden interesujący Cie sport</string>
+    <string name="filter_trips_bad_cost_toast">Koszt wycieczki niestety nie może być równy zeru lub ujemny :) Żaden z naszych partnerów nie dopłaca za wybór ich wycieczki</string>
+    <string name="filter_trips_bad_unknown_toast">Nieznany błąd związany z filtrami - skontaktuj się z developerem</string>
 
+    <!-- Topic notification system keys -->
+    <string name="country_number_0_key">All_world</string>
+    <string name="country_number_1_key">Poland</string>
+    <string name="country_number_2_key">Greece</string>
+    <string name="country_number_3_key">Spain</string>
+    <string name="country_number_4_key">Croatia</string>
+    <string name="country_number_5_key">Portugal</string>
+    <string name="country_number_6_key">Germany</string>
+    <string name="country_number_7_key">France</string>
+    <string name="country_number_8_key">South_Africa</string>
+    <string name="country_number_9_key">Morocco</string>
+    <string name="country_number_10_key">Italy</string>
+    <string name="country_number_11_key">Egypt</string>
+    <string name="country_number_12_key">United_Kingdom</string>
+    <string name="country_number_13_key">Turkey</string>
+    <string name="country_number_14_key">Austria</string>
+    <string name="country_number_15_key">Denmark</string>
+    <string name="country_number_16_key">Brazil</string>
+    <string name="country_number_17_key">USA</string>
+    <string name="country_number_18_key">Vietnam</string>
+    <string name="country_number_19_key">Malta</string>
+    <string name="country_number_20_key">Other_countries</string>
 </resources>

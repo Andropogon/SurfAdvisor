@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -618,5 +619,4 @@
         android:src="@drawable/user_icon_shaka_24"
         app:backgroundTint="@color/floating_buttons_my"
         app:fabSize="normal" />
-
 </android.support.design.widget.CoordinatorLayout>

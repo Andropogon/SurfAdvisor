@@ -26,7 +26,6 @@
     <color name="editorColorPrimaryDark">#007C8C</color>
 
     <color name="whiteColor">#ffffff</color>
-    <color name="blackColor">#000000</color>
     <color name="enterTextColor">#414D45</color>
     <color name="creatorTextColor">#CDDC39</color>
     <color name="memberTextColor">#414D45</color>
@@ -58,7 +57,7 @@
     <color name="app_main_color">#abf0d1</color>
     <color name="colorPrimary2">#90dae3</color>
     <color name="colorPrimaryDark2">#0093c4</color>
-    <color name="colorSecondary2">#000000</color>
+    <color name="blackColor">#000000</color>
     <color name="auth_bg_buttons">#ffffff</color>
     <color name="auth_text_color">#000000</color>
     <color name="auth_text">#ffffff</color>
@@ -69,9 +68,12 @@
     <color name="blue_from_car_darker">#59daec</color>
     <color name="main_text_color">#000000</color> <!-- !!!197c20 #90dae3  #a4dec6 #b3f5fd-->
     <color name="dialog_background">#ffffff</color>
-
+    <color name="error_color">#7b0d0d</color>
     <color name="light_red">#fe0000</color>
     <color name="dark_red">#7b0d0d</color>
     <color name="light_green">#44b400</color>
     <color name="dark_green">#003f04</color>
+
+    <color name="notifications_color">#59daec</color>
+    <color name="filter_background">#FBF3F1</color>
 </resources>

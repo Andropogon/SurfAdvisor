@@ -16,17 +16,20 @@
         <item name="colorPrimary">@color/app_mint</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark2</item>
         <item name="colorAccent">#46bdbf</item>
+
         <item name="android:fontFamily">@font/dosis_light</item>
         <item name="android:windowBackground">@color/app_main_color</item>
         <item name="android:textColorSecondary">@color/blackColor</item>
     </style>
 
     <style name="EventThem" parent="Theme.AppCompat.DayNight">
+        <item name="android:textSize">10sp</item>
         <item name="colorPrimary">@color/app_main_color</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark2</item>
         <item name="android:fontFamily">@font/dosis_light</item>
         <item name="colorAccent">@color/dark_green</item>
     </style>
+
 
     <style name="eventInfoCommentTextVerySmall">
         <item name="android:layout_height">wrap_content</item>
@@ -99,7 +102,7 @@
     <style name="loginBackgroundStyle">
         <item name="colorPrimary">@color/colorPrimary2</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark2</item>
-        <item name="colorAccent">@color/colorSecondary2</item>
+        <item name="colorAccent">@color/blackColor</item>
         <item name="android:windowBackground">@color/app_main_color</item>
     </style>
 
@@ -110,7 +113,7 @@
         <item name="windowNoTitle">true</item>
         <item name="colorPrimary">@color/colorPrimary2</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark2</item>
-        <item name="colorAccent">@color/colorSecondary2</item>
+        <item name="colorAccent">@color/blackColor</item>
         <item name="android:windowBackground">@color/app_main_color</item>
     </style>
 
@@ -158,11 +161,9 @@
         <item name="android:textColorPrimary">@color/blackColor</item>
     </style>
 
-    <style name="AlertDialogStyle" parent="Base.Theme.AppCompat.Dialog.Alert"> <!-- This theme has black settings icons -->
+    <style name="AlertDialogStyle" parent="Theme.AppCompat.Dialog.Alert"> <!-- This theme has black settings icons -->
         <item name="colorPrimary">@color/app_mint</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/blackColor</item>
-        <item name="android:windowBackground">@color/whiteColor</item>
         <item name="android:background">@color/app_main_color</item>
         <item name="android:fontFamily">@font/dosis_light</item>
         <!-- active thumb & track color (30% transparency) -->
@@ -183,4 +184,11 @@
         <item name="android:background">?android:attr/listDivider</item>
     </style>
 
+    <style name="DividerFilter">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:layout_marginRight">20dp</item>
+        <item name="android:layout_marginLeft">20dp</item>
+        <item name="android:background">@color/app_main_color</item>
+    </style>
 </resources>

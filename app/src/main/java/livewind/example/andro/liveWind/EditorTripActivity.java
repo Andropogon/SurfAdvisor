@@ -49,6 +49,8 @@ import java.util.Map;
 
 import livewind.example.andro.liveWind.data.EventContract;
 
+import static livewind.example.andro.liveWind.ExtraInfoHelp.getWindsurferFromIntent;
+
 /**
  * Allows user to create a new tripEvent or edit an existing one.
  */
@@ -219,7 +221,7 @@ public class EditorTripActivity extends AppCompatActivity {
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         mEventsDatabaseReference = mFirebaseDatabase.getReference().child("events");
 
-        mWindsurfer = mExtraInfoHelp.getWindsurferFromIntent(intent,getApplicationContext());
+        getWindsurferFromIntent(intent,mWindsurfer,getApplicationContext());
 
         //Check that is new event or not.
         if (intent.getStringExtra(getString(R.string.EXTRA_EVENT_PLACE)) == null) {
@@ -364,7 +366,7 @@ public class EditorTripActivity extends AppCompatActivity {
         });
     }
     /**
-     * Setup the dropdown spinner that allows the user to select the gender of the pet.
+     * Setup the dropdown spinner that allows the user to select the cost currency
      */
     private void setupCurrencySpinner() {
         // Create adapter for spinner. The list options are from the String array it will use
@@ -807,7 +809,7 @@ public class EditorTripActivity extends AppCompatActivity {
                     Contact loadContact = new Contact(contactPhoneString, contactEmailString, contactWebString);
                     String id = mEventsDatabaseReference.push().getKey();
                     //Event newEventData = new Event(id, mWindsurfer.getUsername(), startPlaceString, mStartCountry, placeString, mCountry, startDateString, dateString, commentString, mTransport, mCharacter, cost, mCurrency, costAboutString, loadContact, mWindsurfingAvailable, mKitesurfingAvailable,mSurfingAvailable);
-                    Event newEventData = new Event(id, mWindsurfer, startPlaceString, mStartCountry, placeString, mCountry, startDateString, dateString, commentString, mTransport, mCharacter, cost, costDiscount, mCurrency, costAboutString, loadContact, mWindsurfingAvailable, mKitesurfingAvailable,mSurfingAvailable,mDisplayAs,EditorTripActivity.this);
+                    Event newEventData = new Event(EditorTripActivity.this, id, mWindsurfer, startPlaceString, mStartCountry, placeString, mCountry, startDateString, dateString, commentString, mTransport, mCharacter, cost, costDiscount, mCurrency, costAboutString, loadContact, mWindsurfingAvailable, mKitesurfingAvailable,mSurfingAvailable,mDisplayAs);
                     mEventsDatabaseReference.child(id).setValue(newEventData);
                     Map<String, Object> value = new HashMap<>();
                     long myTimeStamp = 1000000000;

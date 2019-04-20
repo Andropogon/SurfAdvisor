@@ -5,7 +5,7 @@
         <shape>
             <stroke
                 android:width="3dp"
-                android:color="@color/colorSecondary2" />
+                android:color="@color/blackColor" />
             <corners
                 android:radius="3dp" />
             <padding

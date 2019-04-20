@@ -257,6 +257,7 @@
     <string name="settings_notifications_allow_key">notifications_key</string>
     <string name="settings_feedback_send_key">feedback_key</string>
     <string name="settings_display_countries_key">interested_countries_key</string>
+    <string name="settings_display_coverages_countries_key">interested_coverages_countries_key</string>
 
     <!-- SETTINGS STRINGS !-->
     <string name="settings_title_discount">Kod SurfAdvisor na specjalne ceny u naszych partnerów</string>
@@ -284,6 +285,8 @@
     <string name="settings_display_sorting_trips_by">Sortuj wycieczki po:</string>
     <string name="sorting_trips_by_date">Dacie</string>
     <string name="sorting_trips_by_cost">Koszcie</string>
+    <string name="sorting_order_trips_increase">Rosnąco</string>
+    <string name="sorting_order_trips_decrease">Malejąco</string>
     <string name="sorting_trips_by_type">Typie (prywatna lub zorganizowana)</string>
     <string name="settings_title_notifications">Opcje dotyczące powiadomień</string>
     <string name="settings_notifications_allow">Zezwól na powiadomienia</string>
@@ -292,7 +295,8 @@
     <string name="settings_feedback_send">Wyślij feedback</string>
     <string name="settings_feedback_send_summary">Prześlij uwagi do programisty</string>
     <string name="choose_email_client">Choose email client</string>
-    <string name="settings_display_countries_title">"Wybierz interesujące Cie kraje"</string>
+    <string name="settings_display_countries_title">"[Wycieczki] Wybierz interesujące Cie kraje"</string>
+    <string name="settings_display_coverages_countries_title">[Relacje] Wybierz interesujące Cie kraje</string>
     <!-- ERROR STRINGS !-->
     <string name="error_TAG">ERROR</string>
 
@@ -452,7 +456,7 @@
     <string name="about_activity_dialog_donate_method_google_pay">Google Pay</string>
 
     <!-- Shared preferences- nie trzeba tłumaczyć -->
-    <string name="user_uid_shared_preference">User_nickname_shared_preference</string>
+    <string name="user_uid_shared_preference">User_uid_shared_preference</string>
     <string name="user_tokenId_shared_preference">User_tokenId_shared_preference</string>
 
     <!-- Toast messages -->
@@ -494,6 +498,7 @@
     <string name="notification_relation_liked_title">Ktoś polubił Twoją relacje!</string>
     <string name="notification_relation_liked_text1">Twoja relacja z </string>
     <string name="notification_relation_liked_text2"> została polubiona (</string>
+    <string name="notification_new_coverage_title">"Nowa relacja z "</string>
 
     <!-- Events Categories -->
     <string name="category_event_relation">Relacja Live</string>
@@ -548,4 +553,14 @@
     <string name="share_trip_quote_comment">" Opis wyjazdu: "</string>
     <string name="share_trip_quote_contact">" Kontakt: "</string>
     <string name="share_trip_quote_foot">" Wyjazd z aplikacji: http://surf-advisor.info/"</string>
+
+    <!-- Filter trips activity -->
+    <string name="filter_trips_title">Filtry wyjazdów i wycieczek</string>
+    <string name="filter_trips_subtitle">Sprecyzuj czego szukasz...</string>
+    <string name="filter_trips_date">Data wyjazdu</string>
+    <string name="filter_trips_countries">Kraje, które Cie interesują</string>
+    <string name="filter_trips_sports">Sporty, które Cie interesują</string>
+    <string name="filter_trips_cost">Maksymalna cena</string>
+    <string name="filter_trips_search">Szukaj</string>
+    <string name="filter_trips_set_default">Ustaw domyślne</string>
 </resources>

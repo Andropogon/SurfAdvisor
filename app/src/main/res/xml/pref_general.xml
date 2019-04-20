@@ -57,6 +57,15 @@
             android:entries="@array/array_countries_options"
             android:entryValues="@array/array_countries_options_values"
             />
+        <MultiSelectListPreference
+            android:defaultValue="@array/first_array"
+            android:dialogTitle="@string/settings_display_countries_title"
+            android:key="@string/settings_display_coverages_countries_key"
+            android:summary=""
+            android:title="@string/settings_display_coverages_countries_title"
+            android:entries="@array/array_countries_options"
+            android:entryValues="@array/array_countries_options_values"
+            />
         <ListPreference
             android:title="@string/settings_display_trips_title"
             android:key="@string/settings_display_trips_key"
@@ -78,6 +87,18 @@
             android:key="@string/settings_display_boolean_key"
             android:title="@string/settings_display_boolean"
             android:visibility="gone" />
+        <EditTextPreference
+            android:defaultValue="10000"
+            android:visibility="gone"
+            android:key="@string/settings_filter_cost_key" />
+        <MultiSelectListPreference
+            android:defaultValue="@array/array_sports_default"
+            android:key="@string/settings_filter_sports_key"
+            android:summary=""
+            android:entries="@array/array_filter_sports"
+            android:entryValues="@array/array_filter_sports"
+            />
+\\
         <!-- NOTE: Hide buttons to simplify the UI. Users can touch outside the dialog to
              dismiss it. -->
         <!-- NOTE: ListPreference's summary should be set to its value by the activity code. -->
@@ -92,9 +113,17 @@
         <ListPreference
             android:title="@string/settings_display_sorting_trips_by"
             android:key="@string/settings_display_sorting_trips_by_key"
-            android:defaultValue="1"
+            android:defaultValue="0"
             android:entries="@array/array_sorting_trips_options"
             android:entryValues="@array/array_sorting_trips_optionsValues"
+            android:negativeButtonText="@null"
+            android:positiveButtonText="@null" />
+        <ListPreference
+            android:title="@string/settings_display_sorting_order_trips_by_key"
+            android:key="@string/settings_display_sorting_order_trips_by_key"
+            android:defaultValue="1"
+            android:entries="@array/array_sorting_order_options"
+            android:entryValues="@array/array_sorting_order_trips_optionsValues"
             android:negativeButtonText="@null"
             android:positiveButtonText="@null" />
     </PreferenceCategory>
@@ -103,6 +132,10 @@
         android:key="pref_key_settings_title_notifications">
         <SwitchPreference
             android:title="@string/settings_notifications_allow"
+            android:key="@string/settings_notifications_allow_key"
+            android:defaultValue="true" />
+        <SwitchPreference
+            android:title="Allow notification about new coverage HC"
             android:key="@string/settings_notifications_allow_key"
             android:defaultValue="true" />
     </PreferenceCategory>
@@ -115,12 +148,6 @@
             android:summary="@string/settings_feedback_send_summary"
             android:defaultValue="true" />
     </PreferenceCategory>
-    <EditTextPreference
-        android:inputType="number"
-        android:key="@string/settings_filter_cost_key"
-        android:maxLines="1"
-        android:selectAllOnFocus="true"
-        android:singleLine="true"
-        android:title="Filter cost" />
+
 
 </PreferenceScreen>

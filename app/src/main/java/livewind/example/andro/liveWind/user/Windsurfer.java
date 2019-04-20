@@ -42,6 +42,21 @@ public class Windsurfer {
 
     }
 
+    public void loadWindsurferData(String mUsername, String mEmail, int mPoints, int mCreatedEvents, int mCreatedTrips, Context context){
+        username=mUsername;
+        email = mEmail;
+        points=mPoints;
+        createdEvents=mCreatedEvents;
+        createdTrips=mCreatedTrips;
+        activeEventsLimit=2;
+        activeTripsLimit=1;
+        activeEvents=0;
+        activeTrips=0;
+        //TODO change to user real icon
+        photoName = context.getResources().getResourceEntryName(R.drawable.user_icon_shaka_24);
+        photoLargeName = context.getResources().getResourceEntryName(R.drawable.user_icon_shaka_100);
+    }
+
     public void setUsername(String username) {
         this.username = username;
     }
