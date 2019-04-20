@@ -16,7 +16,44 @@
         android:maxLines="2"
         android:background="@color/dialog_background"
         android:text="@string/catalog_activity_dialog_select_country_title"/>
-
+    <RelativeLayout
+        android:id="@+id/select_country_dialog_receive_notification_ll"
+        android:visibility="gone"
+        android:padding="8dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="12dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/select_country_dialog_receive_notification_ic"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_notifications_active_black_24dp"
+            android:layout_margin="8dp" />
+        <TextView
+            android:id="@+id/select_country_dialog_receive_notification_text_view"
+            style="@style/eventInfoTextSmall"
+            android:paddingLeft="8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@id/select_country_dialog_receive_notification_switch"
+            android:layout_toRightOf="@id/select_country_dialog_receive_notification_ic"
+            android:minLines="1"
+            android:maxLines="3"
+            android:text="Otrzymuj powiadomienia o nowych relacjach z interesujących Cie krajów"/>
+        <CheckBox
+            android:id="@+id/select_country_dialog_receive_notification_switch"
+            android:layout_alignParentRight="true"
+            android:paddingLeft="6dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true" />
+    </RelativeLayout>
+    <View style="@style/Divider"
+        android:layout_width="match_parent"
+        android:layout_marginRight="0dp"
+        android:layout_marginLeft="0dp"/>
 
     <ListView
         android:background="@drawable/bg_for_selecting_profile_icon"
