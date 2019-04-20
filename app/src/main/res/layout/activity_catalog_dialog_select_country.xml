@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:minLines="1"
         android:maxLines="2"
-        android:background="@color/dialog_background"
+        android:background="@drawable/custom_button_small"
         android:text="@string/catalog_activity_dialog_select_country_title"/>
     <RelativeLayout
         android:id="@+id/select_country_dialog_receive_notification_ll"
