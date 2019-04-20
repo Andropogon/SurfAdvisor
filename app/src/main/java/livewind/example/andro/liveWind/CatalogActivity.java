@@ -18,6 +18,8 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.SpannableString;
+import android.text.style.UnderlineSpan;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -176,7 +178,7 @@ public class CatalogActivity extends AppCompatActivity  {
 
     private void initClickListeners(){
         // Setup events button to display events in the place of trips
-        eventsButton = (Button) findViewById(livewind.example.andro.liveWind.R.id.catalog_events_button);
+        Button eventsButton = (Button) findViewById(livewind.example.andro.liveWind.R.id.catalog_events_button);
         eventsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -190,7 +192,7 @@ public class CatalogActivity extends AppCompatActivity  {
         });
 
         // Setup trips button to display trips in the place of trips
-        tripsButton = (Button) findViewById(livewind.example.andro.liveWind.R.id.catalog_trips_button);
+        Button tripsButton = (Button) findViewById(livewind.example.andro.liveWind.R.id.catalog_trips_button);
         tripsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -775,5 +777,4 @@ public class CatalogActivity extends AppCompatActivity  {
             return false;
         }
     }
-*/
 }
