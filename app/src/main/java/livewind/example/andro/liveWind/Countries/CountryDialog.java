@@ -6,17 +6,14 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.provider.CalendarContract;
 import android.support.annotation.NonNull;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -28,10 +25,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import livewind.example.andro.liveWind.Country;
-import livewind.example.andro.liveWind.Event;
-import livewind.example.andro.liveWind.Filter.FilterTrips;
 import livewind.example.andro.liveWind.Filter.FilterTripsActivity;
-import livewind.example.andro.liveWind.Filter.FilterTripsPresenter;
 import livewind.example.andro.liveWind.R;
 import livewind.example.andro.liveWind.data.EventContract;
 
@@ -181,7 +175,13 @@ public class CountryDialog {
         AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.DialogeTheme);
         LayoutInflater inflater = LayoutInflater.from(context);
         View dialogView = inflater.inflate(R.layout.activity_catalog_dialog_select_country,null);
-
+        //Set visible "allow notifications" option
+        dialogView.findViewById(R.id.select_country_dialog_receive_notification_ll).setVisibility(View.VISIBLE);
+        //Prepare allow notification checkbox
+        final CheckBox allowNotificationsCheckBox = dialogView.findViewById(R.id.select_country_dialog_receive_notification_check_box);
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
+        boolean notificationsNewCoverageBoolean = sharedPref.getBoolean(context.getString(R.string.settings_notifications_allow_about_new_coverage_key), true);
+        allowNotificationsCheckBox.setChecked(notificationsNewCoverageBoolean);
         //Make listView with countries
         ListView listView = dialogView.findViewById(R.id.dialog_catalog_activity_select_country_list_view);
         final ArrayList<Country> mList = new ArrayList<Country>();
@@ -263,6 +263,15 @@ public class CountryDialog {
                     public void onClick(DialogInterface dialog, int id) {
                         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
                         Set<String> selectedCountries = sharedPrefs.getStringSet(context.getString(R.string.settings_display_coverages_countries_key), new HashSet<String>());
+                        if(allowNotificationsCheckBox.isChecked()){
+                            SharedPreferences.Editor editor = sharedPrefs.edit();
+                            editor.putBoolean(context.getString(R.string.settings_notifications_allow_about_new_coverage_key),true);
+                            editor.apply();
+                        } else {
+                            SharedPreferences.Editor editor = sharedPrefs.edit();
+                            editor.putBoolean(context.getString(R.string.settings_notifications_allow_about_new_coverage_key),false);
+                            editor.apply();
+                        }
                         if(selectedCountries.contains("0")&&selectedCountries.size()!=1){
                             showCountryChangesConfirmationDialog(context);
                         } else if (selectedCountries.isEmpty()) {

@@ -256,6 +256,7 @@
     <string name="settings_display_sorting_trips_by_key">sort_trips_key</string>
     <string name="settings_display_sorting_order_trips_by_key">sort_order_trips_key</string>
     <string name="settings_notifications_allow_key">notifications_key</string>
+    <string name="settings_notifications_allow_about_new_coverage_key">notifications_new_coverage_key</string>
     <string name="settings_feedback_send_key">feedback_key</string>
     <string name="settings_display_countries_key">interested_countries_key</string>
     <string name="settings_display_coverages_countries_key">interested_coverages_countries_key</string>

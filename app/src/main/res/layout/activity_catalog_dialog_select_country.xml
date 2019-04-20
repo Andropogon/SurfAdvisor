@@ -37,13 +37,13 @@
             android:paddingLeft="8dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toLeftOf="@id/select_country_dialog_receive_notification_switch"
+            android:layout_toLeftOf="@id/select_country_dialog_receive_notification_check_box"
             android:layout_toRightOf="@id/select_country_dialog_receive_notification_ic"
             android:minLines="1"
             android:maxLines="3"
             android:text="Otrzymuj powiadomienia o nowych relacjach z interesujących Cie krajów"/>
         <CheckBox
-            android:id="@+id/select_country_dialog_receive_notification_switch"
+            android:id="@+id/select_country_dialog_receive_notification_check_box"
             android:layout_alignParentRight="true"
             android:paddingLeft="6dp"
             android:layout_width="wrap_content"

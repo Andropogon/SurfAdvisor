@@ -101,7 +101,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                         showNewLikeNotification(payload);
                         break;
                     case NOTIFICATION_NEW_COVERAGE:
-                        showNewCoverageNotification(payload);
+                        boolean notificationsNewCoverageBoolean = sharedPref.getBoolean(getApplicationContext().getString(R.string.settings_notifications_allow_about_new_coverage_key), true);
+                        if(notificationsNewCoverageBoolean) {
+                            showNewCoverageNotification(payload);
+                        }
                         break;
                     default:
                         showNewLikeNotification(payload);
