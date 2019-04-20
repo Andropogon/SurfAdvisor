@@ -63,7 +63,7 @@ public class AboutActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 showDonateMethodDialog();
-               // requestPayment(view);
+               // requestPayment(voiew);
             }
         });
 
