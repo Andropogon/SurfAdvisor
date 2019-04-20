@@ -55,6 +55,7 @@ public class FilterTripsActivity extends AppCompatActivity
     private ImageView mSurfingImageView;
     private TextView mCountriesTextView;
     private GridView mCountriesGridView;
+    private Spinner mCountriesDisplaySpinner;
     private CountryGridAdapter mCountryGridAdapter;
     private Spinner mSortingSpinner;
     private Spinner mSortingOrderSpinner;
@@ -65,8 +66,10 @@ public class FilterTripsActivity extends AppCompatActivity
     // Helper global variables for spinner and multiselect lists
     boolean[] mCheckedItems = new boolean[3];
     int mCurrency = EventContract.EventEntry.CURRENCY_ZL;
+    int mCountriesDisplayPreferences = FilterTripsContract.FilterTripsEntry.DISPLAY_FROM_AND_TO;
     int mSortingPreferences = FilterTripsContract.FilterTripsEntry.SORTING_DATE;
     int mSortingOrderPreferences = FilterTripsContract.FilterTripsEntry.SORTING_DATE;
+
 
     /**
      * Boolean flag that keeps track of whether the filters has been edited (true) or not (false)
@@ -104,6 +107,8 @@ public class FilterTripsActivity extends AppCompatActivity
         mCountriesTextView = findViewById(R.id.filter_countries_text_view);
         mCountriesGridView = findViewById(R.id.filter_countries_grid_view);
 
+        mCountriesDisplaySpinner = findViewById(R.id.filter_countries_display_preferences_spinner);
+
         mSortingSpinner = findViewById(R.id.filter_sort_spinner);
         mSortingOrderSpinner = findViewById(R.id.filter_sort_order_spinner);
 
@@ -120,14 +125,17 @@ public class FilterTripsActivity extends AppCompatActivity
         mKitesurfingImageView.setOnTouchListener(mTouchListener);
         mSurfingImageView.setOnTouchListener(mTouchListener);
         mCountriesTextView.setOnTouchListener(mTouchListener);
+        mCountriesDisplaySpinner.setOnTouchListener(mTouchListener);
         mSortingSpinner.setOnTouchListener(mTouchListener);
         mSortingOrderSpinner.setOnTouchListener(mTouchListener);
         mSetDefaultTextView.setOnTouchListener(mTouchListener);
 
         setupCurrencySpinner();
+        setupCountriesDisplaySpinner();
         setupSortingSpinner();
         setupSortingOrderSpinner();
         loadCurrencySpinner();
+        loadCountriesDisplaySpinner();
         loadSortingSpinner();
         loadSortingOrderSpinner();
     }
@@ -245,11 +253,12 @@ public class FilterTripsActivity extends AppCompatActivity
      * Display loaded filters on start method
      */
     @Override
-    public void displayPreferences(String cost, int currency, long dateFromTimestamp, long dateToTimestamp, Set<String> countries, int sortingPreferences, int sortingOrderPreferences){
+    public void displayPreferences(String cost, int currency, long dateFromTimestamp, long dateToTimestamp, Set<String> countries, int sortingPreferences, int sortingOrderPreferences, int countriesDisplayPreferences){
         mCostView.setText(cost);
         mCurrencySpinner.setSelection(currency);
         mDateFromTextView.setText(DateHelp.timestampToDate(dateFromTimestamp));
         mDateToTextView.setText(DateHelp.timestampToDate(dateToTimestamp));
+        mCountriesDisplaySpinner.setSelection(countriesDisplayPreferences);
         mSortingSpinner.setSelection(sortingPreferences);
         mSortingOrderSpinner.setSelection(sortingOrderPreferences);
     }
@@ -318,7 +327,7 @@ public class FilterTripsActivity extends AppCompatActivity
      * Save data to preferences and open CatalogActivity
      */
     private void saveAndOpenCatalogActivity(){
-        if(mPresenter.setPreferences(mCostView.getText().toString(), mCurrency,DateHelp.dateToTimestamp(mDateFromTextView.getText().toString()),DateHelp.dateToTimestamp(mDateToTextView.getText().toString()),mSortingPreferences, mSortingOrderPreferences)){
+        if(mPresenter.setPreferences(mCostView.getText().toString(), mCurrency,DateHelp.dateToTimestamp(mDateFromTextView.getText().toString()),DateHelp.dateToTimestamp(mDateToTextView.getText().toString()),mSortingPreferences, mSortingOrderPreferences, mCountriesDisplayPreferences)){
             mPresenter.sendPreferences();
             Intent intentCatalog = new Intent(FilterTripsActivity.this,CatalogActivity.class);
             startActivity(intentCatalog);
@@ -422,6 +431,54 @@ public class FilterTripsActivity extends AppCompatActivity
                 break;
             default:
                 mCurrencySpinner.setSelection(0);
+                break;
+        }
+    }
+
+    /**
+     * Setup the dropdown spinner that allows the user to select the display countries preferences.
+     */
+    private void setupCountriesDisplaySpinner() {
+        ArrayAdapter displayCountriesSpinnerAdapter = ArrayAdapter.createFromResource(this, R.array.array_trips_display_options, android.R.layout.simple_spinner_item);
+        displayCountriesSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
+        mCountriesDisplaySpinner.setAdapter(displayCountriesSpinnerAdapter);
+        mCountriesDisplaySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String selection = (String) parent.getItemAtPosition(position);
+                if (!TextUtils.isEmpty(selection)) {
+                    if (selection.equals(getString(R.string.display_trips_from_and_to))) {
+                        mCountriesDisplayPreferences = EventContract.EventEntry.DISPLAY_TRIPS_FROM_AND_TO;
+                    } else if (selection.equals(getString(R.string.display_trips_from))) {
+                        mCountriesDisplayPreferences = EventContract.EventEntry.DISPLAY_TRIPS_FROM;
+                    } else if (selection.equals(getString(R.string.display_trips_to))){
+                        mCountriesDisplayPreferences = EventContract.EventEntry.DISPLAY_TRIPS_TO;
+                    }
+                }
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                mCountriesDisplayPreferences = EventContract.EventEntry.DISPLAY_TRIPS_FROM_AND_TO;
+            }
+        });
+    }
+
+    /**
+     * Load the dropdown spinner that allows the user to select the display countries preferences.
+     */
+    private void loadCountriesDisplaySpinner(){
+        switch (mCountriesDisplayPreferences) {
+            case FilterTripsContract.FilterTripsEntry.DISPLAY_FROM_AND_TO:
+                mCountriesDisplaySpinner.setSelection(0);
+                break;
+            case FilterTripsContract.FilterTripsEntry.DISPLAY_FROM:
+                mCountriesDisplaySpinner.setSelection(1);
+                break;
+            case FilterTripsContract.FilterTripsEntry.DISPLAY_TO:
+                mCountriesDisplaySpinner.setSelection(2);
+                break;
+            default:
+                mCountriesDisplaySpinner.setSelection(0);
                 break;
         }
     }

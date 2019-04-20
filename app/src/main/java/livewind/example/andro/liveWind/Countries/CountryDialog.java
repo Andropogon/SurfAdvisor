@@ -110,8 +110,6 @@ public class CountryDialog {
                 .setPositiveButton(R.string.dialog_apply, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-                        SharedPreferences.Editor editor = sharedPrefs.edit();
                         if(selectedCountries.contains("0")&&selectedCountries.size()!=1){
                             showCountryChangesConfirmationDialog(context,selectedCountries);
                         } else if (selectedCountries.isEmpty()) {

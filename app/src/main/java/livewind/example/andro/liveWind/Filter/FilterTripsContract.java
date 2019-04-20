@@ -11,7 +11,7 @@ public interface FilterTripsContract {
 
     /** Represents the View in MVP. */
     interface View {
-        void displayPreferences(String cost, int currency, long dateFromTimestamp, long dateToTimestamp,Set<String> countries,int sortingPreferences, int sortingOrderPreferences);
+        void displayPreferences(String cost, int currency, long dateFromTimestamp, long dateToTimestamp,Set<String> countries,int sortingPreferences, int sortingOrderPreferences, int displayCountriesPreferences);
         void displaySports(Set <String> sports);
         void displayCountries();
         void showBadFilterToast(int errorCode);
@@ -19,7 +19,7 @@ public interface FilterTripsContract {
 
     /** Represents the Presenter in MVP. */
     interface Presenter {
-        boolean setPreferences(String cost, int currency, long dateFromTimestamp, long dateToTimestamp, int sortingPreferences, int sortingOrderPreferences);
+        boolean setPreferences(String cost, int currency, long dateFromTimestamp, long dateToTimestamp, int sortingPreferences, int sortingOrderPreferences, int displayCountriesPreferences);
         boolean saveSports(Set<String>sports);
         void saveCountries(Set<String> countries);
         Set<String> getSports();
@@ -57,6 +57,14 @@ public interface FilterTripsContract {
          * Default value of countries filter
          */
         public static final String COUNTRIES_ALL = "0";
+
+        /**
+         * Possible options for countries display spinner
+         */
+        public static final int DISPLAY_FROM_AND_TO = 0;
+        public static final int DISPLAY_FROM = 1;
+        public static final int DISPLAY_TO = 2;
+
         /**
          * Possible options for sorting spinner
          */

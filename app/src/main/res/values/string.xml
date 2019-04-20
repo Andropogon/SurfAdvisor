@@ -279,8 +279,8 @@
     <string name="settings_display_sorting_events_by">Sort spot coverage by:</string>
     <string name="settings_display_trips_title">Choose camps displaying settings</string>
     <string name="display_trips_from_and_to">Display camps from and to countries you\'re interested in</string>
-    <string name="display_trips_from">Dispaly countries only from countries you\'re interested in</string>
-    <string name="display_trips_to">Dispaly countries only to countries you\'re interested in</string>
+    <string name="display_trips_from">Dispaly camps only from countries you\'re interested in</string>
+    <string name="display_trips_to">Dispaly camps only to countries you\'re interested in</string>
     <string name="sorting_event_by_date">Date</string>
     <string name="sorting_event_by_members">Number of participants</string>
     <string name="sorting_event_by_wind_power">Wind speed</string>
@@ -564,6 +564,7 @@
     <string name="filter_trips_subtitle">Sprecyzuj czego szukasz...</string>
     <string name="filter_trips_date">Data wyjazdu</string>
     <string name="filter_trips_countries">Kraje, które Cie interesują</string>
+    <string name="filter_trips_countries_display_preferences">Preferencje wyświetlania krajów</string>
     <string name="filter_trips_sports">Sporty, które Cie interesują</string>
     <string name="filter_trips_sports_dialog_title">Wybierz interesujące Cie sporty</string>
     <string name="filter_trips_cost">Maksymalna cena</string>
