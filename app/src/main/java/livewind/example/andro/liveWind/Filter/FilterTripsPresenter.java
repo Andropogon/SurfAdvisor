@@ -31,6 +31,11 @@ public class FilterTripsPresenter implements FilterTripsContract.Presenter{
     @Override
     public boolean setPreferences(String cost, int currency, long dateFromTimestamp, long dateToTimestamp, int sortingPreferences, int sortingOrderPreferences, int displayCountriesPreferences) {
         //Check that cost is >0
+        if(cost.isEmpty() || cost==null)
+        {
+            mView.showBadFilterToast(FilterTripsContract.FilterTripsEntry.BAD_FILTER_COST);
+            return false;
+        }
         if(Integer.valueOf(cost)<=0) {
             mView.showBadFilterToast(FilterTripsContract.FilterTripsEntry.BAD_FILTER_COST);
             return false;

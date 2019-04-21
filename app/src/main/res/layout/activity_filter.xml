@@ -278,7 +278,6 @@
                         android:layout_width="150dp"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-
                         android:hint="Kwota"
                         android:inputType="number" />
 
