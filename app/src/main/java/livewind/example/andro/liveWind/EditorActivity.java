@@ -486,7 +486,9 @@ public class EditorActivity extends AppCompatActivity {
                     noConnectionSnackBar.setAction(getString(R.string.toast_try_to_reconnect), new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            getUserFromDatabase();
+                            if(mWindsurfer.getUid()==null) {
+                                getUserFromDatabase();
+                            }
                         }
                     });
                     noConnectionSnackBar.show();
