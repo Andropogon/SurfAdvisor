@@ -470,11 +470,11 @@ public class EditorActivity extends AppCompatActivity {
                     return true;
                 } else if(mWindsurfer.checkEventsLimitAdvanced()==mWindsurfer.LIMIT_NO_CONNECTION){
                     //Toast.makeText(this, R.string.empty_view_no_connection_title_text, Toast.LENGTH_LONG).show();
-                    Snackbar noConnectionSnackBar = Snackbar.make(findViewById(R.id.myEditorRelationCoordinatorLayout), R.string.empty_view_no_connection_title_text, Snackbar.LENGTH_LONG);
+                    Snackbar noConnectionSnackBar = Snackbar.make(findViewById(R.id.myEditorRelationCoordinatorLayout), R.string.toast_no_connection_cant_to_make_event, Snackbar.LENGTH_LONG);
                     TextView textView = (TextView) noConnectionSnackBar.getView().findViewById(android.support.design.R.id.snackbar_text);
                     getUserFromDatabase();
                     textView.setMaxLines(3);
-                    noConnectionSnackBar.setAction("Try to connect again. HC.", new View.OnClickListener() {
+                    noConnectionSnackBar.setAction(getString(R.string.toast_try_to_reconnect), new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             getUserFromDatabase();
@@ -1051,7 +1051,7 @@ public class EditorActivity extends AppCompatActivity {
     /**
      * If user active events limit = 0 that means that app doesn't have internet connection
      * User could try again to get connection by click snackbar that start this method
-     * //TODO update this method to better work 
+     * //TODO update this method to better work
      */
 
     public void getUserFromDatabase() {
@@ -1063,9 +1063,9 @@ public class EditorActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
                     mWindsurfer = dataSnapshot.child(userUid).getValue(Windsurfer.class);
-                    Toast.makeText(getApplicationContext(), "Internet connection has been recovered. HC.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), getString(R.string.toast_internet_connection_recovered), Toast.LENGTH_LONG).show();
                 } else {
-                    Toast.makeText(getApplicationContext(), "Sorry, we can't recover internet connection, try again or restart app. HC.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), getString(R.string.toast_internet_connection_no_recovered), Toast.LENGTH_LONG).show();
                 }
 
             }

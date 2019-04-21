@@ -261,6 +261,7 @@
     <string name="settings_feedback_send_key">feedback_key</string>
     <string name="settings_display_countries_key">interested_countries_key</string>
     <string name="settings_display_coverages_countries_key">interested_coverages_countries_key</string>
+
     <!-- Filter keys !-->
     <string name="settings_filter_cost_key">Cost_key</string>
     <string name="settings_filter_currency_key">Currency_key</string>
@@ -476,7 +477,7 @@
     <string name="toast_editor_delete_relation_successful">Coverage was deleted.</string>
     <string name="toast_editor_delete_relation_failed">Error. Deleting coverage failed.</string>
     <string name="toast_editor_insert_event_successful">Event added.</string>
-    <string name="toast_editor_insert_event_failed">Error. Addind event failed.</string>
+    <string name="toast_editor_insert_event_failed">Error. Adding event failed.</string>
     <string name="toast_editor_update_event_successful">Event was updated.</string>
     <string name="toast_editor_update_event_failed">Error. Updating event failed</string>
     <string name="toast_relation_joined">Welcome to the spot :) </string>
@@ -490,6 +491,11 @@
     <string name="toast_error_increasing_limit">There has been a problem with increasing your limit. Please contact the creators.</string>
     <string name="toast_successful_increasing_limit">Limit increased.</string>
     <string name="toast_no_connection">Check your internet connection.</string>
+    <string name="toast_no_connection_cant_to_make_event">Nie możemy połączyć się z internetem, spróbuj ponownie lub zrestartuj aplikacje.</string>
+    <string name="toast_try_to_reconnect">Spróbuj połączyć się ponownie</string>
+    <string name="toast_internet_connection_recovered">Połączenie z internetem zostało przywrócone</string>
+    <string name="toast_internet_connection_no_recovered">Nie możemy przywrócić połączenia spróbuj ponownie lub zrestartuj aplikacje</string>
+
     <!-- Photo Toast -->
     <string name="editor_photo_added">Photo was added</string>
     <string name="editor_back_on_adding_photo">Photo was not added</string>
