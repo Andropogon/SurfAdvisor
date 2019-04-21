@@ -39,9 +39,13 @@ import livewind.example.andro.liveWind.user.Windsurfer;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ServerValue;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnPausedListener;
 import com.google.firebase.storage.OnProgressListener;
@@ -93,6 +97,7 @@ public class EditorActivity extends AppCompatActivity {
      */
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference mEventsDatabaseReference;
+    private DatabaseReference mUserDatabaseReference; //To get user data if user open this activity without internet connection
     private FirebaseStorage mFirebaseStorage;
     private StorageReference mEventsStorageReference;
     //For adding and removing points
@@ -190,12 +195,16 @@ public class EditorActivity extends AppCompatActivity {
         //FIREBASE
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         mEventsDatabaseReference = mFirebaseDatabase.getReference().child("events");
+        mUserDatabaseReference = mFirebaseDatabase.getReference().child("users");
         mFirebaseStorage = FirebaseStorage.getInstance();
         mEventsStorageReference = mFirebaseStorage.getReference().child("events_photos");
 
 
         //Get windsurfer data
         getWindsurferFromIntent(intent,mWindsurfer,getApplicationContext());
+        if(mWindsurfer.getUid()==null){
+            getUserFromDatabase();
+        }
 
         setupTypeSpinner();
         setupConditionsSpinner();
@@ -444,7 +453,6 @@ public class EditorActivity extends AppCompatActivity {
             if (mEvent == null) {
                 //Check that mWindsurfer activeEvents<activeEventsLimit
                 if (mWindsurfer.checkEventsLimitAdvanced()==mWindsurfer.LIMIT_OK) {
-                    Log.i("ADD RELATION",mWindsurfer.getUid());
                     //New event
                     String id = mEventsDatabaseReference.push().getKey();
                     Event newEventData = new Event(EditorActivity.this, id, mWindsurfer.getUsername(), mWindsurfer.getUid(), placeString,mCountry, mType, wind_power, wave_size, mConditions, commentString, mEventPhotoUrl , mWindsurfer.getPhotoName());
@@ -461,12 +469,24 @@ public class EditorActivity extends AppCompatActivity {
                     firebaseHelpForPointsAdd.addPoints(mWindsurfer.getUid(), EventContract.EventEntry.IT_IS_EVENT);
                     return true;
                 } else if(mWindsurfer.checkEventsLimitAdvanced()==mWindsurfer.LIMIT_NO_CONNECTION){
-                    Toast.makeText(this, R.string.empty_view_no_connection_title_text, Toast.LENGTH_LONG).show();
+                    //Toast.makeText(this, R.string.empty_view_no_connection_title_text, Toast.LENGTH_LONG).show();
+                    Snackbar noConnectionSnackBar = Snackbar.make(findViewById(R.id.myEditorRelationCoordinatorLayout), R.string.empty_view_no_connection_title_text, Snackbar.LENGTH_LONG);
+                    TextView textView = (TextView) noConnectionSnackBar.getView().findViewById(android.support.design.R.id.snackbar_text);
+                    getUserFromDatabase();
+                    textView.setMaxLines(3);
+                    noConnectionSnackBar.setAction("Try to connect again. HC.", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            getUserFromDatabase();
+                        }
+                    });
+                    noConnectionSnackBar.show();
                     return false;
                 } else {
                     Snackbar snackbarEventLimit = Snackbar.make(findViewById(R.id.myEditorRelationCoordinatorLayout), R.string.toast_relation_limit_reached, Snackbar.LENGTH_LONG);
                     TextView textView = (TextView) snackbarEventLimit.getView().findViewById(android.support.design.R.id.snackbar_text);
                     textView.setMaxLines(3);
+
                     snackbarEventLimit.setAction(getString(R.string.user_activity_increase_limit), new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -476,9 +496,7 @@ public class EditorActivity extends AppCompatActivity {
                             finish();
                         }
                     });
-
                     snackbarEventLimit.show();
-                   //Toast.makeText(this, livewind.example.andro.liveWind.R.string.toast_relation_limit_reached, Toast.LENGTH_LONG).show();
                     return false;
                 }
             } else {
@@ -1030,8 +1048,34 @@ public class EditorActivity extends AppCompatActivity {
     }
 
 
+    /**
+     * If user active events limit = 0 that means that app doesn't have internet connection
+     * User could try again to get connection by click snackbar that start this method
+     * //TODO update this method to better work 
+     */
 
+    public void getUserFromDatabase() {
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        final String userUid = sharedPref.getString(getApplicationContext().getString(livewind.example.andro.liveWind.R.string.user_uid_shared_preference),"DEFAULT");
+        Query usersQuery = mUserDatabaseReference.orderByChild("uid").equalTo(userUid);
+        usersQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    mWindsurfer = dataSnapshot.child(userUid).getValue(Windsurfer.class);
+                    Toast.makeText(getApplicationContext(), "Internet connection has been recovered. HC.", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Sorry, we can't recover internet connection, try again or restart app. HC.", Toast.LENGTH_LONG).show();
+                }
+
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
+    }
 }
+
 
 
 

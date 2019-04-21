@@ -144,6 +144,7 @@
     <string name="event_activity_dialog_add_comment_max">Max 160 znaków</string>
     <string name="event_activity_dialog_write_comment">Napisz komentarz tutaj</string>
     <string name="event_activity_comment_creator">Komentarz twórcy</string>
+    <string name="event_activity_coverage_no_exist">Wystąpił problem z pobraniem niektórych informacji związanych z tą relacją. Mogła ona zostać już usunięta lub aplikacja nie może się połączyć z internetem.</string>
 
     <string name="extra_place">EXTRA_PLACE</string>
     <string name="extra_date">EXTRA_DATE</string>

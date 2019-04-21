@@ -1033,6 +1033,7 @@ public class EventActivity extends AppCompatActivity {
      * Method to handle coverages open from notification that doesn't exist now:
      * If coverage isn't exist in firebase method isn't initialize FABs and show Toast and special textView
      */
+
     public void checkEventExist() {
         mEventsDatabaseReference.child(mEvent.getId()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -1043,7 +1044,7 @@ public class EventActivity extends AppCompatActivity {
                     displayCoverage(); // Updated displayed coverage data
                 } else {
                     mDeletedCoverageInfoTextView.setVisibility(View.VISIBLE);
-                    Toast.makeText(getApplicationContext(), "Sorry, this coverage was deleted... HC", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Sorry, this coverage was deleted... HC", Toast.LENGTH_LONG).show();
                 }
             }
 
