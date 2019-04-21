@@ -472,7 +472,9 @@ public class EditorActivity extends AppCompatActivity {
                     //Toast.makeText(this, R.string.empty_view_no_connection_title_text, Toast.LENGTH_LONG).show();
                     Snackbar noConnectionSnackBar = Snackbar.make(findViewById(R.id.myEditorRelationCoordinatorLayout), R.string.toast_no_connection_cant_to_make_event, Snackbar.LENGTH_LONG);
                     TextView textView = (TextView) noConnectionSnackBar.getView().findViewById(android.support.design.R.id.snackbar_text);
-                    getUserFromDatabase();
+                    if(mWindsurfer.getUid()==null){
+                        getUserFromDatabase();
+                    }
                     textView.setMaxLines(3);
                     noConnectionSnackBar.setAction(getString(R.string.toast_try_to_reconnect), new View.OnClickListener() {
                         @Override

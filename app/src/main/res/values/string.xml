@@ -492,7 +492,7 @@
     <string name="toast_successful_increasing_limit">Limit increased.</string>
     <string name="toast_no_connection">Check your internet connection.</string>
     <string name="toast_no_connection_cant_to_make_event">Nie możemy połączyć się z internetem, spróbuj ponownie lub zrestartuj aplikacje.</string>
-    <string name="toast_try_to_reconnect">Spróbuj połączyć się ponownie</string>
+    <string name="toast_try_to_reconnect">Spróbuj ponownie</string>
     <string name="toast_internet_connection_recovered">Połączenie z internetem zostało przywrócone</string>
     <string name="toast_internet_connection_no_recovered">Nie możemy przywrócić połączenia spróbuj ponownie lub zrestartuj aplikacje</string>
 

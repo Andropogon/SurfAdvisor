@@ -203,9 +203,11 @@ public class CountryDialog {
                         mCheckBoxImageView.setImageResource(R.drawable.ic_check_box_outline_blank_white_24dp);
                         //Topic (notifications) unsubscribe:
                         if(position==0) {
-                            //If position 0 -> unsubscribe all topics
+                            //If position 0 -> unsubscribe all topics that wasn't checked
                             for (int i = 1; i <= 20; i++) {
-                                FirebaseMessaging.getInstance().unsubscribeFromTopic(mList.get(i).getTopicKey());
+                                if(!mList.get(i).isChecked()) {
+                                    FirebaseMessaging.getInstance().unsubscribeFromTopic(mList.get(i).getTopicKey());
+                                }
                             }
                         } else {
                             //Else -> unsubscribe one topic
@@ -233,16 +235,7 @@ public class CountryDialog {
                             }
                         } else {
                             //Else -> subscribe one topic
-                            FirebaseMessaging.getInstance().subscribeToTopic(mList.get(position).getTopicKey()).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                    String msg = mList.get(position).getTopicKey();
-                                    if (!task.isSuccessful()) {
-                                        msg = context.getString(R.string.country_number_20);
-                                    }
-                                    Toast.makeText(context, "Country subscribed: " + msg, Toast.LENGTH_SHORT).show();
-                                }
-                            });
+                            FirebaseMessaging.getInstance().subscribeToTopic(mList.get(position).getTopicKey());
                         }
                         //Set this country in "interested_coverages_countries" in sharedPref
                         //Get interested countries Set
