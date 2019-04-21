@@ -3,6 +3,8 @@ package livewind.example.andro.liveWind;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
+import android.content.AsyncTaskLoader;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -55,6 +57,8 @@ import com.google.firebase.storage.UploadTask;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import livewind.example.andro.liveWind.data.EventContract;
 
@@ -77,6 +81,7 @@ public class EditorActivity extends AppCompatActivity {
     private ImageView mWindPowerHelpImageView;
     private ImageView mTypeHelpImageView;
     private ImageView mWindConditionsHelpImageView;
+    private ProgressBar mWaitingForConnectionProgressBar;
     private Windsurfer mWindsurfer = new Windsurfer();
 
     private ProgressBar mProgressBar;
@@ -138,6 +143,7 @@ public class EditorActivity extends AppCompatActivity {
         mWindPowerHelpImageView = (ImageView) findViewById(livewind.example.andro.liveWind.R.id.edit_event_wind_power_help_ic);
         mTypeHelpImageView = (ImageView) findViewById(livewind.example.andro.liveWind.R.id.edit_event_type_help_ic);
         mWindConditionsHelpImageView = (ImageView) findViewById(livewind.example.andro.liveWind.R.id.edit_event_conditions_help_ic);
+        mWaitingForConnectionProgressBar = findViewById(R.id.editor_activity_wait_for_internet_connection_progress_bar);
         // Add photo imageview
         mAddPhotoImageView = (ImageView) findViewById(livewind.example.andro.liveWind.R.id.add_photo_image_view);
         mAddPhotoPlusImageView = (ImageView) findViewById(R.id.change_user_photo_image_view);
@@ -472,6 +478,7 @@ public class EditorActivity extends AppCompatActivity {
                     //Toast.makeText(this, R.string.empty_view_no_connection_title_text, Toast.LENGTH_LONG).show();
                     Snackbar noConnectionSnackBar = Snackbar.make(findViewById(R.id.myEditorRelationCoordinatorLayout), R.string.toast_no_connection_cant_to_make_event, Snackbar.LENGTH_LONG);
                     TextView textView = (TextView) noConnectionSnackBar.getView().findViewById(android.support.design.R.id.snackbar_text);
+                    mWaitingForConnectionProgressBar.setVisibility(View.VISIBLE);
                     if(mWindsurfer.getUid()==null){
                         getUserFromDatabase();
                     }
@@ -1060,13 +1067,17 @@ public class EditorActivity extends AppCompatActivity {
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         final String userUid = sharedPref.getString(getApplicationContext().getString(livewind.example.andro.liveWind.R.string.user_uid_shared_preference),"DEFAULT");
         Query usersQuery = mUserDatabaseReference.orderByChild("uid").equalTo(userUid);
+        final Timer timer = new Timer();
+
         usersQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
                     mWindsurfer = dataSnapshot.child(userUid).getValue(Windsurfer.class);
+                    mWaitingForConnectionProgressBar.setVisibility(View.GONE);
                     Toast.makeText(getApplicationContext(), getString(R.string.toast_internet_connection_recovered), Toast.LENGTH_LONG).show();
                 } else {
+                    mWaitingForConnectionProgressBar.setVisibility(View.GONE);
                     Toast.makeText(getApplicationContext(), getString(R.string.toast_internet_connection_no_recovered), Toast.LENGTH_LONG).show();
                 }
 
@@ -1075,6 +1086,21 @@ public class EditorActivity extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
         });
+        TimerTask timerTask = new TimerTask() {
+            @Override
+            public void run() {
+                timer.cancel();
+                runOnUiThread(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        mWaitingForConnectionProgressBar.setVisibility(View.GONE);
+                    }
+                });
+            }
+        };
+        // Setting timeout of 10 sec to the request
+        timer.schedule(timerTask, 10000L);
     }
 }
 
