@@ -1068,7 +1068,6 @@ public class EditorActivity extends AppCompatActivity {
         final String userUid = sharedPref.getString(getApplicationContext().getString(livewind.example.andro.liveWind.R.string.user_uid_shared_preference),"DEFAULT");
         Query usersQuery = mUserDatabaseReference.orderByChild("uid").equalTo(userUid);
         final Timer timer = new Timer();
-
         usersQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -1080,7 +1079,6 @@ public class EditorActivity extends AppCompatActivity {
                     mWaitingForConnectionProgressBar.setVisibility(View.GONE);
                     Toast.makeText(getApplicationContext(), getString(R.string.toast_internet_connection_no_recovered), Toast.LENGTH_LONG).show();
                 }
-
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
@@ -1091,10 +1089,10 @@ public class EditorActivity extends AppCompatActivity {
             public void run() {
                 timer.cancel();
                 runOnUiThread(new Runnable() {
-
                     @Override
                     public void run() {
                         mWaitingForConnectionProgressBar.setVisibility(View.GONE);
+                        Toast.makeText(getApplicationContext(), getString(R.string.toast_internet_connection_no_recovered), Toast.LENGTH_LONG).show();
                     }
                 });
             }
