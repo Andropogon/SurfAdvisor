@@ -360,7 +360,7 @@ public class CountryDialog {
      * @param context - Activity
      * @return - ArrayList with loaded countries
      */
-    private static ArrayList<Country> loadCountriesToList(Context context,final ArrayList<Country> mList) {
+    public static ArrayList<Country> loadCountriesToList(Context context,final ArrayList<Country> mList) {
         mList.add(new Country(context.getString(R.string.country_number_0), R.drawable.flag_world, context.getString(R.string.country_number_0_key)));
         mList.add(new Country(context.getString(R.string.country_number_1), R.drawable.flag_pl, context.getString(R.string.country_number_1_key)));
         mList.add(new Country(context.getString(R.string.country_number_2), R.drawable.flag_gr, context.getString(R.string.country_number_2_key)));

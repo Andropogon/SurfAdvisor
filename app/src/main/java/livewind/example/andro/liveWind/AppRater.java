@@ -16,6 +16,14 @@ import android.widget.LinearLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import com.google.firebase.messaging.FirebaseMessaging;
+
+import java.util.ArrayList;
+
+import livewind.example.andro.liveWind.Countries.CountryDialog;
+
+import static livewind.example.andro.liveWind.Countries.CountryDialog.loadCountriesToList;
+
 public class AppRater {
     private final static String APP_TITLE = " SurfAdvisor";// App Name
     private final static String APP_PNAME = "livewind.example.andro.liveWind";// Package Name
@@ -34,10 +42,15 @@ public class AppRater {
         editor.putLong("launch_count", launch_count);
 
         // Get date of first launch
-        Long date_firstLaunch = prefs.getLong("date_firstlaunch", 0);
+        Long date_firstLaunch = prefs.getLong("date_firstlaunch2", 0);
         if (date_firstLaunch == 0) {
+            final ArrayList<Country> mList = new ArrayList<Country>();
+            CountryDialog.loadCountriesToList(mContext,mList);
+            for(int i=1; i<=20;i++){
+                FirebaseMessaging.getInstance().subscribeToTopic(mList.get(i).getTopicKey());
+            }
             date_firstLaunch = System.currentTimeMillis();
-            editor.putLong("date_firstlaunch", date_firstLaunch);
+            editor.putLong("date_firstlaunch2", date_firstLaunch);
         }
 
         // Wait at least n days before opening
@@ -117,9 +130,9 @@ public class AppRater {
                 long launch_count = 1;
                 editor.putLong("launch_count", 0);
                 editor.apply();
-                Long date_firstLaunch = prefs.getLong("date_firstlaunch", 0);
+                Long date_firstLaunch = prefs.getLong("date_firstlaunch2", 0);
                 date_firstLaunch = System.currentTimeMillis();
-                editor.putLong("date_firstlaunch", date_firstLaunch);
+                editor.putLong("date_firstlaunch2", date_firstLaunch);
                 editor.apply();
                 dialog.dismiss();
             }
