@@ -165,11 +165,23 @@ public class EventActivity extends AppCompatActivity {
 
         //Load user data from intent or from firebase
         getWindsurferFromIntent(intent,mWindsurfer, getApplicationContext());
-        if(mWindsurfer.getUsername().equals(MyFirebaseMessagingService.NOTIFICATION_NEW_COVERAGE)){
-            //If this activity is open from notification we have to download data from firebase
-            UserHelper.downloadUserData(mWindsurfer,EventActivity.this);
-            checkEventExist(); // Check that event still exist -> if exist initialize FABs
-        } else {
+        if(mWindsurfer.getUsername()==null || mWindsurfer==null) {
+            try {
+                if (mWindsurfer.getUsername().equals(MyFirebaseMessagingService.NOTIFICATION_NEW_COVERAGE)) {
+                    //If this activity is open from notification we have to download data from firebase
+                    UserHelper.downloadUserData(mWindsurfer, EventActivity.this);
+                    checkEventExist(); // Check that event still exist -> if exist initialize FABs
+                } else {
+                    setupFABs();
+                }
+            } catch (NullPointerException nullPointer){
+                //If user is null download his data using firebase and sharedPref
+                UserHelper.downloadUserData(mWindsurfer, EventActivity.this);
+                setupFABs();
+            }
+        }  else {
+            //If user is null download his data using firebase and sharedPref
+            UserHelper.downloadUserData(mWindsurfer, EventActivity.this);
             setupFABs();
         }
 
@@ -1044,7 +1056,7 @@ public class EventActivity extends AppCompatActivity {
                     displayCoverage(); // Updated displayed coverage data
                 } else {
                     mDeletedCoverageInfoTextView.setVisibility(View.VISIBLE);
-                    Toast.makeText(getApplicationContext(), "Sorry, this coverage was deleted... HC", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), getString(R.string.event_activity_coverage_no_exist_toast), Toast.LENGTH_LONG).show();
                 }
             }
 

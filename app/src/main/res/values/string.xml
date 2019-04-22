@@ -145,6 +145,7 @@
     <string name="event_activity_dialog_write_comment">Write your comment here</string>
     <string name="event_activity_comment_creator">Creator comment</string>
     <string name="event_activity_coverage_no_exist">This coverage was probably deleted yet!</string>
+    <string name="event_activity_coverage_no_exist_toast">Nie możemy pobrać szczegółów związanych z tą relacją, spróbuj otworzyć ją ponownie. </string>
 
     <string name="extra_place">EXTRA_PLACE</string>
     <string name="extra_date">EXTRA_DATE</string>
