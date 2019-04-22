@@ -164,7 +164,9 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             SwitchPreference mChangeDisplay = (SwitchPreference) findPreference(getString(R.string.settings_display_boolean_key));
             EditTextPreference mCostFilter = (EditTextPreference) findPreference(getString(R.string.settings_filter_cost_key));
             MultiSelectListPreference mSportsFilter = (MultiSelectListPreference) findPreference(getString(R.string.settings_filter_sports_key));
+            ListPreference mSortingOrder = (ListPreference) findPreference(getString(R.string.settings_display_sorting_order_trips_by_key));
             PreferenceCategory mCategory = (PreferenceCategory) findPreference("pref_key_settings_title_display");
+            mCategory.removePreference(mSortingOrder);
             mCategory.removePreference(mChangeDisplay);
             mCategory.removePreference(mCostFilter);
             mCategory.removePreference(mSportsFilter);
@@ -181,7 +183,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
          //   bindPreferenceSummaryToValue(findPreference(getString(R.string.settings_display_trips)));
             bindPreferenceSummaryToValue(findPreference(getString(livewind.example.andro.liveWind.R.string.settings_display_sorting_events_by_key)));
             bindPreferenceSummaryToValue(findPreference(getString(livewind.example.andro.liveWind.R.string.settings_display_sorting_trips_by_key)));
-            bindPreferenceSummaryToValue(findPreference(getString(R.string.settings_display_sorting_order_trips_by_key)));
+            //bindPreferenceSummaryToValue(findPreference(getString(R.string.settings_display_sorting_order_trips_by_key)));
             bindPreferenceSummaryToValue(findPreference(getString(R.string.settings_display_wind_power_key)));
             bindPreferenceSummaryToValue(findPreference(getString(R.string.settings_display_trips_key)));
             //bindPreferenceSummaryToValue(findPreference(getString(R.string.settings_filter_cost_key)));

@@ -15,8 +15,8 @@ android {
         applicationId "livewind.example.andro.liveWind"
         minSdkVersion 23
         targetSdkVersion 27
-        versionCode 36
-        versionName "2.08"
+        versionCode 40
+        versionName "2.11"
         //testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {

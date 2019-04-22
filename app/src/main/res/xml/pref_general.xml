@@ -135,7 +135,7 @@
             android:key="@string/settings_notifications_allow_key"
             android:defaultValue="true" />
         <SwitchPreference
-            android:title="Allow notification about new coverage HC"
+            android:title="@string/notification_new_coverage_settings_title"
             android:key="@string/settings_notifications_allow_key"
             android:defaultValue="true" />
     </PreferenceCategory>

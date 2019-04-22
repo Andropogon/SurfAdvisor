@@ -272,9 +272,9 @@
     <string name="settings_display_boolean">"Wyświetlanie wycieczek (OFF) lub relacji (ON)"</string>
     <string name="settings_display_sorting_events_by">Sortuj relacje ze spotów po:</string>
     <string name="settings_display_trips_title">Wybierz ustawienia wyświetlania obozów</string>
-    <string name="display_trips_from_and_to">Wyświetlaj obozy z i do interesujących Cie państw</string>
-    <string name="display_trips_from">Wyświetlaj obozy tylko z interesujących Cie państw</string>
-    <string name="display_trips_to">Wyświetlaj obozy tylko do interesujących Cie państw</string>
+    <string name="display_trips_from_and_to">Wyświetlaj  obozy <b>z i do</b> interesujących Cie państw</string>
+    <string name="display_trips_from">Wyświetlaj obozy <b>tylko z</b> interesujących Cie państw</string>
+    <string name="display_trips_to">Wyświetlaj obozy <b>tylko do</b> interesujących Cie państw</string>
     <string name="sorting_event_by_date">Dacie</string>
     <string name="sorting_event_by_members">Ilości osób które wezmą udział</string>
     <string name="sorting_event_by_wind_power">Sile wiatru</string>
