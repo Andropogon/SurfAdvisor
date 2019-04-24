@@ -47,14 +47,14 @@ public class EventAdapter extends ArrayAdapter<Event> {
     public View getView(int position, View view, ViewGroup parent) {
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getContext());
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getContext());
-        Set<String> selectedCountries = sharedPrefs.getStringSet(getContext().getString(R.string.settings_display_countries_key), new HashSet<String>());
+        //Set<String> selectedCountries = sharedPrefs.getStringSet(getContext().getString(R.string.settings_display_countries_key), new HashSet<String>());
         boolean displayBoolean = sharedPref.getBoolean(getContext().getString(livewind.example.andro.liveWind.R.string.settings_display_boolean_key), true);
         int windPowerUnit = Integer.parseInt(sharedPref.getString(getContext().getString(R.string.settings_display_wind_power_key),"1"));
         int windPowerInBft = 0;
         double windPowerInSailSize = 0;
         Event event = getItem(position);
         if (view == null) {
-            if (event.getStartDate().equals(EventContract.EventEntry.IS_IT_EVENT) && displayBoolean && (selectedCountries.contains(Integer.toString(event.getCountry())) || selectedCountries.contains(EventContract.EventEntry.COUNTRY_ALL_WORLD))) {
+            if (event.getStartDate().equals(EventContract.EventEntry.IS_IT_EVENT) && displayBoolean ) {
                 view = ((Activity) getContext()).getLayoutInflater().inflate(livewind.example.andro.liveWind.R.layout.list_item, parent, false);
 
                 TextView placeTextView = (TextView) view.findViewById(livewind.example.andro.liveWind.R.id.list_place_text_view);
@@ -339,7 +339,7 @@ public class EventAdapter extends ArrayAdapter<Event> {
                         conditionsTextView.setText("UNKNOWN");
                         break;
                 }
-            } else if (!event.getStartDate().equals(EventContract.EventEntry.IS_IT_EVENT) && !displayBoolean && (selectedCountries.contains(Integer.toString(event.getCountry())) || selectedCountries.contains(EventContract.EventEntry.COUNTRY_ALL_WORLD) || selectedCountries.contains(Integer.toString(event.getStartCountry())))) {
+            } else if (!event.getStartDate().equals(EventContract.EventEntry.IS_IT_EVENT) && !displayBoolean) {
                 view = ((Activity) getContext()).getLayoutInflater().inflate(livewind.example.andro.liveWind.R.layout.list_trip_item, parent, false);
 
 
@@ -700,7 +700,7 @@ public class EventAdapter extends ArrayAdapter<Event> {
           //      view.setVisibility(view.GONE);
             }
         } else {
-            if (event.getStartDate().equals(EventContract.EventEntry.IS_IT_EVENT) && displayBoolean&& (selectedCountries.contains(Integer.toString(event.getCountry())) || selectedCountries.contains(EventContract.EventEntry.COUNTRY_ALL_WORLD))) {
+            if (event.getStartDate().equals(EventContract.EventEntry.IS_IT_EVENT) && displayBoolean) {
                 view = ((Activity) getContext()).getLayoutInflater().inflate(livewind.example.andro.liveWind.R.layout.list_item, parent, false);
 
 
@@ -993,7 +993,7 @@ public class EventAdapter extends ArrayAdapter<Event> {
                         conditionsTextView.setText("UNKNOWN");
                         break;
                 }
-            } else if (!event.getStartDate().equals(EventContract.EventEntry.IS_IT_EVENT) && !displayBoolean && (selectedCountries.contains(Integer.toString(event.getCountry())) || selectedCountries.contains(EventContract.EventEntry.COUNTRY_ALL_WORLD) || selectedCountries.contains(Integer.toString(event.getStartCountry())))) {
+            } else if (!event.getStartDate().equals(EventContract.EventEntry.IS_IT_EVENT) && !displayBoolean ) {
                 view = ((Activity) getContext()).getLayoutInflater().inflate(livewind.example.andro.liveWind.R.layout.list_trip_item, parent, false);
 
 

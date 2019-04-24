@@ -552,7 +552,7 @@ public class CatalogActivity extends AppCompatActivity  {
                     }
                     final String checkEventOrTrip = "DEFAULT";
                         if (displayBoolean) {
-                            if (event.getStartDate().equals(checkEventOrTrip) && (selectedCountries.contains(Integer.toString(event.getCountry())) || selectedCountries.contains(EventContract.EventEntry.COUNTRY_ALL_WORLD) || selectedCountries.contains(Integer.toString(event.getStartCountry())))) {
+                            if (event.getStartDate().equals(checkEventOrTrip) && (selectedCountries.contains(Integer.toString(event.getCountry())) || selectedCountries.contains(EventContract.EventEntry.COUNTRY_ALL_WORLD))) {
                                 mEventAdapter.add(event);
                             } else {}
                         } else {
