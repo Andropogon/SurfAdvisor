@@ -472,4 +472,77 @@ public final class Event extends EventTrip implements Comparable<Event>{
         }
         return windPowerInSailSize;
     }
+
+    /**
+     * Setup place name with two letter country cutoff for displaying coverages and trips
+     */
+    public static String getPlaceWithCountryCutoff (Event event) {
+        String countryPlaceString;
+        switch (event.getCountry()) {
+            case EventContract.EventEntry.COUNTRY_WORLD:
+                countryPlaceString = event.getPlace() + "";
+                break;
+            case EventContract.EventEntry.COUNTRY_POLAND:
+                countryPlaceString = event.getPlace() + ", PL";
+                break;
+            case EventContract.EventEntry.COUNTRY_GREECE:
+                countryPlaceString = event.getPlace() + ", GR";
+                break;
+            case EventContract.EventEntry.COUNTRY_SPAIN:
+                countryPlaceString = event.getPlace() + ", ES";
+                break;
+            case EventContract.EventEntry.COUNTRY_CROATIA:
+                countryPlaceString = event.getPlace() + ", HR";
+                break;
+            case EventContract.EventEntry.COUNTRY_PORTUGAL:
+                countryPlaceString = event.getPlace() + ", PT";
+                break;
+            case EventContract.EventEntry.COUNTRY_GERMANY:
+                countryPlaceString = event.getPlace() + ", DE";
+                break;
+            case EventContract.EventEntry.COUNTRY_FRANCE:
+                countryPlaceString = event.getPlace() + ", FR";
+                break;
+            case EventContract.EventEntry.COUNTRY_SOUTH_AFRICA:
+                countryPlaceString = event.getPlace() + ", ZA";
+                break;
+            case EventContract.EventEntry.COUNTRY_MOROCCO:
+                countryPlaceString = event.getPlace() + ", MA";
+                break;
+            case EventContract.EventEntry.COUNTRY_ITALY:
+                countryPlaceString = event.getPlace() + ", IT";
+                break;
+            case EventContract.EventEntry.COUNTRY_EGYPT:
+                countryPlaceString = event.getPlace() + ", EG";
+                break;
+            case EventContract.EventEntry.COUNTRY_UK:
+                countryPlaceString = event.getPlace() + ", UK";
+                break;
+            case EventContract.EventEntry.COUNTRY_TURKEY:
+                countryPlaceString = event.getPlace() + ", TR";
+                break;
+            case EventContract.EventEntry.COUNTRY_AUSTRIA:
+                countryPlaceString = event.getPlace() + ", AT";
+                break;
+            case EventContract.EventEntry.COUNTRY_DENMARK:
+                countryPlaceString = event.getPlace() + ", DK";
+                break;
+            case EventContract.EventEntry.COUNTRY_BRAZIL:
+                countryPlaceString = event.getPlace() + ", BR";
+                break;
+            case EventContract.EventEntry.COUNTRY_USA:
+                countryPlaceString = event.getPlace() + ", US";
+                break;
+            case EventContract.EventEntry.COUNTRY_VIETNAM:
+                countryPlaceString = event.getPlace() + ", VN";
+                break;
+            case EventContract.EventEntry.COUNTRY_MALTA:
+                countryPlaceString = event.getPlace() + ", MT";
+                break;
+            default:
+                countryPlaceString = event.getPlace();
+                break;
+        }
+        return countryPlaceString;
+    }
 }

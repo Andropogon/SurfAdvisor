@@ -189,6 +189,7 @@
     <string name="conditions_WSW">WSW</string>
     <string name="conditions_WNW">WNW</string>
     <string name="conditions_NNW">NNW</string>
+    <string name="conditions_unknown">Unknown</string>
 
     <string name="transport_car">Car</string>
     <string name="transport_plane">Plane</string>
