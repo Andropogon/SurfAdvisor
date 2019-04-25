@@ -1,0 +1,36 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="160dp"
+    android:layout_height="wrap_content">
+    <ImageView
+        android:src="@drawable/ic_notifications_active_black_24dp"
+        android:layout_width="match_parent"
+        android:layout_height="32dp"
+        android:scaleType="center"
+        android:background="@color/dialog_background"
+        android:contentDescription="@string/dialog_help_add_event_title" />
+    <TextView
+        android:id="@+id/new_content_notification_title"
+        style="@style/eventInfoTextMedium"
+        android:gravity="center"
+        android:paddingTop="2dp"
+        android:paddingBottom="2dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minLines="1"
+        android:maxLines="2"
+        android:background="@color/dialog_background"
+        tools:text="Nowa aktualizacja!"/>
+        <TextView
+            android:id="@+id/new_content_notification_description"
+            style="@style/eventInfoTextSmall"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingRight="10dp"
+            android:paddingLeft="10dp"
+            android:lines="12"
+            tools:text="Aktualizacja 2.13 jest już dostępna, wprowadza ona: \n -Możliwość filtrowania wyjazdów \n -Powiadomienia o nowych relacjach \n -Naprawę kilku błędów"/>
+</LinearLayout>
