@@ -260,7 +260,6 @@ public final class Event extends EventTrip implements Comparable<Event>{
         if(startDate.equals("DEFAULT"))
         {
             GregorianCalendar dataGC = new GregorianCalendar(0,0,0);
-            Calendar dataC = dataGC;
             return dataGC;
         } else {
             String mStartDate = startDate.substring(8);
@@ -271,7 +270,6 @@ public final class Event extends EventTrip implements Comparable<Event>{
             int monthS = Integer.parseInt(month);
             int yearS = Integer.parseInt(year);
             GregorianCalendar dataGC = new GregorianCalendar(yearS, monthS, dayS);
-            Calendar dataC = dataGC;
             return dataGC;
         }
     }

@@ -432,140 +432,10 @@ public class EventAdapter extends ArrayAdapter<Event> {
 
         //Set place and country text views
         //Departure country
-        String countryStartPlaceString;
-        switch (event.getStartCountry()){
-            case EventContract.EventEntry.COUNTRY_WORLD:
-                countryStartPlaceString = event.getStartPlace()+"";
-                break;
-            case EventContract.EventEntry.COUNTRY_POLAND:
-                countryStartPlaceString = event.getStartPlace()+", PL";
-                break;
-            case EventContract.EventEntry.COUNTRY_GREECE:
-                countryStartPlaceString = event.getStartPlace()+", GR";
-                break;
-            case EventContract.EventEntry.COUNTRY_SPAIN:
-                countryStartPlaceString = event.getStartPlace()+", ES";
-                break;
-            case EventContract.EventEntry.COUNTRY_CROATIA:
-                countryStartPlaceString = event.getStartPlace()+", HR";
-                break;
-            case EventContract.EventEntry.COUNTRY_PORTUGAL:
-                countryStartPlaceString = event.getStartPlace()+", PT";
-                break;
-            case EventContract.EventEntry.COUNTRY_GERMANY:
-                countryStartPlaceString = event.getStartPlace()+", DE";
-                break;
-            case EventContract.EventEntry.COUNTRY_FRANCE:
-                countryStartPlaceString = event.getStartPlace()+", FR";
-                break;
-            case EventContract.EventEntry.COUNTRY_SOUTH_AFRICA:
-                countryStartPlaceString = event.getStartPlace()+", ZA";
-                break;
-            case EventContract.EventEntry.COUNTRY_MOROCCO:
-                countryStartPlaceString = event.getStartPlace()+", MA";
-                break;
-            case EventContract.EventEntry.COUNTRY_ITALY:
-                countryStartPlaceString = event.getStartPlace()+", IT";
-                break;
-            case EventContract.EventEntry.COUNTRY_EGYPT:
-                countryStartPlaceString = event.getStartPlace()+", EG";
-                break;
-            case EventContract.EventEntry.COUNTRY_UK:
-                countryStartPlaceString = event.getStartPlace()+", UK";
-                break;
-            case EventContract.EventEntry.COUNTRY_TURKEY:
-                countryStartPlaceString = event.getStartPlace()+", TR";
-                break;
-            case EventContract.EventEntry.COUNTRY_AUSTRIA:
-                countryStartPlaceString = event.getStartPlace()+", AT";
-                break;
-            case EventContract.EventEntry.COUNTRY_DENMARK:
-                countryStartPlaceString = event.getStartPlace()+", DK";
-                break;
-            case EventContract.EventEntry.COUNTRY_BRAZIL:
-                countryStartPlaceString = event.getStartPlace()+", BR";
-                break;
-            case EventContract.EventEntry.COUNTRY_USA:
-                countryStartPlaceString = event.getStartPlace()+", US";
-                break;
-            case EventContract.EventEntry.COUNTRY_VIETNAM:
-                countryStartPlaceString = event.getStartPlace()+", VN";
-                break;
-            case EventContract.EventEntry.COUNTRY_MALTA:
-                countryStartPlaceString = event.getStartPlace()+", MT";
-                break;
-            default:
-                countryStartPlaceString = event.getStartPlace();
-                break;
-        }
-
+        String countryStartPlaceString = EventTrip.getStartPlaceWithCountryCutoff(event);
         //Arrival country
-        String countryPlaceString;
-        switch (event.getCountry()){
-            case EventContract.EventEntry.COUNTRY_WORLD:
-                countryPlaceString = event.getPlace()+"";
-                break;
-            case EventContract.EventEntry.COUNTRY_POLAND:
-                countryPlaceString = event.getPlace()+", PL";
-                break;
-            case EventContract.EventEntry.COUNTRY_GREECE:
-                countryPlaceString = event.getPlace()+", GR";
-                break;
-            case EventContract.EventEntry.COUNTRY_SPAIN:
-                countryPlaceString = event.getPlace()+", ES";
-                break;
-            case EventContract.EventEntry.COUNTRY_CROATIA:
-                countryPlaceString = event.getPlace()+", HR";
-                break;
-            case EventContract.EventEntry.COUNTRY_PORTUGAL:
-                countryPlaceString = event.getPlace()+", PT";
-                break;
-            case EventContract.EventEntry.COUNTRY_GERMANY:
-                countryPlaceString = event.getPlace()+", DE";
-                break;
-            case EventContract.EventEntry.COUNTRY_FRANCE:
-                countryPlaceString = event.getPlace()+", FR";
-                break;
-            case EventContract.EventEntry.COUNTRY_SOUTH_AFRICA:
-                countryPlaceString = event.getPlace()+", ZA";
-                break;
-            case EventContract.EventEntry.COUNTRY_MOROCCO:
-                countryPlaceString = event.getPlace()+", MA";
-                break;
-            case EventContract.EventEntry.COUNTRY_ITALY:
-                countryPlaceString = event.getPlace()+", IT";
-                break;
-            case EventContract.EventEntry.COUNTRY_EGYPT:
-                countryPlaceString = event.getPlace()+", EG";
-                break;
-            case EventContract.EventEntry.COUNTRY_UK:
-                countryPlaceString = event.getPlace()+", UK";
-                break;
-            case EventContract.EventEntry.COUNTRY_TURKEY:
-                countryPlaceString = event.getPlace()+", TR";
-                break;
-            case EventContract.EventEntry.COUNTRY_AUSTRIA:
-                countryPlaceString = event.getPlace()+", AT";
-                break;
-            case EventContract.EventEntry.COUNTRY_DENMARK:
-                countryPlaceString = event.getPlace()+", DK";
-                break;
-            case EventContract.EventEntry.COUNTRY_BRAZIL:
-                countryPlaceString = event.getPlace()+", BR";
-                break;
-            case EventContract.EventEntry.COUNTRY_USA:
-                countryPlaceString = event.getPlace()+", US";
-                break;
-            case EventContract.EventEntry.COUNTRY_VIETNAM:
-                countryPlaceString = event.getPlace()+", VN";
-                break;
-            case EventContract.EventEntry.COUNTRY_MALTA:
-                countryPlaceString = event.getPlace()+", MT";
-                break;
-            default:
-                countryPlaceString = event.getPlace();
-                break;
-        }
+        String countryPlaceString = Event.getPlaceWithCountryCutoff(event);
+
         //Set countries texts size during to texts length
         if(countryPlaceString.length()<=15){
             placeTextView.setTextSize(20);
@@ -735,11 +605,12 @@ public class EventAdapter extends ArrayAdapter<Event> {
             Calendar dataC = dataGC;
             long timestamp = dataC.getTimeInMillis();
             return timestamp;
-        }
-        private long twoTimestampsToDays(long startTimestamp, long endTimestamp){
+    }
+
+    private long twoTimestampsToDays(long startTimestamp, long endTimestamp){
         long numberOfDays = endTimestamp - startTimestamp;
         numberOfDays = numberOfDays / 86400000; //One day in milliseconds
             numberOfDays++;
             return numberOfDays;
-        }
+    }
 }
