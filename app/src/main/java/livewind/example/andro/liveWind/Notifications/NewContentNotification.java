@@ -12,6 +12,16 @@ public class NewContentNotification {
     private String actionTitle;
     private String actionLink;
 
+    /**
+     * Firebase NewContentNotification keys
+     */
+     public final class NewContentNotificationEntry {
+        public static final String NEW_CONTENT_TITLE = "title";
+        public static final String NEW_CONTENT_DESCRIPTION = "description";
+        public static final String NEW_CONTENT_ACTION_TITLE = "actionTitle";
+        public static final String NEW_CONTENT_ACTION_LINK = "actionLink";
+    }
+
     public NewContentNotification(){}
 
     public NewContentNotification(String title, String description, String actionTitle, String actionLink){

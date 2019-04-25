@@ -6,6 +6,7 @@ import android.widget.Toast;
 
 import java.nio.channels.NoConnectionPendingException;
 
+import livewind.example.andro.liveWind.Notifications.NewContentNotification;
 import livewind.example.andro.liveWind.user.UserActivity;
 import livewind.example.andro.liveWind.user.Windsurfer;
 
@@ -169,6 +170,14 @@ public class ExtraInfoHelp {
         windsurfer.setUserToken(intent.getStringExtra(context.getString(R.string.EXTRA_WINDSURFER_TOKEN)));
         windsurfer.setEmail(intent.getStringExtra(context.getString(R.string.EXTRA_WINDSURFER_EMAIL)));
         windsurfer.setPhotoLargeName(intent.getStringExtra(context.getString(R.string.EXTRA_WINDSURFER_PHOTO_LARGE_ID)));
+    }
+
+    public static Intent putNotificationToIntent(Intent intent, NewContentNotification newContentNotification, Context context){
+            intent.putExtra(NewContentNotification.NewContentNotificationEntry.NEW_CONTENT_TITLE,newContentNotification.getTitle());
+            intent.putExtra(NewContentNotification.NewContentNotificationEntry.NEW_CONTENT_DESCRIPTION,newContentNotification.getDescription());
+            intent.putExtra(NewContentNotification.NewContentNotificationEntry.NEW_CONTENT_ACTION_TITLE,newContentNotification.getActionTitle());
+            intent.putExtra(NewContentNotification.NewContentNotificationEntry.NEW_CONTENT_ACTION_LINK,newContentNotification.getActionLink());
+        return intent;
     }
 
 }

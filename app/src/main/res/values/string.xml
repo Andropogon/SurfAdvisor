@@ -515,6 +515,9 @@
     <string name="notification_relation_liked_text2"> was liked (</string>
     <string name="notification_new_coverage_title">"New coverage from "</string>
     <string name="notification_new_coverage_settings_title">Zezwól na powiadomienia o nowych relacjach</string>
+    <!-- New content notifications -->
+    <string name="notification_new_content_title">Coś nowego w SurfAdvisor!</string>
+    <string name="notification_new_content_click_to_get_more">"... Kliknij, aby dowiedzieć się więcej..."</string>
 
     <!-- Events Categories -->
     <string name="category_event_relation">Live Coverage</string>
