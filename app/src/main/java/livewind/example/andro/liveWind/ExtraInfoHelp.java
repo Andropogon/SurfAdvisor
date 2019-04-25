@@ -172,7 +172,7 @@ public class ExtraInfoHelp {
         windsurfer.setPhotoLargeName(intent.getStringExtra(context.getString(R.string.EXTRA_WINDSURFER_PHOTO_LARGE_ID)));
     }
 
-    public static Intent putNotificationToIntent(Intent intent, NewContentNotification newContentNotification, Context context){
+    public static Intent putNotificationToIntent(Intent intent, NewContentNotification newContentNotification){
             intent.putExtra(NewContentNotification.NewContentNotificationEntry.NEW_CONTENT_TITLE,newContentNotification.getTitle());
             intent.putExtra(NewContentNotification.NewContentNotificationEntry.NEW_CONTENT_DESCRIPTION,newContentNotification.getDescription());
             intent.putExtra(NewContentNotification.NewContentNotificationEntry.NEW_CONTENT_ACTION_TITLE,newContentNotification.getActionTitle());
@@ -180,4 +180,15 @@ public class ExtraInfoHelp {
         return intent;
     }
 
+    public static boolean getNewContentNotificationFromIntent(Intent intent, NewContentNotification newContentNotification){
+        if(intent.getStringExtra(intent.getStringExtra(NewContentNotification.NewContentNotificationEntry.NEW_CONTENT_TITLE)).isEmpty()){
+            return false;
+        } else {
+            newContentNotification.setTitle(intent.getStringExtra(NewContentNotification.NewContentNotificationEntry.NEW_CONTENT_TITLE));
+            newContentNotification.setDescription(intent.getStringExtra(NewContentNotification.NewContentNotificationEntry.NEW_CONTENT_DESCRIPTION));
+            newContentNotification.setActionTitle(intent.getStringExtra(NewContentNotification.NewContentNotificationEntry.NEW_CONTENT_ACTION_TITLE));
+            newContentNotification.setActionLink(intent.getStringExtra(NewContentNotification.NewContentNotificationEntry.NEW_CONTENT_ACTION_LINK));
+            return true;
+        }
+    }
 }

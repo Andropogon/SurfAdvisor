@@ -252,7 +252,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 payload.get(NewContentNotification.NewContentNotificationEntry.NEW_CONTENT_ACTION_TITLE),
                 payload.get(NewContentNotification.NewContentNotificationEntry.NEW_CONTENT_ACTION_LINK));
 
-        putNotificationToIntent(intent, newContentNotification, getApplicationContext());
+        putNotificationToIntent(intent, newContentNotification);
 
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, NOTIFICATION_NEW_COVERAGE_CHANNEL_ID);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,

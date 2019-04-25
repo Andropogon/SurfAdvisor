@@ -37,6 +37,7 @@ import livewind.example.andro.liveWind.Filter.FilterTripsActivity;
 import livewind.example.andro.liveWind.HelpClasses.CurrencyHelper;
 import livewind.example.andro.liveWind.HelpClasses.DateHelp;
 import livewind.example.andro.liveWind.HelpClasses.SocialHelper;
+import livewind.example.andro.liveWind.Notifications.NewContentNotification;
 import livewind.example.andro.liveWind.firebase.FirebaseHelp;
 import livewind.example.andro.liveWind.firebase.FirebasePromotions;
 import livewind.example.andro.liveWind.user.UserActivity;
@@ -69,6 +70,7 @@ import java.util.concurrent.TimeUnit;
 
 import livewind.example.andro.liveWind.data.EventContract;
 
+import static livewind.example.andro.liveWind.ExtraInfoHelp.getNewContentNotificationFromIntent;
 import static livewind.example.andro.liveWind.ExtraInfoHelp.putInfoToIntent;
 import static livewind.example.andro.liveWind.ExtraInfoHelp.putWindsurferToIntent;
 
@@ -124,12 +126,21 @@ public class CatalogActivity extends AppCompatActivity  {
     public static final int RC_SIGN_IN = 1;
     private Windsurfer mWindsurfer = new Windsurfer();
 
+    /** New content notification **/
+    private NewContentNotification mNewContentNotification = new NewContentNotification();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(livewind.example.andro.liveWind.R.layout.activity_catalog);
         context = getApplicationContext();
+        final Intent intent = getIntent();
+        //Check that intent have any newContentNotifications (have when user open app from new content notification)
+        if(getNewContentNotificationFromIntent(intent,mNewContentNotification)){
+            //TODO Add show dialog method
+        }
+
         //Set default settings preferences values - called only on first open
         PreferenceManager.setDefaultValues(this, livewind.example.andro.liveWind.R.xml.pref_general, false);
 
