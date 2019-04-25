@@ -38,6 +38,7 @@ import livewind.example.andro.liveWind.HelpClasses.CurrencyHelper;
 import livewind.example.andro.liveWind.HelpClasses.DateHelp;
 import livewind.example.andro.liveWind.HelpClasses.SocialHelper;
 import livewind.example.andro.liveWind.Notifications.NewContentNotification;
+import livewind.example.andro.liveWind.Notifications.NewContentNotificationDialog;
 import livewind.example.andro.liveWind.firebase.FirebaseHelp;
 import livewind.example.andro.liveWind.firebase.FirebasePromotions;
 import livewind.example.andro.liveWind.user.UserActivity;
@@ -135,10 +136,11 @@ public class CatalogActivity extends AppCompatActivity  {
         super.onCreate(savedInstanceState);
         setContentView(livewind.example.andro.liveWind.R.layout.activity_catalog);
         context = getApplicationContext();
-        final Intent intent = getIntent();
+
         //Check that intent have any newContentNotifications (have when user open app from new content notification)
+        final Intent intent = getIntent();
         if(getNewContentNotificationFromIntent(intent,mNewContentNotification)){
-            //TODO Add show dialog method
+            NewContentNotificationDialog.showNewContentNotificationDialog(CatalogActivity.this,mNewContentNotification);
         }
 
         //Set default settings preferences values - called only on first open
