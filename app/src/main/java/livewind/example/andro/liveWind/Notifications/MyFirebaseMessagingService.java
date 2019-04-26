@@ -243,7 +243,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             notificationChannel.enableVibration(true);
             notificationManager.createNotificationChannel(notificationChannel);
         }
-        Intent intent = new Intent(this, EventActivity.class);
+        Intent intent = new Intent(this, CatalogActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
         //Make {@NewContentNotification} to put to pendingIntent
@@ -265,11 +265,15 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 .setLargeIcon(BitmapFactory.decodeResource(getApplicationContext().getResources(), R.drawable.app_icon_v3)) //TODO maybe main app icon?
                 .setTicker(getApplicationContext().getString(R.string.notification_new_content_title))
                 .setContentTitle(newContentNotification.getTitle())
-                .setContentText(newContentNotification.getDescription().substring(0,30)+getApplicationContext().getString(R.string.notification_new_content_click_to_get_more))
                 .setTimeoutAfter(28800000L) //After 8h notification should be canceled
                 // Set the intent that will fire when the user taps the notification
                 .setContentIntent(pendingIntent)
                 .setAutoCancel(true);
+        if(newContentNotification.getDescription().length()>=30) {
+            notificationBuilder.setContentText(newContentNotification.getDescription().substring(0, 30) + getApplicationContext().getString(R.string.notification_new_content_click_to_get_more));
+        } else {
+            notificationBuilder.setContentText(newContentNotification.getDescription() + getApplicationContext().getString(R.string.notification_new_content_click_to_get_more));
+        }
         notificationManager.notify(payload.hashCode(), notificationBuilder.build());
     }
 }

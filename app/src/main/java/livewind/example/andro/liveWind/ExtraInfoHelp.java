@@ -173,7 +173,7 @@ public class ExtraInfoHelp {
     }
 
     public static Intent putNotificationToIntent(Intent intent, NewContentNotification newContentNotification){
-            intent.putExtra(NewContentNotification.NewContentNotificationEntry.NEW_CONTENT_TITLE,newContentNotification.getTitle());
+            intent.putExtra("title",newContentNotification.getTitle());
             intent.putExtra(NewContentNotification.NewContentNotificationEntry.NEW_CONTENT_DESCRIPTION,newContentNotification.getDescription());
             intent.putExtra(NewContentNotification.NewContentNotificationEntry.NEW_CONTENT_ACTION_TITLE,newContentNotification.getActionTitle());
             intent.putExtra(NewContentNotification.NewContentNotificationEntry.NEW_CONTENT_ACTION_LINK,newContentNotification.getActionLink());
@@ -181,7 +181,8 @@ public class ExtraInfoHelp {
     }
 
     public static boolean getNewContentNotificationFromIntent(Intent intent, NewContentNotification newContentNotification){
-        if(intent.getStringExtra(intent.getStringExtra(NewContentNotification.NewContentNotificationEntry.NEW_CONTENT_TITLE)).isEmpty()){
+
+        if(!intent.hasExtra(NewContentNotification.NewContentNotificationEntry.NEW_CONTENT_TITLE)){
             return false;
         } else {
             newContentNotification.setTitle(intent.getStringExtra(NewContentNotification.NewContentNotificationEntry.NEW_CONTENT_TITLE));

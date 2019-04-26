@@ -1,7 +1,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
-    android:layout_width="160dp"
+    android:layout_width="120dp"
     android:layout_height="wrap_content">
     <ImageView
         android:src="@drawable/ic_notifications_active_black_24dp"
@@ -31,6 +31,7 @@
             android:layout_height="wrap_content"
             android:paddingRight="10dp"
             android:paddingLeft="10dp"
-            android:lines="12"
+            android:minLines="4"
+            android:maxLines="12"
             tools:text="Aktualizacja 2.13 jest już dostępna, wprowadza ona: \n -Możliwość filtrowania wyjazdów \n -Powiadomienia o nowych relacjach \n -Naprawę kilku błędów"/>
 </LinearLayout>

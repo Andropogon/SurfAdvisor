@@ -19,8 +19,10 @@ import android.widget.TextView;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 import livewind.example.andro.liveWind.Countries.CountryDialog;
+import livewind.example.andro.liveWind.Notifications.NewContentNotification;
 
 import static livewind.example.andro.liveWind.Countries.CountryDialog.loadCountriesToList;
 
@@ -52,6 +54,19 @@ public class AppRater {
             date_firstLaunch = System.currentTimeMillis();
             editor.putLong("date_firstlaunch2", date_firstLaunch);
         }
+        //
+        Long dateFirstNewContentNotificationLaunch = prefs.getLong("date_new_content_notifications", 0);
+        if (dateFirstNewContentNotificationLaunch == 0) {
+            if (Locale.getDefault().getLanguage().equals("pl")) {
+                //Display polish new content notifications
+                FirebaseMessaging.getInstance().subscribeToTopic(NewContentNotification.NewContentNotificationEntry.NEW_CONTENT_TOPIC_POLISH);
+            } else {
+                //Display english new content notifications
+                FirebaseMessaging.getInstance().subscribeToTopic(NewContentNotification.NewContentNotificationEntry.NEW_CONTENT_TOPIC_ENGLISH);
+            }
+            dateFirstNewContentNotificationLaunch = System.currentTimeMillis();
+            editor.putLong("date_new_content_notifications", dateFirstNewContentNotificationLaunch);
+        }
 
         // Wait at least n days before opening
         if (launch_count >= LAUNCHES_UNTIL_PROMPT) {
@@ -61,7 +76,7 @@ public class AppRater {
             }
         }
 
-        editor.commit();
+        editor.apply();
     }
 
     public static void showRateDialog(final Context mContext, final SharedPreferences.Editor editor) {

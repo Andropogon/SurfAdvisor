@@ -20,12 +20,12 @@ public class NewContentNotificationDialog {
         //Init views
         TextView titleTextView = dialogView.findViewById(R.id.new_content_notification_title);
         TextView descriptionTextView = dialogView.findViewById(R.id.new_content_notification_description);
-        titleTextView.setText(newContentNotification.getTitle());
-        descriptionTextView.setText(newContentNotification.getDescription());
+        titleTextView.setText(newContentNotification.getTitle().trim());
+        descriptionTextView.setText(newContentNotification.getDescription().trim());
 
         //Set ok button
         builder.setView(dialogView)
-                .setPositiveButton(R.string.dialog_ok, new DialogInterface.OnClickListener() {
+                .setNeutralButton(R.string.dialog_ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.dismiss();
@@ -34,7 +34,7 @@ public class NewContentNotificationDialog {
 
         //Set action button
         builder.setView(dialogView)
-                .setNeutralButton(newContentNotification.getActionTitle(), new DialogInterface.OnClickListener() {
+                .setPositiveButton(newContentNotification.getActionTitle(), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
                         //TODO check that it is correct
@@ -46,6 +46,6 @@ public class NewContentNotificationDialog {
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
         ((Button)alertDialog.findViewById(android.R.id.button1)).setBackgroundResource(R.drawable.custom_button);
-        ((Button)alertDialog.findViewById(android.R.id.button2)).setBackgroundResource(R.drawable.custom_button);
+        ((Button)alertDialog.findViewById(android.R.id.button3)).setBackgroundResource(R.drawable.custom_button);
     }
 }

@@ -16,10 +16,16 @@ public class NewContentNotification {
      * Firebase NewContentNotification keys
      */
      public final class NewContentNotificationEntry {
+         //Contract firebase access constants
         public static final String NEW_CONTENT_TITLE = "title";
         public static final String NEW_CONTENT_DESCRIPTION = "description";
         public static final String NEW_CONTENT_ACTION_TITLE = "actionTitle";
         public static final String NEW_CONTENT_ACTION_LINK = "actionLink";
+
+        //Topics names
+        public static final String NEW_CONTENT_TOPIC_POLISH = "new_content_polish";
+        public static final String NEW_CONTENT_TOPIC_ENGLISH = "new_content_english";
+
     }
 
     public NewContentNotification(){}

@@ -138,9 +138,13 @@ public class CatalogActivity extends AppCompatActivity  {
         context = getApplicationContext();
 
         //Check that intent have any newContentNotifications (have when user open app from new content notification)
-        final Intent intent = getIntent();
+        Intent intent = getIntent();
         if(getNewContentNotificationFromIntent(intent,mNewContentNotification)){
             NewContentNotificationDialog.showNewContentNotificationDialog(CatalogActivity.this,mNewContentNotification);
+            intent.removeExtra(NewContentNotification.NewContentNotificationEntry.NEW_CONTENT_TITLE);
+            intent.removeExtra(NewContentNotification.NewContentNotificationEntry.NEW_CONTENT_DESCRIPTION);
+            intent.removeExtra(NewContentNotification.NewContentNotificationEntry.NEW_CONTENT_ACTION_TITLE);
+            intent.removeExtra(NewContentNotification.NewContentNotificationEntry.NEW_CONTENT_ACTION_LINK);
         }
 
         //Set default settings preferences values - called only on first open
