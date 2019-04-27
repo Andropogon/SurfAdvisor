@@ -362,6 +362,7 @@
     <string name="dialog_ok">OK</string>
     <string name="dialog_add">Add</string>
     <string name="dialog_cancel">Cancel</string>
+    <string name="dialog_dissmis">Pomiń</string>
     <string name="dialog_help_add_event_title">Adding coverage</string>
     <string name="dialog_help_add_event_text">Here you can add info about current conditions from the spot you\'re at with additional commentary. This way you let other surfers know if they want to join you and what gear to take. For every report you make, you get points which can later be exchanged for cool rewards. Marked boxes must be filled.</string>
     <string name="dialog_help_add_trip_title">Adding trips</string>

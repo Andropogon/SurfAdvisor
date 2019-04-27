@@ -14,7 +14,7 @@ import livewind.example.andro.liveWind.R;
 public class NewContentNotificationDialog {
 
     public static void showNewContentNotificationDialog(final Activity context, final NewContentNotification newContentNotification) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.DialogeTheme);
+        AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.NewContentDialogTheme);
         LayoutInflater inflater = LayoutInflater.from(context);
         View dialogView = inflater.inflate(R.layout.dialog_new_content_notification, null);
         //Init views
@@ -25,7 +25,7 @@ public class NewContentNotificationDialog {
 
         //Set ok button
         builder.setView(dialogView)
-                .setNeutralButton(R.string.dialog_ok, new DialogInterface.OnClickListener() {
+                .setNeutralButton(R.string.dialog_dissmis, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.dismiss();
