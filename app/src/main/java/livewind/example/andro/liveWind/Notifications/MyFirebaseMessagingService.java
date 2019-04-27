@@ -264,7 +264,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 .setDefaults(Notification.DEFAULT_ALL)
                 .setWhen(System.currentTimeMillis())
                 .setSmallIcon(R.drawable.ic_thumb_up_black_24dp)
-                .setColor(getColor(R.color.notifications_new_content_color))
+                .setColor(getColor(R.color.sport_available_yes))
                 .setLargeIcon(BitmapFactory.decodeResource(getApplicationContext().getResources(), R.drawable.app_icon_v3)) //TODO maybe main app icon?
                 .setTicker(getApplicationContext().getString(R.string.notification_new_content_title))
                 .setContentTitle(newContentNotification.getTitle())
