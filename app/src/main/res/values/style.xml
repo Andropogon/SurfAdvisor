@@ -145,7 +145,7 @@
     </style>
     <style name="NewContentDialogTheme" parent="Theme.AppCompat.Dialog.Alert">
         <item name="android:background">@color/app_primary_color</item>
-        <item name="android:windowBackground">@drawable/custom_button_rate</item>
+        <item name="android:windowBackground">@drawable/custom_background_new_content_dialog</item>
         <item name="colorAccent">@android:color/black</item>
         <item name="android:fontFamily">@font/dosis_light</item>
     </style>

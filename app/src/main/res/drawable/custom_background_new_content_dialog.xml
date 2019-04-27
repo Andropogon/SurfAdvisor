@@ -14,7 +14,7 @@
                 android:endColor="@color/app_primary_color"
                 android:angle="0" />
             <stroke
-                android:width="3dp"
+                android:width="2dp"
                 android:color="@color/blackColor" />
             <corners android:radius="10dp" />
             <padding
@@ -32,7 +32,7 @@
                 android:startColor="@color/app_primary_color"
                 android:angle="0" />
             <stroke
-                android:width="3dp"
+                android:width="2dp"
                 android:color="@color/blackColor" />
             <corners android:radius="10dp" />
             <padding
@@ -53,7 +53,7 @@
                 android:startColor="@color/app_primary_color"
                 android:angle="180" />
             <stroke
-                android:width="3dp"
+                android:width="2dp"
                 android:color="@color/blackColor" />
             <corners android:radius="10dp" />
             <padding

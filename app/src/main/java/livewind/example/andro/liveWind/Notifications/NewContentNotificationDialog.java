@@ -20,8 +20,8 @@ public class NewContentNotificationDialog {
         //Init views
         TextView titleTextView = dialogView.findViewById(R.id.new_content_notification_title);
         TextView descriptionTextView = dialogView.findViewById(R.id.new_content_notification_description);
-        titleTextView.setText(newContentNotification.getTitle().trim());
-        descriptionTextView.setText(newContentNotification.getDescription().trim());
+        titleTextView.setText(newContentNotification.getTitle().toString().trim());
+        descriptionTextView.setText(newContentNotification.getDescription().toString().trim());
 
         //Set ok button
         builder.setView(dialogView)
@@ -45,7 +45,7 @@ public class NewContentNotificationDialog {
                 });
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
-        ((Button)alertDialog.findViewById(android.R.id.button1)).setBackgroundResource(R.drawable.custom_button);
+        ((Button)alertDialog.findViewById(android.R.id.button1)).setBackgroundResource(R.drawable.custom_aprove_button);
         ((Button)alertDialog.findViewById(android.R.id.button3)).setBackgroundResource(R.drawable.custom_button);
     }
 }

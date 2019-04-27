@@ -109,7 +109,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                         }
                         break;
                     case NOTIFICATION_NEW_CONTENT:
-                        showNewContentNotification(payload);
+                        boolean notificationsNewContentBoolean = sharedPref.getBoolean(getApplicationContext().getString(R.string.settings_notifications_allow_about_new_content_key), true);
+                        if(notificationsNewContentBoolean) {
+                            showNewContentNotification(payload);
+                        }
                         break;
                     default:
                         showNewLikeNotification(payload);
@@ -269,10 +272,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 // Set the intent that will fire when the user taps the notification
                 .setContentIntent(pendingIntent)
                 .setAutoCancel(true);
-        if(newContentNotification.getDescription().length()>=30) {
-            notificationBuilder.setContentText(newContentNotification.getDescription().substring(0, 30) + getApplicationContext().getString(R.string.notification_new_content_click_to_get_more));
+        if(newContentNotification.getDescription().length()>=40) {
+            notificationBuilder.setContentText(getApplicationContext().getString(R.string.notification_new_content_click_to_get_more));
         } else {
-            notificationBuilder.setContentText(newContentNotification.getDescription() + getApplicationContext().getString(R.string.notification_new_content_click_to_get_more));
+            notificationBuilder.setContentText(newContentNotification.getDescription());
         }
         notificationManager.notify(payload.hashCode(), notificationBuilder.build());
     }
