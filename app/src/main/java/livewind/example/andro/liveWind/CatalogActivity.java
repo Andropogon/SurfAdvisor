@@ -37,6 +37,7 @@ import livewind.example.andro.liveWind.Filter.FilterTripsActivity;
 import livewind.example.andro.liveWind.HelpClasses.CurrencyHelper;
 import livewind.example.andro.liveWind.HelpClasses.DateHelp;
 import livewind.example.andro.liveWind.HelpClasses.SocialHelper;
+import livewind.example.andro.liveWind.Notifications.MyFirebaseMessagingService;
 import livewind.example.andro.liveWind.Notifications.NewContentNotification;
 import livewind.example.andro.liveWind.Notifications.NewContentNotificationDialog;
 import livewind.example.andro.liveWind.firebase.FirebaseHelp;
@@ -152,6 +153,7 @@ public class CatalogActivity extends AppCompatActivity  {
 
         initViews();
         initFirebaseVariables();
+        MyFirebaseMessagingService.topicSubscriptionService(CatalogActivity.this);
         setupNavigationDrawer();
         // Initialize events ListView and its adapter
         mEventAdapter = new EventAdapter(this, events,0);

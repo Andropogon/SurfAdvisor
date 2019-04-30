@@ -46,27 +46,10 @@ public class AppRater {
         // Get date of first launch
         Long date_firstLaunch = prefs.getLong("date_firstlaunch2", 0);
         if (date_firstLaunch == 0) {
-            final ArrayList<Country> mList = new ArrayList<Country>();
-            CountryDialog.loadCountriesToList(mContext,mList);
-            for(int i=1; i<=20;i++){
-                FirebaseMessaging.getInstance().subscribeToTopic(mList.get(i).getTopicKey());
-            }
             date_firstLaunch = System.currentTimeMillis();
             editor.putLong("date_firstlaunch2", date_firstLaunch);
         }
         //
-        Long dateFirstNewContentNotificationLaunch = prefs.getLong("date_new_content_notifications", 0);
-        if (dateFirstNewContentNotificationLaunch == 0) {
-            if (Locale.getDefault().getLanguage().equals("pl")) {
-                //Display polish new content notifications
-                FirebaseMessaging.getInstance().subscribeToTopic(NewContentNotification.NewContentNotificationEntry.NEW_CONTENT_TOPIC_POLISH);
-            } else {
-                //Display english new content notifications
-                FirebaseMessaging.getInstance().subscribeToTopic(NewContentNotification.NewContentNotificationEntry.NEW_CONTENT_TOPIC_ENGLISH);
-            }
-            dateFirstNewContentNotificationLaunch = System.currentTimeMillis();
-            editor.putLong("date_new_content_notifications", dateFirstNewContentNotificationLaunch);
-        }
 
         // Wait at least n days before opening
         if (launch_count >= LAUNCHES_UNTIL_PROMPT) {

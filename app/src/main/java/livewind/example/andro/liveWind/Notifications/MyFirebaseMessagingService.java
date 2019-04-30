@@ -15,12 +15,17 @@ import android.support.v4.app.NotificationCompat;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
+import java.util.ArrayList;
+import java.util.Locale;
 import java.util.Map;
 
 import livewind.example.andro.liveWind.CatalogActivity;
+import livewind.example.andro.liveWind.Countries.CountryDialog;
+import livewind.example.andro.liveWind.Country;
 import livewind.example.andro.liveWind.Event;
 import livewind.example.andro.liveWind.EventActivity;
 import livewind.example.andro.liveWind.R;
@@ -121,6 +126,35 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         }
     }
 
+    public static void topicSubscriptionService(Context mContext) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mContext);
+        SharedPreferences.Editor editor = prefs.edit();
+        // Get date of first launch
+        Long date_firstLaunch = prefs.getLong("date_countries_notifications", 0);
+        if (date_firstLaunch == 0) {
+            final ArrayList<Country> mList = new ArrayList<Country>();
+            CountryDialog.loadCountriesToList(mContext, mList);
+            for (int i = 1; i <= 20; i++) {
+                FirebaseMessaging.getInstance().subscribeToTopic(mList.get(i).getTopicKey());
+            }
+            date_firstLaunch = System.currentTimeMillis();
+            editor.putLong("date_countries_notifications", date_firstLaunch);
+        }
+        //
+        boolean notificationsNewContentBoolean = prefs.getBoolean(mContext.getString(R.string.settings_notifications_allow_about_new_content_key), true);
+        if (notificationsNewContentBoolean) {
+            if (Locale.getDefault().getLanguage().equals("pl")) {
+                //Display polish new content notifications
+                FirebaseMessaging.getInstance().subscribeToTopic(NewContentNotification.NewContentNotificationEntry.NEW_CONTENT_TOPIC_POLISH);
+                FirebaseMessaging.getInstance().unsubscribeFromTopic(NewContentNotification.NewContentNotificationEntry.NEW_CONTENT_TOPIC_ENGLISH);
+            } else {
+                //Display english new content notifications
+                FirebaseMessaging.getInstance().subscribeToTopic(NewContentNotification.NewContentNotificationEntry.NEW_CONTENT_TOPIC_ENGLISH);
+                FirebaseMessaging.getInstance().unsubscribeFromTopic(NewContentNotification.NewContentNotificationEntry.NEW_CONTENT_TOPIC_POLISH);
+            }
+        }
+        editor.apply();
+    }
     /**
      * Create and show notification about new like under your coverage
      * @param payload Map which has the message payload in it
