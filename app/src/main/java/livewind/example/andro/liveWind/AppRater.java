@@ -35,10 +35,17 @@ public class AppRater {
 
     public static void app_launched(Context mContext) {
         SharedPreferences prefs = mContext.getSharedPreferences("apprater", 0);
-        if (prefs.getBoolean("dontshowagain", false)) { return ; }
-
         SharedPreferences.Editor editor = prefs.edit();
+        // Set new content notifications to true after update
+        Long date_firstLaunchAfterUpdate = prefs.getLong("date_firstLaunchAfterUpdate", 0);
+        if (date_firstLaunchAfterUpdate == 0) {
+            editor.putBoolean(mContext.getString(R.string.settings_notifications_allow_about_new_content_key),true);
+            date_firstLaunchAfterUpdate = System.currentTimeMillis();
+            editor.putLong("date_firstLaunchAfterUpdate", date_firstLaunchAfterUpdate);
+            editor.apply();
+        }
 
+        if (prefs.getBoolean("dontshowagain", false)) { return ; }
         // Increment launch counter
         long launch_count = prefs.getLong("launch_count", 0) + 1;
         editor.putLong("launch_count", launch_count);
@@ -49,7 +56,7 @@ public class AppRater {
             date_firstLaunch = System.currentTimeMillis();
             editor.putLong("date_firstlaunch2", date_firstLaunch);
         }
-        //
+
 
         // Wait at least n days before opening
         if (launch_count >= LAUNCHES_UNTIL_PROMPT) {
