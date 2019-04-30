@@ -9,6 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
+import livewind.example.andro.liveWind.HelpClasses.SocialHelper;
 import livewind.example.andro.liveWind.R;
 
 public class NewContentNotificationDialog {
@@ -40,9 +42,7 @@ public class NewContentNotificationDialog {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
                         //TODO check that it is correct
-                        Uri uri = Uri.parse(newContentNotification.getActionLink());
-                        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                        context.startActivity(intent);
+                        SocialHelper.openUrl(context,context.getPackageManager(),newContentNotification.getActionLink());
                     }
                 });
         AlertDialog alertDialog = builder.create();

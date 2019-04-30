@@ -292,14 +292,14 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         putNotificationToIntent(intent, newContentNotification);
 
-        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, NOTIFICATION_NEW_COVERAGE_CHANNEL_ID);
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, NOTIFICATION_NEW_CONTENT_CHANNEL_ID);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
                 PendingIntent.FLAG_ONE_SHOT);
         notificationBuilder.setAutoCancel(true)
                 .setDefaults(Notification.DEFAULT_ALL)
                 .setWhen(System.currentTimeMillis())
                 .setSmallIcon(R.drawable.ic_thumb_up_black_24dp)
-                .setColor(getColor(R.color.sport_available_yes))
+                .setColor(getColor(R.color.notifications_main_color))
                 .setLargeIcon(BitmapFactory.decodeResource(getApplicationContext().getResources(), R.drawable.app_icon_v3)) //TODO maybe main app icon?
                 .setTicker(getApplicationContext().getString(R.string.notification_new_content_title))
                 .setContentTitle(newContentNotification.getTitle())
