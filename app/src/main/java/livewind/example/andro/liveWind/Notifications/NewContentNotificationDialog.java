@@ -20,8 +20,10 @@ public class NewContentNotificationDialog {
         //Init views
         TextView titleTextView = dialogView.findViewById(R.id.new_content_notification_title);
         TextView descriptionTextView = dialogView.findViewById(R.id.new_content_notification_description);
+        TextView dateTextView = dialogView.findViewById(R.id.new_content_notification_date);
         titleTextView.setText(newContentNotification.getTitle().toString().trim());
         descriptionTextView.setText(newContentNotification.getDescription().toString().trim());
+        dateTextView.setText(newContentNotification.getDate().toString().trim());
 
         //Set ok button
         builder.setView(dialogView)

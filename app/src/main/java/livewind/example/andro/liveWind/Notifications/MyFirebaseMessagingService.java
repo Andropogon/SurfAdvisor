@@ -287,7 +287,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         NewContentNotification newContentNotification = new NewContentNotification(payload.get(NewContentNotification.NewContentNotificationEntry.NEW_CONTENT_TITLE),
                 payload.get(NewContentNotification.NewContentNotificationEntry.NEW_CONTENT_DESCRIPTION),
                 payload.get(NewContentNotification.NewContentNotificationEntry.NEW_CONTENT_ACTION_TITLE),
-                payload.get(NewContentNotification.NewContentNotificationEntry.NEW_CONTENT_ACTION_LINK));
+                payload.get(NewContentNotification.NewContentNotificationEntry.NEW_CONTENT_ACTION_LINK),
+                payload.get(NewContentNotification.NewContentNotificationEntry.NEW_CONTENT_DATE));
 
         putNotificationToIntent(intent, newContentNotification);
 

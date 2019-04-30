@@ -146,6 +146,7 @@ public class CatalogActivity extends AppCompatActivity  {
             intent.removeExtra(NewContentNotification.NewContentNotificationEntry.NEW_CONTENT_DESCRIPTION);
             intent.removeExtra(NewContentNotification.NewContentNotificationEntry.NEW_CONTENT_ACTION_TITLE);
             intent.removeExtra(NewContentNotification.NewContentNotificationEntry.NEW_CONTENT_ACTION_LINK);
+            intent.removeExtra(NewContentNotification.NewContentNotificationEntry.NEW_CONTENT_DATE);
         }
 
         //Set default settings preferences values - called only on first open

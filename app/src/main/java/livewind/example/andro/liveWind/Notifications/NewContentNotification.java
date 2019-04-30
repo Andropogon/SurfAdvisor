@@ -11,6 +11,7 @@ public class NewContentNotification {
     private String description;
     private String actionTitle;
     private String actionLink;
+    private String date;
 
     /**
      * Firebase NewContentNotification keys
@@ -21,6 +22,7 @@ public class NewContentNotification {
         public static final String NEW_CONTENT_DESCRIPTION = "description";
         public static final String NEW_CONTENT_ACTION_TITLE = "actionTitle";
         public static final String NEW_CONTENT_ACTION_LINK = "actionLink";
+        public static final String NEW_CONTENT_DATE = "date";
 
         //Topics names
         public static final String NEW_CONTENT_TOPIC_POLISH = "new_content_polish";
@@ -30,11 +32,12 @@ public class NewContentNotification {
 
     public NewContentNotification(){}
 
-    public NewContentNotification(String title, String description, String actionTitle, String actionLink){
+    public NewContentNotification(String title, String description, String actionTitle, String actionLink, String date){
         this.title=title;
         this.description=description;
         this.actionTitle=actionTitle;
         this.actionLink=actionLink;
+        this.date=date;
     }
 
     public void setId(String id) {
@@ -57,6 +60,10 @@ public class NewContentNotification {
         this.title = title;
     }
 
+    public void setDate(String date) {
+        this.date = date;
+    }
+
     public String getId() {
         return id;
     }
@@ -75,5 +82,9 @@ public class NewContentNotification {
 
     public String getTitle() {
         return title;
+    }
+
+    public String getDate() {
+        return date;
     }
 }

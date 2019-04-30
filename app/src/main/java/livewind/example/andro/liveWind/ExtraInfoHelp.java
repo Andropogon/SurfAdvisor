@@ -7,7 +7,6 @@ import android.widget.Toast;
 import java.nio.channels.NoConnectionPendingException;
 
 import livewind.example.andro.liveWind.Notifications.NewContentNotification;
-import livewind.example.andro.liveWind.user.UserActivity;
 import livewind.example.andro.liveWind.user.Windsurfer;
 
 public class ExtraInfoHelp {
@@ -173,10 +172,11 @@ public class ExtraInfoHelp {
     }
 
     public static Intent putNotificationToIntent(Intent intent, NewContentNotification newContentNotification){
-            intent.putExtra("title",newContentNotification.getTitle());
+            intent.putExtra(NewContentNotification.NewContentNotificationEntry.NEW_CONTENT_TITLE,newContentNotification.getTitle());
             intent.putExtra(NewContentNotification.NewContentNotificationEntry.NEW_CONTENT_DESCRIPTION,newContentNotification.getDescription());
             intent.putExtra(NewContentNotification.NewContentNotificationEntry.NEW_CONTENT_ACTION_TITLE,newContentNotification.getActionTitle());
             intent.putExtra(NewContentNotification.NewContentNotificationEntry.NEW_CONTENT_ACTION_LINK,newContentNotification.getActionLink());
+        intent.putExtra(NewContentNotification.NewContentNotificationEntry.NEW_CONTENT_DATE,newContentNotification.getDate());
         return intent;
     }
 
@@ -189,6 +189,7 @@ public class ExtraInfoHelp {
             newContentNotification.setDescription(intent.getStringExtra(NewContentNotification.NewContentNotificationEntry.NEW_CONTENT_DESCRIPTION));
             newContentNotification.setActionTitle(intent.getStringExtra(NewContentNotification.NewContentNotificationEntry.NEW_CONTENT_ACTION_TITLE));
             newContentNotification.setActionLink(intent.getStringExtra(NewContentNotification.NewContentNotificationEntry.NEW_CONTENT_ACTION_LINK));
+            newContentNotification.setDate(intent.getStringExtra(NewContentNotification.NewContentNotificationEntry.NEW_CONTENT_DATE));
             return true;
         }
     }
