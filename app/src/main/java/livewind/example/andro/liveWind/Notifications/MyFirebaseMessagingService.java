@@ -140,9 +140,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             date_firstLaunch = System.currentTimeMillis();
             editor.putLong("date_countries_notifications", date_firstLaunch);
         }
-        //
-        boolean notificationsNewContentBoolean = prefs.getBoolean(mContext.getString(R.string.settings_notifications_allow_about_new_content_key), true);
-        if (notificationsNewContentBoolean) {
             if (Locale.getDefault().getLanguage().equals("pl")) {
                 //Display polish new content notifications
                 FirebaseMessaging.getInstance().subscribeToTopic(NewContentNotification.NewContentNotificationEntry.NEW_CONTENT_TOPIC_POLISH);
@@ -152,8 +149,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 FirebaseMessaging.getInstance().subscribeToTopic(NewContentNotification.NewContentNotificationEntry.NEW_CONTENT_TOPIC_ENGLISH);
                 FirebaseMessaging.getInstance().unsubscribeFromTopic(NewContentNotification.NewContentNotificationEntry.NEW_CONTENT_TOPIC_POLISH);
             }
-        }
-        editor.apply();
     }
     /**
      * Create and show notification about new like under your coverage
