@@ -213,5 +213,5 @@
     app:headerLayout="@layout/nav_header"
 
     android:clickable="false"
-    android:background="@color/app_main_color"/>
+    android:background="@color/app_main_color_lighter"/>
 </android.support.v4.widget.DrawerLayout>
