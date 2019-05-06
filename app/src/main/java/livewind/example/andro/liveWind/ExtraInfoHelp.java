@@ -6,7 +6,7 @@ import android.widget.Toast;
 
 import java.nio.channels.NoConnectionPendingException;
 
-import livewind.example.andro.liveWind.user.UserActivity;
+import livewind.example.andro.liveWind.Notifications.NewContentNotification;
 import livewind.example.andro.liveWind.user.Windsurfer;
 
 public class ExtraInfoHelp {
@@ -171,4 +171,26 @@ public class ExtraInfoHelp {
         windsurfer.setPhotoLargeName(intent.getStringExtra(context.getString(R.string.EXTRA_WINDSURFER_PHOTO_LARGE_ID)));
     }
 
+    public static Intent putNotificationToIntent(Intent intent, NewContentNotification newContentNotification){
+            intent.putExtra(NewContentNotification.NewContentNotificationEntry.NEW_CONTENT_TITLE,newContentNotification.getTitle());
+            intent.putExtra(NewContentNotification.NewContentNotificationEntry.NEW_CONTENT_DESCRIPTION,newContentNotification.getDescription());
+            intent.putExtra(NewContentNotification.NewContentNotificationEntry.NEW_CONTENT_ACTION_TITLE,newContentNotification.getActionTitle());
+            intent.putExtra(NewContentNotification.NewContentNotificationEntry.NEW_CONTENT_ACTION_LINK,newContentNotification.getActionLink());
+        intent.putExtra(NewContentNotification.NewContentNotificationEntry.NEW_CONTENT_DATE,newContentNotification.getDate());
+        return intent;
+    }
+
+    public static boolean getNewContentNotificationFromIntent(Intent intent, NewContentNotification newContentNotification){
+
+        if(!intent.hasExtra(NewContentNotification.NewContentNotificationEntry.NEW_CONTENT_TITLE)){
+            return false;
+        } else {
+            newContentNotification.setTitle(intent.getStringExtra(NewContentNotification.NewContentNotificationEntry.NEW_CONTENT_TITLE));
+            newContentNotification.setDescription(intent.getStringExtra(NewContentNotification.NewContentNotificationEntry.NEW_CONTENT_DESCRIPTION));
+            newContentNotification.setActionTitle(intent.getStringExtra(NewContentNotification.NewContentNotificationEntry.NEW_CONTENT_ACTION_TITLE));
+            newContentNotification.setActionLink(intent.getStringExtra(NewContentNotification.NewContentNotificationEntry.NEW_CONTENT_ACTION_LINK));
+            newContentNotification.setDate(intent.getStringExtra(NewContentNotification.NewContentNotificationEntry.NEW_CONTENT_DATE));
+            return true;
+        }
+    }
 }

@@ -1,0 +1,57 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="120dp"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:background="@drawable/custom_background_white_rounded"
+        android:orientation="vertical"
+        android:layout_height="wrap_content">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+    <ImageView
+        android:src="@drawable/ic_notifications_active_black_24dp"
+        android:layout_width="match_parent"
+        android:layout_height="32dp"
+        android:scaleType="center"
+        android:layout_centerHorizontal="true"
+        android:contentDescription="@string/dialog_help_add_event_title" />
+            <TextView
+                android:id="@+id/new_content_notification_date"
+                style="@style/eventInfoCommentTextVerySmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="26.04.2019"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"/>
+        </RelativeLayout>
+    <TextView
+        android:id="@+id/new_content_notification_title"
+        style="@style/eventInfoTextMedium"
+        android:gravity="center"
+        android:paddingTop="2dp"
+        android:paddingBottom="2dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minLines="1"
+        android:maxLines="2"
+        tools:text="Nowa aktualizacja!"/>
+    </LinearLayout>
+        <TextView
+            android:id="@+id/new_content_notification_description"
+            style="@style/eventInfoTextSmall"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingRight="10dp"
+            android:inputType="textMultiLine"
+            android:paddingLeft="10dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:minLines="4"
+            android:maxLines="12"
+            tools:text="Aktualizacja 2.13 jest już dostępna, wprowadza ona: \n -Możliwość filtrowania wyjazdów \n -Powiadomienia o nowych relacjach \n -Naprawę kilku błędów"/>
+</LinearLayout>

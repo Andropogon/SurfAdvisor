@@ -135,8 +135,12 @@
             android:key="@string/settings_notifications_allow_key"
             android:defaultValue="true" />
         <SwitchPreference
+            android:title="@string/notification_new_content_settings_title"
+            android:key="@string/settings_notifications_allow_about_new_content_key"
+            android:defaultValue="true" />
+        <SwitchPreference
             android:title="@string/notification_new_coverage_settings_title"
-            android:key="@string/settings_notifications_allow_key"
+            android:key="@string/settings_notifications_allow_about_new_coverage_key"
             android:defaultValue="true" />
     </PreferenceCategory>
     <PreferenceCategory

@@ -15,18 +15,24 @@ import android.support.v4.app.NotificationCompat;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
+import java.util.ArrayList;
+import java.util.Locale;
 import java.util.Map;
 
 import livewind.example.andro.liveWind.CatalogActivity;
+import livewind.example.andro.liveWind.Countries.CountryDialog;
+import livewind.example.andro.liveWind.Country;
 import livewind.example.andro.liveWind.Event;
 import livewind.example.andro.liveWind.EventActivity;
 import livewind.example.andro.liveWind.R;
 import livewind.example.andro.liveWind.user.Windsurfer;
 
 import static livewind.example.andro.liveWind.ExtraInfoHelp.putCoverageToIntent;
+import static livewind.example.andro.liveWind.ExtraInfoHelp.putNotificationToIntent;
 import static livewind.example.andro.liveWind.ExtraInfoHelp.putWindsurferToIntent;
 
 /**
@@ -43,11 +49,13 @@ import static livewind.example.andro.liveWind.ExtraInfoHelp.putWindsurferToInten
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
     final String NOTIFICATION_NEW_LIKE_CHANNEL_ID = "like_noti_id";
     final String NOTIFICATION_NEW_COVERAGE_CHANNEL_ID = "coverage_noti_id";
+    final String NOTIFICATION_NEW_CONTENT_CHANNEL_ID = "content_noti_id";
     /**
      * Notification codes
      */
     public final static String NOTIFICATION_NEW_LIKE = "NOTIFICATION_NEW_LIKE";
     public final static String NOTIFICATION_NEW_COVERAGE = "NOTIFICATION_NEW_COVERAGE";
+    public final static String NOTIFICATION_NEW_CONTENT = "NOTIFICATION_NEW_CONTENT";
     private FirebaseDatabase mFirebaseDatabase = FirebaseDatabase.getInstance();
     private DatabaseReference mUsersDatabaseReference = mFirebaseDatabase.getReference().child("users");
     private Windsurfer mWindsurfer= new Windsurfer();
@@ -90,7 +98,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         if (remoteMessage.getData().size() > 0) {
             Map<String, String> payload = remoteMessage.getData();
             //Check that user allow notifications
-            //TODO split notifications switch about new coverage and new like
             SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
             boolean notificationsBoolean = sharedPref.getBoolean(getApplicationContext().getString(R.string.settings_notifications_allow_key), true);
             if (notificationsBoolean) {
@@ -106,6 +113,12 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                             showNewCoverageNotification(payload);
                         }
                         break;
+                    case NOTIFICATION_NEW_CONTENT:
+                        boolean notificationsNewContentBoolean = sharedPref.getBoolean(getApplicationContext().getString(R.string.settings_notifications_allow_about_new_content_key), true);
+                        if(notificationsNewContentBoolean) {
+                            showNewContentNotification(payload);
+                        }
+                        break;
                     default:
                         showNewLikeNotification(payload);
                 }
@@ -113,6 +126,30 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         }
     }
 
+    public static void topicSubscriptionService(Context mContext) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mContext);
+        SharedPreferences.Editor editor = prefs.edit();
+        // Get date of first launch
+        Long date_firstLaunch = prefs.getLong("date_countries_notifications", 0);
+        if (date_firstLaunch == 0) {
+            final ArrayList<Country> mList = new ArrayList<Country>();
+            CountryDialog.loadCountriesToList(mContext, mList);
+            for (int i = 1; i <= 20; i++) {
+                FirebaseMessaging.getInstance().subscribeToTopic(mList.get(i).getTopicKey());
+            }
+            date_firstLaunch = System.currentTimeMillis();
+            editor.putLong("date_countries_notifications", date_firstLaunch);
+        }
+            if (Locale.getDefault().getLanguage().equals("pl")) {
+                //Display polish new content notifications
+                FirebaseMessaging.getInstance().subscribeToTopic(NewContentNotification.NewContentNotificationEntry.NEW_CONTENT_TOPIC_POLISH);
+                FirebaseMessaging.getInstance().unsubscribeFromTopic(NewContentNotification.NewContentNotificationEntry.NEW_CONTENT_TOPIC_ENGLISH);
+            } else {
+                //Display english new content notifications
+                FirebaseMessaging.getInstance().subscribeToTopic(NewContentNotification.NewContentNotificationEntry.NEW_CONTENT_TOPIC_ENGLISH);
+                FirebaseMessaging.getInstance().unsubscribeFromTopic(NewContentNotification.NewContentNotificationEntry.NEW_CONTENT_TOPIC_POLISH);
+            }
+    }
     /**
      * Create and show notification about new like under your coverage
      * @param payload Map which has the message payload in it
@@ -140,7 +177,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 .setDefaults(Notification.DEFAULT_ALL)
                 .setWhen(System.currentTimeMillis())
                 .setSmallIcon(R.drawable.ic_thumb_up_black_24dp)
-                .setColor(getColor(R.color.light_green))
+                .setColor(getColor(R.color.notifications_new_like_color))
                 .setLargeIcon(BitmapFactory.decodeResource(getApplicationContext().getResources(), R.drawable.app_icon_v3))
                 .setTicker(getApplicationContext().getString(R.string.notification_relation_liked_title))
                 .setContentTitle(getApplicationContext().getString(R.string.notification_relation_liked_title))
@@ -194,7 +231,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                     .setDefaults(Notification.DEFAULT_ALL)
                     .setWhen(System.currentTimeMillis())
                     .setSmallIcon(R.drawable.ic_thumb_up_black_24dp)
-                    .setColor(getColor(R.color.notifications_color))
+                    .setColor(getColor(R.color.notifications_main_color))
                     .setLargeIcon(BitmapFactory.decodeResource(getApplicationContext().getResources(), R.drawable.notification_new_coverage))
                     .setTicker(getApplicationContext().getString(R.string.notification_new_coverage_title))
                     .setContentTitle(getApplicationContext().getString(R.string.notification_new_coverage_title) + place)
@@ -220,5 +257,56 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         }
         mWindsurfer.setUid(uid); // Set only uid, other windsurfer data will be set in EventActivity
         return true;
+    }
+
+    /**
+     * Create and show notification about new content
+     * @param payload Map which has the message payload in it about new content.
+     */
+    private void showNewContentNotification(Map<String, String> payload) {
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel notificationChannel = new NotificationChannel(NOTIFICATION_NEW_CONTENT_CHANNEL_ID, "New content notification", NotificationManager.IMPORTANCE_DEFAULT);
+            // Configure the notification channel.
+            notificationChannel.setDescription("Notification channel for new content notification");
+            notificationChannel.enableLights(true);
+            notificationChannel.setLightColor(Color.RED);
+            notificationChannel.setVibrationPattern(new long[]{0, 1000, 500, 1000});
+            notificationChannel.enableVibration(true);
+            notificationManager.createNotificationChannel(notificationChannel);
+        }
+        Intent intent = new Intent(this, CatalogActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+        //Make {@NewContentNotification} to put to pendingIntent
+        NewContentNotification newContentNotification = new NewContentNotification(payload.get(NewContentNotification.NewContentNotificationEntry.NEW_CONTENT_TITLE),
+                payload.get(NewContentNotification.NewContentNotificationEntry.NEW_CONTENT_DESCRIPTION),
+                payload.get(NewContentNotification.NewContentNotificationEntry.NEW_CONTENT_ACTION_TITLE),
+                payload.get(NewContentNotification.NewContentNotificationEntry.NEW_CONTENT_ACTION_LINK),
+                payload.get(NewContentNotification.NewContentNotificationEntry.NEW_CONTENT_DATE));
+
+        putNotificationToIntent(intent, newContentNotification);
+
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, NOTIFICATION_NEW_CONTENT_CHANNEL_ID);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
+                PendingIntent.FLAG_ONE_SHOT);
+        notificationBuilder.setAutoCancel(true)
+                .setDefaults(Notification.DEFAULT_ALL)
+                .setWhen(System.currentTimeMillis())
+                .setSmallIcon(R.drawable.ic_thumb_up_black_24dp)
+                .setColor(getColor(R.color.notifications_new_content_color))
+                .setLargeIcon(BitmapFactory.decodeResource(getApplicationContext().getResources(), R.drawable.app_icon_v3)) //TODO maybe main app icon?
+                .setTicker(getApplicationContext().getString(R.string.notification_new_content_title))
+                .setContentTitle(newContentNotification.getTitle())
+                .setTimeoutAfter(28800000L) //After 8h notification should be canceled
+                // Set the intent that will fire when the user taps the notification
+                .setContentIntent(pendingIntent)
+                .setAutoCancel(true);
+        if(newContentNotification.getDescription().length()>=40) {
+            notificationBuilder.setContentText(getApplicationContext().getString(R.string.notification_new_content_click_to_get_more));
+        } else {
+            notificationBuilder.setContentText(newContentNotification.getDescription());
+        }
+        notificationManager.notify(payload.hashCode(), notificationBuilder.build());
     }
 }

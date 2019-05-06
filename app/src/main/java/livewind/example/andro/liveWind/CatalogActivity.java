@@ -37,6 +37,9 @@ import livewind.example.andro.liveWind.Filter.FilterTripsActivity;
 import livewind.example.andro.liveWind.HelpClasses.CurrencyHelper;
 import livewind.example.andro.liveWind.HelpClasses.DateHelp;
 import livewind.example.andro.liveWind.HelpClasses.SocialHelper;
+import livewind.example.andro.liveWind.Notifications.MyFirebaseMessagingService;
+import livewind.example.andro.liveWind.Notifications.NewContentNotification;
+import livewind.example.andro.liveWind.Notifications.NewContentNotificationDialog;
 import livewind.example.andro.liveWind.firebase.FirebaseHelp;
 import livewind.example.andro.liveWind.firebase.FirebasePromotions;
 import livewind.example.andro.liveWind.user.UserActivity;
@@ -69,6 +72,7 @@ import java.util.concurrent.TimeUnit;
 
 import livewind.example.andro.liveWind.data.EventContract;
 
+import static livewind.example.andro.liveWind.ExtraInfoHelp.getNewContentNotificationFromIntent;
 import static livewind.example.andro.liveWind.ExtraInfoHelp.putInfoToIntent;
 import static livewind.example.andro.liveWind.ExtraInfoHelp.putWindsurferToIntent;
 
@@ -124,17 +128,33 @@ public class CatalogActivity extends AppCompatActivity  {
     public static final int RC_SIGN_IN = 1;
     private Windsurfer mWindsurfer = new Windsurfer();
 
+    /** New content notification **/
+    private NewContentNotification mNewContentNotification = new NewContentNotification();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(livewind.example.andro.liveWind.R.layout.activity_catalog);
         context = getApplicationContext();
+
+        //Check that intent have any newContentNotifications (have when user open app from new content notification)
+        Intent intent = getIntent();
+        if(getNewContentNotificationFromIntent(intent,mNewContentNotification)){
+            NewContentNotificationDialog.showNewContentNotificationDialog(CatalogActivity.this,mNewContentNotification);
+            intent.removeExtra(NewContentNotification.NewContentNotificationEntry.NEW_CONTENT_TITLE);
+            intent.removeExtra(NewContentNotification.NewContentNotificationEntry.NEW_CONTENT_DESCRIPTION);
+            intent.removeExtra(NewContentNotification.NewContentNotificationEntry.NEW_CONTENT_ACTION_TITLE);
+            intent.removeExtra(NewContentNotification.NewContentNotificationEntry.NEW_CONTENT_ACTION_LINK);
+            intent.removeExtra(NewContentNotification.NewContentNotificationEntry.NEW_CONTENT_DATE);
+        }
+
         //Set default settings preferences values - called only on first open
         PreferenceManager.setDefaultValues(this, livewind.example.andro.liveWind.R.xml.pref_general, false);
 
         initViews();
         initFirebaseVariables();
+        MyFirebaseMessagingService.topicSubscriptionService(CatalogActivity.this);
         setupNavigationDrawer();
         // Initialize events ListView and its adapter
         mEventAdapter = new EventAdapter(this, events,0);

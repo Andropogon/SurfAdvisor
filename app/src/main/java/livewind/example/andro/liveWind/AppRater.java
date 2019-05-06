@@ -19,8 +19,10 @@ import android.widget.TextView;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 import livewind.example.andro.liveWind.Countries.CountryDialog;
+import livewind.example.andro.liveWind.Notifications.NewContentNotification;
 
 import static livewind.example.andro.liveWind.Countries.CountryDialog.loadCountriesToList;
 
@@ -33,10 +35,17 @@ public class AppRater {
 
     public static void app_launched(Context mContext) {
         SharedPreferences prefs = mContext.getSharedPreferences("apprater", 0);
-        if (prefs.getBoolean("dontshowagain", false)) { return ; }
-
         SharedPreferences.Editor editor = prefs.edit();
+        // Set new content notifications to true after update
+        Long date_firstLaunchAfterUpdate = prefs.getLong("date_firstLaunchAfterUpdate", 0);
+        if (date_firstLaunchAfterUpdate == 0) {
+            editor.putBoolean(mContext.getString(R.string.settings_notifications_allow_about_new_content_key),true);
+            date_firstLaunchAfterUpdate = System.currentTimeMillis();
+            editor.putLong("date_firstLaunchAfterUpdate", date_firstLaunchAfterUpdate);
+            editor.apply();
+        }
 
+        if (prefs.getBoolean("dontshowagain", false)) { return ; }
         // Increment launch counter
         long launch_count = prefs.getLong("launch_count", 0) + 1;
         editor.putLong("launch_count", launch_count);
@@ -44,14 +53,10 @@ public class AppRater {
         // Get date of first launch
         Long date_firstLaunch = prefs.getLong("date_firstlaunch2", 0);
         if (date_firstLaunch == 0) {
-            final ArrayList<Country> mList = new ArrayList<Country>();
-            CountryDialog.loadCountriesToList(mContext,mList);
-            for(int i=1; i<=20;i++){
-                FirebaseMessaging.getInstance().subscribeToTopic(mList.get(i).getTopicKey());
-            }
             date_firstLaunch = System.currentTimeMillis();
             editor.putLong("date_firstlaunch2", date_firstLaunch);
         }
+
 
         // Wait at least n days before opening
         if (launch_count >= LAUNCHES_UNTIL_PROMPT) {
@@ -61,7 +66,7 @@ public class AppRater {
             }
         }
 
-        editor.commit();
+        editor.apply();
     }
 
     public static void showRateDialog(final Context mContext, final SharedPreferences.Editor editor) {
