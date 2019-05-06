@@ -210,11 +210,12 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         //Data to show in notification
         String place = payload.get("place");
+        String timestamp = payload.get("timestamp");
         String windPower = payload.get("wind_power");
         String waveSize = payload.get("wave_size");
         String comment = payload.get("comment");
         //Make event to put to pendingIntent
-        Event newEvent = new Event(getApplicationContext(), payload.get("id"), payload.get("username"), payload.get("uid"), place, Integer.valueOf(payload.get("country")), Integer.valueOf(payload.get("type")), Integer.valueOf(windPower), Double.valueOf(waveSize), Integer.valueOf(payload.get("conditions")), comment, payload.get("photoUrl"), "user_icon_goya_banzai_24");
+        Event newEvent = new Event(getApplicationContext(), payload.get("id"), payload.get("username"), payload.get("uid"), place, timestamp, Integer.valueOf(payload.get("country")), Integer.valueOf(payload.get("type")), Integer.valueOf(windPower), Double.valueOf(waveSize), Integer.valueOf(payload.get("conditions")), comment, payload.get("photoUrl"), "user_icon_goya_banzai_24");
         newEvent.setmSharesCounter(Integer.valueOf(payload.get("sharesCounter")));
         //Check if user has uid in sharedPref
         if (checkUser()) {

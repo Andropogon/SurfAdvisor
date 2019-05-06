@@ -51,11 +51,12 @@ public final class Event extends EventTrip implements Comparable<Event>{
     public Event () {
         mId = "new_event";
     }
-    public Event(Context context, String id, String username, String userUId, String place, int country, int type, int windPower, double waveSize, int conditions, String comment, String url,String windsurferPhotoName) {
+    public Event(Context context, String id, String username, String userUId, String place, String timestamp, int country, int type, int windPower, double waveSize, int conditions, String comment, String url,String windsurferPhotoName) {
         mId = id;
         mUsername = username;
         mUserUId = userUId;
         mPlace = place;
+        this.timestamp=Long.valueOf(timestamp);
         mCountry = country;
         mType = type;
         mWindPower = windPower;
