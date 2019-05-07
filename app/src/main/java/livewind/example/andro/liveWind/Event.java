@@ -74,6 +74,29 @@ public final class Event extends EventTrip implements Comparable<Event>{
             mUsersComments.put("creatorComment", creatorComment);
         }
     }
+    //Without timestamp (for new events)
+    public Event(Context context, String id, String username, String userUId, String place, int country, int type, int windPower, double waveSize, int conditions, String comment, String url,String windsurferPhotoName) {
+        mId = id;
+        mUsername = username;
+        mUserUId = userUId;
+        mPlace = place;
+        mCountry = country;
+        mType = type;
+        mWindPower = windPower;
+        mWaveSize = waveSize;
+        mConditions = conditions;
+        mComment = comment;
+        mPhotoUrl = url;
+        MyMember creator = new MyMember(mUsername,0, windsurferPhotoName,context);
+        mMembers.add(creator);
+        mSharesCounter = 0;
+        //unreal big timestamp (because Events are deleting when current time>= timestampStartDate
+        timestampStartDate = 100000000000000L;
+        if(!comment.isEmpty()) {
+            Comment creatorComment = new Comment(mUsername, windsurferPhotoName, mComment, "0");
+            mUsersComments.put("creatorComment", creatorComment);
+        }
+    }
     @Exclude
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();
@@ -537,6 +560,9 @@ public final class Event extends EventTrip implements Comparable<Event>{
                 break;
             case EventContract.EventEntry.COUNTRY_MALTA:
                 countryPlaceString = event.getPlace() + ", MT";
+                break;
+            case EventContract.EventEntry.COUNTRY_TESTY:
+                countryPlaceString = event.getPlace() + ", TEST";
                 break;
             default:
                 countryPlaceString = event.getPlace();

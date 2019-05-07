@@ -131,6 +131,7 @@ public final class EventContract {
         public static final int COUNTRY_USA = 17;
         public static final int COUNTRY_VIETNAM = 18;
         public static final int COUNTRY_MALTA = 19;
+        public static final int COUNTRY_TESTY = 1000;
 
         /**
          * TRIP AVAILABLE:

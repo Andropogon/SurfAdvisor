@@ -404,6 +404,9 @@ public class EventActivity extends AppCompatActivity {
             case EventContract.EventEntry.COUNTRY_OTHER_COUNTRIES:
                 mCountryImageView.setImageResource(R.drawable.flag_world);
                 break;
+            case EventContract.EventEntry.COUNTRY_TESTY:
+                mCountryImageView.setImageResource(R.drawable.flag_world);
+                break;
             default:
                 mCountryImageView.setImageResource(R.drawable.flag_world);
                 break;

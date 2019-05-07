@@ -89,6 +89,7 @@ public class ExtraInfoHelp {
         intent.putExtra(context.getString(livewind.example.andro.liveWind.R.string.EXTRA_EVENT_PLACE), event.getPlace());
         intent.putExtra(context.getString(livewind.example.andro.liveWind.R.string.EXTRA_EVENT_TYPE), event.getType());
         intent.putExtra(context.getString(livewind.example.andro.liveWind.R.string.EXTRA_EVENT_WIND_POWER), event.getWindPower());
+        intent.putExtra(context.getString(R.string.EXTRA_EVENT_CREATION_TIMESTAMP),event.getTimestamp());
         intent.putExtra(context.getString(livewind.example.andro.liveWind.R.string.EXTRA_EVENT_WAVE_SIZE), event.getWaveSize());
         intent.putExtra(context.getString(livewind.example.andro.liveWind.R.string.EXTRA_EVENT_CONDITIONS), event.getConditions());
         intent.putExtra(context.getString(livewind.example.andro.liveWind.R.string.EXTRA_EVENT_COMMENT),event.getComment());

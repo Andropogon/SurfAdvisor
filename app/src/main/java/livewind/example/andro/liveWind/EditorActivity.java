@@ -400,6 +400,8 @@ public class EditorActivity extends AppCompatActivity {
                         mCountry = EventContract.EventEntry.COUNTRY_OTHER_COUNTRIES;
                     } else if (selection.equals(getString(R.string.country_number_minus_2))){
                         mCountry = EventContract.EventEntry.COUNTRY_BAD;
+                    } else if (selection.equals("TESTY")){
+                        mCountry = EventContract.EventEntry.COUNTRY_TESTY;
                     }
                 }
             }
