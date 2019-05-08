@@ -484,6 +484,7 @@
     <string name="toast_error_increasing_limit">Problem z powiększeniem limitu. Skontaktuj się z twórcą aplikacji.</string>
     <string name="toast_successful_increasing_limit">Limit powiększony.</string>
     <string name="toast_no_connection">Prawdopodobnie nie masz połączenia z internetem</string>
+    <string name="toast_double_click_back_to_exit">Kilknij jeszcze raz aby wyjść z aplikacji.</string>
     <!-- Photo Toast -->
     <string name="editor_photo_added">Zdjęcie zostało dodane</string>
     <string name="editor_back_on_adding_photo">Zdjęcie nie zostało dodane</string>

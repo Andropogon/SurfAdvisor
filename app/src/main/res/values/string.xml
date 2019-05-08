@@ -499,7 +499,7 @@
     <string name="toast_try_to_reconnect">Spróbuj ponownie</string>
     <string name="toast_internet_connection_recovered">Połączenie z internetem zostało przywrócone</string>
     <string name="toast_internet_connection_no_recovered">Nie możemy przywrócić połączenia spróbuj ponownie lub zrestartuj aplikacje</string>
-
+    <string name="toast_double_click_back_to_exit">Please click BACK again to exit</string>
     <!-- Photo Toast -->
     <string name="editor_photo_added">Photo was added</string>
     <string name="editor_back_on_adding_photo">Photo was not added</string>
