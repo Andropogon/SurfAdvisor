@@ -19,6 +19,8 @@ import livewind.example.andro.liveWind.R;
 import livewind.example.andro.liveWind.user.Windsurfer;
 
 public class FirebaseHelp {
+
+
     // "Price" for increasing limit:
     public static int POINTS_INCREASE_LIMIT_PRICE = 300;
     private static int POINTS_ADD_RELATION_PRIZE = 50;

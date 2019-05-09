@@ -41,6 +41,7 @@ import livewind.example.andro.liveWind.HelpClasses.SocialHelper;
 import livewind.example.andro.liveWind.Notifications.MyFirebaseMessagingService;
 import livewind.example.andro.liveWind.Notifications.NewContentNotification;
 import livewind.example.andro.liveWind.Notifications.NewContentNotificationDialog;
+import livewind.example.andro.liveWind.firebase.FirebaseContract;
 import livewind.example.andro.liveWind.firebase.FirebaseHelp;
 import livewind.example.andro.liveWind.firebase.FirebasePromotions;
 import livewind.example.andro.liveWind.user.UserActivity;
@@ -61,7 +62,6 @@ import com.google.firebase.database.Transaction;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
-import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -191,9 +191,9 @@ public class CatalogActivity extends AppCompatActivity  {
     private void initFirebaseVariables(){
         /**FIREBASE DATABASE **/
         mFirebaseDatabase = FirebaseDatabase.getInstance();
-        mEventsDatabaseReference = mFirebaseDatabase.getReference().child("events");
-        mUsersDatabaseReference = mFirebaseDatabase.getReference().child("users");
-        mUsersNicknamesDatabaseReference = mFirebaseDatabase.getReference().child("usernames");
+        mEventsDatabaseReference = mFirebaseDatabase.getReference().child(FirebaseContract.FirebaseEntry.TABLE_EVENTS);
+        mUsersDatabaseReference = mFirebaseDatabase.getReference().child(FirebaseContract.FirebaseEntry.TABLE_USERS);
+        mUsersNicknamesDatabaseReference = mFirebaseDatabase.getReference().child(FirebaseContract.FirebaseEntry.TABLE_USERNAMES);
         mFirebaseStorage = FirebaseStorage.getInstance();
         mFirebaseAuth = FirebaseAuth.getInstance();
     }
@@ -347,7 +347,7 @@ public class CatalogActivity extends AppCompatActivity  {
                                 SharedPreferences.Editor editor = displayOptions.edit();
                                 editor.putString(getString(livewind.example.andro.liveWind.R.string.user_tokenId_shared_preference), userToken);
                                 editor.apply();
-                                mUsersDatabaseReference.child(userUid).child("userToken").setValue(userToken, new DatabaseReference.CompletionListener() {
+                                mUsersDatabaseReference.child(userUid).child(FirebaseContract.FirebaseEntry.COLUMN_USERS_USER_TOKEN).setValue(userToken, new DatabaseReference.CompletionListener() {
                                     @Override
                                     public void onComplete(DatabaseError databaseError, DatabaseReference reference) {
                                         if (databaseError != null) {
@@ -652,13 +652,13 @@ public class CatalogActivity extends AppCompatActivity  {
      * Method that remove old trips and coverages from database
      */
     private void removingOldEvents(){
-        DatabaseReference mRemovingReference= mFirebaseDatabase.getReference().child("currentTime");
+        DatabaseReference mRemovingReference= mFirebaseDatabase.getReference().child(FirebaseContract.FirebaseEntry.TABLE_CURRENT_TIME);
         mRemovingReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 final Long cutoff = (Long) snapshot.getValue();
                 // Trips - delete if currentTime timestamp > trip start date timestamp
-                Query oldTrips = mEventsDatabaseReference.orderByChild("timestampStartDate").endAt(cutoff);
+                Query oldTrips = mEventsDatabaseReference.orderByChild(FirebaseContract.FirebaseEntry.COLUMN_EVENTS_TIMESTAMP_START_DATE).endAt(cutoff);
                 oldTrips.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot snapshot) {
@@ -673,7 +673,7 @@ public class CatalogActivity extends AppCompatActivity  {
                 });
                 //Coverages - delete 8h after create
                 final Long cutoffEvents = (Long) snapshot.getValue() - TimeUnit.MILLISECONDS.convert(8, TimeUnit.HOURS);
-                final Query oldEvents = mEventsDatabaseReference.orderByChild("timestamp").endAt(cutoffEvents);
+                final Query oldEvents = mEventsDatabaseReference.orderByChild(FirebaseContract.FirebaseEntry.COLUMN_EVENTS_TIMESTAMP).endAt(cutoffEvents);
                 oldEvents.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -703,7 +703,7 @@ public class CatalogActivity extends AppCompatActivity  {
      * @param loggedUserUid - uid from FirebaseAuth
      */
     private void checkUser(final String loggedUserNick, final String loggedUserEmail, final String loggedUserUid){
-        Query usersQuery = mUsersDatabaseReference.orderByChild("uid").equalTo(loggedUserUid);
+        Query usersQuery = mUsersDatabaseReference.orderByChild(FirebaseContract.FirebaseEntry.COLUMN_USERS_UID).equalTo(loggedUserUid);
         usersQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
