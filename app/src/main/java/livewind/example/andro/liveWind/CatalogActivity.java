@@ -119,6 +119,7 @@ public class CatalogActivity extends AppCompatActivity  {
     private FirebaseDatabase mFirebaseDatabase;
     ChildEventListener mChildEventListener;
     private DatabaseReference mEventsDatabaseReference;
+    private Query mEventQueryRef;
     private FirebaseAuth mFirebaseAuth;
     private FirebaseAuth.AuthStateListener mAuthStateListener;
     /** FIREBASE TO DELETING OLD IMAGES **/
@@ -192,6 +193,7 @@ public class CatalogActivity extends AppCompatActivity  {
         /**FIREBASE DATABASE **/
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         mEventsDatabaseReference = mFirebaseDatabase.getReference().child(FirebaseContract.FirebaseEntry.TABLE_EVENTS);
+        mEventQueryRef = mEventsDatabaseReference;
         mUsersDatabaseReference = mFirebaseDatabase.getReference().child(FirebaseContract.FirebaseEntry.TABLE_USERS);
         mUsersNicknamesDatabaseReference = mFirebaseDatabase.getReference().child(FirebaseContract.FirebaseEntry.TABLE_USERNAMES);
         mFirebaseStorage = FirebaseStorage.getInstance();
@@ -314,7 +316,6 @@ public class CatalogActivity extends AppCompatActivity  {
      * Setup firebase auth
      */
     private void setupFirebaseAuth(){
-
         mAuthStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
@@ -554,8 +555,17 @@ public class CatalogActivity extends AppCompatActivity  {
     }
 
     private void attachDatabaseReadListener() {
+        //Check current catalogActivity mode (coverage or trip)
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        boolean displayBoolean = sharedPrefs.getBoolean(getApplicationContext().getString(livewind.example.andro.liveWind.R.string.settings_display_boolean_key), true);
+        if(displayBoolean) {
+            mEventQueryRef = checkFiltersOnCoverageDatabaseReference();
+        } else {
+            mEventQueryRef = checkFiltersOnTripsDatabaseReference();
+        }
         if (mChildEventListener == null) {
-            mChildEventListener = new ChildEventListener() {
+            //TODO DOESN'T WORK!!!
+            mEventQueryRef.addChildEventListener( mChildEventListener = new ChildEventListener() {
                 @Override
                 public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                     Event event = dataSnapshot.getValue(Event.class);
@@ -636,14 +646,14 @@ public class CatalogActivity extends AppCompatActivity  {
                 public void onCancelled(@NonNull DatabaseError databaseError) {
                     Log.i("CHANGE", String.valueOf(events.size()));
                 }
-            };
-            mEventsDatabaseReference.addChildEventListener(mChildEventListener);
+            });
+           // mEventQueryRef.addChildEventListener(mChildEventListener);
         }
     }
 
     private void dettachDatabaseReadListener(){
         if(mChildEventListener != null){
-            mEventsDatabaseReference.removeEventListener(mChildEventListener);
+            mEventQueryRef.removeEventListener(mChildEventListener);
             mChildEventListener=null;
         }
     }
@@ -777,12 +787,15 @@ public class CatalogActivity extends AppCompatActivity  {
         FilterTrips filterTrips = new FilterTrips();
         filterTrips.getFilterTripsPreferences();
         //Check filters
+        /** Start date filter - added in query
         if(!(event.getTimestampStartDate()>=filterTrips.getmDateFromTimestamp())){
             return false;
         }
+
         if(!(DateHelp.dateToTimestamp(event.getDate())<=filterTrips.getmDateToTimestamp())){
             return false;
         }
+         */
         //(!(filterTrips.getmCountries().contains(String.valueOf(event.getCountry())))){
         //    return false;
         //}
@@ -800,7 +813,34 @@ public class CatalogActivity extends AppCompatActivity  {
         }
     }
 
-    /** Double click app exit */
+    /**
+     * Make coverages firebase query with filters
+     * @return
+     */
+    private Query checkFiltersOnCoverageDatabaseReference(){
+        Query eventsDatabaseReferenceWithFilters = mEventsDatabaseReference;
+        eventsDatabaseReferenceWithFilters = eventsDatabaseReferenceWithFilters.orderByChild(FirebaseContract.FirebaseEntry.COLUMN_EVENTS_START_DATE).equalTo("DEFAULT");
+        return eventsDatabaseReferenceWithFilters;
+    }
+
+    /**
+     * Make trips firebase query with filters
+     * @return
+     */
+    private Query checkFiltersOnTripsDatabaseReference(){
+        //Load all filters from SharedPreferences
+        FilterTrips filterTrips = new FilterTrips();
+        filterTrips.getFilterTripsPreferences();
+        Query eventsDatabaseReferenceWithFilters = mEventsDatabaseReference;
+        //NOT EQUAL???
+        //eventsDatabaseReferenceWithFilters = eventsDatabaseReferenceWithFilters.orderByChild(FirebaseContract.FirebaseEntry.COLUMN_EVENTS_START_DATE).equalTo("DEFAULT");
+        eventsDatabaseReferenceWithFilters = eventsDatabaseReferenceWithFilters.orderByChild(FirebaseContract.FirebaseEntry.COLUMN_EVENTS_TIMESTAMP_START_DATE).startAt(filterTrips.getmDateFromTimestamp());
+        //TODO 2 queries can not be added in that way :(
+        //eventsDatabaseReferenceWithFilters = eventsDatabaseReferenceWithFilters.orderByChild(FirebaseContract.FirebaseEntry.COLUMN_EVENTS_TIMESTAMP).endAt(filterTrips.getmDateToTimestamp());
+        return eventsDatabaseReferenceWithFilters;
+    }
+
+    /** Double click back to app exit method */
     private boolean doubleBackToExitPressedOnce = false;
 
     @Override

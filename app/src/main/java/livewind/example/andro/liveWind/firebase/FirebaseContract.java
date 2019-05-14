@@ -26,6 +26,7 @@ public interface FirebaseContract {
          * Firebase realtime database column names (paths)
          * Events table
          */
+        public static final String COLUMN_EVENTS_START_DATE = "startDate";
         public static final String COLUMN_EVENTS_TIMESTAMP = "timestamp";
         public static final String COLUMN_EVENTS_TIMESTAMP_START_DATE = "timestampStartDate";
 
