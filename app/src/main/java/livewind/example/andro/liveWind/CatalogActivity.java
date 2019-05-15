@@ -35,6 +35,7 @@ import livewind.example.andro.liveWind.Countries.CountryDialog;
 import livewind.example.andro.liveWind.FAQ.FAQActivity;
 import livewind.example.andro.liveWind.Filter.FilterTrips;
 import livewind.example.andro.liveWind.Filter.FilterTripsActivity;
+import livewind.example.andro.liveWind.Filter.FilterTripsContract;
 import livewind.example.andro.liveWind.HelpClasses.CurrencyHelper;
 import livewind.example.andro.liveWind.HelpClasses.DateHelp;
 import livewind.example.andro.liveWind.HelpClasses.SocialHelper;
@@ -814,8 +815,8 @@ public class CatalogActivity extends AppCompatActivity  {
     }
 
     /**
-     * Make coverages firebase query with filters
-     * @return
+     * Make coverages firebase query. To download only coverages (without trips).
+     * @return new Query ref
      */
     private Query checkFiltersOnCoverageDatabaseReference(){
         Query eventsDatabaseReferenceWithFilters = mEventsDatabaseReference;
@@ -824,19 +825,26 @@ public class CatalogActivity extends AppCompatActivity  {
     }
 
     /**
-     * Make trips firebase query with filters
-     * @return
+     * Make trips firebase query, to display only first 20 records - to download less data.
+     * @return new Query ref
      */
     private Query checkFiltersOnTripsDatabaseReference(){
         //Load all filters from SharedPreferences
         FilterTrips filterTrips = new FilterTrips();
         filterTrips.getFilterTripsPreferences();
         Query eventsDatabaseReferenceWithFilters = mEventsDatabaseReference;
-        //NOT EQUAL???
-        //eventsDatabaseReferenceWithFilters = eventsDatabaseReferenceWithFilters.orderByChild(FirebaseContract.FirebaseEntry.COLUMN_EVENTS_START_DATE).equalTo("DEFAULT");
-        eventsDatabaseReferenceWithFilters = eventsDatabaseReferenceWithFilters.orderByChild(FirebaseContract.FirebaseEntry.COLUMN_EVENTS_TIMESTAMP_START_DATE).startAt(filterTrips.getmDateFromTimestamp());
-        //TODO 2 queries can not be added in that way :(
-        //eventsDatabaseReferenceWithFilters = eventsDatabaseReferenceWithFilters.orderByChild(FirebaseContract.FirebaseEntry.COLUMN_EVENTS_TIMESTAMP).endAt(filterTrips.getmDateToTimestamp());
+        //FilterTrips sorting and filter by start date
+        if(filterTrips.getmSortingPreferences() == FilterTripsContract.FilterTripsEntry.SORTING_DATE && filterTrips.getmSortingOrderPreferences() == FilterTripsContract.FilterTripsEntry.ORDER_INCREASE) {
+            eventsDatabaseReferenceWithFilters = eventsDatabaseReferenceWithFilters.orderByChild(FirebaseContract.FirebaseEntry.COLUMN_EVENTS_TIMESTAMP_START_DATE).startAt(filterTrips.getmDateFromTimestamp()).limitToFirst(20);
+        } else if(filterTrips.getmSortingPreferences() == FilterTripsContract.FilterTripsEntry.SORTING_DATE && filterTrips.getmSortingOrderPreferences() == FilterTripsContract.FilterTripsEntry.ORDER_DECREASE) {
+            eventsDatabaseReferenceWithFilters = eventsDatabaseReferenceWithFilters.orderByChild(FirebaseContract.FirebaseEntry.COLUMN_EVENTS_TIMESTAMP_START_DATE).startAt(filterTrips.getmDateFromTimestamp()).limitToLast(20);
+        }
+        //Only filter trips sorting because costs have different currencies
+        else if (filterTrips.getmSortingPreferences() == FilterTripsContract.FilterTripsEntry.SORTING_COST && filterTrips.getmSortingOrderPreferences() == FilterTripsContract.FilterTripsEntry.ORDER_INCREASE){
+            eventsDatabaseReferenceWithFilters = eventsDatabaseReferenceWithFilters.orderByChild(FirebaseContract.FirebaseEntry.COLUMN_EVENTS_COST).limitToFirst(20);
+        } else if (filterTrips.getmSortingPreferences() == FilterTripsContract.FilterTripsEntry.SORTING_COST && filterTrips.getmSortingOrderPreferences() == FilterTripsContract.FilterTripsEntry.ORDER_DECREASE){
+            eventsDatabaseReferenceWithFilters = eventsDatabaseReferenceWithFilters.orderByChild(FirebaseContract.FirebaseEntry.COLUMN_EVENTS_COST).limitToLast(20);
+        }
         return eventsDatabaseReferenceWithFilters;
     }
 
