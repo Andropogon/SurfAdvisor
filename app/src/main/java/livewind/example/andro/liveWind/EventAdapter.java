@@ -10,6 +10,7 @@ import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -81,16 +82,16 @@ public class EventAdapter extends FirebaseRecyclerAdapter<Event, EventAdapter.Ev
 
     @Override
     public EventViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
+        boolean displayBoolean = sharedPref.getBoolean(context.getString(livewind.example.andro.liveWind.R.string.settings_display_boolean_key), true);
+       // int windPowerUnit = Integer.parseInt(sharedPref.getString(getContext().getString(R.string.settings_display_wind_power_key),"1"));
         View itemView;
-        if(viewType==VIEW_TYPE_COVERAGE) {
+        if(displayBoolean) {
             itemView = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.list_item, parent, false);
-        } else if (viewType == VIEW_TYPE_TRIP) {
-            itemView = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.list_trip_item, parent, false);
         } else {
             itemView = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.list_item_empty, parent, false);
+                    .inflate(R.layout.list_trip_item, parent, false);
         }
 
         return new EventViewHolder(itemView);
@@ -98,11 +99,41 @@ public class EventAdapter extends FirebaseRecyclerAdapter<Event, EventAdapter.Ev
 
     @Override
     protected void onBindViewHolder(EventAdapter.EventViewHolder viewHolder, int position, Event event) {
-        viewHolder.setEvent(event);
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
+        int displayTripsOptions = Integer.valueOf(sharedPref.getString(context.getString(R.string.settings_display_trips_key),"1"));
+        boolean displayBoolean = sharedPref.getBoolean(context.getString(livewind.example.andro.liveWind.R.string.settings_display_boolean_key), true);
+        Set<String> selectedCountries;
+        if(displayBoolean==EventContract.EventEntry.IT_IS_TRIP) {
+            selectedCountries = sharedPref.getStringSet(context.getString(R.string.settings_display_countries_key), new HashSet<String>());
+        } else {
+            selectedCountries = sharedPref.getStringSet(context.getString(R.string.settings_display_coverages_countries_key), new HashSet<String>());
+        }
+        final String checkEventOrTrip = "DEFAULT";
+        if (displayBoolean) {
+            if (event.getStartDate().equals(checkEventOrTrip) && (selectedCountries.contains(Integer.toString(event.getCountry())) || selectedCountries.contains(EventContract.EventEntry.COUNTRY_ALL_WORLD))) {
+                viewHolder.setEvent(event);
+            } else {}
+        } else {
+
+            if (displayTripsOptions == EventContract.EventEntry.DISPLAY_TRIPS_FROM_AND_TO) {
+                if (!event.getStartDate().equals(checkEventOrTrip) && (selectedCountries.contains(Integer.toString(event.getCountry())) || selectedCountries.contains(EventContract.EventEntry.COUNTRY_ALL_WORLD) || selectedCountries.contains(Integer.toString(event.getStartCountry())))) {
+                    if(CatalogActivity.checkFilters(event)) viewHolder.setEvent(event);
+                }
+            } else if (displayTripsOptions == EventContract.EventEntry.DISPLAY_TRIPS_FROM) {
+                if (!event.getStartDate().equals(checkEventOrTrip) && (selectedCountries.contains(EventContract.EventEntry.COUNTRY_ALL_WORLD) || selectedCountries.contains(Integer.toString(event.getStartCountry())))) {
+                    if(CatalogActivity.checkFilters(event)) viewHolder.setEvent(event);;
+                }
+            } else if (displayTripsOptions == EventContract.EventEntry.DISPLAY_TRIPS_TO) {
+                if (!event.getStartDate().equals(checkEventOrTrip) && (selectedCountries.contains(EventContract.EventEntry.COUNTRY_ALL_WORLD) || selectedCountries.contains(Integer.toString(event.getCountry())))) {
+                    if(CatalogActivity.checkFilters(event)) viewHolder.setEvent(event);;
+                }
+            }
+        }
+        //viewHolder.setEvent(event);
     }
 
     public class EventViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-
+        private static final String TAG = "EventViewHolder";
         //Coverages views
         TextView placeTextView;
         TextView dateTextView;
@@ -162,6 +193,7 @@ public class EventAdapter extends FirebaseRecyclerAdapter<Event, EventAdapter.Ev
 
         @Override
         public void onClick(View v) {
+            Log.i(TAG, "onClick: CLICK SINGLE EVENT");
             context.startActivity(singleEventIntent);
             }
 
@@ -177,12 +209,12 @@ public class EventAdapter extends FirebaseRecyclerAdapter<Event, EventAdapter.Ev
                     //Empty view
                 }
             if(event.getStartDate().equals("DEFAULT")) {
-                Intent intent = new Intent(context, EventActivity.class);
+                Intent intent = new Intent(CatalogActivity.getContext(), EventActivity.class);
                 //Put Extra information about clicked event and who is clicking.
                 intent = putInfoToIntent(intent,event,windsurfer,context);
                 putWindsurferToIntent(intent,windsurfer,context);
             } else {
-                Intent intent = new Intent(context, EventTripActivity.class);
+                Intent intent = new Intent(CatalogActivity.getContext(), EventTripActivity.class);
                 intent = putInfoToIntent(intent,event,windsurfer,context);
                 putWindsurferToIntent(intent,windsurfer,context);
             }
@@ -513,9 +545,9 @@ public class EventAdapter extends FirebaseRecyclerAdapter<Event, EventAdapter.Ev
 
             //Set countries texts size during to texts length
             if(countryPlaceString.length()<=15){
-                placeTextView.setTextSize(20);
+                placeTripTextView.setTextSize(20);
             } else {
-                placeTextView.setTextSize(16);
+                placeTripTextView.setTextSize(16);
             }
             if(countryStartPlaceString.length()<=15){
                 placeStartTextView.setTextSize(20);
@@ -524,8 +556,8 @@ public class EventAdapter extends FirebaseRecyclerAdapter<Event, EventAdapter.Ev
             }
             placeStartTextView.setText(countryStartPlaceString);
             dateStartTextView.setText(event.getStartDate().substring(8,13));
-            placeTextView.setText(countryPlaceString);
-            dateTextView.setText(event.getDate().substring(0,5));
+            placeTripTextView.setText(countryPlaceString);
+            dateTripTextView.setText(event.getDate().substring(0,5));
 
             //Set trip cost
             if(event.getCostDiscount()>0) {

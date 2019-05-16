@@ -790,7 +790,7 @@ public class CatalogActivity extends AppCompatActivity  {
      * @param event - this method decide to display them or not
      * @return true if event pass filters
      */
-    private boolean checkFilters(Event event){
+    public static boolean checkFilters(Event event){
         //Load all filters from SharedPreferences
         FilterTrips filterTrips = new FilterTrips();
         filterTrips.getFilterTripsPreferences();
@@ -842,15 +842,15 @@ public class CatalogActivity extends AppCompatActivity  {
         Query eventsDatabaseReferenceWithFilters = mEventsDatabaseReference;
         //FilterTrips sorting and filter by start date
         if(filterTrips.getmSortingPreferences() == FilterTripsContract.FilterTripsEntry.SORTING_DATE && filterTrips.getmSortingOrderPreferences() == FilterTripsContract.FilterTripsEntry.ORDER_INCREASE) {
-            eventsDatabaseReferenceWithFilters = eventsDatabaseReferenceWithFilters.orderByChild(FirebaseContract.FirebaseEntry.COLUMN_EVENTS_TIMESTAMP_START_DATE).startAt(filterTrips.getmDateFromTimestamp()).limitToFirst(20);
+            eventsDatabaseReferenceWithFilters = eventsDatabaseReferenceWithFilters.orderByChild(FirebaseContract.FirebaseEntry.COLUMN_EVENTS_TIMESTAMP_START_DATE).startAt(filterTrips.getmDateFromTimestamp());
         } else if(filterTrips.getmSortingPreferences() == FilterTripsContract.FilterTripsEntry.SORTING_DATE && filterTrips.getmSortingOrderPreferences() == FilterTripsContract.FilterTripsEntry.ORDER_DECREASE) {
-            eventsDatabaseReferenceWithFilters = eventsDatabaseReferenceWithFilters.orderByChild(FirebaseContract.FirebaseEntry.COLUMN_EVENTS_TIMESTAMP_START_DATE).startAt(filterTrips.getmDateFromTimestamp()).limitToLast(20);
+            eventsDatabaseReferenceWithFilters = eventsDatabaseReferenceWithFilters.orderByChild(FirebaseContract.FirebaseEntry.COLUMN_EVENTS_TIMESTAMP_START_DATE).startAt(filterTrips.getmDateFromTimestamp());
         }
         //Only filter trips sorting because costs have different currencies
         else if (filterTrips.getmSortingPreferences() == FilterTripsContract.FilterTripsEntry.SORTING_COST && filterTrips.getmSortingOrderPreferences() == FilterTripsContract.FilterTripsEntry.ORDER_INCREASE){
-            eventsDatabaseReferenceWithFilters = eventsDatabaseReferenceWithFilters.orderByChild(FirebaseContract.FirebaseEntry.COLUMN_EVENTS_COST).limitToFirst(20);
+            eventsDatabaseReferenceWithFilters = eventsDatabaseReferenceWithFilters.orderByChild(FirebaseContract.FirebaseEntry.COLUMN_EVENTS_COST);
         } else if (filterTrips.getmSortingPreferences() == FilterTripsContract.FilterTripsEntry.SORTING_COST && filterTrips.getmSortingOrderPreferences() == FilterTripsContract.FilterTripsEntry.ORDER_DECREASE){
-            eventsDatabaseReferenceWithFilters = eventsDatabaseReferenceWithFilters.orderByChild(FirebaseContract.FirebaseEntry.COLUMN_EVENTS_COST).limitToLast(20);
+            eventsDatabaseReferenceWithFilters = eventsDatabaseReferenceWithFilters.orderByChild(FirebaseContract.FirebaseEntry.COLUMN_EVENTS_COST);
         }
         return eventsDatabaseReferenceWithFilters;
     }
