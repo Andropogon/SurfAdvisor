@@ -4,6 +4,7 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.MediaPlayer;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -24,9 +25,11 @@ import android.text.style.UnderlineSpan;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -110,6 +113,7 @@ public class CatalogActivity extends AppCompatActivity  {
     /** Declaration of events ListView and its Adapter */
     private List<Event> events = new ArrayList<>();
     private EventAdapter mEventAdapter;
+    private Event oldestEvent;
 
     /** Navigation Drawer */
     private DrawerLayout mDrawerLayout;
@@ -134,6 +138,10 @@ public class CatalogActivity extends AppCompatActivity  {
 
     /** New content notification **/
     private NewContentNotification mNewContentNotification = new NewContentNotification();
+
+    private int itemsToLoad = 20;
+
+    private boolean locked = false;
 
 
     @Override
@@ -201,7 +209,7 @@ public class CatalogActivity extends AppCompatActivity  {
         mFirebaseAuth = FirebaseAuth.getInstance();
     }
 
-    private void initClickListeners(){
+    private void initClickListeners() {
         // Setup events button to display events in the place of trips
         Button eventsButton = (Button) findViewById(livewind.example.andro.liveWind.R.id.catalog_events_button);
         eventsButton.setOnClickListener(new View.OnClickListener() {
@@ -209,7 +217,7 @@ public class CatalogActivity extends AppCompatActivity  {
             public void onClick(View view) {
                 SharedPreferences displayOptions = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                 SharedPreferences.Editor editor = displayOptions.edit();
-                editor.putBoolean(getString(livewind.example.andro.liveWind.R.string.settings_display_boolean_key),true);
+                editor.putBoolean(getString(livewind.example.andro.liveWind.R.string.settings_display_boolean_key), true);
                 editor.apply();
                 recreate();
 
@@ -223,7 +231,7 @@ public class CatalogActivity extends AppCompatActivity  {
             public void onClick(View view) {
                 SharedPreferences displayOptions = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                 SharedPreferences.Editor editor = displayOptions.edit();
-                editor.putBoolean(getString(R.string.settings_display_boolean_key),false);
+                editor.putBoolean(getString(R.string.settings_display_boolean_key), false);
                 editor.apply();
                 recreate();
             }
@@ -246,9 +254,10 @@ public class CatalogActivity extends AppCompatActivity  {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(CatalogActivity.this, EditorChoose.class);
-                putWindsurferToIntent(intent,mWindsurfer,getApplicationContext());
+                putWindsurferToIntent(intent, mWindsurfer, getApplicationContext());
                 startActivity(intent);
-            }});
+            }
+        });
 
         // Setup the item click listener to open EventActivity or EventTripActivity
         mEventListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -256,16 +265,16 @@ public class CatalogActivity extends AppCompatActivity  {
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                 //Load clicked event
                 Event clickedEvent = mEventAdapter.getItem(position);
-                if(clickedEvent.getStartDate().equals("DEFAULT")) {
+                if (clickedEvent.getStartDate().equals("DEFAULT")) {
                     Intent intent = new Intent(CatalogActivity.this, EventActivity.class);
                     //Put Extra information about clicked event and who is clicking.
-                    intent = putInfoToIntent(intent,clickedEvent,mWindsurfer,getApplicationContext());
-                    putWindsurferToIntent(intent,mWindsurfer,getApplicationContext());
+                    intent = putInfoToIntent(intent, clickedEvent, mWindsurfer, getApplicationContext());
+                    putWindsurferToIntent(intent, mWindsurfer, getApplicationContext());
                     startActivity(intent);
                 } else {
                     Intent intent = new Intent(CatalogActivity.this, EventTripActivity.class);
-                    intent = putInfoToIntent(intent,clickedEvent,mWindsurfer,getApplicationContext());
-                    putWindsurferToIntent(intent,mWindsurfer,getApplicationContext());
+                    intent = putInfoToIntent(intent, clickedEvent, mWindsurfer, getApplicationContext());
+                    putWindsurferToIntent(intent, mWindsurfer, getApplicationContext());
                     startActivity(intent);
                 }
             }
@@ -283,36 +292,104 @@ public class CatalogActivity extends AppCompatActivity  {
                     return false;
                 } else if (mWindsurfer.getUsername().equals(clickedEvent.getmUsername()) && clickedEvent.getStartDate().equals("DEFAULT")) {
                     Intent intent = new Intent(CatalogActivity.this, EditorActivity.class);
-                    putInfoToIntent(intent,clickedEvent,mWindsurfer,getApplicationContext());
+                    putInfoToIntent(intent, clickedEvent, mWindsurfer, getApplicationContext());
                     startActivity(intent);
                     //Because onItemLongClick has type boolean in place of void in onItemClick
                     return true;
-                } else if((mWindsurfer.getUsername().equals(clickedEvent.getmUsername()) && !clickedEvent.getStartDate().equals("DEFAULT"))){
+                } else if ((mWindsurfer.getUsername().equals(clickedEvent.getmUsername()) && !clickedEvent.getStartDate().equals("DEFAULT"))) {
                     Intent intent = new Intent(CatalogActivity.this, EditorTripActivity.class);
-                    putInfoToIntent(intent,clickedEvent,mWindsurfer,getApplicationContext());
+                    putInfoToIntent(intent, clickedEvent, mWindsurfer, getApplicationContext());
                     startActivity(intent);
                     return true;
-                } else{return false;}
+                } else {
+                    return false;
+                }
             }
         });
 
         //Setup click listener on filter countries image view
         mFiltersImageView.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view){
+            public void onClick(View view) {
                 //Check current catalogActivity mode (coverage or trip)
                 SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                 boolean displayBoolean = sharedPrefs.getBoolean(getApplicationContext().getString(livewind.example.andro.liveWind.R.string.settings_display_boolean_key), true);
-                if (displayBoolean==EventContract.EventEntry.IT_IS_EVENT) {
+                if (displayBoolean == EventContract.EventEntry.IT_IS_EVENT) {
                     CountryDialog.showSelectCountryDialog(CatalogActivity.this);
                 } else {
-                    Intent intentFilter = new Intent(CatalogActivity.this,FilterTripsActivity.class);
+                    Intent intentFilter = new Intent(CatalogActivity.this, FilterTripsActivity.class);
                     startActivity(intentFilter);
                 }
             }
         });
-    }
 
+        mEventListView.setOnScrollListener(new AbsListView.OnScrollListener() {
+            private int currentVisibleItemCount;
+            private int currentScrollState;
+            private int currentFirstVisibleItem;
+            private int totalItem;
+            private FilterTrips filterTrips = new FilterTrips();
+
+
+
+
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+                // TODO Auto-generated method stub
+                this.currentScrollState = scrollState;
+                this.isScrollCompleted();
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem,
+                                 int visibleItemCount, int totalItemCount) {
+                // TODO Auto-generated method stub
+                this.currentFirstVisibleItem = firstVisibleItem;
+                this.currentVisibleItemCount = visibleItemCount;
+                this.totalItem = totalItemCount;
+
+
+            }
+
+            private void isScrollCompleted() {
+                if (!locked) {
+                    if (totalItem - currentFirstVisibleItem == currentVisibleItemCount
+                            && this.currentScrollState == SCROLL_STATE_IDLE) {
+                        filterTrips.getFilterTripsPreferences();
+                        /** To do code here*/
+                        // Dbref.orderByKey().startAt(oldestPostId).limitToFirst(10)
+                        if (filterTrips.getmSortingPreferences() == FilterTripsContract.FilterTripsEntry.SORTING_DATE) {
+                            mEventQueryRef = checkFiltersOnTripsDatabaseReference(oldestEvent.getTimestamp());
+                        } else if (filterTrips.getmSortingPreferences() == FilterTripsContract.FilterTripsEntry.SORTING_COST) {
+                            mEventQueryRef = checkFiltersOnTripsDatabaseReference(oldestEvent.getCost());
+                        }
+                        mEventQueryRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                for (DataSnapshot child : dataSnapshot.getChildren()) {
+                                    //TODO I think I am one db level to "high"
+                                    Event event = child.getValue(Event.class);
+                                    if (oldestEvent.getId().equals(event.getId())){
+                                        locked = true;
+                                    }
+                                    oldestEvent = event;
+                                    mEventAdapter.add(oldestEvent);
+                                    // event.add(e);
+                                    Log.d(TAG, "More trips - Info : " + oldestEvent.getCost());
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
+
+                    }
+                }
+            }
+        });
+    }
     /**
      * Setup firebase auth
      */
@@ -562,7 +639,7 @@ public class CatalogActivity extends AppCompatActivity  {
         if(displayBoolean) {
             mEventQueryRef = checkFiltersOnCoverageDatabaseReference();
         } else {
-            mEventQueryRef = checkFiltersOnTripsDatabaseReference();
+            mEventQueryRef = checkFiltersOnTripsDatabaseReference(0);
         }
         if (mChildEventListener == null) {
             //TODO DOESN'T WORK!!!
@@ -611,6 +688,7 @@ public class CatalogActivity extends AppCompatActivity  {
                                 mEventListView.setEmptyView(mEmptyViewNoRecordsTrips);
                             }
                         }
+                        oldestEvent = event;
                         mEventAdapter.sort();
                 }
 
@@ -828,22 +906,24 @@ public class CatalogActivity extends AppCompatActivity  {
      * Make trips firebase query, to display only first 20 records - to download less data.
      * @return new Query ref
      */
-    private Query checkFiltersOnTripsDatabaseReference(){
+    private Query checkFiltersOnTripsDatabaseReference(long startAt){
         //Load all filters from SharedPreferences
         FilterTrips filterTrips = new FilterTrips();
         filterTrips.getFilterTripsPreferences();
         Query eventsDatabaseReferenceWithFilters = mEventsDatabaseReference;
         //FilterTrips sorting and filter by start date
         if(filterTrips.getmSortingPreferences() == FilterTripsContract.FilterTripsEntry.SORTING_DATE && filterTrips.getmSortingOrderPreferences() == FilterTripsContract.FilterTripsEntry.ORDER_INCREASE) {
-            eventsDatabaseReferenceWithFilters = eventsDatabaseReferenceWithFilters.orderByChild(FirebaseContract.FirebaseEntry.COLUMN_EVENTS_TIMESTAMP_START_DATE).startAt(filterTrips.getmDateFromTimestamp()).limitToFirst(20);
+            startAt=filterTrips.getmDateFromTimestamp();
+            eventsDatabaseReferenceWithFilters = eventsDatabaseReferenceWithFilters.orderByChild(FirebaseContract.FirebaseEntry.COLUMN_EVENTS_TIMESTAMP_START_DATE).startAt(startAt).limitToFirst(itemsToLoad);
         } else if(filterTrips.getmSortingPreferences() == FilterTripsContract.FilterTripsEntry.SORTING_DATE && filterTrips.getmSortingOrderPreferences() == FilterTripsContract.FilterTripsEntry.ORDER_DECREASE) {
-            eventsDatabaseReferenceWithFilters = eventsDatabaseReferenceWithFilters.orderByChild(FirebaseContract.FirebaseEntry.COLUMN_EVENTS_TIMESTAMP_START_DATE).startAt(filterTrips.getmDateFromTimestamp()).limitToLast(20);
+            startAt=filterTrips.getmDateFromTimestamp();
+            eventsDatabaseReferenceWithFilters = eventsDatabaseReferenceWithFilters.orderByChild(FirebaseContract.FirebaseEntry.COLUMN_EVENTS_TIMESTAMP_START_DATE).startAt(startAt).limitToLast(itemsToLoad);
         }
         //Only filter trips sorting because costs have different currencies
         else if (filterTrips.getmSortingPreferences() == FilterTripsContract.FilterTripsEntry.SORTING_COST && filterTrips.getmSortingOrderPreferences() == FilterTripsContract.FilterTripsEntry.ORDER_INCREASE){
-            eventsDatabaseReferenceWithFilters = eventsDatabaseReferenceWithFilters.orderByChild(FirebaseContract.FirebaseEntry.COLUMN_EVENTS_COST).limitToFirst(20);
+            eventsDatabaseReferenceWithFilters = eventsDatabaseReferenceWithFilters.orderByChild(FirebaseContract.FirebaseEntry.COLUMN_EVENTS_COST).startAt(startAt).limitToFirst(itemsToLoad);
         } else if (filterTrips.getmSortingPreferences() == FilterTripsContract.FilterTripsEntry.SORTING_COST && filterTrips.getmSortingOrderPreferences() == FilterTripsContract.FilterTripsEntry.ORDER_DECREASE){
-            eventsDatabaseReferenceWithFilters = eventsDatabaseReferenceWithFilters.orderByChild(FirebaseContract.FirebaseEntry.COLUMN_EVENTS_COST).limitToLast(20);
+            eventsDatabaseReferenceWithFilters = eventsDatabaseReferenceWithFilters.orderByChild(FirebaseContract.FirebaseEntry.COLUMN_EVENTS_COST).startAt(startAt).limitToLast(itemsToLoad);
         }
         return eventsDatabaseReferenceWithFilters;
     }

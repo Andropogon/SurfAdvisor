@@ -188,7 +188,10 @@
             app:backgroundTint="@color/floating_buttons_my"
             app:fabSize="normal" />
 
+
+
     </RelativeLayout>
+
 
 
     <!-- Loading indicator is only shown before the first load -->
@@ -200,6 +203,7 @@
         android:layout_centerInParent="true"/>
 
 </RelativeLayout>
+
 </LinearLayout>
     <!-- Container for contents of drawer - use NavigationView to make configuration easier -->
 <android.support.design.widget.NavigationView
