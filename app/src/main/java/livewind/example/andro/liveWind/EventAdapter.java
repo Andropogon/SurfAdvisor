@@ -30,6 +30,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.GregorianCalendar;
@@ -82,16 +83,24 @@ public class EventAdapter extends FirebaseRecyclerAdapter<Event, EventAdapter.Ev
 
     @Override
     public EventViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
-        boolean displayBoolean = sharedPref.getBoolean(context.getString(livewind.example.andro.liveWind.R.string.settings_display_boolean_key), true);
-       // int windPowerUnit = Integer.parseInt(sharedPref.getString(getContext().getString(R.string.settings_display_wind_power_key),"1"));
         View itemView;
-        if(displayBoolean) {
+        switch (viewType) {
+            case VIEW_TYPE_COVERAGE:
             itemView = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.list_item, parent, false);
-        } else {
+            break;
+            case VIEW_TYPE_TRIP:
             itemView = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.list_trip_item, parent, false);
+            break;
+            case VIEW_TYPE_EMPTY:
+                itemView = LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.list_item_empty, parent, false);
+            break;
+            default:
+                itemView = LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.list_item_empty, parent, false);
+                break;
         }
 
         return new EventViewHolder(itemView);
@@ -100,10 +109,10 @@ public class EventAdapter extends FirebaseRecyclerAdapter<Event, EventAdapter.Ev
     @Override
     protected void onBindViewHolder(EventAdapter.EventViewHolder viewHolder, int position, Event event) {
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
-        int displayTripsOptions = Integer.valueOf(sharedPref.getString(context.getString(R.string.settings_display_trips_key),"1"));
+        int displayTripsOptions = Integer.valueOf(sharedPref.getString(context.getString(R.string.settings_display_trips_key), "1"));
         boolean displayBoolean = sharedPref.getBoolean(context.getString(livewind.example.andro.liveWind.R.string.settings_display_boolean_key), true);
         Set<String> selectedCountries;
-        if(displayBoolean==EventContract.EventEntry.IT_IS_TRIP) {
+        if (displayBoolean == EventContract.EventEntry.IT_IS_TRIP) {
             selectedCountries = sharedPref.getStringSet(context.getString(R.string.settings_display_countries_key), new HashSet<String>());
         } else {
             selectedCountries = sharedPref.getStringSet(context.getString(R.string.settings_display_coverages_countries_key), new HashSet<String>());
@@ -112,25 +121,70 @@ public class EventAdapter extends FirebaseRecyclerAdapter<Event, EventAdapter.Ev
         if (displayBoolean) {
             if (event.getStartDate().equals(checkEventOrTrip) && (selectedCountries.contains(Integer.toString(event.getCountry())) || selectedCountries.contains(EventContract.EventEntry.COUNTRY_ALL_WORLD))) {
                 viewHolder.setEvent(event);
-            } else {}
+            } else {
+            }
         } else {
 
             if (displayTripsOptions == EventContract.EventEntry.DISPLAY_TRIPS_FROM_AND_TO) {
                 if (!event.getStartDate().equals(checkEventOrTrip) && (selectedCountries.contains(Integer.toString(event.getCountry())) || selectedCountries.contains(EventContract.EventEntry.COUNTRY_ALL_WORLD) || selectedCountries.contains(Integer.toString(event.getStartCountry())))) {
-                    if(CatalogActivity.checkFilters(event)) viewHolder.setEvent(event);
+                    if (CatalogActivity.checkFilters(event)) viewHolder.setEvent(event);
                 }
             } else if (displayTripsOptions == EventContract.EventEntry.DISPLAY_TRIPS_FROM) {
                 if (!event.getStartDate().equals(checkEventOrTrip) && (selectedCountries.contains(EventContract.EventEntry.COUNTRY_ALL_WORLD) || selectedCountries.contains(Integer.toString(event.getStartCountry())))) {
-                    if(CatalogActivity.checkFilters(event)) viewHolder.setEvent(event);;
+                    if (CatalogActivity.checkFilters(event)) viewHolder.setEvent(event);
+                    ;
                 }
             } else if (displayTripsOptions == EventContract.EventEntry.DISPLAY_TRIPS_TO) {
                 if (!event.getStartDate().equals(checkEventOrTrip) && (selectedCountries.contains(EventContract.EventEntry.COUNTRY_ALL_WORLD) || selectedCountries.contains(Integer.toString(event.getCountry())))) {
-                    if(CatalogActivity.checkFilters(event)) viewHolder.setEvent(event);;
+                    if (CatalogActivity.checkFilters(event)) viewHolder.setEvent(event);
+                    ;
                 }
             }
         }
         //viewHolder.setEvent(event);
     }
+        @Override
+        public int getItemViewType(int position) {
+            //note: classes should start with uppercase
+            Event event = getItem(position);
+            SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
+            int displayTripsOptions = Integer.valueOf(sharedPref.getString(context.getString(R.string.settings_display_trips_key), "1"));
+            boolean displayBoolean = sharedPref.getBoolean(context.getString(livewind.example.andro.liveWind.R.string.settings_display_boolean_key), true);
+            Set<String> selectedCountries;
+            if (displayBoolean == EventContract.EventEntry.IT_IS_TRIP) {
+                selectedCountries = sharedPref.getStringSet(context.getString(R.string.settings_display_countries_key), new HashSet<String>());
+            } else {
+                selectedCountries = sharedPref.getStringSet(context.getString(R.string.settings_display_coverages_countries_key), new HashSet<String>());
+            }
+            final String checkEventOrTrip = "DEFAULT";
+            if (displayBoolean) {
+                if (event.getStartDate().equals(checkEventOrTrip) && (selectedCountries.contains(Integer.toString(event.getCountry())) || selectedCountries.contains(EventContract.EventEntry.COUNTRY_ALL_WORLD))) {
+                    //viewHolder.setEvent(event);
+                    return VIEW_TYPE_COVERAGE;
+                } else {
+                }
+            } else {
+
+                if (displayTripsOptions == EventContract.EventEntry.DISPLAY_TRIPS_FROM_AND_TO) {
+                    if (!event.getStartDate().equals(checkEventOrTrip) && (selectedCountries.contains(Integer.toString(event.getCountry())) || selectedCountries.contains(EventContract.EventEntry.COUNTRY_ALL_WORLD) || selectedCountries.contains(Integer.toString(event.getStartCountry())))) {
+                        if (CatalogActivity.checkFilters(event)) return VIEW_TYPE_TRIP;
+                    }
+                } else if (displayTripsOptions == EventContract.EventEntry.DISPLAY_TRIPS_FROM) {
+                    if (!event.getStartDate().equals(checkEventOrTrip) && (selectedCountries.contains(EventContract.EventEntry.COUNTRY_ALL_WORLD) || selectedCountries.contains(Integer.toString(event.getStartCountry())))) {
+                        if (CatalogActivity.checkFilters(event)) return VIEW_TYPE_TRIP;
+                        ;
+                    }
+                } else if (displayTripsOptions == EventContract.EventEntry.DISPLAY_TRIPS_TO) {
+                    if (!event.getStartDate().equals(checkEventOrTrip) && (selectedCountries.contains(EventContract.EventEntry.COUNTRY_ALL_WORLD) || selectedCountries.contains(Integer.toString(event.getCountry())))) {
+                        if (CatalogActivity.checkFilters(event)) return VIEW_TYPE_TRIP;
+                        ;
+                    }
+                }
+            }
+            return VIEW_TYPE_EMPTY;
+        }
+
+
 
     public class EventViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private static final String TAG = "EventViewHolder";

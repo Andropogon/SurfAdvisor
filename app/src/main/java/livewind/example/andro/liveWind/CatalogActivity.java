@@ -566,7 +566,6 @@ public class CatalogActivity extends AppCompatActivity  {
         // Initialize events ListView and its adapter
         mEventAdapter = new EventAdapter(this, mEventQueryRef, mWindsurfer);
         mEventRecyclerView.setAdapter(mEventAdapter);
-        mEventRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mEventAdapter.startListening();
         mProgressBar.setVisibility(View.GONE);
         /**
@@ -835,22 +834,35 @@ public class CatalogActivity extends AppCompatActivity  {
      * Make trips firebase query, to display only first 20 records - to download less data.
      * @return new Query ref
      */
-    private Query checkFiltersOnTripsDatabaseReference(){
+    private Query checkFiltersOnTripsDatabaseReference() {
         //Load all filters from SharedPreferences
         FilterTrips filterTrips = new FilterTrips();
         filterTrips.getFilterTripsPreferences();
         Query eventsDatabaseReferenceWithFilters = mEventsDatabaseReference;
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         //FilterTrips sorting and filter by start date
-        if(filterTrips.getmSortingPreferences() == FilterTripsContract.FilterTripsEntry.SORTING_DATE && filterTrips.getmSortingOrderPreferences() == FilterTripsContract.FilterTripsEntry.ORDER_INCREASE) {
+        if (filterTrips.getmSortingPreferences() == FilterTripsContract.FilterTripsEntry.SORTING_DATE) {
             eventsDatabaseReferenceWithFilters = eventsDatabaseReferenceWithFilters.orderByChild(FirebaseContract.FirebaseEntry.COLUMN_EVENTS_TIMESTAMP_START_DATE).startAt(filterTrips.getmDateFromTimestamp());
-        } else if(filterTrips.getmSortingPreferences() == FilterTripsContract.FilterTripsEntry.SORTING_DATE && filterTrips.getmSortingOrderPreferences() == FilterTripsContract.FilterTripsEntry.ORDER_DECREASE) {
-            eventsDatabaseReferenceWithFilters = eventsDatabaseReferenceWithFilters.orderByChild(FirebaseContract.FirebaseEntry.COLUMN_EVENTS_TIMESTAMP_START_DATE).startAt(filterTrips.getmDateFromTimestamp());
+            if (filterTrips.getmSortingOrderPreferences() == FilterTripsContract.FilterTripsEntry.ORDER_INCREASE) {
+                mEventRecyclerView.setLayoutManager(mLayoutManager);
+            }
+            else if (filterTrips.getmSortingOrderPreferences() == FilterTripsContract.FilterTripsEntry.ORDER_DECREASE) {
+                ((LinearLayoutManager) mLayoutManager).setReverseLayout(true);
+                ((LinearLayoutManager) mLayoutManager).setStackFromEnd(true);
+                mEventRecyclerView.setLayoutManager(mLayoutManager);
+            }
         }
         //Only filter trips sorting because costs have different currencies
-        else if (filterTrips.getmSortingPreferences() == FilterTripsContract.FilterTripsEntry.SORTING_COST && filterTrips.getmSortingOrderPreferences() == FilterTripsContract.FilterTripsEntry.ORDER_INCREASE){
+        else if (filterTrips.getmSortingPreferences() == FilterTripsContract.FilterTripsEntry.SORTING_COST) {
             eventsDatabaseReferenceWithFilters = eventsDatabaseReferenceWithFilters.orderByChild(FirebaseContract.FirebaseEntry.COLUMN_EVENTS_COST);
-        } else if (filterTrips.getmSortingPreferences() == FilterTripsContract.FilterTripsEntry.SORTING_COST && filterTrips.getmSortingOrderPreferences() == FilterTripsContract.FilterTripsEntry.ORDER_DECREASE){
-            eventsDatabaseReferenceWithFilters = eventsDatabaseReferenceWithFilters.orderByChild(FirebaseContract.FirebaseEntry.COLUMN_EVENTS_COST);
+            if (filterTrips.getmSortingOrderPreferences() == FilterTripsContract.FilterTripsEntry.ORDER_INCREASE) {
+                mEventRecyclerView.setLayoutManager(mLayoutManager);
+            }
+            else if (filterTrips.getmSortingOrderPreferences() == FilterTripsContract.FilterTripsEntry.ORDER_DECREASE) {
+                ((LinearLayoutManager) mLayoutManager).setReverseLayout(true);
+                ((LinearLayoutManager) mLayoutManager).setStackFromEnd(true);
+                mEventRecyclerView.setLayoutManager(mLayoutManager);
+            }
         }
         return eventsDatabaseReferenceWithFilters;
     }
