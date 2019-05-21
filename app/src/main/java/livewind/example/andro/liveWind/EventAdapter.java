@@ -189,7 +189,7 @@ public class EventAdapter extends FirebaseRecyclerAdapter<Event, EventAdapter.Ev
 
 
 
-    public class EventViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class EventViewHolder extends RecyclerView.ViewHolder {
         private static final String TAG = "EventViewHolder";
         //Coverages views
         TextView placeTextView;
@@ -245,14 +245,22 @@ public class EventAdapter extends FirebaseRecyclerAdapter<Event, EventAdapter.Ev
             mSurfingAvailableImageView = view.findViewById(R.id.list_trip_type_surfing_image_view);
             fromTextView = view.findViewById(R.id.list_trip_from_text_view);
             toTextView = view.findViewById(R.id.list_trip_to_text_view);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(getItem(getAdapterPosition()).getStartDate().equals(EventContract.EventEntry.IS_IT_EVENT)) {
+                        singleEventIntent = new Intent(CatalogActivity.getContext(), EventActivity.class);
+                    } else {
+                        singleEventIntent = new Intent(CatalogActivity.getContext(), EventTripActivity.class);
+                    }
+                    //Put Extra information about clicked event and who is clicking.
+                    singleEventIntent = putInfoToIntent(singleEventIntent,getItem(getAdapterPosition()),windsurfer,context);
+                    putWindsurferToIntent(singleEventIntent,windsurfer,context);
+                    context.startActivity(singleEventIntent);
+                }
+            });
         }
-
-
-        @Override
-        public void onClick(View v) {
-            Log.i(TAG, "onClick: CLICK SINGLE EVENT");
-            context.startActivity(singleEventIntent);
-            }
 
         void setEvent( Event event ){
             SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
@@ -265,16 +273,17 @@ public class EventAdapter extends FirebaseRecyclerAdapter<Event, EventAdapter.Ev
                 } else {
                     //Empty view
                 }
+                /**
             if(event.getStartDate().equals("DEFAULT")) {
-                Intent intent = new Intent(CatalogActivity.getContext(), EventActivity.class);
+                singleEventIntent = new Intent(CatalogActivity.getContext(), EventActivity.class);
                 //Put Extra information about clicked event and who is clicking.
-                intent = putInfoToIntent(intent,event,windsurfer,context);
-                putWindsurferToIntent(intent,windsurfer,context);
+                singleEventIntent = putInfoToIntent(singleEventIntent,event,windsurfer,context);
+                putWindsurferToIntent(singleEventIntent,windsurfer,context);
             } else {
-                Intent intent = new Intent(CatalogActivity.getContext(), EventTripActivity.class);
-                intent = putInfoToIntent(intent,event,windsurfer,context);
-                putWindsurferToIntent(intent,windsurfer,context);
-            }
+                singleEventIntent = new Intent(CatalogActivity.getContext(), EventTripActivity.class);
+                singleEventIntent = putInfoToIntent(singleEventIntent,event,windsurfer,context);
+                putWindsurferToIntent(singleEventIntent,windsurfer,context);
+            }*/
             }
 
         private void setupCoverage(Event event, int windPowerUnit){

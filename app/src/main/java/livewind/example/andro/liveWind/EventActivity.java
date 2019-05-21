@@ -423,7 +423,7 @@ public class EventActivity extends AppCompatActivity {
     }
     private void loadPhoto(){
         final ProgressBar progressBar = (ProgressBar) findViewById(livewind.example.andro.liveWind.R.id.progress);
-        if(!mEvent.getPhotoUrl().isEmpty()) {
+        if(mEvent.getPhotoUrl()!=null && !mEvent.getPhotoUrl().isEmpty()) {
             Glide.with(mPhotoImageView.getContext())
                     .load(mEvent.getPhotoUrl())
                     .listener(new RequestListener<String, GlideDrawable>() {
