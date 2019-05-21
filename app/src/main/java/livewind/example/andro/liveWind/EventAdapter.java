@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import livewind.example.andro.liveWind.firebase.FirebaseHelp;
@@ -61,11 +62,13 @@ public class EventAdapter extends FirebaseRecyclerAdapter<Event, EventAdapter.Ev
     private Windsurfer windsurfer;
     //private final Query query;
     private int mColorResourceId;
+    private ProgressBar progressBar;
+    private View emptyView;
     private int mColorWhite;
     private FirebaseDatabase mFirebaseDatabase = FirebaseDatabase.getInstance();
     private DatabaseReference mCurrentTimeReference= mFirebaseDatabase.getReference().child("currentTime");
 
-    public EventAdapter(Context context, Query ref, Windsurfer windsurfer) {
+    public EventAdapter(Context context, Query ref, Windsurfer windsurfer, ProgressBar progressBar, View emptyView) {
         super(new  FirebaseRecyclerOptions.Builder<Event>()
                         .setQuery(ref, new SnapshotParser<Event>() {
                             @NonNull
@@ -78,6 +81,8 @@ public class EventAdapter extends FirebaseRecyclerAdapter<Event, EventAdapter.Ev
                         .build());
         this.context=context;
         this.windsurfer = windsurfer;
+        this.progressBar = progressBar;
+        this.emptyView = emptyView;
     }
 
 
@@ -94,6 +99,9 @@ public class EventAdapter extends FirebaseRecyclerAdapter<Event, EventAdapter.Ev
                     .inflate(R.layout.list_trip_item, parent, false);
             break;
             case VIEW_TYPE_EMPTY:
+                if(getItemCount()==0){
+                    emptyView.setVisibility(View.VISIBLE);
+                }
                 itemView = LayoutInflater.from(parent.getContext())
                         .inflate(R.layout.list_item_empty, parent, false);
             break;
@@ -132,12 +140,10 @@ public class EventAdapter extends FirebaseRecyclerAdapter<Event, EventAdapter.Ev
             } else if (displayTripsOptions == EventContract.EventEntry.DISPLAY_TRIPS_FROM) {
                 if (!event.getStartDate().equals(checkEventOrTrip) && (selectedCountries.contains(EventContract.EventEntry.COUNTRY_ALL_WORLD) || selectedCountries.contains(Integer.toString(event.getStartCountry())))) {
                     if (CatalogActivity.checkFilters(event)) viewHolder.setEvent(event);
-                    ;
                 }
             } else if (displayTripsOptions == EventContract.EventEntry.DISPLAY_TRIPS_TO) {
                 if (!event.getStartDate().equals(checkEventOrTrip) && (selectedCountries.contains(EventContract.EventEntry.COUNTRY_ALL_WORLD) || selectedCountries.contains(Integer.toString(event.getCountry())))) {
                     if (CatalogActivity.checkFilters(event)) viewHolder.setEvent(event);
-                    ;
                 }
             }
         }
@@ -164,7 +170,6 @@ public class EventAdapter extends FirebaseRecyclerAdapter<Event, EventAdapter.Ev
                 } else {
                 }
             } else {
-
                 if (displayTripsOptions == EventContract.EventEntry.DISPLAY_TRIPS_FROM_AND_TO) {
                     if (!event.getStartDate().equals(checkEventOrTrip) && (selectedCountries.contains(Integer.toString(event.getCountry())) || selectedCountries.contains(EventContract.EventEntry.COUNTRY_ALL_WORLD) || selectedCountries.contains(Integer.toString(event.getStartCountry())))) {
                         if (CatalogActivity.checkFilters(event)) return VIEW_TYPE_TRIP;
@@ -172,12 +177,10 @@ public class EventAdapter extends FirebaseRecyclerAdapter<Event, EventAdapter.Ev
                 } else if (displayTripsOptions == EventContract.EventEntry.DISPLAY_TRIPS_FROM) {
                     if (!event.getStartDate().equals(checkEventOrTrip) && (selectedCountries.contains(EventContract.EventEntry.COUNTRY_ALL_WORLD) || selectedCountries.contains(Integer.toString(event.getStartCountry())))) {
                         if (CatalogActivity.checkFilters(event)) return VIEW_TYPE_TRIP;
-                        ;
                     }
                 } else if (displayTripsOptions == EventContract.EventEntry.DISPLAY_TRIPS_TO) {
                     if (!event.getStartDate().equals(checkEventOrTrip) && (selectedCountries.contains(EventContract.EventEntry.COUNTRY_ALL_WORLD) || selectedCountries.contains(Integer.toString(event.getCountry())))) {
                         if (CatalogActivity.checkFilters(event)) return VIEW_TYPE_TRIP;
-                        ;
                     }
                 }
             }
@@ -666,58 +669,7 @@ public class EventAdapter extends FirebaseRecyclerAdapter<Event, EventAdapter.Ev
             }
         }
         }
-/**
-    public void sort() {
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getContext());
-        String sortEventsString = sharedPref.getString(getContext().getString(livewind.example.andro.liveWind.R.string.settings_display_sorting_events_by_key),"1");
-        int sortEventsInt = Integer.parseInt(sortEventsString);
-        String sortTripsString = sharedPref.getString(getContext().getString(livewind.example.andro.liveWind.R.string.settings_display_sorting_trips_by_key),"1");
-        String sortOrderTripsString = sharedPref.getString(getContext().getString(R.string.settings_display_sorting_order_trips_by_key),"1");
-        int sortTripsInt = Integer.parseInt(sortTripsString);
-        int sortOrderTripsInt = Integer.parseInt(sortOrderTripsString);
 
-        Collections.sort(objects);
-
-         switch (sortEventsInt) {
-             case 1:
-                 Collections.sort(objects,new EventDateComparator());
-                 break;
-             case 2:
-                 Collections.sort(objects, new EventMembersComparator());
-                 break;
-             case 3:
-                 Collections.sort(objects, new EventWindPowerComparator());//.reversed());
-                 break;
-             case 4:
-                 Collections.sort(objects, new EventThanksSizeComparator());
-                 break;
-             default:
-                 Collections.sort(objects, new EventDateComparator());
-                 break;
-         }
-
-         switch (sortTripsInt) {
-             case 1:
-                 if(sortOrderTripsInt==1) {
-                     Collections.sort(objects, new TripsDateComparator());
-                 } else {
-                     Collections.sort(objects, new TripsDateDecreaseComparator());
-                 }
-                 break;
-             case 2:
-                 if(sortOrderTripsInt==1) {
-                     Collections.sort(objects, new TripsCostComparator());
-                 } else {
-                     Collections.sort(objects, new TripsCostDescreaseComparator());
-                 }
-                 break;
-             default:
-                 Collections.sort(objects, new TripsDateComparator());
-                 break;
-         }
-
-    }
-*/
     public void setEventDurationOnDateTextView(final Event event,final TextView view){
         ValueEventListener listener = new ValueEventListener() {
             @Override
@@ -774,5 +726,21 @@ public class EventAdapter extends FirebaseRecyclerAdapter<Event, EventAdapter.Ev
         numberOfDays = numberOfDays / 86400000; //One day in milliseconds
             numberOfDays++;
             return numberOfDays;
+    }
+
+    @Override
+    public void onDataChanged() {
+        if (progressBar != null) {
+            progressBar.setVisibility(View.GONE);
+        }
+        int x = 0;
+        for(int i=0; i<getItemCount(); i++){
+            if(getItemViewType(i)==2){
+                x++;
+            }
+        }
+        if(x==getItemCount()){
+            emptyView.setVisibility(View.VISIBLE);
+        }
     }
 }

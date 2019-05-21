@@ -39,6 +39,7 @@ import livewind.example.andro.liveWind.Filter.FilterTrips;
 import livewind.example.andro.liveWind.Filter.FilterTripsActivity;
 import livewind.example.andro.liveWind.Filter.FilterTripsContract;
 import livewind.example.andro.liveWind.HelpClasses.CurrencyHelper;
+import livewind.example.andro.liveWind.HelpClasses.DateHelp;
 import livewind.example.andro.liveWind.HelpClasses.SocialHelper;
 import livewind.example.andro.liveWind.Notifications.MyFirebaseMessagingService;
 import livewind.example.andro.liveWind.Notifications.NewContentNotification;
@@ -564,10 +565,11 @@ public class CatalogActivity extends AppCompatActivity  {
             mEventQueryRef = checkFiltersOnTripsDatabaseReference();
         }
         // Initialize events ListView and its adapter
-        mEventAdapter = new EventAdapter(this, mEventQueryRef, mWindsurfer);
+        mEventAdapter = new EventAdapter(this, mEventQueryRef, mWindsurfer,mProgressBar,mEmptyView);
         mEventRecyclerView.setAdapter(mEventAdapter);
         mEventAdapter.startListening();
-        mProgressBar.setVisibility(View.GONE);
+
+      //  mProgressBar.setVisibility(View.GONE);
         /**
         if (mChildEventListener == null) {
             //TODO DOESN'T WORK!!!
@@ -794,7 +796,6 @@ public class CatalogActivity extends AppCompatActivity  {
         FilterTrips filterTrips = new FilterTrips();
         filterTrips.getFilterTripsPreferences();
         //Check filters
-        /** Start date filter - added in query
         if(!(event.getTimestampStartDate()>=filterTrips.getmDateFromTimestamp())){
             return false;
         }
@@ -802,7 +803,7 @@ public class CatalogActivity extends AppCompatActivity  {
         if(!(DateHelp.dateToTimestamp(event.getDate())<=filterTrips.getmDateToTimestamp())){
             return false;
         }
-         */
+
         //(!(filterTrips.getmCountries().contains(String.valueOf(event.getCountry())))){
         //    return false;
         //}
@@ -827,6 +828,8 @@ public class CatalogActivity extends AppCompatActivity  {
     private Query checkFiltersOnCoverageDatabaseReference(){
         Query eventsDatabaseReferenceWithFilters = mEventsDatabaseReference;
         eventsDatabaseReferenceWithFilters = eventsDatabaseReferenceWithFilters.orderByChild(FirebaseContract.FirebaseEntry.COLUMN_EVENTS_START_DATE).equalTo("DEFAULT");
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
+        mEventRecyclerView.setLayoutManager(mLayoutManager);
         return eventsDatabaseReferenceWithFilters;
     }
 
