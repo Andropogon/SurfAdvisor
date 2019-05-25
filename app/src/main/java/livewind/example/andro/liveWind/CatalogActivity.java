@@ -8,6 +8,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Handler;
+import android.os.Parcelable;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -23,6 +24,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.SpannableString;
 import android.text.style.UnderlineSpan;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -90,15 +92,19 @@ import static livewind.example.andro.liveWind.ExtraInfoHelp.putWindsurferToInten
  */
 public class CatalogActivity extends AppCompatActivity  {
     private static final String TAG = "CatalogActivity";
+    private static final String LIST_STATE_KEY = "RECYCLER_VIEW_STATE" ;
 
     //Only to give model classes possibility to access SharedPreferences
     private static Context context;
+    private Bundle mBundleRecyclerViewState;
+
     public static Context getContext() {
         return context;
     }
 
     /** Views **/
     private RecyclerView mEventRecyclerView;
+    private RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
     private ImageView mFiltersImageView;
     private ProgressBar mProgressBar;
     //EmptyViews (when any record match filters)
@@ -111,6 +117,7 @@ public class CatalogActivity extends AppCompatActivity  {
 
     /** Declaration of events ListView and its Adapter */
     private List<Event> events = new ArrayList<>();
+    private Parcelable mListState;
     private EventAdapter mEventAdapter;
 
     /** Navigation Drawer */
@@ -167,6 +174,7 @@ public class CatalogActivity extends AppCompatActivity  {
         removingOldEvents(); //Remove old coverages and trips
         setupFirebaseAuth(); //Login user
         initClickListeners();
+        attachDatabaseReadListener();
     }
 
     /**
@@ -394,6 +402,21 @@ public class CatalogActivity extends AppCompatActivity  {
     @Override
     protected void onResume() {
         super.onResume();
+
+        // restore RecyclerView state
+
+        if (mListState != null) {
+            mLayoutManager.onRestoreInstanceState(mListState);
+        }
+/**
+        // restore RecyclerView state
+        if (mBundleRecyclerViewState != null) {
+            Parcelable listState = mBundleRecyclerViewState.getParcelable(LIST_STATE_KEY);
+            Log.i(TAG, "onResume: " + listState.toString());
+            mEventRecyclerView.getLayoutManager().onRestoreInstanceState(listState);
+        }
+ */
+
         mFirebaseAuth.addAuthStateListener(mAuthStateListener);
     }
 
@@ -403,12 +426,25 @@ public class CatalogActivity extends AppCompatActivity  {
         if (mAuthStateListener != null) {
             mFirebaseAuth.removeAuthStateListener(mAuthStateListener);
         }
-        dettachDatabaseReadListener();
+       // dettachDatabaseReadListener();
+        // save RecyclerView state
+        mBundleRecyclerViewState = new Bundle();
+        Parcelable listState = mLayoutManager.onSaveInstanceState();
+        Log.i(TAG, "onPause: " + listState.toString());
+        mBundleRecyclerViewState.putParcelable(LIST_STATE_KEY, listState);
         //mEventAdapter.clear();
     }
 
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mEventAdapter.stopListening();
+    }
+
+
     private void OnSignedInInitialize(){
-        attachDatabaseReadListener();
+        //attachDatabaseReadListener();
         AppRater.app_launched(this); //Display request to rate the app if conditions are accomplish
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         Set<String> selectedCountries = sharedPrefs.getStringSet(getString(R.string.settings_display_countries_key), new HashSet<String>());
@@ -842,7 +878,7 @@ public class CatalogActivity extends AppCompatActivity  {
         FilterTrips filterTrips = new FilterTrips();
         filterTrips.getFilterTripsPreferences();
         Query eventsDatabaseReferenceWithFilters = mEventsDatabaseReference;
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
+
         //FilterTrips sorting and filter by start date
         if (filterTrips.getmSortingPreferences() == FilterTripsContract.FilterTripsEntry.SORTING_DATE) {
             eventsDatabaseReferenceWithFilters = eventsDatabaseReferenceWithFilters.orderByChild(FirebaseContract.FirebaseEntry.COLUMN_EVENTS_TIMESTAMP_START_DATE).startAt(filterTrips.getmDateFromTimestamp());
@@ -891,15 +927,32 @@ public class CatalogActivity extends AppCompatActivity  {
             }
         }, 2000);
     }
-    @Override
-    protected void onStart() {
-        super.onStart();
-      //  mEventAdapter.startListening();
-    }
 
     @Override
     protected void onStop() {
         super.onStop();
-        mEventAdapter.stopListening();
+
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+    }
+    
+    @Override
+    protected void onSaveInstanceState(Bundle state) {
+        super.onSaveInstanceState(state);
+        // Save list state
+        mListState = mLayoutManager.onSaveInstanceState();
+        state.putParcelable(LIST_STATE_KEY, mListState);
+    }
+    @Override
+    protected void onRestoreInstanceState(Bundle state) {
+        super.onRestoreInstanceState(state);
+
+        // Retrieve list state and list/item positions
+        if(state != null)
+            mListState = state.getParcelable(LIST_STATE_KEY);
+    }
+
 }

@@ -32,6 +32,7 @@
             android:name="livewind.example.andro.liveWind.CatalogActivity"
             android:label="@string/app_name"
             android:theme="@style/CatalogActivityStyle" >
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -43,6 +44,7 @@
             android:label="@string/editor_activity_title_new_event"
             android:parentActivityName="livewind.example.andro.liveWind.CatalogActivity"
             android:windowSoftInputMode="adjustPan"
+
 
             android:theme="@style/AppTheme">
 

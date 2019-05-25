@@ -31,12 +31,9 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.GregorianCalendar;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import livewind.example.andro.liveWind.data.EventContract;
@@ -147,7 +144,6 @@ public class EventAdapter extends FirebaseRecyclerAdapter<Event, EventAdapter.Ev
                 }
             }
         }
-        //viewHolder.setEvent(event);
     }
         @Override
         public int getItemViewType(int position) {
@@ -165,7 +161,6 @@ public class EventAdapter extends FirebaseRecyclerAdapter<Event, EventAdapter.Ev
             final String checkEventOrTrip = "DEFAULT";
             if (displayBoolean) {
                 if (event.getStartDate().equals(checkEventOrTrip) && (selectedCountries.contains(Integer.toString(event.getCountry())) || selectedCountries.contains(EventContract.EventEntry.COUNTRY_ALL_WORLD))) {
-                    //viewHolder.setEvent(event);
                     return VIEW_TYPE_COVERAGE;
                 } else {
                 }
@@ -257,6 +252,7 @@ public class EventAdapter extends FirebaseRecyclerAdapter<Event, EventAdapter.Ev
                     //Put Extra information about clicked event and who is clicking.
                     singleEventIntent = putInfoToIntent(singleEventIntent,getItem(getAdapterPosition()),windsurfer,context);
                     putWindsurferToIntent(singleEventIntent,windsurfer,context);
+                   // singleEventIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                     context.startActivity(singleEventIntent);
                 }
             });
@@ -273,17 +269,6 @@ public class EventAdapter extends FirebaseRecyclerAdapter<Event, EventAdapter.Ev
                 } else {
                     //Empty view
                 }
-                /**
-            if(event.getStartDate().equals("DEFAULT")) {
-                singleEventIntent = new Intent(CatalogActivity.getContext(), EventActivity.class);
-                //Put Extra information about clicked event and who is clicking.
-                singleEventIntent = putInfoToIntent(singleEventIntent,event,windsurfer,context);
-                putWindsurferToIntent(singleEventIntent,windsurfer,context);
-            } else {
-                singleEventIntent = new Intent(CatalogActivity.getContext(), EventTripActivity.class);
-                singleEventIntent = putInfoToIntent(singleEventIntent,event,windsurfer,context);
-                putWindsurferToIntent(singleEventIntent,windsurfer,context);
-            }*/
             }
 
         private void setupCoverage(Event event, int windPowerUnit){
@@ -752,4 +737,5 @@ public class EventAdapter extends FirebaseRecyclerAdapter<Event, EventAdapter.Ev
             emptyView.setVisibility(View.VISIBLE);
         }
     }
+
 }
