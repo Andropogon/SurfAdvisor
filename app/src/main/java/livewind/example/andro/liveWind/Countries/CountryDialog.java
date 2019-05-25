@@ -293,7 +293,7 @@ public class CountryDialog {
         builder.setPositiveButton(R.string.catalog_activity_changes_confrimity_dialog_positive_button, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-                Set<String> selectedCountries = sharedPrefs.getStringSet(context.getString(R.string.settings_display_countries_key), new HashSet<String>());
+                Set<String> selectedCountries = sharedPrefs.getStringSet(context.getString(R.string.settings_display_coverages_countries_key), new HashSet<String>());
                 SharedPreferences displayOptions = PreferenceManager.getDefaultSharedPreferences(context);
                 SharedPreferences.Editor editor = displayOptions.edit();
                 selectedCountries.remove(EventContract.EventEntry.COUNTRY_ALL_WORLD);
@@ -330,7 +330,7 @@ public class CountryDialog {
         builder.setPositiveButton(R.string.catalog_activity_changes_null_dialog_positive_button, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-                Set<String> selectedCountries = sharedPrefs.getStringSet(context.getString(R.string.settings_display_countries_key), new HashSet<String>());
+                Set<String> selectedCountries = sharedPrefs.getStringSet(context.getString(R.string.settings_display_coverages_countries_key), new HashSet<String>());
                 SharedPreferences displayOptions = PreferenceManager.getDefaultSharedPreferences(context);
                 SharedPreferences.Editor editor = displayOptions.edit();
                 selectedCountries.add(EventContract.EventEntry.COUNTRY_ALL_WORLD);

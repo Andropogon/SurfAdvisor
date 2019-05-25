@@ -92,11 +92,9 @@ import static livewind.example.andro.liveWind.ExtraInfoHelp.putWindsurferToInten
  */
 public class CatalogActivity extends AppCompatActivity  {
     private static final String TAG = "CatalogActivity";
-    private static final String LIST_STATE_KEY = "RECYCLER_VIEW_STATE" ;
 
     //Only to give model classes possibility to access SharedPreferences
     private static Context context;
-    private Bundle mBundleRecyclerViewState;
 
     public static Context getContext() {
         return context;
@@ -117,7 +115,6 @@ public class CatalogActivity extends AppCompatActivity  {
 
     /** Declaration of events ListView and its Adapter */
     private List<Event> events = new ArrayList<>();
-    private Parcelable mListState;
     private EventAdapter mEventAdapter;
 
     /** Navigation Drawer */
@@ -125,7 +122,6 @@ public class CatalogActivity extends AppCompatActivity  {
     private int choseIntentFromDrawerLayout=-1;
 
     /** FIREBASE **/
-    //TODO Add dbHelper and Contract and clean it...
     private FirebaseDatabase mFirebaseDatabase;
     ChildEventListener mChildEventListener;
     private DatabaseReference mEventsDatabaseReference;
@@ -177,6 +173,27 @@ public class CatalogActivity extends AppCompatActivity  {
         attachDatabaseReadListener();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mFirebaseAuth.addAuthStateListener(mAuthStateListener);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (mAuthStateListener != null) {
+            mFirebaseAuth.removeAuthStateListener(mAuthStateListener);
+        }
+        // dettachDatabaseReadListener();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mEventAdapter.stopListening();
+    }
+
     /**
      * Init methods
      */
@@ -205,6 +222,7 @@ public class CatalogActivity extends AppCompatActivity  {
         mEventQueryRef = mEventsDatabaseReference;
         mUsersDatabaseReference = mFirebaseDatabase.getReference().child(FirebaseContract.FirebaseEntry.TABLE_USERS);
         mUsersNicknamesDatabaseReference = mFirebaseDatabase.getReference().child(FirebaseContract.FirebaseEntry.TABLE_USERNAMES);
+
         mFirebaseStorage = FirebaseStorage.getInstance();
         mFirebaseAuth = FirebaseAuth.getInstance();
     }
@@ -257,53 +275,7 @@ public class CatalogActivity extends AppCompatActivity  {
                 putWindsurferToIntent(intent,mWindsurfer,getApplicationContext());
                 startActivity(intent);
             }});
-/**
-        // Setup the item click listener to open EventActivity or EventTripActivity
-        mEventRecyclerView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                //Load clicked event
-                Event clickedEvent = mEventAdapter.getItem(position);
-                if(clickedEvent.getStartDate().equals("DEFAULT")) {
-                    Intent intent = new Intent(CatalogActivity.this, EventActivity.class);
-                    //Put Extra information about clicked event and who is clicking.
-                    intent = putInfoToIntent(intent,clickedEvent,mWindsurfer,getApplicationContext());
-                    putWindsurferToIntent(intent,mWindsurfer,getApplicationContext());
-                    startActivity(intent);
-                } else {
-                    Intent intent = new Intent(CatalogActivity.this, EventTripActivity.class);
-                    intent = putInfoToIntent(intent,clickedEvent,mWindsurfer,getApplicationContext());
-                    putWindsurferToIntent(intent,mWindsurfer,getApplicationContext());
-                    startActivity(intent);
-                }
-            }
-        });
 
-        // Setup the item long click listener to open EditorActivity
-        mEventRecyclerView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long id) {
-                //Load clicked event
-                Event clickedEvent = mEventAdapter.getItem(position);
-                //Check that it is your event
-                if (!mWindsurfer.getUsername().equals(clickedEvent.getmUsername())) {
-                    Toast.makeText(CatalogActivity.this, "You can edit only your events", Toast.LENGTH_SHORT).show();
-                    return false;
-                } else if (mWindsurfer.getUsername().equals(clickedEvent.getmUsername()) && clickedEvent.getStartDate().equals("DEFAULT")) {
-                    Intent intent = new Intent(CatalogActivity.this, EditorActivity.class);
-                    putInfoToIntent(intent,clickedEvent,mWindsurfer,getApplicationContext());
-                    startActivity(intent);
-                    //Because onItemLongClick has type boolean in place of void in onItemClick
-                    return true;
-                } else if((mWindsurfer.getUsername().equals(clickedEvent.getmUsername()) && !clickedEvent.getStartDate().equals("DEFAULT"))){
-                    Intent intent = new Intent(CatalogActivity.this, EditorTripActivity.class);
-                    putInfoToIntent(intent,clickedEvent,mWindsurfer,getApplicationContext());
-                    startActivity(intent);
-                    return true;
-                } else{return false;}
-            }
-        });
-*/
         //Setup click listener on filter countries image view
         mFiltersImageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -399,52 +371,8 @@ public class CatalogActivity extends AppCompatActivity  {
             }
         }
     }
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        // restore RecyclerView state
-
-        if (mListState != null) {
-            mLayoutManager.onRestoreInstanceState(mListState);
-        }
-/**
-        // restore RecyclerView state
-        if (mBundleRecyclerViewState != null) {
-            Parcelable listState = mBundleRecyclerViewState.getParcelable(LIST_STATE_KEY);
-            Log.i(TAG, "onResume: " + listState.toString());
-            mEventRecyclerView.getLayoutManager().onRestoreInstanceState(listState);
-        }
- */
-
-        mFirebaseAuth.addAuthStateListener(mAuthStateListener);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        if (mAuthStateListener != null) {
-            mFirebaseAuth.removeAuthStateListener(mAuthStateListener);
-        }
-       // dettachDatabaseReadListener();
-        // save RecyclerView state
-        mBundleRecyclerViewState = new Bundle();
-        Parcelable listState = mLayoutManager.onSaveInstanceState();
-        Log.i(TAG, "onPause: " + listState.toString());
-        mBundleRecyclerViewState.putParcelable(LIST_STATE_KEY, listState);
-        //mEventAdapter.clear();
-    }
-
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        mEventAdapter.stopListening();
-    }
-
 
     private void OnSignedInInitialize(){
-        //attachDatabaseReadListener();
         AppRater.app_launched(this); //Display request to rate the app if conditions are accomplish
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         Set<String> selectedCountries = sharedPrefs.getStringSet(getString(R.string.settings_display_countries_key), new HashSet<String>());
@@ -455,7 +383,6 @@ public class CatalogActivity extends AppCompatActivity  {
     }
 
     private void OnSignedOutCleanUp(){
-       //mEventAdapter.clear();
     }
     /**
      * Setup Navigation Drawer
@@ -605,95 +532,11 @@ public class CatalogActivity extends AppCompatActivity  {
         mEventRecyclerView.setAdapter(mEventAdapter);
         mEventAdapter.startListening();
 
-      //  mProgressBar.setVisibility(View.GONE);
-        /**
-        if (mChildEventListener == null) {
-            //TODO DOESN'T WORK!!!
-            mEventQueryRef.addChildEventListener( mChildEventListener = new ChildEventListener() {
-                @Override
-                public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                    Event event = dataSnapshot.getValue(Event.class);
-                    event.setId(dataSnapshot.getKey());
-                    mProgressBar.setVisibility(View.GONE);
-                    //Filters and emptyView when no matching records
-                    //TODO clean it...
-                    SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-                    int displayTripsOptions = Integer.valueOf(sharedPref.getString(getApplicationContext().getString(R.string.settings_display_trips_key),"1"));
-                    boolean displayBoolean = sharedPref.getBoolean(getApplicationContext().getString(livewind.example.andro.liveWind.R.string.settings_display_boolean_key), true);
-                    Set<String> selectedCountries;
-                    if(displayBoolean==EventContract.EventEntry.IT_IS_TRIP) {
-                        selectedCountries = sharedPref.getStringSet(getApplicationContext().getString(R.string.settings_display_countries_key), new HashSet<String>());
-                    } else {
-                        selectedCountries = sharedPref.getStringSet(getApplicationContext().getString(R.string.settings_display_coverages_countries_key), new HashSet<String>());
-                    }
-                    final String checkEventOrTrip = "DEFAULT";
-                        if (displayBoolean) {
-                            if (event.getStartDate().equals(checkEventOrTrip) && (selectedCountries.contains(Integer.toString(event.getCountry())) || selectedCountries.contains(EventContract.EventEntry.COUNTRY_ALL_WORLD))) {
-                                mEventAdapter.add(event);
-                            } else {}
-                        } else {
-
-                            if (displayTripsOptions == EventContract.EventEntry.DISPLAY_TRIPS_FROM_AND_TO) {
-                                if (!event.getStartDate().equals(checkEventOrTrip) && (selectedCountries.contains(Integer.toString(event.getCountry())) || selectedCountries.contains(EventContract.EventEntry.COUNTRY_ALL_WORLD) || selectedCountries.contains(Integer.toString(event.getStartCountry())))) {
-                                    if(checkFilters(event)) mEventAdapter.add(event);
-                                }
-                            } else if (displayTripsOptions == EventContract.EventEntry.DISPLAY_TRIPS_FROM) {
-                                if (!event.getStartDate().equals(checkEventOrTrip) && (selectedCountries.contains(EventContract.EventEntry.COUNTRY_ALL_WORLD) || selectedCountries.contains(Integer.toString(event.getStartCountry())))) {
-                                    if(checkFilters(event)) mEventAdapter.add(event);
-                                }
-                            } else if (displayTripsOptions == EventContract.EventEntry.DISPLAY_TRIPS_TO) {
-                                if (!event.getStartDate().equals(checkEventOrTrip) && (selectedCountries.contains(EventContract.EventEntry.COUNTRY_ALL_WORLD) || selectedCountries.contains(Integer.toString(event.getCountry())))) {
-                                    if(checkFilters(event)) mEventAdapter.add(event);
-                                }
-                            }
-                        }
-                        if (mEventAdapter.isEmpty()) {
-                            if (displayBoolean) {
-                                mEventRecyclerView.setEmptyView(mEmptyViewNoRecordsRelations);
-                            } else {
-                                mEventRecyclerView.setEmptyView(mEmptyViewNoRecordsTrips);
-                            }
-                        }
-                        mEventAdapter.sort();
-                }
-
-                @Override
-                public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                }
-
-                @Override
-                public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-                    //AUTO REMOVING OLD EVENTS AND TRIPS
-                    if (dataSnapshot.exists()) {
-                        final Event event = dataSnapshot.getValue(Event.class);
-                        if(event.getStartDate().equals("DEFAULT")) {
-                            //Coverage
-                            //Delete photo from storage
-                            if(!event.getPhotoUrl().equals("")) {
-                                StorageReference ref = mFirebaseStorage.getReferenceFromUrl(event.getPhotoUrl());
-                                Log.i("AUTO REMOVING", "EVENT   =   " + ref.toString());
-                                ref.delete();
-                            }
-                            FirebaseHelp.removeOnlyActiveData(event.getmUserUId(), EventContract.EventEntry.IT_IS_EVENT);
-                        }else{
-                            //Trip
-                            FirebaseHelp.removeOnlyActiveData(event.getmUserUId(), EventContract.EventEntry.IT_IS_TRIP);
-                        }
-                    }
-                }
-                @Override
-                public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                    Log.i("CHANGE", String.valueOf(events.size()));
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-                    Log.i("CHANGE", String.valueOf(events.size()));
-                }
-            });
-           // mEventQueryRef.addChildEventListener(mChildEventListener);
+         if (displayBoolean==EventContract.EventEntry.IT_IS_TRIP) {
+            mEventAdapter.setEmptyView(mEmptyViewNoRecordsTrips);
+        } else {
+            mEventAdapter.setEmptyView(mEmptyViewNoRecordsRelations);
         }
-         */
     }
 
     private void dettachDatabaseReadListener(){
@@ -812,11 +655,13 @@ public class CatalogActivity extends AppCompatActivity  {
 
     private void setupOfflineViews(){
         mProgressBar.setVisibility(View.GONE);
-       // mEventRecyclerView.setEmptyView(mEmptyView);
         Toast.makeText(getApplicationContext(), getString(R.string.toast_no_connection), Toast.LENGTH_SHORT).show();
+        mEmptyView.setVisibility(View.VISIBLE);
+        mEventRecyclerView.setVisibility(View.GONE);
         mEmptyViewNoConnectionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                mEventRecyclerView.setVisibility(View.VISIBLE);
                 recreate();
             }
         });
@@ -840,9 +685,6 @@ public class CatalogActivity extends AppCompatActivity  {
             return false;
         }
 
-        //(!(filterTrips.getmCountries().contains(String.valueOf(event.getCountry())))){
-        //    return false;
-        //}
         if(!(CurrencyHelper.currencyToPLN(Integer.valueOf(filterTrips.getmCost()),filterTrips.getmCurrency())>=CurrencyHelper.currencyToPLN(event.getCost(),event.getCurrency()))){
             return false;
         }
@@ -908,7 +750,6 @@ public class CatalogActivity extends AppCompatActivity  {
 
     /** Double click back to app exit method */
     private boolean doubleBackToExitPressedOnce = false;
-
     @Override
     public void onBackPressed() {
         if (doubleBackToExitPressedOnce) {
@@ -920,39 +761,11 @@ public class CatalogActivity extends AppCompatActivity  {
         Toast.makeText(this, getString(R.string.toast_double_click_back_to_exit), Toast.LENGTH_SHORT).show();
 
         new Handler().postDelayed(new Runnable() {
-
             @Override
             public void run() {
                 doubleBackToExitPressedOnce=false;
             }
         }, 2000);
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-    }
-    
-    @Override
-    protected void onSaveInstanceState(Bundle state) {
-        super.onSaveInstanceState(state);
-        // Save list state
-        mListState = mLayoutManager.onSaveInstanceState();
-        state.putParcelable(LIST_STATE_KEY, mListState);
-    }
-    @Override
-    protected void onRestoreInstanceState(Bundle state) {
-        super.onRestoreInstanceState(state);
-
-        // Retrieve list state and list/item positions
-        if(state != null)
-            mListState = state.getParcelable(LIST_STATE_KEY);
     }
 
 }

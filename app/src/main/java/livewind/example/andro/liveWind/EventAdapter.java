@@ -738,4 +738,8 @@ public class EventAdapter extends FirebaseRecyclerAdapter<Event, EventAdapter.Ev
         }
     }
 
+    public void setEmptyView(View emptyView){
+        this.emptyView = emptyView;
+    }
+
 }
