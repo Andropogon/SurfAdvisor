@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import livewind.example.andro.liveWind.R;
 
-import static livewind.example.andro.liveWind.HelpClasses.SocialHelper.getFacebookPageURL;
+import static livewind.example.andro.liveWind.Helpers.SocialHelper.getFacebookPageURL;
 
 public class FAQActivity extends AppCompatActivity {
 

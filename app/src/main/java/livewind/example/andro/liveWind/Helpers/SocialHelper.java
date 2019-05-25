@@ -1,4 +1,4 @@
-package livewind.example.andro.liveWind.HelpClasses;
+package livewind.example.andro.liveWind.Helpers;
 
 import android.content.Context;
 import android.content.Intent;

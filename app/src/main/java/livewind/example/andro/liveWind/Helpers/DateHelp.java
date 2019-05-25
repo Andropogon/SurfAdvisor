@@ -1,8 +1,7 @@
-package livewind.example.andro.liveWind.HelpClasses;
+package livewind.example.andro.liveWind.Helpers;
 
 import android.app.DatePickerDialog;
 import android.content.Context;
-import android.view.View;
 import android.widget.DatePicker;
 import android.widget.TextView;
 
@@ -10,8 +9,6 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-
-import livewind.example.andro.liveWind.Filter.FilterTripsActivity;
 
 public class DateHelp {
     /**

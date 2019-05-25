@@ -132,6 +132,7 @@ public class CountryDialog {
         alertDialog.show();
 
     }
+
     /**
      * Dialog showed when user click apply on SelectCountryDialog and check 0 countries.
      * (For trips country dialog)
@@ -286,10 +287,9 @@ public class CountryDialog {
      */
     public static void showCountryChangesConfirmationDialog(final Activity context) {
         // Create an AlertDialog.Builder and set the message, and click listeners
-        // for the postivie and negative buttons on the dialog.
+        // for the positive and negative buttons on the dialog.
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setMessage(R.string.catalog_activity_changes_confrimity_dialog_msg);
-
         builder.setPositiveButton(R.string.catalog_activity_changes_confrimity_dialog_positive_button, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
@@ -303,7 +303,6 @@ public class CountryDialog {
                 context.recreate();
             }
         });
-
         builder.setNegativeButton(R.string.dialog_edit, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 showSelectCountryDialog(context);
@@ -312,11 +311,11 @@ public class CountryDialog {
                 }
             }
         });
-
         // Create and show the AlertDialog
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
     }
+
     /**
      * Dialog showed when user click apply on SelectCountryDialog and check 0 countries.
      * (For coverages)
@@ -326,7 +325,6 @@ public class CountryDialog {
         // for the postivie and negative buttons on the dialog.
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setMessage(R.string.catalog_activity_changes_null_dialog_msg);
-
         builder.setPositiveButton(R.string.catalog_activity_changes_null_dialog_positive_button, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
@@ -340,7 +338,6 @@ public class CountryDialog {
                 context.recreate();
             }
         });
-
         builder.setNegativeButton(R.string.dialog_edit, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 showSelectCountryDialog(context);
@@ -349,7 +346,6 @@ public class CountryDialog {
                 }
             }
         });
-
         // Create and show the AlertDialog
         AlertDialog alertDialog = builder.create();
         alertDialog.show();

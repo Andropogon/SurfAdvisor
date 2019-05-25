@@ -8,7 +8,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Handler;
-import android.os.Parcelable;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -24,14 +23,11 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.SpannableString;
 import android.text.style.UnderlineSpan;
-import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -40,14 +36,13 @@ import livewind.example.andro.liveWind.FAQ.FAQActivity;
 import livewind.example.andro.liveWind.Filter.FilterTrips;
 import livewind.example.andro.liveWind.Filter.FilterTripsActivity;
 import livewind.example.andro.liveWind.Filter.FilterTripsContract;
-import livewind.example.andro.liveWind.HelpClasses.CurrencyHelper;
-import livewind.example.andro.liveWind.HelpClasses.DateHelp;
-import livewind.example.andro.liveWind.HelpClasses.SocialHelper;
+import livewind.example.andro.liveWind.Helpers.CurrencyHelper;
+import livewind.example.andro.liveWind.Helpers.DateHelp;
+import livewind.example.andro.liveWind.Helpers.SocialHelper;
 import livewind.example.andro.liveWind.Notifications.MyFirebaseMessagingService;
 import livewind.example.andro.liveWind.Notifications.NewContentNotification;
 import livewind.example.andro.liveWind.Notifications.NewContentNotificationDialog;
 import livewind.example.andro.liveWind.firebase.FirebaseContract;
-import livewind.example.andro.liveWind.firebase.FirebaseHelp;
 import livewind.example.andro.liveWind.firebase.FirebasePromotions;
 import livewind.example.andro.liveWind.user.UserActivity;
 import livewind.example.andro.liveWind.user.Windsurfer;
@@ -68,12 +63,9 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
@@ -114,7 +106,6 @@ public class CatalogActivity extends AppCompatActivity  {
     private boolean checkConnection = true;
 
     /** Declaration of events ListView and its Adapter */
-    private List<Event> events = new ArrayList<>();
     private EventAdapter mEventAdapter;
 
     /** Navigation Drawer */
@@ -165,7 +156,6 @@ public class CatalogActivity extends AppCompatActivity  {
         initFirebaseVariables();
         MyFirebaseMessagingService.topicSubscriptionService(CatalogActivity.this);
         setupNavigationDrawer();
-
 
         removingOldEvents(); //Remove old coverages and trips
         setupFirebaseAuth(); //Login user
@@ -300,7 +290,8 @@ public class CatalogActivity extends AppCompatActivity  {
         mAuthStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                checkConnection = isOnline(); //Checking internet connection
+                checkConnection = isOnline();
+                //Checking internet connection
                 if (!checkConnection) {
                     setupOfflineViews();
                     onPause();
@@ -376,9 +367,9 @@ public class CatalogActivity extends AppCompatActivity  {
         AppRater.app_launched(this); //Display request to rate the app if conditions are accomplish
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         Set<String> selectedCountries = sharedPrefs.getStringSet(getString(R.string.settings_display_countries_key), new HashSet<String>());
-        if(selectedCountries.contains("0")&&selectedCountries.size()!=1){ //Check if is selected "all world" and other country if yes - show dialog to change it
+        if(selectedCountries.contains("0")&&selectedCountries.size()!=1){
+            //Check if is selected "all world" and other country if yes - show dialog to change it
             CountryDialog.showCountryChangesConfirmationDialog(CatalogActivity.this);
-            //TODO change this - covergas?
         }
     }
 
@@ -579,7 +570,6 @@ public class CatalogActivity extends AppCompatActivity  {
                             itemSnapshot.getRef().removeValue();
                         }
                     }
-
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
                         throw databaseError.toException();
@@ -588,7 +578,6 @@ public class CatalogActivity extends AppCompatActivity  {
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
             }
         });
         mRemovingReference.setValue(ServerValue.TIMESTAMP);
@@ -649,7 +638,10 @@ public class CatalogActivity extends AppCompatActivity  {
      */
     public boolean isOnline() {
         ConnectivityManager cm = (ConnectivityManager) getSystemService(getApplicationContext().CONNECTIVITY_SERVICE);
-        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        NetworkInfo netInfo = null;
+        if (cm != null) {
+            netInfo = cm.getActiveNetworkInfo();
+        }
         return netInfo != null && netInfo.isConnectedOrConnecting();
     }
 
@@ -756,10 +748,8 @@ public class CatalogActivity extends AppCompatActivity  {
             this.finishAffinity();
             return;
         }
-
         this.doubleBackToExitPressedOnce = true;
         Toast.makeText(this, getString(R.string.toast_double_click_back_to_exit), Toast.LENGTH_SHORT).show();
-
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
