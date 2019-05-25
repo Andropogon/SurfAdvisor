@@ -29,7 +29,7 @@ import java.util.Set;
 import livewind.example.andro.liveWind.CatalogActivity;
 import livewind.example.andro.liveWind.Countries.CountryDialog;
 import livewind.example.andro.liveWind.Countries.CountryGridAdapter;
-import livewind.example.andro.liveWind.HelpClasses.DateHelp;
+import livewind.example.andro.liveWind.Helpers.DateHelp;
 import livewind.example.andro.liveWind.ListView_help.ListViewHelp;
 import livewind.example.andro.liveWind.R;
 import livewind.example.andro.liveWind.data.EventContract;

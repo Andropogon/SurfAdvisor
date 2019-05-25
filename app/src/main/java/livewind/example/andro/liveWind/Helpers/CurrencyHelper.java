@@ -1,4 +1,4 @@
-package livewind.example.andro.liveWind.HelpClasses;
+package livewind.example.andro.liveWind.Helpers;
 
 import livewind.example.andro.liveWind.data.EventContract;
 

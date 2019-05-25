@@ -18,16 +18,16 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.SpannableString;
 import android.text.style.UnderlineSpan;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -35,13 +35,14 @@ import livewind.example.andro.liveWind.Countries.CountryDialog;
 import livewind.example.andro.liveWind.FAQ.FAQActivity;
 import livewind.example.andro.liveWind.Filter.FilterTrips;
 import livewind.example.andro.liveWind.Filter.FilterTripsActivity;
-import livewind.example.andro.liveWind.HelpClasses.CurrencyHelper;
-import livewind.example.andro.liveWind.HelpClasses.DateHelp;
-import livewind.example.andro.liveWind.HelpClasses.SocialHelper;
+import livewind.example.andro.liveWind.Filter.FilterTripsContract;
+import livewind.example.andro.liveWind.Helpers.CurrencyHelper;
+import livewind.example.andro.liveWind.Helpers.DateHelp;
+import livewind.example.andro.liveWind.Helpers.SocialHelper;
 import livewind.example.andro.liveWind.Notifications.MyFirebaseMessagingService;
 import livewind.example.andro.liveWind.Notifications.NewContentNotification;
 import livewind.example.andro.liveWind.Notifications.NewContentNotificationDialog;
-import livewind.example.andro.liveWind.firebase.FirebaseHelp;
+import livewind.example.andro.liveWind.firebase.FirebaseContract;
 import livewind.example.andro.liveWind.firebase.FirebasePromotions;
 import livewind.example.andro.liveWind.user.UserActivity;
 import livewind.example.andro.liveWind.user.Windsurfer;
@@ -61,14 +62,10 @@ import com.google.firebase.database.Transaction;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
-import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
@@ -90,12 +87,14 @@ public class CatalogActivity extends AppCompatActivity  {
 
     //Only to give model classes possibility to access SharedPreferences
     private static Context context;
+
     public static Context getContext() {
         return context;
     }
 
     /** Views **/
-    private ListView mEventListView;
+    private RecyclerView mEventRecyclerView;
+    private RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
     private ImageView mFiltersImageView;
     private ProgressBar mProgressBar;
     //EmptyViews (when any record match filters)
@@ -107,7 +106,6 @@ public class CatalogActivity extends AppCompatActivity  {
     private boolean checkConnection = true;
 
     /** Declaration of events ListView and its Adapter */
-    private List<Event> events = new ArrayList<>();
     private EventAdapter mEventAdapter;
 
     /** Navigation Drawer */
@@ -115,10 +113,10 @@ public class CatalogActivity extends AppCompatActivity  {
     private int choseIntentFromDrawerLayout=-1;
 
     /** FIREBASE **/
-    //TODO Add dbHelper and Contract and clean it...
     private FirebaseDatabase mFirebaseDatabase;
     ChildEventListener mChildEventListener;
     private DatabaseReference mEventsDatabaseReference;
+    private Query mEventQueryRef;
     private FirebaseAuth mFirebaseAuth;
     private FirebaseAuth.AuthStateListener mAuthStateListener;
     /** FIREBASE TO DELETING OLD IMAGES **/
@@ -158,20 +156,39 @@ public class CatalogActivity extends AppCompatActivity  {
         initFirebaseVariables();
         MyFirebaseMessagingService.topicSubscriptionService(CatalogActivity.this);
         setupNavigationDrawer();
-        // Initialize events ListView and its adapter
-        mEventAdapter = new EventAdapter(this, events,0);
-        mEventListView.setAdapter(mEventAdapter);
 
         removingOldEvents(); //Remove old coverages and trips
         setupFirebaseAuth(); //Login user
         initClickListeners();
+        attachDatabaseReadListener();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mFirebaseAuth.addAuthStateListener(mAuthStateListener);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (mAuthStateListener != null) {
+            mFirebaseAuth.removeAuthStateListener(mAuthStateListener);
+        }
+        // dettachDatabaseReadListener();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mEventAdapter.stopListening();
     }
 
     /**
      * Init methods
      */
     private void initViews() {
-        mEventListView = (ListView) findViewById(livewind.example.andro.liveWind.R.id.list);
+        mEventRecyclerView = (RecyclerView) findViewById(livewind.example.andro.liveWind.R.id.list);
         mEmptyView = (View) findViewById(livewind.example.andro.liveWind.R.id.empty_view_no_connection);
         mEmptyViewNoRecordsRelations = (View) findViewById(R.id.empty_view_no_records_relations);
         mEmptyViewNoRecordsTrips = (View) findViewById(R.id.empty_view_no_records_trips);
@@ -191,9 +208,11 @@ public class CatalogActivity extends AppCompatActivity  {
     private void initFirebaseVariables(){
         /**FIREBASE DATABASE **/
         mFirebaseDatabase = FirebaseDatabase.getInstance();
-        mEventsDatabaseReference = mFirebaseDatabase.getReference().child("events");
-        mUsersDatabaseReference = mFirebaseDatabase.getReference().child("users");
-        mUsersNicknamesDatabaseReference = mFirebaseDatabase.getReference().child("usernames");
+        mEventsDatabaseReference = mFirebaseDatabase.getReference().child(FirebaseContract.FirebaseEntry.TABLE_EVENTS);
+        mEventQueryRef = mEventsDatabaseReference;
+        mUsersDatabaseReference = mFirebaseDatabase.getReference().child(FirebaseContract.FirebaseEntry.TABLE_USERS);
+        mUsersNicknamesDatabaseReference = mFirebaseDatabase.getReference().child(FirebaseContract.FirebaseEntry.TABLE_USERNAMES);
+
         mFirebaseStorage = FirebaseStorage.getInstance();
         mFirebaseAuth = FirebaseAuth.getInstance();
     }
@@ -247,52 +266,6 @@ public class CatalogActivity extends AppCompatActivity  {
                 startActivity(intent);
             }});
 
-        // Setup the item click listener to open EventActivity or EventTripActivity
-        mEventListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                //Load clicked event
-                Event clickedEvent = mEventAdapter.getItem(position);
-                if(clickedEvent.getStartDate().equals("DEFAULT")) {
-                    Intent intent = new Intent(CatalogActivity.this, EventActivity.class);
-                    //Put Extra information about clicked event and who is clicking.
-                    intent = putInfoToIntent(intent,clickedEvent,mWindsurfer,getApplicationContext());
-                    putWindsurferToIntent(intent,mWindsurfer,getApplicationContext());
-                    startActivity(intent);
-                } else {
-                    Intent intent = new Intent(CatalogActivity.this, EventTripActivity.class);
-                    intent = putInfoToIntent(intent,clickedEvent,mWindsurfer,getApplicationContext());
-                    putWindsurferToIntent(intent,mWindsurfer,getApplicationContext());
-                    startActivity(intent);
-                }
-            }
-        });
-
-        // Setup the item long click listener to open EditorActivity
-        mEventListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long id) {
-                //Load clicked event
-                Event clickedEvent = mEventAdapter.getItem(position);
-                //Check that it is your event
-                if (!mWindsurfer.getUsername().equals(clickedEvent.getmUsername())) {
-                    Toast.makeText(CatalogActivity.this, "You can edit only your events", Toast.LENGTH_SHORT).show();
-                    return false;
-                } else if (mWindsurfer.getUsername().equals(clickedEvent.getmUsername()) && clickedEvent.getStartDate().equals("DEFAULT")) {
-                    Intent intent = new Intent(CatalogActivity.this, EditorActivity.class);
-                    putInfoToIntent(intent,clickedEvent,mWindsurfer,getApplicationContext());
-                    startActivity(intent);
-                    //Because onItemLongClick has type boolean in place of void in onItemClick
-                    return true;
-                } else if((mWindsurfer.getUsername().equals(clickedEvent.getmUsername()) && !clickedEvent.getStartDate().equals("DEFAULT"))){
-                    Intent intent = new Intent(CatalogActivity.this, EditorTripActivity.class);
-                    putInfoToIntent(intent,clickedEvent,mWindsurfer,getApplicationContext());
-                    startActivity(intent);
-                    return true;
-                } else{return false;}
-            }
-        });
-
         //Setup click listener on filter countries image view
         mFiltersImageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -314,11 +287,11 @@ public class CatalogActivity extends AppCompatActivity  {
      * Setup firebase auth
      */
     private void setupFirebaseAuth(){
-
         mAuthStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                checkConnection = isOnline(); //Checking internet connection
+                checkConnection = isOnline();
+                //Checking internet connection
                 if (!checkConnection) {
                     setupOfflineViews();
                     onPause();
@@ -347,7 +320,7 @@ public class CatalogActivity extends AppCompatActivity  {
                                 SharedPreferences.Editor editor = displayOptions.edit();
                                 editor.putString(getString(livewind.example.andro.liveWind.R.string.user_tokenId_shared_preference), userToken);
                                 editor.apply();
-                                mUsersDatabaseReference.child(userUid).child("userToken").setValue(userToken, new DatabaseReference.CompletionListener() {
+                                mUsersDatabaseReference.child(userUid).child(FirebaseContract.FirebaseEntry.COLUMN_USERS_USER_TOKEN).setValue(userToken, new DatabaseReference.CompletionListener() {
                                     @Override
                                     public void onComplete(DatabaseError databaseError, DatabaseReference reference) {
                                         if (databaseError != null) {
@@ -389,35 +362,18 @@ public class CatalogActivity extends AppCompatActivity  {
             }
         }
     }
-    @Override
-    protected void onResume() {
-        super.onResume();
-        mFirebaseAuth.addAuthStateListener(mAuthStateListener);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        if (mAuthStateListener != null) {
-            mFirebaseAuth.removeAuthStateListener(mAuthStateListener);
-        }
-        dettachDatabaseReadListener();
-        mEventAdapter.clear();
-    }
 
     private void OnSignedInInitialize(){
-        attachDatabaseReadListener();
         AppRater.app_launched(this); //Display request to rate the app if conditions are accomplish
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         Set<String> selectedCountries = sharedPrefs.getStringSet(getString(R.string.settings_display_countries_key), new HashSet<String>());
-        if(selectedCountries.contains("0")&&selectedCountries.size()!=1){ //Check if is selected "all world" and other country if yes - show dialog to change it
+        if(selectedCountries.contains("0")&&selectedCountries.size()!=1){
+            //Check if is selected "all world" and other country if yes - show dialog to change it
             CountryDialog.showCountryChangesConfirmationDialog(CatalogActivity.this);
-            //TODO change this - covergas?
         }
     }
 
     private void OnSignedOutCleanUp(){
-        mEventAdapter.clear();
     }
     /**
      * Setup Navigation Drawer
@@ -554,96 +510,29 @@ public class CatalogActivity extends AppCompatActivity  {
     }
 
     private void attachDatabaseReadListener() {
-        if (mChildEventListener == null) {
-            mChildEventListener = new ChildEventListener() {
-                @Override
-                public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                    Event event = dataSnapshot.getValue(Event.class);
-                    event.setId(dataSnapshot.getKey());
-                    mProgressBar.setVisibility(View.GONE);
-                    //Filters and emptyView when no matching records
-                    //TODO clean it...
-                    SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-                    int displayTripsOptions = Integer.valueOf(sharedPref.getString(getApplicationContext().getString(R.string.settings_display_trips_key),"1"));
-                    boolean displayBoolean = sharedPref.getBoolean(getApplicationContext().getString(livewind.example.andro.liveWind.R.string.settings_display_boolean_key), true);
-                    Set<String> selectedCountries;
-                    if(displayBoolean==EventContract.EventEntry.IT_IS_TRIP) {
-                        selectedCountries = sharedPref.getStringSet(getApplicationContext().getString(R.string.settings_display_countries_key), new HashSet<String>());
-                    } else {
-                        selectedCountries = sharedPref.getStringSet(getApplicationContext().getString(R.string.settings_display_coverages_countries_key), new HashSet<String>());
-                    }
-                    final String checkEventOrTrip = "DEFAULT";
-                        if (displayBoolean) {
-                            if (event.getStartDate().equals(checkEventOrTrip) && (selectedCountries.contains(Integer.toString(event.getCountry())) || selectedCountries.contains(EventContract.EventEntry.COUNTRY_ALL_WORLD))) {
-                                mEventAdapter.add(event);
-                            } else {}
-                        } else {
+        //Check current catalogActivity mode (coverage or trip)
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        boolean displayBoolean = sharedPrefs.getBoolean(getApplicationContext().getString(livewind.example.andro.liveWind.R.string.settings_display_boolean_key), true);
+        if(displayBoolean) {
+            mEventQueryRef = checkFiltersOnCoverageDatabaseReference();
+        } else {
+            mEventQueryRef = checkFiltersOnTripsDatabaseReference();
+        }
+        // Initialize events ListView and its adapter
+        mEventAdapter = new EventAdapter(this, mEventQueryRef, mWindsurfer,mProgressBar,mEmptyView);
+        mEventRecyclerView.setAdapter(mEventAdapter);
+        mEventAdapter.startListening();
 
-                            if (displayTripsOptions == EventContract.EventEntry.DISPLAY_TRIPS_FROM_AND_TO) {
-                                if (!event.getStartDate().equals(checkEventOrTrip) && (selectedCountries.contains(Integer.toString(event.getCountry())) || selectedCountries.contains(EventContract.EventEntry.COUNTRY_ALL_WORLD) || selectedCountries.contains(Integer.toString(event.getStartCountry())))) {
-                                    if(checkFilters(event)) mEventAdapter.add(event);
-                                }
-                            } else if (displayTripsOptions == EventContract.EventEntry.DISPLAY_TRIPS_FROM) {
-                                if (!event.getStartDate().equals(checkEventOrTrip) && (selectedCountries.contains(EventContract.EventEntry.COUNTRY_ALL_WORLD) || selectedCountries.contains(Integer.toString(event.getStartCountry())))) {
-                                    if(checkFilters(event)) mEventAdapter.add(event);
-                                }
-                            } else if (displayTripsOptions == EventContract.EventEntry.DISPLAY_TRIPS_TO) {
-                                if (!event.getStartDate().equals(checkEventOrTrip) && (selectedCountries.contains(EventContract.EventEntry.COUNTRY_ALL_WORLD) || selectedCountries.contains(Integer.toString(event.getCountry())))) {
-                                    if(checkFilters(event)) mEventAdapter.add(event);
-                                }
-                            }
-                        }
-                        if (mEventAdapter.isEmpty()) {
-                            if (displayBoolean) {
-                                mEventListView.setEmptyView(mEmptyViewNoRecordsRelations);
-                            } else {
-                                mEventListView.setEmptyView(mEmptyViewNoRecordsTrips);
-                            }
-                        }
-                        mEventAdapter.sort();
-                }
-
-                @Override
-                public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                }
-
-                @Override
-                public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-                    //AUTO REMOVING OLD EVENTS AND TRIPS
-                    if (dataSnapshot.exists()) {
-                        final Event event = dataSnapshot.getValue(Event.class);
-                        if(event.getStartDate().equals("DEFAULT")) {
-                            //Coverage
-                            //Delete photo from storage
-                            if(!event.getPhotoUrl().equals("")) {
-                                StorageReference ref = mFirebaseStorage.getReferenceFromUrl(event.getPhotoUrl());
-                                Log.i("AUTO REMOVING", "EVENT   =   " + ref.toString());
-                                ref.delete();
-                            }
-                            FirebaseHelp.removeOnlyActiveData(event.getmUserUId(), EventContract.EventEntry.IT_IS_EVENT);
-                        }else{
-                            //Trip
-                            FirebaseHelp.removeOnlyActiveData(event.getmUserUId(), EventContract.EventEntry.IT_IS_TRIP);
-                        }
-                    }
-                }
-                @Override
-                public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                    Log.i("CHANGE", String.valueOf(events.size()));
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-                    Log.i("CHANGE", String.valueOf(events.size()));
-                }
-            };
-            mEventsDatabaseReference.addChildEventListener(mChildEventListener);
+         if (displayBoolean==EventContract.EventEntry.IT_IS_TRIP) {
+            mEventAdapter.setEmptyView(mEmptyViewNoRecordsTrips);
+        } else {
+            mEventAdapter.setEmptyView(mEmptyViewNoRecordsRelations);
         }
     }
 
     private void dettachDatabaseReadListener(){
         if(mChildEventListener != null){
-            mEventsDatabaseReference.removeEventListener(mChildEventListener);
+            mEventQueryRef.removeEventListener(mChildEventListener);
             mChildEventListener=null;
         }
     }
@@ -652,13 +541,13 @@ public class CatalogActivity extends AppCompatActivity  {
      * Method that remove old trips and coverages from database
      */
     private void removingOldEvents(){
-        DatabaseReference mRemovingReference= mFirebaseDatabase.getReference().child("currentTime");
+        DatabaseReference mRemovingReference= mFirebaseDatabase.getReference().child(FirebaseContract.FirebaseEntry.TABLE_CURRENT_TIME);
         mRemovingReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 final Long cutoff = (Long) snapshot.getValue();
                 // Trips - delete if currentTime timestamp > trip start date timestamp
-                Query oldTrips = mEventsDatabaseReference.orderByChild("timestampStartDate").endAt(cutoff);
+                Query oldTrips = mEventsDatabaseReference.orderByChild(FirebaseContract.FirebaseEntry.COLUMN_EVENTS_TIMESTAMP_START_DATE).endAt(cutoff);
                 oldTrips.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot snapshot) {
@@ -673,7 +562,7 @@ public class CatalogActivity extends AppCompatActivity  {
                 });
                 //Coverages - delete 8h after create
                 final Long cutoffEvents = (Long) snapshot.getValue() - TimeUnit.MILLISECONDS.convert(8, TimeUnit.HOURS);
-                final Query oldEvents = mEventsDatabaseReference.orderByChild("timestamp").endAt(cutoffEvents);
+                final Query oldEvents = mEventsDatabaseReference.orderByChild(FirebaseContract.FirebaseEntry.COLUMN_EVENTS_TIMESTAMP).endAt(cutoffEvents);
                 oldEvents.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -681,7 +570,6 @@ public class CatalogActivity extends AppCompatActivity  {
                             itemSnapshot.getRef().removeValue();
                         }
                     }
-
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
                         throw databaseError.toException();
@@ -690,7 +578,6 @@ public class CatalogActivity extends AppCompatActivity  {
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
             }
         });
         mRemovingReference.setValue(ServerValue.TIMESTAMP);
@@ -703,7 +590,7 @@ public class CatalogActivity extends AppCompatActivity  {
      * @param loggedUserUid - uid from FirebaseAuth
      */
     private void checkUser(final String loggedUserNick, final String loggedUserEmail, final String loggedUserUid){
-        Query usersQuery = mUsersDatabaseReference.orderByChild("uid").equalTo(loggedUserUid);
+        Query usersQuery = mUsersDatabaseReference.orderByChild(FirebaseContract.FirebaseEntry.COLUMN_USERS_UID).equalTo(loggedUserUid);
         usersQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -751,17 +638,22 @@ public class CatalogActivity extends AppCompatActivity  {
      */
     public boolean isOnline() {
         ConnectivityManager cm = (ConnectivityManager) getSystemService(getApplicationContext().CONNECTIVITY_SERVICE);
-        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        NetworkInfo netInfo = null;
+        if (cm != null) {
+            netInfo = cm.getActiveNetworkInfo();
+        }
         return netInfo != null && netInfo.isConnectedOrConnecting();
     }
 
     private void setupOfflineViews(){
         mProgressBar.setVisibility(View.GONE);
-        mEventListView.setEmptyView(mEmptyView);
         Toast.makeText(getApplicationContext(), getString(R.string.toast_no_connection), Toast.LENGTH_SHORT).show();
+        mEmptyView.setVisibility(View.VISIBLE);
+        mEventRecyclerView.setVisibility(View.GONE);
         mEmptyViewNoConnectionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                mEventRecyclerView.setVisibility(View.VISIBLE);
                 recreate();
             }
         });
@@ -772,7 +664,7 @@ public class CatalogActivity extends AppCompatActivity  {
      * @param event - this method decide to display them or not
      * @return true if event pass filters
      */
-    private boolean checkFilters(Event event){
+    public static boolean checkFilters(Event event){
         //Load all filters from SharedPreferences
         FilterTrips filterTrips = new FilterTrips();
         filterTrips.getFilterTripsPreferences();
@@ -780,12 +672,11 @@ public class CatalogActivity extends AppCompatActivity  {
         if(!(event.getTimestampStartDate()>=filterTrips.getmDateFromTimestamp())){
             return false;
         }
+
         if(!(DateHelp.dateToTimestamp(event.getDate())<=filterTrips.getmDateToTimestamp())){
             return false;
         }
-        //(!(filterTrips.getmCountries().contains(String.valueOf(event.getCountry())))){
-        //    return false;
-        //}
+
         if(!(CurrencyHelper.currencyToPLN(Integer.valueOf(filterTrips.getmCost()),filterTrips.getmCurrency())>=CurrencyHelper.currencyToPLN(event.getCost(),event.getCurrency()))){
             return false;
         }
@@ -800,25 +691,71 @@ public class CatalogActivity extends AppCompatActivity  {
         }
     }
 
-    /** Double click app exit */
-    private boolean doubleBackToExitPressedOnce = false;
+    /**
+     * Make coverages firebase query. To download only coverages (without trips).
+     * @return new Query ref
+     */
+    private Query checkFiltersOnCoverageDatabaseReference(){
+        Query eventsDatabaseReferenceWithFilters = mEventsDatabaseReference;
+        eventsDatabaseReferenceWithFilters = eventsDatabaseReferenceWithFilters.orderByChild(FirebaseContract.FirebaseEntry.COLUMN_EVENTS_START_DATE).equalTo("DEFAULT");
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
+        mEventRecyclerView.setLayoutManager(mLayoutManager);
+        return eventsDatabaseReferenceWithFilters;
+    }
 
+    /**
+     * Make trips firebase query, to display only first 20 records - to download less data.
+     * @return new Query ref
+     */
+    private Query checkFiltersOnTripsDatabaseReference() {
+        //Load all filters from SharedPreferences
+        FilterTrips filterTrips = new FilterTrips();
+        filterTrips.getFilterTripsPreferences();
+        Query eventsDatabaseReferenceWithFilters = mEventsDatabaseReference;
+
+        //FilterTrips sorting and filter by start date
+        if (filterTrips.getmSortingPreferences() == FilterTripsContract.FilterTripsEntry.SORTING_DATE) {
+            eventsDatabaseReferenceWithFilters = eventsDatabaseReferenceWithFilters.orderByChild(FirebaseContract.FirebaseEntry.COLUMN_EVENTS_TIMESTAMP_START_DATE).startAt(filterTrips.getmDateFromTimestamp());
+            if (filterTrips.getmSortingOrderPreferences() == FilterTripsContract.FilterTripsEntry.ORDER_INCREASE) {
+                mEventRecyclerView.setLayoutManager(mLayoutManager);
+            }
+            else if (filterTrips.getmSortingOrderPreferences() == FilterTripsContract.FilterTripsEntry.ORDER_DECREASE) {
+                ((LinearLayoutManager) mLayoutManager).setReverseLayout(true);
+                ((LinearLayoutManager) mLayoutManager).setStackFromEnd(true);
+                mEventRecyclerView.setLayoutManager(mLayoutManager);
+            }
+        }
+        //Only filter trips sorting because costs have different currencies
+        else if (filterTrips.getmSortingPreferences() == FilterTripsContract.FilterTripsEntry.SORTING_COST) {
+            eventsDatabaseReferenceWithFilters = eventsDatabaseReferenceWithFilters.orderByChild(FirebaseContract.FirebaseEntry.COLUMN_EVENTS_COST);
+            if (filterTrips.getmSortingOrderPreferences() == FilterTripsContract.FilterTripsEntry.ORDER_INCREASE) {
+                mEventRecyclerView.setLayoutManager(mLayoutManager);
+            }
+            else if (filterTrips.getmSortingOrderPreferences() == FilterTripsContract.FilterTripsEntry.ORDER_DECREASE) {
+                ((LinearLayoutManager) mLayoutManager).setReverseLayout(true);
+                ((LinearLayoutManager) mLayoutManager).setStackFromEnd(true);
+                mEventRecyclerView.setLayoutManager(mLayoutManager);
+            }
+        }
+        return eventsDatabaseReferenceWithFilters;
+    }
+
+    /** Double click back to app exit method */
+    private boolean doubleBackToExitPressedOnce = false;
     @Override
     public void onBackPressed() {
         if (doubleBackToExitPressedOnce) {
             this.finishAffinity();
             return;
         }
-
         this.doubleBackToExitPressedOnce = true;
         Toast.makeText(this, getString(R.string.toast_double_click_back_to_exit), Toast.LENGTH_SHORT).show();
-
         new Handler().postDelayed(new Runnable() {
-
             @Override
             public void run() {
                 doubleBackToExitPressedOnce=false;
             }
         }, 2000);
     }
+
 }
