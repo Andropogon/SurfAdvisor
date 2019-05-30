@@ -20,6 +20,7 @@ public interface FirebaseContract {
         public static final String TABLE_USERS = "users";
         public static final String TABLE_USERNAMES = "usernames";
         public static final String TABLE_CURRENT_TIME = "currentTime";
+        public static final String TABLE_ARCHIVE_EVENTS = "archive/events";
 
 
         /**

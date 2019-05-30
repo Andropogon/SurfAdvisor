@@ -1,0 +1,38 @@
+<android.support.v7.widget.Toolbar
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/toolbar"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:fitsSystemWindows="true"
+    android:minHeight="?attr/actionBarSize"
+    app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+    android:background="@color/app_main_color">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <android.support.v7.widget.AppCompatButton
+            style="@style/ButtonsMyStyle"
+            android:id="@+id/catalog_trips_button"
+            android:layout_width="0dp"
+            android:layout_marginRight="4dp"
+            android:layout_height="wrap_content"
+            android:textColorHighlight="@color/app_primary_color"
+            android:text="SEARCH HC..."
+            android:layout_weight="1" />
+
+        <ImageView
+            android:id="@+id/filters_image_view"
+            android:padding="6dp"
+            android:layout_marginLeft="6dp"
+            android:layout_marginRight="6dp"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:src="@drawable/ic_filter_list_black_24dp"/>
+
+
+    </LinearLayout>
+</android.support.v7.widget.Toolbar>
