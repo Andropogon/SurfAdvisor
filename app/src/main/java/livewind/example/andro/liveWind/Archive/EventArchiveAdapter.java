@@ -1,5 +1,7 @@
 package livewind.example.andro.liveWind.Archive;
 
+import android.arch.lifecycle.LifecycleOwner;
+import android.arch.paging.PagedList;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -8,6 +10,7 @@ import android.graphics.drawable.Drawable;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,7 +27,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.shreyaspatil.firebase.recyclerpagination.DatabasePagingOptions;
 import com.shreyaspatil.firebase.recyclerpagination.FirebaseRecyclerPagingAdapter;
+import com.shreyaspatil.firebase.recyclerpagination.LoadingState;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -34,6 +39,7 @@ import java.util.Set;
 import livewind.example.andro.liveWind.CatalogActivity;
 import livewind.example.andro.liveWind.Event;
 import livewind.example.andro.liveWind.EventActivity;
+import livewind.example.andro.liveWind.EventAdapter;
 import livewind.example.andro.liveWind.EventTrip;
 import livewind.example.andro.liveWind.EventTripActivity;
 import livewind.example.andro.liveWind.R;
@@ -43,11 +49,9 @@ import livewind.example.andro.liveWind.user.Windsurfer;
 import static livewind.example.andro.liveWind.ExtraInfoHelp.putWindsurferToIntent;
 
 /**
- * Created by JGJ on 10/10/18.
- * Header added during refactoring add 24/04/2019 by JGJ.
+ * Created by JGJ on 29/05/19.
  *
- * Event (coverages and trips) adapter
- *
+ * Event (coverages) archive adapter
  */
 public class EventArchiveAdapter extends FirebaseRecyclerPagingAdapter<Event, EventArchiveAdapter.EventViewHolder> {
 
@@ -56,18 +60,19 @@ public class EventArchiveAdapter extends FirebaseRecyclerPagingAdapter<Event, Ev
     private final int VIEW_TYPE_EMPTY = 2;
 
     private final Context context;
-    private Windsurfer windsurfer;
     //private final Query query;
     private int mColorResourceId;
-    private ProgressBar progressBar;
-    private View emptyView;
+    private SwipeRefreshLayout swipeRefreshLayout;
+    //private ProgressBar progressBar;
+    //private View emptyView;
     private int mColorWhite;
     private FirebaseDatabase mFirebaseDatabase = FirebaseDatabase.getInstance();
     private DatabaseReference mCurrentTimeReference= mFirebaseDatabase.getReference().child("currentTime");
 
-    public EventArchiveAdapter(Context context, Query ref, Windsurfer windsurfer, ProgressBar progressBar, View emptyView) {
-        super(new  FirebaseRecyclerOptions<>().Builder<Event>()
-                        .setQuery(ref, new SnapshotParser<Event>() {
+    public EventArchiveAdapter(Context context, Query ref, SwipeRefreshLayout swipeRefreshLayout, LifecycleOwner lifecycleOwner, PagedList.Config config) {
+        super(new DatabasePagingOptions.Builder<Event>()
+                        .setLifecycleOwner(lifecycleOwner)
+                        .setQuery(ref,config, new SnapshotParser<Event>() {
                             @NonNull
                             @Override
                             public Event parseSnapshot(@NonNull DataSnapshot snapshot) {
@@ -75,112 +80,59 @@ public class EventArchiveAdapter extends FirebaseRecyclerPagingAdapter<Event, Ev
                                 return event;
                             }
                         })
-                        .build());
+                    .build());
         this.context=context;
-        this.windsurfer = windsurfer;
-        this.progressBar = progressBar;
-        this.emptyView = emptyView;
+        this.swipeRefreshLayout = swipeRefreshLayout;
+        //this.progressBar = progressBar;
+        //this.emptyView = emptyView;
     }
 
 
+    @NonNull
     @Override
-    public EventViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView;
-        switch (viewType) {
-            case VIEW_TYPE_COVERAGE:
-            itemView = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.list_item, parent, false);
-            break;
-            case VIEW_TYPE_TRIP:
-            itemView = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.list_trip_item, parent, false);
-            break;
-            case VIEW_TYPE_EMPTY:
-                if(getItemCount()==0){
-                    emptyView.setVisibility(View.VISIBLE);
-                }
-                itemView = LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.list_item_empty, parent, false);
-            break;
-            default:
-                itemView = LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.list_item_empty, parent, false);
-                break;
-        }
-
+    public EventViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        //return new EventViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item, parent, false));
+        View itemView = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.list_item, parent, false);
         return new EventViewHolder(itemView);
     }
 
     @Override
-    protected void onBindViewHolder(EventArchiveAdapter.EventViewHolder viewHolder, int position, Event event) {
+    protected void onBindViewHolder(@NonNull EventArchiveAdapter.EventViewHolder viewHolder, int position,@NonNull Event event) {
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
-        int displayTripsOptions = Integer.valueOf(sharedPref.getString(context.getString(R.string.settings_display_trips_key), "1"));
-        boolean displayBoolean = sharedPref.getBoolean(context.getString(R.string.settings_display_boolean_key), true);
         Set<String> selectedCountries;
-        if (displayBoolean == EventContract.EventEntry.IT_IS_TRIP) {
-            selectedCountries = sharedPref.getStringSet(context.getString(R.string.settings_display_countries_key), new HashSet<String>());
-        } else {
-            selectedCountries = sharedPref.getStringSet(context.getString(R.string.settings_display_coverages_countries_key), new HashSet<String>());
-        }
-        final String checkEventOrTrip = "DEFAULT";
-        if (displayBoolean) {
-            if (event.getStartDate().equals(checkEventOrTrip) && (selectedCountries.contains(Integer.toString(event.getCountry())) || selectedCountries.contains(EventContract.EventEntry.COUNTRY_ALL_WORLD))) {
-                viewHolder.setEvent(event);
-            } else {
-            }
-        } else {
+        selectedCountries = sharedPref.getStringSet(context.getString(R.string.settings_display_countries_key), new HashSet<String>());
+        //if (event.getStartDate().equals(checkEventOrTrip) && (selectedCountries.contains(Integer.toString(event.getCountry())) || selectedCountries.contains(EventContract.EventEntry.COUNTRY_ALL_WORLD))) {
+        viewHolder.setEvent(event);
+        //}
+    }
 
-            if (displayTripsOptions == EventContract.EventEntry.DISPLAY_TRIPS_FROM_AND_TO) {
-                if (!event.getStartDate().equals(checkEventOrTrip) && (selectedCountries.contains(Integer.toString(event.getCountry())) || selectedCountries.contains(EventContract.EventEntry.COUNTRY_ALL_WORLD) || selectedCountries.contains(Integer.toString(event.getStartCountry())))) {
-                    if (CatalogActivity.checkFilters(event)) viewHolder.setEvent(event);
-                }
-            } else if (displayTripsOptions == EventContract.EventEntry.DISPLAY_TRIPS_FROM) {
-                if (!event.getStartDate().equals(checkEventOrTrip) && (selectedCountries.contains(EventContract.EventEntry.COUNTRY_ALL_WORLD) || selectedCountries.contains(Integer.toString(event.getStartCountry())))) {
-                    if (CatalogActivity.checkFilters(event)) viewHolder.setEvent(event);
-                }
-            } else if (displayTripsOptions == EventContract.EventEntry.DISPLAY_TRIPS_TO) {
-                if (!event.getStartDate().equals(checkEventOrTrip) && (selectedCountries.contains(EventContract.EventEntry.COUNTRY_ALL_WORLD) || selectedCountries.contains(Integer.toString(event.getCountry())))) {
-                    if (CatalogActivity.checkFilters(event)) viewHolder.setEvent(event);
-                }
-            }
+    @Override
+    protected void onLoadingStateChanged(@NonNull LoadingState state) {
+        switch (state) {
+            case LOADING_INITIAL:
+
+                break;
+            case LOADING_MORE:
+                // Do your loading animation
+                swipeRefreshLayout.setRefreshing(true);
+                break;
+
+            case LOADED:
+                // Stop Animation
+                swipeRefreshLayout.setRefreshing(false);
+                break;
+
+            case FINISHED:
+                //Reached end of Data set
+                swipeRefreshLayout.setRefreshing(false);
+                break;
+
+            case ERROR:
+                retry();
+                break;
         }
     }
-        @Override
-        public int getItemViewType(int position) {
-            //note: classes should start with uppercase
-            Event event = getItem(position);
-            SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
-            int displayTripsOptions = Integer.valueOf(sharedPref.getString(context.getString(R.string.settings_display_trips_key), "1"));
-            boolean displayBoolean = sharedPref.getBoolean(context.getString(R.string.settings_display_boolean_key), true);
-            Set<String> selectedCountries;
-            if (displayBoolean == EventContract.EventEntry.IT_IS_TRIP) {
-                selectedCountries = sharedPref.getStringSet(context.getString(R.string.settings_display_countries_key), new HashSet<String>());
-            } else {
-                selectedCountries = sharedPref.getStringSet(context.getString(R.string.settings_display_coverages_countries_key), new HashSet<String>());
-            }
-            final String checkEventOrTrip = "DEFAULT";
-            if (displayBoolean) {
-                if (event.getStartDate().equals(checkEventOrTrip) && (selectedCountries.contains(Integer.toString(event.getCountry())) || selectedCountries.contains(EventContract.EventEntry.COUNTRY_ALL_WORLD))) {
-                    return VIEW_TYPE_COVERAGE;
-                } else {
-                }
-            } else {
-                if (displayTripsOptions == EventContract.EventEntry.DISPLAY_TRIPS_FROM_AND_TO) {
-                    if (!event.getStartDate().equals(checkEventOrTrip) && (selectedCountries.contains(Integer.toString(event.getCountry())) || selectedCountries.contains(EventContract.EventEntry.COUNTRY_ALL_WORLD) || selectedCountries.contains(Integer.toString(event.getStartCountry())))) {
-                        if (CatalogActivity.checkFilters(event)) return VIEW_TYPE_TRIP;
-                    }
-                } else if (displayTripsOptions == EventContract.EventEntry.DISPLAY_TRIPS_FROM) {
-                    if (!event.getStartDate().equals(checkEventOrTrip) && (selectedCountries.contains(EventContract.EventEntry.COUNTRY_ALL_WORLD) || selectedCountries.contains(Integer.toString(event.getStartCountry())))) {
-                        if (CatalogActivity.checkFilters(event)) return VIEW_TYPE_TRIP;
-                    }
-                } else if (displayTripsOptions == EventContract.EventEntry.DISPLAY_TRIPS_TO) {
-                    if (!event.getStartDate().equals(checkEventOrTrip) && (selectedCountries.contains(EventContract.EventEntry.COUNTRY_ALL_WORLD) || selectedCountries.contains(Integer.toString(event.getCountry())))) {
-                        if (CatalogActivity.checkFilters(event)) return VIEW_TYPE_TRIP;
-                    }
-                }
-            }
-            return VIEW_TYPE_EMPTY;
-        }
 
 
 
@@ -216,7 +168,7 @@ public class EventArchiveAdapter extends FirebaseRecyclerPagingAdapter<Event, Ev
         public EventViewHolder(View view) {
             super(view);
             //Init coverages views
-            placeTextView = (TextView) itemView.findViewById(R.id.list_place_text_view);
+            placeTextView = (TextView) view.findViewById(R.id.list_place_text_view);
             dateTextView = (TextView) view.findViewById(R.id.list_date_text_view);
             typeImageView = (ImageView) view.findViewById(R.id.list_image_view);
             wind_powerTextView = (TextView) view.findViewById(R.id.list_wind_power_text_view);
@@ -240,7 +192,7 @@ public class EventArchiveAdapter extends FirebaseRecyclerPagingAdapter<Event, Ev
             mSurfingAvailableImageView = view.findViewById(R.id.list_trip_type_surfing_image_view);
             fromTextView = view.findViewById(R.id.list_trip_from_text_view);
             toTextView = view.findViewById(R.id.list_trip_to_text_view);
-
+/*
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -255,41 +207,34 @@ public class EventArchiveAdapter extends FirebaseRecyclerPagingAdapter<Event, Ev
                    // singleEventIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                     context.startActivity(singleEventIntent);
                 }
-            });
+            });*/
         }
 
         void setEvent( Event event ){
             SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
-            boolean displayBoolean = sharedPref.getBoolean(context.getString(R.string.settings_display_boolean_key), true);
             int windPowerUnit = Integer.parseInt(sharedPref.getString(context.getString(R.string.settings_display_wind_power_key),"1"));
-                if (event.getStartDate().equals(EventContract.EventEntry.IS_IT_EVENT) && displayBoolean ) {
-                    setupCoverage(event,windPowerUnit);
-                } else if (!event.getStartDate().equals(EventContract.EventEntry.IS_IT_EVENT) && !displayBoolean) {
-                    setupTrip(event);
-                } else {
-                    //Empty view
-                }
+            setupCoverage(event,windPowerUnit);
             }
 
-        private void setupCoverage(Event event, int windPowerUnit){
+        private void setupCoverage(Event event, int windPowerUnit) {
 
             //Get place and country label
             String countryPlaceString = Event.getPlaceWithCountryCutoff(event);
             //Set place label size
-            if(countryPlaceString.length()<=10){
+            if (countryPlaceString.length() <= 10) {
                 placeTextView.setTextSize(20);
-            } else if (countryPlaceString.length()<=15){
+            } else if (countryPlaceString.length() <= 15) {
                 placeTextView.setTextSize(16);
             } else {
                 placeTextView.setTextSize(12);
             }
 
             //Set texts to views
-            setEventDurationOnDateTextView(event,dateTextView);
+            setEventDurationOnDateTextView(event, dateTextView);
             placeTextView.setText(countryPlaceString);
             wave_sizeTextView.setText(Double.toString(event.getWaveSize()));
             commentTextView.setText(event.getComment());
-            setEventDurationOnDateTextView(event,dateTextView);
+            setEventDurationOnDateTextView(event, dateTextView);
             placeTextView.setText(countryPlaceString);
             wind_powerTextView.setText(Integer.toString(event.getWindPower()));
             wave_sizeTextView.setText(Double.toString(event.getWaveSize()));
@@ -317,78 +262,78 @@ public class EventArchiveAdapter extends FirebaseRecyclerPagingAdapter<Event, Ev
             double windPowerInSailSize = 0;
             if (event.getWindPower() >= 0 && event.getWindPower() <= 3) {
                 mColorResourceId = R.color.kts0_3;
-                windPowerInBft=1;
-                windPowerInSailSize=13;
+                windPowerInBft = 1;
+                windPowerInSailSize = 13;
             } else if (event.getWindPower() >= 4 && event.getWindPower() <= 6) {
                 mColorResourceId = R.color.kts4_6;
-                windPowerInBft=2;
-                windPowerInSailSize=12.5;
+                windPowerInBft = 2;
+                windPowerInSailSize = 12.5;
             } else if (event.getWindPower() >= 7 && event.getWindPower() <= 10) {
                 mColorResourceId = R.color.kts7_10;
-                windPowerInBft=3;
-                windPowerInSailSize=11.5;
+                windPowerInBft = 3;
+                windPowerInSailSize = 11.5;
             } else if (event.getWindPower() >= 11 && event.getWindPower() <= 13) {
                 mColorResourceId = R.color.kts11_13;
-                windPowerInBft=4;
-                windPowerInSailSize=9.5;
+                windPowerInBft = 4;
+                windPowerInSailSize = 9.5;
             } else if (event.getWindPower() >= 14 && event.getWindPower() <= 16) {
                 mColorResourceId = R.color.kts14_16;
-                windPowerInBft=4;
-                windPowerInSailSize=7.5;
-            }else if (event.getWindPower() >= 17 && event.getWindPower() <= 19) {
+                windPowerInBft = 4;
+                windPowerInSailSize = 7.5;
+            } else if (event.getWindPower() >= 17 && event.getWindPower() <= 19) {
                 mColorResourceId = R.color.kts17_19;
-                windPowerInBft=5;
-                windPowerInSailSize=6.0;
+                windPowerInBft = 5;
+                windPowerInSailSize = 6.0;
             } else if (event.getWindPower() >= 20 && event.getWindPower() <= 21) {
                 mColorResourceId = R.color.kts20_21;
-                windPowerInBft=5;
-                windPowerInSailSize=5.3;
+                windPowerInBft = 5;
+                windPowerInSailSize = 5.3;
             } else if (event.getWindPower() >= 22 && event.getWindPower() <= 24) {
                 mColorResourceId = R.color.kts22_24;
-                windPowerInBft=6;
-                windPowerInSailSize=4.8;
+                windPowerInBft = 6;
+                windPowerInSailSize = 4.8;
             } else if (event.getWindPower() >= 25 && event.getWindPower() <= 27) {
                 mColorResourceId = R.color.kts25_27;
-                windPowerInBft=6;
-                windPowerInSailSize=4.2;
+                windPowerInBft = 6;
+                windPowerInSailSize = 4.2;
             } else if (event.getWindPower() >= 28 && event.getWindPower() <= 30) {
                 mColorResourceId = R.color.kts28_30;
-                windPowerInBft=7;
-                windPowerInSailSize=3.7;
+                windPowerInBft = 7;
+                windPowerInSailSize = 3.7;
             } else if (event.getWindPower() >= 31 && event.getWindPower() <= 33) {
                 mColorResourceId = R.color.kts31_33;
-                windPowerInBft=7;
-                windPowerInSailSize=3.5;
+                windPowerInBft = 7;
+                windPowerInSailSize = 3.5;
             } else if (event.getWindPower() >= 34 && event.getWindPower() <= 36) {
                 mColorResourceId = R.color.kts34_36;
-                windPowerInBft=8;
-                windPowerInSailSize=3.3;
+                windPowerInBft = 8;
+                windPowerInSailSize = 3.3;
             } else if (event.getWindPower() >= 37 && event.getWindPower() <= 40) {
                 mColorResourceId = R.color.kts37_40;
-                windPowerInBft=8;
-                windPowerInSailSize=3.0;
+                windPowerInBft = 8;
+                windPowerInSailSize = 3.0;
             } else if (event.getWindPower() >= 41 && event.getWindPower() <= 47) {
                 mColorResourceId = R.color.kts41_47;
-                windPowerInBft=9;
-                windPowerInSailSize=3.0;
-            }else if (event.getWindPower() >= 48 && event.getWindPower() <= 55) {
+                windPowerInBft = 9;
+                windPowerInSailSize = 3.0;
+            } else if (event.getWindPower() >= 48 && event.getWindPower() <= 55) {
                 mColorResourceId = R.color.kts50;
-                windPowerInBft=10;
-                windPowerInSailSize=3.0;
-            }else if (event.getWindPower() >= 56 && event.getWindPower() <= 63) {
+                windPowerInBft = 10;
+                windPowerInSailSize = 3.0;
+            } else if (event.getWindPower() >= 56 && event.getWindPower() <= 63) {
                 mColorResourceId = R.color.kts50;
-                windPowerInBft=11;
-                windPowerInSailSize=3.0;
-            }else if (event.getWindPower() >= 64) {
+                windPowerInBft = 11;
+                windPowerInSailSize = 3.0;
+            } else if (event.getWindPower() >= 64) {
                 mColorResourceId = R.color.kts50;
-                windPowerInBft=12;
-                windPowerInSailSize=-1.0;
+                windPowerInBft = 12;
+                windPowerInSailSize = -1.0;
             } else {
                 mColorResourceId = R.color.ktsINCORRECT;
             }
 
             //Set wind power unit during to user preferences
-            switch (windPowerUnit){
+            switch (windPowerUnit) {
                 case EventContract.EventEntry.UNIT_KNOTS:
                     wind_power_unitTextView.setText(R.string.unit_wind_kn);
                     wind_powerTextView.setText(Integer.toString(event.getWindPower()));
@@ -477,192 +422,7 @@ public class EventArchiveAdapter extends FirebaseRecyclerPagingAdapter<Event, Ev
                     break;
             }
         }
-        private void setupTrip(Event event){
-            //Set colors and icons of sport views
-            int backgroundColor;
-            //Set trip display type during to tripType
-            //If startCountry == 1000 it is camp.
-            int tripType = event.getStartCountry();
-            if(tripType==EventContract.EventEntry.IT_IS_CAMP){
-                placeStartTextView.setVisibility(View.GONE);
-                if (event.getDisplayAs()==1) {
-                    fromTextView.setText(R.string.event_trip_camp_from);
-                } else {
-                    fromTextView.setText(R.string.event_trip_training_from);
-                }
 
-                toTextView.setText(R.string.event_trip_camp_to);
-            }
-
-            //Set date duration in days - dateCounterTextView
-            long timestampEnd = getDateTimestamp(event.getDate());
-            long numberOfDays = twoTimestampsToDays(event.getTimestampStartDate(),timestampEnd);
-            dateCounterTextView.setText(Long.toString(numberOfDays));
-
-            int goodColor;
-            int instructorColor;
-            Drawable mWindsurfingAvailableImageViewBackground = mWindsurfingAvailableImageView.getBackground();
-            switch (event.getWindsurfingAvailable()){
-                case EventContract.EventEntry.TRIP_AVAILABLE_COURSE:
-                    backgroundColor = R.color.sport_available_course;
-                    goodColor = ContextCompat.getColor(context,backgroundColor);
-                    mWindsurfingAvailableImageViewBackground.setColorFilter(goodColor, PorterDuff.Mode.MULTIPLY);
-                    mWindsurfingAvailableImageView.setVisibility(View.VISIBLE);
-                    break;
-                case EventContract.EventEntry.TRIP_AVAILABLE_YES:
-                    backgroundColor = R.color.sport_available_yes;
-                    goodColor = ContextCompat.getColor(context,backgroundColor);
-                    mWindsurfingAvailableImageViewBackground.setColorFilter(goodColor, PorterDuff.Mode.MULTIPLY);
-                    mWindsurfingAvailableImageView.setVisibility(View.VISIBLE);
-                    break;
-                case EventContract.EventEntry.TRIP_AVAILABLE_NO:
-                    mWindsurfingAvailableImageView.setVisibility(View.GONE);
-                    break;
-                case EventContract.EventEntry.TRIP_AVAILABLE_INSTRUCTOR_COURSE:
-                    backgroundColor = R.color.sport_available_instructor_course;
-                    instructorColor = ContextCompat.getColor(context,backgroundColor);
-                    mWindsurfingAvailableImageViewBackground.setColorFilter(instructorColor, PorterDuff.Mode.MULTIPLY);
-                    mWindsurfingAvailableImageView.setVisibility(View.VISIBLE);
-                    break;
-                default:
-                    mWindsurfingAvailableImageView.setVisibility(View.GONE);
-                    break;
-            }
-            mWindsurfingAvailableImageView.setBackground(mWindsurfingAvailableImageViewBackground);
-
-            Drawable mKitesurfingAvailableImageViewBackground = mKitesurfingAvailableImageView.getBackground();
-            switch (event.getKitesurfingAvailable()){
-                case EventContract.EventEntry.TRIP_AVAILABLE_COURSE:
-                    backgroundColor = R.color.sport_available_course;
-                    goodColor = ContextCompat.getColor(context,backgroundColor);
-                    mKitesurfingAvailableImageViewBackground.setColorFilter(goodColor, PorterDuff.Mode.MULTIPLY);
-                    mKitesurfingAvailableImageView.setVisibility(View.VISIBLE);
-                    break;
-                case EventContract.EventEntry.TRIP_AVAILABLE_YES:
-                    backgroundColor = R.color.sport_available_yes;
-                    goodColor = ContextCompat.getColor(context,backgroundColor);
-                    mKitesurfingAvailableImageViewBackground.setColorFilter(goodColor, PorterDuff.Mode.MULTIPLY);
-                    mKitesurfingAvailableImageView.setVisibility(View.VISIBLE);
-                    break;
-                case EventContract.EventEntry.TRIP_AVAILABLE_NO:
-                    mKitesurfingAvailableImageView.setVisibility(View.GONE);
-                    break;
-                case EventContract.EventEntry.TRIP_AVAILABLE_INSTRUCTOR_COURSE:
-                    backgroundColor = R.color.sport_available_instructor_course;
-                    instructorColor = ContextCompat.getColor(context,backgroundColor);
-                    mKitesurfingAvailableImageViewBackground.setColorFilter(instructorColor, PorterDuff.Mode.MULTIPLY);
-                    mKitesurfingAvailableImageView.setVisibility(View.VISIBLE);
-                    break;
-                default:
-                    mKitesurfingAvailableImageView.setVisibility(View.GONE);
-                    break;
-            }
-            mKitesurfingAvailableImageView.setBackground(mKitesurfingAvailableImageViewBackground);
-
-            Drawable mSurfingAvailableImageViewBackground = mSurfingAvailableImageView.getBackground();
-            switch (event.getSurfingAvailable()){
-                case EventContract.EventEntry.TRIP_AVAILABLE_COURSE:
-                    backgroundColor = R.color.sport_available_course;
-                    goodColor = ContextCompat.getColor(context,backgroundColor);
-                    mSurfingAvailableImageViewBackground.setColorFilter(goodColor, PorterDuff.Mode.MULTIPLY);
-                    mSurfingAvailableImageView.setVisibility(View.VISIBLE);
-                    break;
-                case EventContract.EventEntry.TRIP_AVAILABLE_YES:
-                    backgroundColor = R.color.sport_available_yes;
-                    goodColor = ContextCompat.getColor(context,backgroundColor);
-                    mSurfingAvailableImageViewBackground.setColorFilter(goodColor, PorterDuff.Mode.MULTIPLY);
-                    mSurfingAvailableImageView.setVisibility(View.VISIBLE);
-                    break;
-                case EventContract.EventEntry.TRIP_AVAILABLE_NO:
-                    mSurfingAvailableImageView.setVisibility(View.GONE);
-                    break;
-                case EventContract.EventEntry.TRIP_AVAILABLE_INSTRUCTOR_COURSE:
-                    backgroundColor = R.color.sport_available_instructor_course;
-                    instructorColor = ContextCompat.getColor(context,backgroundColor);
-                    mSurfingAvailableImageViewBackground.setColorFilter(instructorColor, PorterDuff.Mode.MULTIPLY);
-                    mSurfingAvailableImageView.setVisibility(View.VISIBLE);
-                    break;
-                default:
-                    mSurfingAvailableImageView.setVisibility(View.GONE);
-                    break;
-            }
-            mSurfingAvailableImageView.setBackground(mSurfingAvailableImageViewBackground);
-
-            //Set place and country text views
-            //Departure country
-            String countryStartPlaceString = EventTrip.getStartPlaceWithCountryCutoff(event);
-            //Arrival country
-            String countryPlaceString = Event.getPlaceWithCountryCutoff(event);
-
-            //Set countries texts size during to texts length
-            if(countryPlaceString.length()<=15){
-                placeTripTextView.setTextSize(20);
-            } else {
-                placeTripTextView.setTextSize(16);
-            }
-            if(countryStartPlaceString.length()<=15){
-                placeStartTextView.setTextSize(20);
-            } else {
-                placeStartTextView.setTextSize(16);
-            }
-            placeStartTextView.setText(countryStartPlaceString);
-            dateStartTextView.setText(event.getStartDate().substring(8,13));
-            placeTripTextView.setText(countryPlaceString);
-            dateTripTextView.setText(event.getDate().substring(0,5));
-
-            //Set trip cost
-            if(event.getCostDiscount()>0) {
-                costTextView.setText(Integer.toString(event.getCost() - event.getCostDiscount()));
-            } else {
-                costTextView.setText(Integer.toString(event.getCost()));
-            }
-
-            //Set trip transport icons
-            switch (event.getTransport()) {
-                case EventContract.EventEntry.TRANSPORT_CAR:
-                    transportImageView.setImageResource(R.drawable.trip_car_ic);
-                    break;
-                case EventContract.EventEntry.TRANSPORT_PLANE:
-                    transportImageView.setImageResource(R.drawable.trip_plane_ic);
-                    break;
-                case EventContract.EventEntry.TRANSPORT_OWN:
-                    transportImageView.setVisibility(View.GONE); //TODO set special own transport icon
-                    break;
-                default:
-                    transportImageView.setImageResource(R.drawable.trip_car_ic);
-                    break;
-            }
-
-            //Set trip character icon
-            switch (event.getCharacter()) {
-                case EventContract.EventEntry.CHARACTER_PRIVATE:
-                    characterImageView.setImageResource(R.drawable.trip_private_ic);
-                    break;
-                case EventContract.EventEntry.CHARACTER_ORGANIZED:
-                    characterImageView.setImageResource(R.drawable.trip_organised_ic);
-                    break;
-                default:
-                    characterImageView.setImageResource(R.drawable.trip_private_ic);
-                    break;
-            }
-
-            //Set currency of trip cost TODO make it based on user preferences
-            switch (event.getCurrency()) {
-                case EventContract.EventEntry.CURRENCY_ZL:
-                    currencyTextView.setText(R.string.currency_zl);
-                    break;
-                case EventContract.EventEntry.CURRENCY_EURO:
-                    currencyTextView.setText(R.string.currency_euro);
-                    break;
-                case EventContract.EventEntry.CURRENCY_USD:
-                    currencyTextView.setText(R.string.currency_usd);
-                    break;
-                default:
-                    currencyTextView.setText(R.string.currency_zl);
-                    break;
-            }
-        }
-        }
 
     public void setEventDurationOnDateTextView(final Event event,final TextView view){
         ValueEventListener listener = new ValueEventListener() {
@@ -702,27 +462,8 @@ public class EventArchiveAdapter extends FirebaseRecyclerPagingAdapter<Event, Ev
         mCurrentTimeReference.addListenerForSingleValueEvent(listener);
     }
 
-    private long getDateTimestamp(String mDate){
-            String day = mDate.substring(0, 2);
-            String month = mDate.substring(3, 5);
-            String year = mDate.substring(6, 10);
-            int dayS = Integer.parseInt(day);
-            int monthS = Integer.parseInt(month) -1 ; //because months are indexing from 0
-            int yearS = Integer.parseInt(year);
-            GregorianCalendar dataGC = new GregorianCalendar(yearS, monthS, dayS,24,59,59);
-            Calendar dataC = dataGC;
-            long timestamp = dataC.getTimeInMillis();
-            return timestamp;
-    }
 
-    private long twoTimestampsToDays(long startTimestamp, long endTimestamp){
-        long numberOfDays = endTimestamp - startTimestamp;
-        numberOfDays = numberOfDays / 86400000; //One day in milliseconds
-            numberOfDays++;
-            return numberOfDays;
-    }
-
-    @Override
+/*    @Override
     public void onDataChanged() {
         if (progressBar != null) {
             progressBar.setVisibility(View.GONE);
@@ -740,6 +481,7 @@ public class EventArchiveAdapter extends FirebaseRecyclerPagingAdapter<Event, Ev
 
     public void setEmptyView(View emptyView){
         this.emptyView = emptyView;
-    }
+    }*/
 
 }
+    }

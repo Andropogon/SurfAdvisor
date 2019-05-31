@@ -112,6 +112,13 @@
             android:parentActivityName="livewind.example.andro.liveWind.CatalogActivity"
             android:label="@string/faq_activity_faq"></activity>
 
+        <activity
+            android:theme="@style/AppTheme"
+            android:name="livewind.example.andro.liveWind.Archive.EventArchiveActivity"
+            android:parentActivityName="livewind.example.andro.liveWind.CatalogActivity"
+            android:label="@string/activity_archive_event"></activity>
+
+
         <meta-data tools:replace="android:value" android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
         <provider android:authorities="com.facebook.app.FacebookContentProvider1022834427908448"
             android:name="com.facebook.FacebookContentProvider"

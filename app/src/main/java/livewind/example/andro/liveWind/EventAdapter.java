@@ -216,7 +216,7 @@ public class EventAdapter extends FirebaseRecyclerAdapter<Event, EventAdapter.Ev
         public EventViewHolder(View view) {
             super(view);
             //Init coverages views
-            placeTextView = (TextView) itemView.findViewById(livewind.example.andro.liveWind.R.id.list_place_text_view);
+            placeTextView = (TextView) view.findViewById(livewind.example.andro.liveWind.R.id.list_place_text_view);
             dateTextView = (TextView) view.findViewById(livewind.example.andro.liveWind.R.id.list_date_text_view);
             typeImageView = (ImageView) view.findViewById(livewind.example.andro.liveWind.R.id.list_image_view);
             wind_powerTextView = (TextView) view.findViewById(livewind.example.andro.liveWind.R.id.list_wind_power_text_view);

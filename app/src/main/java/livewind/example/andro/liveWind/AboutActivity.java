@@ -39,6 +39,7 @@ import org.json.JSONObject;
 
 import java.util.Optional;
 
+import livewind.example.andro.liveWind.Archive.EventArchiveActivity;
 import livewind.example.andro.liveWind.Filter.FilterTripsActivity;
 import livewind.example.andro.liveWind.googlePay.GooglePay;
 
@@ -71,7 +72,7 @@ public class AboutActivity extends AppCompatActivity {
         findViewById(R.id.about_activity_my_image).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intentFilter = new Intent(AboutActivity.this,FilterTripsActivity.class);
+                Intent intentFilter = new Intent(AboutActivity.this,EventArchiveActivity.class);
                 startActivity(intentFilter);
              }
         });
