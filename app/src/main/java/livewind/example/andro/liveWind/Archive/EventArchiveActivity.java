@@ -54,7 +54,7 @@ public class EventArchiveActivity extends AppCompatActivity {
         LinearLayoutManager mManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mManager);
 
-        mEventArchiveAdapter = new EventArchiveAdapter(EventArchiveActivity.this, mEventsArchiveQuery,mSwipeRefreshLayout,this,mPagedConfig);
+        mEventArchiveAdapter = new EventArchiveAdapter(this, mEventsArchiveQuery,mSwipeRefreshLayout,this,mPagedConfig);
     }
 
     private void initListners(){

@@ -16,7 +16,14 @@
     android:orientation="vertical"
     tools:context="com.example.andro.liveWind.EditorActivity">
     <!-- The ActionBar displayed at the top -->
-
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:divider="@null"
+        android:layout_margin="4dp"
+        android:dividerHeight="0dp"></android.support.v7.widget.RecyclerView>
     <include
         layout="@layout/toolbar_search"
         android:layout_width="match_parent"
@@ -27,14 +34,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentTop="true"
-        android:divider="@null"
-        android:layout_margin="4dp"
-        android:dividerHeight="0dp"></android.support.v7.widget.RecyclerView>
+
 
     <!-- Empty view for the list -->
     <RelativeLayout
