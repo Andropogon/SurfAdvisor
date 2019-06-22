@@ -160,21 +160,20 @@ public class CatalogActivity extends AppCompatActivity  {
         removingOldEvents(); //Remove old coverages and trips
         setupFirebaseAuth(); //Login user
         initClickListeners();
+        mFirebaseAuth.addAuthStateListener(mAuthStateListener);
 
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        mFirebaseAuth.addAuthStateListener(mAuthStateListener);
+
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        if (mAuthStateListener != null) {
-            mFirebaseAuth.removeAuthStateListener(mAuthStateListener);
-        }
+
         // dettachDatabaseReadListener();
     }
 
@@ -182,6 +181,9 @@ public class CatalogActivity extends AppCompatActivity  {
     protected void onDestroy() {
         super.onDestroy();
         mEventAdapter.stopListening();
+        if (mAuthStateListener != null) {
+            mFirebaseAuth.removeAuthStateListener(mAuthStateListener);
+        }
     }
 
     /**
@@ -598,12 +600,14 @@ public class CatalogActivity extends AppCompatActivity  {
                 if (dataSnapshot.exists()) {
                     //old user
                     mWindsurfer = dataSnapshot.child(loggedUserUid).getValue(Windsurfer.class);
+                    mEventAdapter.setWindsurfer(mWindsurfer);
                 }
                 else {
                     //new user
                     mWindsurfer = new Windsurfer(loggedUserUid,loggedUserNick, loggedUserEmail, 500, 0, 0,getApplicationContext() );
                     mUsersDatabaseReference.child(loggedUserUid).setValue(mWindsurfer);
                     mUsersNicknamesDatabaseReference.child(loggedUserNick).setValue(loggedUserUid);
+                    mEventAdapter.setWindsurfer(mWindsurfer);
                 }
             }
             @Override

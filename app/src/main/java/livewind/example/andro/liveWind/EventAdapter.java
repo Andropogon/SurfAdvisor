@@ -492,6 +492,9 @@ public class EventAdapter extends FirebaseRecyclerAdapter<Event, EventAdapter.Ev
                 }
 
                 toTextView.setText(R.string.event_trip_camp_to);
+            } else {
+                placeStartTextView.setVisibility(View.VISIBLE);
+                fromTextView.setText(R.string.category_from);
             }
 
             //Set date duration in days - dateCounterTextView
@@ -742,4 +745,7 @@ public class EventAdapter extends FirebaseRecyclerAdapter<Event, EventAdapter.Ev
         this.emptyView = emptyView;
     }
 
+    public void setWindsurfer(Windsurfer windsurfer){
+        this.windsurfer = windsurfer;
+    }
 }
