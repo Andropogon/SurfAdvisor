@@ -741,6 +741,17 @@ public class CatalogActivity extends AppCompatActivity  {
                 ((LinearLayoutManager) mLayoutManager).setStackFromEnd(true);
                 mEventRecyclerView.setLayoutManager(mLayoutManager);
             }
+        } else {
+            if (filterTrips.getmSortingOrderPreferences() == FilterTripsContract.FilterTripsEntry.ORDER_INCREASE) {
+                mEventRecyclerView.setLayoutManager(mLayoutManager);
+            }
+            else if (filterTrips.getmSortingOrderPreferences() == FilterTripsContract.FilterTripsEntry.ORDER_DECREASE) {
+                ((LinearLayoutManager) mLayoutManager).setReverseLayout(true);
+                ((LinearLayoutManager) mLayoutManager).setStackFromEnd(true);
+                mEventRecyclerView.setLayoutManager(mLayoutManager);
+            } else {
+                mEventRecyclerView.setLayoutManager(mLayoutManager);
+            }
         }
         return eventsDatabaseReferenceWithFilters;
     }
