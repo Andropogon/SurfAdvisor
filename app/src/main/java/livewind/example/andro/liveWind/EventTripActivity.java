@@ -67,6 +67,7 @@ public class EventTripActivity extends AppCompatActivity {
     private TextView mWindsurfingAvailableTextView;
     private TextView mKitesurfingAvailableTextView;
     private TextView mSurfingAvailableTextView;
+    private TextView mCommentTitleTextView;
     private TextView mCommentTextView;
     private ImageView mTransportImageView;
     private TextView mTransportTextView;
@@ -113,6 +114,7 @@ public class EventTripActivity extends AppCompatActivity {
     private String countryEmoji = "";
     private String startCountryEmoji = "";
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -130,6 +132,7 @@ public class EventTripActivity extends AppCompatActivity {
         mDateTextView = (TextView) findViewById(livewind.example.andro.liveWind.R.id.event_trip_date_text_view);
         mDateStartTextView = (TextView) findViewById(livewind.example.andro.liveWind.R.id.event_trip_start_date_text_view);
         mDateStartCampTextView = findViewById(R.id.event_trip_camp_start_date_text_view);
+        mCommentTitleTextView = findViewById(R.id.event_trip_comment_title_text_view);
         mCommentTextView = (TextView) findViewById(livewind.example.andro.liveWind.R.id.event_trip_comment_text_view);
         mTransportImageView = findViewById(R.id.event_trip_transport_image_view);
         mTransportTextView = (TextView) findViewById(livewind.example.andro.liveWind.R.id.event_trip_transport_text_view);
@@ -229,10 +232,12 @@ public class EventTripActivity extends AppCompatActivity {
                 //setTitle(getString(R.string.event_trip_activity_title_camp));
                 android.support.v7.app.ActionBar actionbar = this.getSupportActionBar();
                 actionbar.setTitle(Html.fromHtml("<small><small>"+getResources().getString(R.string.event_trip_activity_title_camp)+"</small></small>"));
+                mCommentTitleTextView.setText(R.string.event_trip_comment_title_camp);
             } else {
                 //setTitle(getString(R.string.event_trip_activity_title_training));
                 android.support.v7.app.ActionBar actionbar = this.getSupportActionBar();
                 actionbar.setTitle(Html.fromHtml("<small><small>"+getResources().getString(R.string.event_trip_activity_title_training)+"</small></small>"));
+                mCommentTitleTextView.setText(R.string.event_trip_comment_title_training);
             }
             mDateStartCampTextView.setText(mEvent.getStartDate());
             mStartCountryImageView.setVisibility(View.GONE);

@@ -160,7 +160,7 @@ public class CatalogActivity extends AppCompatActivity  {
         removingOldEvents(); //Remove old coverages and trips
         setupFirebaseAuth(); //Login user
         initClickListeners();
-        attachDatabaseReadListener();
+
     }
 
     @Override
@@ -371,6 +371,7 @@ public class CatalogActivity extends AppCompatActivity  {
             //Check if is selected "all world" and other country if yes - show dialog to change it
             CountryDialog.showCountryChangesConfirmationDialog(CatalogActivity.this);
         }
+        attachDatabaseReadListener();
     }
 
     private void OnSignedOutCleanUp(){

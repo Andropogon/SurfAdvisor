@@ -450,6 +450,7 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/event_trip_comment_title_text_view"
                     style="@style/eventInfoTextMedium"
                     android:text="@string/trip_activity_description" />
 

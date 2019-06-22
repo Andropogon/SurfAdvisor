@@ -87,6 +87,8 @@
     <string name="trip_activity_discount">Price with SurfAdvisor discount code:</string>
     <string name="trip_activity_details">Details:</string>
     <string name="trip_activity_description">Description:</string>
+    <string name="event_trip_comment_title_camp">Camp description:</string>
+    <string name="event_trip_comment_title_training">Description:</string>
     <string name="trip_activity_interested">Interested:</string>
     <string name="event_trip_from">From:</string>
     <string name="event_trip_date_from">From:</string>

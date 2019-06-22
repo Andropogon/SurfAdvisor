@@ -87,6 +87,8 @@
     <string name="trip_activity_discount">Koszt z kodem promocyjnym SurfAdvisor:</string>
     <string name="trip_activity_details">Szczegóły:</string>
     <string name="trip_activity_description">Opis wyjazdu:</string>
+    <string name="event_trip_comment_title_camp">Opis obozu:</string>
+    <string name="event_trip_comment_title_training">Opis szkolenia:</string>
     <string name="trip_activity_interested">Zainteresowani:</string>
     <string name="event_trip_from">Z:</string>
     <string name="event_trip_date_from">Od:</string>
