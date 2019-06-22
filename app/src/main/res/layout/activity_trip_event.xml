@@ -459,7 +459,7 @@
                     android:id="@+id/event_trip_comment_text_view"
                     style="@style/eventInfoTextSmall"
                     android:ellipsize="end"
-                    android:maxLines="14"
+                    android:maxLines="22"
                     android:paddingRight="8dp"
                     android:paddingLeft="8dp"
                     android:textColor="@color/enterTextColor"
