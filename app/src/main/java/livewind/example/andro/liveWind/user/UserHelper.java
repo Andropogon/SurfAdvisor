@@ -17,7 +17,7 @@ import livewind.example.andro.liveWind.R;
 
 public class UserHelper {
     private static FirebaseDatabase mFirebaseDatabase = FirebaseDatabase.getInstance();
-    private static DatabaseReference mUsersDatabaseReference = mFirebaseDatabase.getReference().child("users");
+    private static DatabaseReference mUsersDatabaseReference = mFirebaseDatabase.getReference().child("test/users");
     //Function for gets user data using shared pref
     public static void downloadUserData(final Windsurfer currentWindsurfer, final Context activityContext) {
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(activityContext);

@@ -635,9 +635,9 @@ public class EventTripActivity extends AppCompatActivity {
         mFirebaseDatabase = FirebaseDatabase.getInstance();
    //     mEventId = intent.getStringExtra("EXTRA_EVENT_ID");
         //For adding members
-        mMembersDatabaseReference = mFirebaseDatabase.getReference().child("events").child(mEvent.getId()).child("mMembers");
+        mMembersDatabaseReference = mFirebaseDatabase.getReference().child("test/events").child(mEvent.getId()).child("mMembers");
         //For deleting events
-        mEventsDatabaseReference = mFirebaseDatabase.getReference().child("events");
+        mEventsDatabaseReference = mFirebaseDatabase.getReference().child("test/events");
 
         //MEMBERS
         mMemberListView = (ListView) findViewById(livewind.example.andro.liveWind.R.id.members_list_view);

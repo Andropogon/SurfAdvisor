@@ -219,7 +219,7 @@ public class EditorTripActivity extends AppCompatActivity {
 
         //FIREBASE
         mFirebaseDatabase = FirebaseDatabase.getInstance();
-        mEventsDatabaseReference = mFirebaseDatabase.getReference().child("events");
+        mEventsDatabaseReference = mFirebaseDatabase.getReference().child("test/events");
 
         getWindsurferFromIntent(intent,mWindsurfer,getApplicationContext());
 

@@ -57,7 +57,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     public final static String NOTIFICATION_NEW_COVERAGE = "NOTIFICATION_NEW_COVERAGE";
     public final static String NOTIFICATION_NEW_CONTENT = "NOTIFICATION_NEW_CONTENT";
     private FirebaseDatabase mFirebaseDatabase = FirebaseDatabase.getInstance();
-    private DatabaseReference mUsersDatabaseReference = mFirebaseDatabase.getReference().child("users");
+    private DatabaseReference mUsersDatabaseReference = mFirebaseDatabase.getReference().child("test/users");
     private Windsurfer mWindsurfer= new Windsurfer();
 
     public MyFirebaseMessagingService(){}

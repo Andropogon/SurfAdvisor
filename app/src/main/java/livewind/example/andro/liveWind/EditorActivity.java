@@ -200,8 +200,8 @@ public class EditorActivity extends AppCompatActivity {
 
         //FIREBASE
         mFirebaseDatabase = FirebaseDatabase.getInstance();
-        mEventsDatabaseReference = mFirebaseDatabase.getReference().child("events");
-        mUserDatabaseReference = mFirebaseDatabase.getReference().child("users");
+        mEventsDatabaseReference = mFirebaseDatabase.getReference().child("test/events");
+        mUserDatabaseReference = mFirebaseDatabase.getReference().child("test/users");
         mFirebaseStorage = FirebaseStorage.getInstance();
         mEventsStorageReference = mFirebaseStorage.getReference().child("events_photos");
 

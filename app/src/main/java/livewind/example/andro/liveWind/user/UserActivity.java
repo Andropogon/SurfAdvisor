@@ -46,7 +46,7 @@ public class UserActivity extends AppCompatActivity {
     private Windsurfer mWindsurfer = new Windsurfer();
     private ExtraInfoHelp mExtraInfoHelp = new ExtraInfoHelp();
     private FirebaseDatabase mFirebaseDatabase = FirebaseDatabase.getInstance();
-    private DatabaseReference mUsersDatabaseReference = mFirebaseDatabase.getReference().child("users");
+    private DatabaseReference mUsersDatabaseReference = mFirebaseDatabase.getReference().child("test/users");
     private ImageView photoImageView;
     private FirebaseHelp mFirebaseHelp = new FirebaseHelp();
 
@@ -59,7 +59,7 @@ public class UserActivity extends AppCompatActivity {
     private ListView promotionsListView;
     private PromotionsAdapter promotionsAdapter;
     final List<Promotion> myPromotions = new ArrayList<>();
-    private DatabaseReference promotionsDatabaseReference = mFirebaseDatabase.getReference().child("promotions");
+    private DatabaseReference promotionsDatabaseReference = mFirebaseDatabase.getReference().child("test/promotions");
     ChildEventListener childPromotionsListener;
     @Override
     protected void onCreate(Bundle savedInstanceState) {

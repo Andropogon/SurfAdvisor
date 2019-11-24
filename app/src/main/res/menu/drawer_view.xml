@@ -12,27 +12,11 @@
         android:id="@+id/action_settings"
         android:title="@string/activity_settings"
         android:icon="@drawable/ic_settings_black_24dp"/>
-    <item
-        android:id="@+id/action_about"
-        android:title="@string/activity_about"
-        android:icon="@drawable/ic_info_outline_black_24dp"/>
-        <item
-            android:id="@+id/action_faq"
-            android:title="@string/faq_activity_faq"
-            android:icon="@drawable/ic_help_outline_black_24dp"/>
 
     <item
         android:id="@+id/action_log_out"
         android:title="@string/activity_log_out"
         android:icon="@drawable/ic_log_out_black_24dp"/>
     </group>
-        <item android:title="Social">
-            <menu>
-                <item
-                    android:id="@+id/action_fb"
-                    android:icon="@drawable/facebook"
-                    android:title="Facebook" />
-            </menu>
-        </item>
 
 </menu>

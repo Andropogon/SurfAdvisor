@@ -26,8 +26,8 @@ public class FirebaseHelp {
     /** FIREBASE **/
     private static FirebaseDatabase mFirebaseDatabase = FirebaseDatabase.getInstance();
     /** FOR USERS DATABASE*/
-    private static DatabaseReference mUsersDatabaseReference = mFirebaseDatabase.getReference().child("users");
-    private static DatabaseReference mEventsDatabaseReference = mFirebaseDatabase.getReference().child("events");
+    private static DatabaseReference mUsersDatabaseReference = mFirebaseDatabase.getReference().child("test/users");
+    private static DatabaseReference mEventsDatabaseReference = mFirebaseDatabase.getReference().child("test/events");
 
 
     //Add points for created an event

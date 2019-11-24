@@ -189,9 +189,9 @@ public class CatalogActivity extends AppCompatActivity  {
     private void initFirebaseVariables(){
         /**FIREBASE DATABASE **/
         mFirebaseDatabase = FirebaseDatabase.getInstance();
-        mEventsDatabaseReference = mFirebaseDatabase.getReference().child("events");
-        mUsersDatabaseReference = mFirebaseDatabase.getReference().child("users");
-        mUsersNicknamesDatabaseReference = mFirebaseDatabase.getReference().child("usernames");
+        mEventsDatabaseReference = mFirebaseDatabase.getReference().child("test/events");
+        mUsersDatabaseReference = mFirebaseDatabase.getReference().child("test/users");
+        mUsersNicknamesDatabaseReference = mFirebaseDatabase.getReference().child("test/usernames");
         mFirebaseStorage = FirebaseStorage.getInstance();
         mFirebaseAuth = FirebaseAuth.getInstance();
     }
@@ -452,14 +452,8 @@ public class CatalogActivity extends AppCompatActivity  {
                             case livewind.example.andro.liveWind.R.id.action_about:
                                 choseIntentFromDrawerLayout= EventContract.EventEntry.MENU_ABOUT;
                                 return true;
-                            case livewind.example.andro.liveWind.R.id.action_faq:
-                                choseIntentFromDrawerLayout= EventContract.EventEntry.MENU_FAQ;
-                                return true;
                             case livewind.example.andro.liveWind.R.id.action_log_out:
                                 choseIntentFromDrawerLayout= EventContract.EventEntry.MENU_LOG_OUT;
-                                return true;
-                            case R.id.action_fb:
-                                choseIntentFromDrawerLayout= EventContract.EventEntry.MENU_FACEBOOK;
                                 return true;
                             default:
                                 choseIntentFromDrawerLayout= EventContract.EventEntry.MENU_NOTHING;
@@ -670,7 +664,7 @@ public class CatalogActivity extends AppCompatActivity  {
                     }
                 });
                 //Coverages - delete 8h after create
-                final Long cutoffEvents = (Long) snapshot.getValue() - TimeUnit.MILLISECONDS.convert(8, TimeUnit.HOURS);
+                final Long cutoffEvents = (Long) snapshot.getValue() - TimeUnit.MILLISECONDS.convert(80, TimeUnit.DAYS);
                 final Query oldEvents = mEventsDatabaseReference.orderByChild("timestamp").endAt(cutoffEvents);
                 oldEvents.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override

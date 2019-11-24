@@ -47,7 +47,7 @@ public class EventLoader extends AsyncTaskLoader<List<Event>> {
     @Override
     public List<Event> loadInBackground() {
         mFirebaseDatabase = FirebaseDatabase.getInstance();
-        mEventsDatabaseReference= mFirebaseDatabase.getReference().child("events");
+        mEventsDatabaseReference= mFirebaseDatabase.getReference().child("test/events");
       //  mEventsDatabaseReference.keepSynced(true);
         attachDatabaseReadListener();
         Log.i("w loaderze sobie siedze","Ilosc eventow:" + events.size());

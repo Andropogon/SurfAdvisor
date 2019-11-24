@@ -212,17 +212,17 @@ public class EventActivity extends AppCompatActivity {
     }
     private void initFirebaseVariables() {
         //For adding members
-        mMembersDatabaseReference = mFirebaseDatabase.getReference().child("events").child(mEvent.getId()).child("mMembers");
+        mMembersDatabaseReference = mFirebaseDatabase.getReference().child("test/events").child(mEvent.getId()).child("mMembers");
         //For thanks
-        mThanksDatabaseReference = mFirebaseDatabase.getReference().child("events").child(mEvent.getId()).child("mThanks");
-        mThanksSizeDatabaseReference = mFirebaseDatabase.getReference().child("events").child(mEvent.getId()).child("mThanksSize");
-        mUserDatabaseReference = mFirebaseDatabase.getReference().child("users");
+        mThanksDatabaseReference = mFirebaseDatabase.getReference().child("test/events").child(mEvent.getId()).child("mThanks");
+        mThanksSizeDatabaseReference = mFirebaseDatabase.getReference().child("test/events").child(mEvent.getId()).child("mThanksSize");
+        mUserDatabaseReference = mFirebaseDatabase.getReference().child("test/users");
         //For deleting events
-        mEventsDatabaseReference = mFirebaseDatabase.getReference().child("events");
-        mSharesDatabaseReference = mFirebaseDatabase.getReference().child("events").child(mEvent.getId()).child("mSharesCounter");
+        mEventsDatabaseReference = mFirebaseDatabase.getReference().child("test/events");
+        mSharesDatabaseReference = mFirebaseDatabase.getReference().child("test/events").child(mEvent.getId()).child("mSharesCounter");
         mCurrentTimeReference = mFirebaseDatabase.getReference().child("currentTime");
         //For comments
-        mCommentsDatabaseReference = mFirebaseDatabase.getReference().child("events").child(mEvent.getId()).child("mUsersComments");
+        mCommentsDatabaseReference = mFirebaseDatabase.getReference().child("test/events").child(mEvent.getId()).child("mUsersComments");
 
         //For deleting photos with relation
         mFirebaseStorage = FirebaseStorage.getInstance();

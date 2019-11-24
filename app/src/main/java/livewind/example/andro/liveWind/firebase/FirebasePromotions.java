@@ -20,7 +20,7 @@ public class FirebasePromotions {
      * @param context
      */
     public static void getSurfAdvisorPromotionCode(final Context context){
-        DatabaseReference mRemovingReference= mFirebaseDatabase.getReference().child("discount_code");
+        DatabaseReference mRemovingReference= mFirebaseDatabase.getReference().child("test/discount_code");
         mRemovingReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
