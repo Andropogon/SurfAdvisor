@@ -9,12 +9,12 @@ android {
             storePassword 'loler999'
         }
     }
-    compileSdkVersion 27
+    compileSdkVersion 28
     defaultConfig {
         vectorDrawables.useSupportLibrary = true
         applicationId "livewind.example.andro.liveWind"
         minSdkVersion 23
-        targetSdkVersion 27
+        targetSdkVersion 28
         versionCode 50
         versionName "2.2"
     }
