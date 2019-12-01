@@ -1,7 +1,9 @@
 package livewind.example.andro.liveWind;
 
+import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
@@ -22,6 +24,7 @@ import android.support.v7.widget.Toolbar;
 import android.text.SpannableString;
 import android.text.style.UnderlineSpan;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -29,6 +32,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import livewind.example.andro.liveWind.Countries.CountryDialog;
@@ -161,10 +165,46 @@ public class CatalogActivity extends AppCompatActivity  {
         // Initialize events ListView and its adapter
         mEventAdapter = new EventAdapter(this, events,0);
         mEventListView.setAdapter(mEventAdapter);
-
         removingOldEvents(); //Remove old coverages and trips
         setupFirebaseAuth(); //Login user
         initClickListeners();
+        displayAppUnderTransformationDialog();
+    }
+
+    private void displayAppUnderTransformationDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(CatalogActivity.this, R.style.NewContentDialogTheme);
+        LayoutInflater inflater = LayoutInflater.from(CatalogActivity.this);
+        View dialogView = inflater.inflate(R.layout.dialog_new_content_notification, null);
+        //Init views
+        TextView titleTextView = dialogView.findViewById(R.id.new_content_notification_title);
+        TextView descriptionTextView = dialogView.findViewById(R.id.new_content_notification_description);
+        TextView dateTextView = dialogView.findViewById(R.id.new_content_notification_date);
+        titleTextView.setText(getString(R.string.dialog_transformation_title));
+        descriptionTextView.setText(getString(R.string.dialog_transformation_text));
+        dateTextView.setText(getString(R.string.dialog_transformation_date));
+
+        //Set ok button
+        builder.setView(dialogView)
+                .setNeutralButton(R.string.dialog_dissmis, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.dismiss();
+                    }
+                });
+
+        //Set action button
+        builder.setView(dialogView)
+                .setPositiveButton(getString(R.string.dialog_transformation_action_title), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        //TODO check that it is correct
+                        SocialHelper.openUrl(CatalogActivity.this, CatalogActivity.this.getPackageManager(), "https://www.facebook.com/SurfAdvisorAPP/");
+                    }
+                });
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+        ((Button) alertDialog.findViewById(android.R.id.button1)).setBackgroundResource(R.drawable.custom_aprove_button);
+        ((Button) alertDialog.findViewById(android.R.id.button3)).setBackgroundResource(R.drawable.custom_button);
     }
 
     /**

@@ -565,4 +565,10 @@
     <string name="filter_trips_cost">Maksymalna cena</string>
     <string name="filter_trips_search">Szukaj</string>
     <string name="filter_trips_set_default">Ustaw domyślne</string>
+
+    <string name="dialog_transformation_title">Tworzymy nową wersję SurfAdvisor!</string>
+    <string name="dialog_transformation_text">"Cześć, niestety ta wersja aplikacji jest obecnie nieaktywna. Stwierdziliśmy, że zmienimy parę rzeczy i stworzymy aplikację, która będzie miala więcej, bardziej przydatnych środowisku wind/kite-surferów funkcji. Dodatkowo nowa wersja aplikacji będzie dostępna zarówno na Androida jak i iOSa. Wydamy ją prawdopodobnie około maja 2020 roku. Polub nasz fanpage, aby jej nie przegapić." </string>
+    <string name="dialog_transformation_date">01.12.2019</string>
+    <string name="dialog_transformation_action_title">Nasz fanpage</string>
+    <string name="dialog_dissmis">Pomiń</string>
 </resources>

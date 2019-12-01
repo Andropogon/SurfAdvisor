@@ -363,7 +363,7 @@
     <string name="dialog_ok">OK</string>
     <string name="dialog_add">Add</string>
     <string name="dialog_cancel">Cancel</string>
-    <string name="dialog_dissmis">Pomiń</string>
+    <string name="dialog_dissmis">Cancel</string>
     <string name="dialog_help_add_event_title">Adding coverage</string>
     <string name="dialog_help_add_event_text">Here you can add info about current conditions from the spot you\'re at with additional commentary. This way you let other surfers know if they want to join you and what gear to take. For every report you make, you get points which can later be exchanged for cool rewards. Marked boxes must be filled.</string>
     <string name="dialog_help_add_trip_title">Adding trips</string>
@@ -619,4 +619,9 @@
     <string name="country_number_18_key">Vietnam</string>
     <string name="country_number_19_key">Malta</string>
     <string name="country_number_20_key">Other_countries</string>
+
+    <string name="dialog_transformation_title">SurfAdvisor is under transformation!</string>
+    <string name="dialog_transformation_text">Unfortunately, the SurfAdvisor application is currently under transformation to the new version. We plan to release SurfAdvisor 2.0 around May 2020. It will be available on both Android and iOS phones. SurfAdvisor 2.0 will have many new options useful for the wind and kite surfers community. Like our fanpage to be up to date.</string>
+    <string name="dialog_transformation_date">01.12.2019</string>
+    <string name="dialog_transformation_action_title">SurfAdvisor fanpage</string>
 </resources>
